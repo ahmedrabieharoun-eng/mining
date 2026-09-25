@@ -38,7 +38,7 @@ html,body{height:100%;background:linear-gradient(rgba(8,6,4,.78),rgba(8,6,4,.78)
 .shiba-icon-inline,.ton-icon-inline{height:0.95em;width:0.95em;vertical-align:-0.15em;object-fit:contain;display:inline-block;margin:0 1px}
 
 /* Loading */
-.loading-screen{position:fixed;inset:0;background:url('https://i.ibb.co/spWpS09R/Chat-GPT-Image-Sep-22-2026-03-02-18-AM-1.png') center/cover no-repeat;background-color:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:12px;z-index:999;padding:0 24px 56px;overflow:hidden;text-align:center}
+.loading-screen{position:fixed;inset:0;background:url('https://i.ibb.co/sd3JHX4T/Chat-GPT-Image-Sep-24-2026-03-41-11-AM.png') center/cover no-repeat;background-color:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:12px;z-index:999;padding:0 24px 56px;overflow:hidden;text-align:center}
 .loading-screen.hidden{display:none}
 
 .ld-coin{position:absolute;border-radius:50%;overflow:hidden;box-shadow:0 0 18px rgba(147,92,246,0.55),0 4px 10px rgba(0,0,0,0.5);animation:ld-float 3.6s ease-in-out infinite}
@@ -67,11 +67,11 @@ html,body{height:100%;background:linear-gradient(rgba(8,6,4,.78),rgba(8,6,4,.78)
 .loading-label .ld-dot:nth-child(2){animation-delay:0.2s}
 .loading-label .ld-dot:nth-child(3){animation-delay:0.4s}
 @keyframes ld-dot-pulse{0%,60%,100%{opacity:0.25}30%{opacity:1}}
-.loading-bar{width:min(86%,320px);height:10px;background:rgba(10,6,20,0.55);border:1px solid rgba(155,92,246,0.35);border-radius:20px;overflow:hidden;position:relative;box-shadow:inset 0 2px 5px rgba(0,0,0,0.5),0 0 22px rgba(155,92,246,0.3);backdrop-filter:blur(6px)}
-.loading-fill{height:100%;width:0%;border-radius:20px;position:relative;background:linear-gradient(90deg,#6d28d9,#9b5cf6 55%,#f5c94b 100%);box-shadow:0 0 14px rgba(155,92,246,0.75),0 0 6px rgba(245,201,75,0.6);transition:width 0.4s cubic-bezier(0.4,0,0.2,1)}
-.loading-fill::after{content:'';position:absolute;inset:0;width:36%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.65),transparent);animation:ld-shine 1.35s linear infinite}
-@keyframes ld-shine{0%{transform:translateX(-140%)}100%{transform:translateX(380%)}}
-.loading-percent{font-size:13px;font-weight:800;letter-spacing:0.5px;color:#f5c94b;text-shadow:0 0 10px rgba(245,201,75,0.55);font-variant-numeric:tabular-nums}
+.ld-track{position:relative;width:min(92%,360px);margin:0 auto;filter:drop-shadow(0 6px 14px rgba(0,0,0,0.45))}
+.ld-track-empty{display:block;width:100%;height:auto}
+.ld-track-fill{position:absolute;inset:0;width:100%;height:100%;clip-path:inset(0 100% 0 0);transition:clip-path 0.4s cubic-bezier(0.4,0,0.2,1)}
+.ld-cart{position:absolute;top:-72%;width:24%;height:auto;left:0%;transform:translateX(-38%);transition:left 0.4s cubic-bezier(0.4,0,0.2,1);filter:drop-shadow(0 8px 8px rgba(0,0,0,0.55));pointer-events:none}
+.loading-percent{font-size:13px;font-weight:800;letter-spacing:0.5px;color:#f5c94b;text-shadow:0 0 10px rgba(245,201,75,0.55);font-variant-numeric:tabular-nums;margin-top:2px}
 
 .ld-status{margin-top:0}
 .ld-status-main{font-size:14px;color:var(--orange2);font-weight:600;direction:rtl}
@@ -648,8 +648,12 @@ html,body{height:100%;background:linear-gradient(rgba(8,6,4,.78),rgba(8,6,4,.78)
 <!-- Loading -->
 <div class="loading-screen" id="loadingScreen">
   <div class="loading-panel">
-    <div class="loading-label">LOADING<span class="ld-dot">.</span><span class="ld-dot">.</span><span class="ld-dot">.</span></div>
-    <div class="loading-bar"><div class="loading-fill" id="loadingFill"></div></div>
+    <div class="loading-label">MINING DEEPER<span class="ld-dot">.</span><span class="ld-dot">.</span><span class="ld-dot">.</span></div>
+    <div class="ld-track">
+      <img class="ld-track-empty" src="https://i.ibb.co/4nKrW1G8/Chat-GPT-Image-Sep-25-2026-03-28-34-AM.png" alt="">
+      <img class="ld-track-fill" id="loadingFill" src="https://i.ibb.co/LX4v3L3k/Chat-GPT-Image-Sep-25-2026-03-31-34-AM-removebg-preview-1.png" alt="">
+      <img class="ld-cart" id="loadingCart" src="https://i.ibb.co/pBYgrddh/Chat-GPT-Image-Sep-25-2026-03-31-04-AM-1.png" alt="">
+    </div>
     <div class="loading-percent" id="loadingPercent">0%</div>
   </div>
 </div>
@@ -1230,8 +1234,10 @@ function getTelegramStartParam(){
 var _ldProgress = 0, _ldTimer = null;
 function _ldSetPercent(p){
   var fill = document.getElementById('loadingFill');
+  var cart = document.getElementById('loadingCart');
   var pct  = document.getElementById('loadingPercent');
-  if (fill) fill.style.width = p + '%';
+  if (fill) fill.style.clipPath = 'inset(0 ' + (100 - p) + '% 0 0)';
+  if (cart) cart.style.left = (14 + (p / 100) * 68) + '%';
   if (pct)  pct.textContent  = Math.round(p) + '%';
 }
 function startLoadingProgress(){
