@@ -1231,7 +1231,8 @@ function getTelegramStartParam(){
 }
 
 // ── Loading progress bar (eases toward ~92% while waiting, then completes) ──
-var _ldProgress = 0, _ldTimer = null;
+var _ldProgress = 0, _ldTimer = null, _ldStartTime = 0;
+var LD_MIN_DURATION_MS = 5000;
 function _ldSetPercent(p){
   var fill = document.getElementById('loadingFill');
   var cart = document.getElementById('loadingCart');
@@ -1242,6 +1243,7 @@ function _ldSetPercent(p){
 }
 function startLoadingProgress(){
   _ldProgress = 0;
+  _ldStartTime = Date.now();
   _ldSetPercent(0);
   clearInterval(_ldTimer);
   _ldTimer = setInterval(function(){
@@ -1705,10 +1707,14 @@ function showMockData(){
 }
 
 function showApp(){
-  finishLoadingProgress();
+  var elapsed = Date.now() - _ldStartTime;
+  var remaining = Math.max(0, LD_MIN_DURATION_MS - elapsed);
   setTimeout(function(){
-    document.getElementById('loadingScreen').classList.add('hidden');
-  }, 260);
+    finishLoadingProgress();
+    setTimeout(function(){
+      document.getElementById('loadingScreen').classList.add('hidden');
+    }, 260);
+  }, remaining);
   var fs = (S.data && S.data.forceSub) || { required:false, passed:true, channels:[] };
   if (fs.required && !fs.passed){
     renderForceSub(fs);
