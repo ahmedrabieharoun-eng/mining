@@ -123,6 +123,23 @@ html,body{height:100%;background:linear-gradient(rgba(8,6,4,.78),rgba(8,6,4,.78)
 .balance-section{padding:0 16px 16px}
 .balance-card{padding:24px 20px;border-radius:20px;background:linear-gradient(145deg,#1c1400,#0f0f0f);border:1px solid rgba(147,92,246,0.25);position:relative;overflow:hidden}
 .balance-card::before{content:'';position:absolute;top:-40px;right:-40px;width:150px;height:150px;background:radial-gradient(circle,rgba(147,92,246,0.12) 0%,transparent 70%);pointer-events:none}
+
+/* Header wallet widget: "Connect" button when no wallet is linked, +/- deposit/withdraw buttons once linked */
+.header-wallet-connect{border:0;border-radius:20px;padding:9px 16px;background:linear-gradient(135deg,var(--orange),var(--orange2));color:#fff;font-size:12.5px;font-weight:800;letter-spacing:0.3px;cursor:pointer;box-shadow:0 4px 14px rgba(35,183,243,0.35);display:inline-flex;align-items:center;gap:6px}
+.header-wallet-connect:disabled{opacity:0.65;cursor:default}
+.header-wallet-actions{display:flex;align-items:center;gap:8px}
+.header-wallet-btn{width:36px;height:36px;border-radius:50%;border:1px solid var(--glass-border);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;cursor:pointer;background:var(--glass);color:#fff;line-height:1}
+.header-wallet-btn.plus{color:#22c55e;border-color:rgba(34,197,94,0.35);background:rgba(34,197,94,0.12)}
+.header-wallet-btn.minus{color:#ef4444;border-color:rgba(239,68,68,0.35);background:rgba(239,68,68,0.12)}
+.header-wallet-btn:active{transform:scale(0.94)}
+
+/* Daily Tasks entry card on Home, linking to the dedicated Daily Tasks page */
+.dailytasks-entry{margin:0 16px 12px;padding:15px;border-radius:16px;background:rgba(31,37,58,.9);border:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:13px;cursor:pointer}
+.dailytasks-entry:active{background:rgba(31,37,58,1)}
+.dailytasks-entry-copy{flex:1;min-width:0}
+.dailytasks-entry-title{font-weight:800;font-size:15px}
+.dailytasks-entry-sub{font-size:12px;color:var(--text2);margin-top:3px}
+.dailytasks-entry-arrow{font-size:20px;color:var(--text3)}
 .balance-label{font-size:11px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px}
 .balance-amount{display:flex;align-items:baseline;gap:10px;margin-bottom:6px}
 .balance-num{font-size:38px;font-weight:800;letter-spacing:-1px;color:var(--text);line-height:1}
@@ -699,9 +716,14 @@ html,body{height:100%;background:linear-gradient(rgba(8,6,4,.78),rgba(8,6,4,.78)
             <span class="user-name" id="homeName">Player</span>
           </div>
         </div>
+        <button class="header-wallet-connect" id="headerConnectBtn" onclick="connectHeaderWallet()">💼 Connect</button>
+        <div class="header-wallet-actions" id="headerWalletActions" style="display:none">
+          <button class="header-wallet-btn plus" onclick="goHeaderDeposit()" title="Deposit TON">+</button>
+          <button class="header-wallet-btn minus" onclick="goHeaderWithdraw()" title="Withdraw TON">−</button>
+        </div>
       </div>
 
-       <div class="balance-section">
+       <div class="balance-section" style="display:none">
         <div class="balance-card">
           <div class="balance-label">Your Balance</div>
           <div class="balance-amount">
@@ -718,10 +740,10 @@ html,body{height:100%;background:linear-gradient(rgba(8,6,4,.78),rgba(8,6,4,.78)
         </div>
       </div>
 
-       <div class="bonus-card">
-         <div class="feature-icon gold">🎁</div>
-         <div class="feature-copy"><div class="feature-title">Daily Bonus</div><div class="feature-sub" id="dailyBonusSub">Come back every day · +500 ORE</div></div>
-         <button class="feature-btn" id="dailyBonusBtn" onclick="claimDailyBonus()">Claim</button>
+       <div class="dailytasks-entry" onclick="switchPage('dailytasks')">
+         <div class="feature-icon gold">🗓️</div>
+         <div class="dailytasks-entry-copy"><div class="dailytasks-entry-title">Daily Tasks</div><div class="dailytasks-entry-sub">Daily bonus &amp; redeem code</div></div>
+         <div class="dailytasks-entry-arrow">›</div>
        </div>
        <div class="mining-card">
          <div class="mining-card-head">
@@ -732,13 +754,8 @@ html,body{height:100%;background:linear-gradient(rgba(8,6,4,.78),rgba(8,6,4,.78)
          <div class="mining-progress"><div class="mining-progress-fill" id="miningProgressFill"></div></div>
          <button class="mining-btn" id="miningBtn" onclick="watchMiningAd()">📺 Watch Ad &amp; Start Mining</button>
        </div>
-       <div class="redeem-card">
-         <div class="feature-icon purple">🎟️</div>
-         <div class="feature-copy"><div class="feature-title">Redeem Code</div><div class="feature-sub">Have a promo code? Claim your reward</div></div>
-         <button class="feature-btn" onclick="openModal('redeemModal')">Redeem</button>
-       </div>
 
-      <div class="stats-section">
+      <div class="stats-section" style="display:none">
         <div class="stats-grid">
           <div class="stat-card">
              <div class="stat-val orange" id="statEarnedToday">0</div>
@@ -754,6 +771,24 @@ html,body{height:100%;background:linear-gradient(rgba(8,6,4,.78),rgba(8,6,4,.78)
           </div>
         </div>
       </div>
+    </div>
+
+    <!-- DAILY TASKS -->
+    <div class="page" id="page-dailytasks">
+      <div class="wheel-page-header">
+        <button class="back-btn" onclick="switchPage('home')">←</button>
+        <div class="page-title">Daily Tasks</div>
+      </div>
+       <div class="bonus-card">
+         <div class="feature-icon gold">🎁</div>
+         <div class="feature-copy"><div class="feature-title">Daily Bonus</div><div class="feature-sub" id="dailyBonusSub">Come back every day · +500 ORE</div></div>
+         <button class="feature-btn" id="dailyBonusBtn" onclick="claimDailyBonus()">Claim</button>
+       </div>
+       <div class="redeem-card">
+         <div class="feature-icon purple">🎟️</div>
+         <div class="feature-copy"><div class="feature-title">Redeem Code</div><div class="feature-sub">Have a promo code? Claim your reward</div></div>
+         <button class="feature-btn" onclick="openModal('redeemModal')">Redeem</button>
+       </div>
     </div>
 
     <!-- TASKS -->
@@ -1112,6 +1147,48 @@ var API_URL  = 'https://silent-block-bedf.ahmedrabieharoun.workers.dev'; // ← 
   // Same deposit wallet address used in the active deposit system.
   var BOT_DEPOSIT_WALLET = 'UQAACNWWtTtN7ILkhRERwYUTzo06Bd1Tv_8Yk5gPioIMFoUD';
   var tonConnectUI = null;
+
+// ── Header wallet widget (Connect button ↔ Deposit/Withdraw icons) ─────
+// Reuses the same TonConnectUI instance/session as the Wallet page's
+// deposit flow, so "connected" here means the same thing as there.
+function ensureTonConnectUI(cb, tries){
+  if (tonConnectUI){ if (cb) cb(tonConnectUI); return; }
+  if (!window.TON_CONNECT_UI){
+    tries = tries || 0;
+    if (tries > 40) return; // SDK failed to load; leave the Connect button as-is
+    setTimeout(function(){ ensureTonConnectUI(cb, tries + 1); }, 150);
+    return;
+  }
+  tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
+    manifestUrl: API_URL.replace(/\/$/,'') + '/tonconnect-manifest.json',
+    buttonRootId: 'tonConnectButton'
+  });
+  tonConnectUI.onStatusChange(function(wallet){
+    var depBtn = document.getElementById('depositSubmitBtn');
+    if (depBtn) depBtn.disabled = !wallet;
+    updateHeaderWalletUI(wallet);
+  });
+  if (cb) cb(tonConnectUI);
+}
+function updateHeaderWalletUI(wallet){
+  var connectBtn = document.getElementById('headerConnectBtn');
+  var actions = document.getElementById('headerWalletActions');
+  var connected = !!wallet;
+  if (connectBtn) connectBtn.style.display = connected ? 'none' : 'inline-flex';
+  if (actions) actions.style.display = connected ? 'flex' : 'none';
+}
+function connectHeaderWallet(){
+  var btn = document.getElementById('headerConnectBtn');
+  if (btn){ btn.disabled = true; btn.textContent = 'Connecting…'; }
+  ensureTonConnectUI(function(ui){
+    if (btn){ btn.disabled = false; btn.textContent = '💼 Connect'; }
+    if (ui.connected){ updateHeaderWalletUI(ui.wallet || ui.account); return; }
+    ui.openModal();
+  });
+}
+function goHeaderDeposit(){ switchPage('wallet'); setTimeout(openDepositForm, 0); }
+function goHeaderWithdraw(){ switchPage('wallet'); setTimeout(openWithdrawForm, 0); }
+
 // The Mini App name registered in BotFather (Short Name) — must be set here because
 // this bot is a "button bot" and its Mini App is not the default Main App, so the link
 // t.me/BOT?startapp=CODE alone won't open the Mini App, it must be
@@ -1706,6 +1783,7 @@ function showMockData(){
 }
 
 function showApp(){
+  ensureTonConnectUI();
   var elapsed = Date.now() - _ldStartTime;
   var remaining = Math.max(0, LD_MIN_DURATION_MS - elapsed);
   setTimeout(function(){
@@ -2356,16 +2434,10 @@ function openDepositForm(){
   document.getElementById('depositFormCard').style.display='block';
   // The address comes from the active deposit system; we don't rely on an old value stored in Firebase.
   BOT_DEPOSIT_WALLET = 'UQAACNWWtTtN7ILkhRERwYUTzo06Bd1Tv_8Yk5gPioIMFoUD';
-  if (!tonConnectUI && window.TON_CONNECT_UI) {
-    tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
-      manifestUrl: API_URL.replace(/\/$/,'') + '/tonconnect-manifest.json',
-      buttonRootId: 'tonConnectButton'
-    });
-    tonConnectUI.onStatusChange(function(wallet){
-      var btn = document.getElementById('depositSubmitBtn');
-      if (btn) btn.disabled = !wallet;
-    });
-  }
+  ensureTonConnectUI(function(ui){
+    var btn = document.getElementById('depositSubmitBtn');
+    if (btn) btn.disabled = !ui.connected;
+  });
 }
 async function submitDeposit(){
   var amount = Number(document.getElementById('depositAmount').value);
