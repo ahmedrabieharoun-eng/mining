@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>OreRush Bot</title>
+<title>Crystal Mining Bot</title>
 <!-- Open the connection to the API (DNS + TLS) while the page is still loading -->
 <link rel="preconnect" href="https://silent-block-bedf.ahmedrabieharoun.workers.dev" crossorigin>
 <!-- Critical for boot: Telegram SDK + device fingerprint (must be ready before the first API call) -->
@@ -27,9 +27,9 @@
   --text:#ffffff;--text2:#aaaaaa;--text3:#666666;
   --green:#22c55e;--red:#ef4444;
   --radius:16px;--radius-sm:10px;
-  --img-coin:url('https://res.cloudinary.com/w8zhbc4b/image/upload/v1789693637/ChatGPT_Image_Aug_23_2026_06_20_10_PM.png');
+  --img-coin:url('https://i.ibb.co/chCjf1zw/Chat-GPT-Image-Sep-25-2026-04-18-45-AM-1.png');
   --img-avatar:url('https://res.cloudinary.com/w8zhbc4b/image/upload/v1789693638/ChatGPT_Image_Aug_23_2026_06_19_48_PM.png');
-  --img-bg:url('https://res.cloudinary.com/w8zhbc4b/image/upload/v1789693638/ChatGPT_Image_Aug_23_2026_06_23_44_PM.png');
+  --img-bg:url('https://i.ibb.co/F4tkrrjX/Chat-GPT-Image-Sep-25-2026-04-25-34-AM-1.png');
 }
 html,body{height:100%;background:linear-gradient(rgba(8,6,4,.78),rgba(8,6,4,.78)),var(--img-bg) center top/cover no-repeat,var(--bg);color:var(--text);font-family:-apple-system,'SF Pro Display',BlinkMacSystemFont,'Segoe UI',sans-serif;overflow:hidden}
 .app{display:flex;flex-direction:column;height:100vh;max-width:430px;margin:0 auto;position:relative}
@@ -112,21 +112,23 @@ html,body{height:100%;background:linear-gradient(rgba(8,6,4,.78),rgba(8,6,4,.78)
 .glass-card{background:var(--glass);border:1px solid var(--glass-border);border-radius:var(--radius);backdrop-filter:blur(10px)}
 
 /* ===== HOME PAGE ===== */
-.home-header{padding:16px 20px 12px;display:flex;align-items:center;justify-content:space-between}
+.home-header{margin:16px 16px 12px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;background:rgba(10,14,26,.72);border:1px solid rgba(247,173,22,.4);border-radius:22px}
 .user-info{display:flex;align-items:center;gap:12px}
-.avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--orange),#6d28d9);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;border:2px solid rgba(147,92,246,0.4);flex-shrink:0;overflow:hidden}
+.avatar{width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,var(--orange),#6d28d9);display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:700;border:2.5px solid #f7ad16;box-shadow:0 0 10px rgba(247,173,22,.45);flex-shrink:0;overflow:hidden}
 .avatar img{width:100%;height:100%;object-fit:cover}
-.user-name-wrap{display:flex;flex-direction:column}
+.user-name-wrap{display:flex;flex-direction:column;gap:2px}
 .user-greeting{font-size:11px;color:var(--text3);letter-spacing:0.5px;text-transform:uppercase}
-.user-name{font-size:16px;font-weight:700;color:var(--text)}
+.user-name{font-size:17px;font-weight:800;color:var(--text)}
+.user-handle{font-size:13.5px;font-weight:700;color:var(--orange);text-shadow:0 0 8px rgba(35,183,243,.45)}
 
 .balance-section{padding:0 16px 16px}
 .balance-card{padding:24px 20px;border-radius:20px;background:linear-gradient(145deg,#1c1400,#0f0f0f);border:1px solid rgba(147,92,246,0.25);position:relative;overflow:hidden}
 .balance-card::before{content:'';position:absolute;top:-40px;right:-40px;width:150px;height:150px;background:radial-gradient(circle,rgba(147,92,246,0.12) 0%,transparent 70%);pointer-events:none}
 
 /* Header wallet widget: "Connect" button when no wallet is linked, +/- deposit/withdraw buttons once linked */
-.header-wallet-connect{border:0;border-radius:20px;padding:9px 16px;background:linear-gradient(135deg,var(--orange),var(--orange2));color:#fff;font-size:12.5px;font-weight:800;letter-spacing:0.3px;cursor:pointer;box-shadow:0 4px 14px rgba(35,183,243,0.35);display:inline-flex;align-items:center;gap:6px}
+.header-wallet-connect{border:1.5px solid var(--orange);border-radius:22px;padding:9px 14px;background:rgba(10,14,26,.55);color:var(--orange);font-size:13px;font-weight:800;letter-spacing:0.2px;cursor:pointer;box-shadow:0 0 12px rgba(35,183,243,0.3);display:inline-flex;align-items:center;gap:7px}
 .header-wallet-connect:disabled{opacity:0.65;cursor:default}
+.wallet-chevron{font-size:11px;transform:translateY(1px)}
 .header-wallet-actions{display:flex;align-items:center;gap:8px}
 .header-wallet-btn{width:36px;height:36px;border-radius:50%;border:1px solid var(--glass-border);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;cursor:pointer;background:var(--glass);color:#fff;line-height:1}
 .header-wallet-btn.plus{color:#22c55e;border-color:rgba(34,197,94,0.35);background:rgba(34,197,94,0.12)}
@@ -134,12 +136,6 @@ html,body{height:100%;background:linear-gradient(rgba(8,6,4,.78),rgba(8,6,4,.78)
 .header-wallet-btn:active{transform:scale(0.94)}
 
 /* Daily Tasks entry card on Home, linking to the dedicated Daily Tasks page */
-.dailytasks-entry{margin:0 16px 12px;padding:15px;border-radius:16px;background:rgba(31,37,58,.9);border:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:13px;cursor:pointer}
-.dailytasks-entry:active{background:rgba(31,37,58,1)}
-.dailytasks-entry-copy{flex:1;min-width:0}
-.dailytasks-entry-title{font-weight:800;font-size:15px}
-.dailytasks-entry-sub{font-size:12px;color:var(--text2);margin-top:3px}
-.dailytasks-entry-arrow{font-size:20px;color:var(--text3)}
 .balance-label{font-size:11px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px}
 .balance-amount{display:flex;align-items:baseline;gap:10px;margin-bottom:6px}
 .balance-num{font-size:38px;font-weight:800;letter-spacing:-1px;color:var(--text);line-height:1}
@@ -441,7 +437,7 @@ html,body{height:100%;background:linear-gradient(rgba(8,6,4,.78),rgba(8,6,4,.78)
 .wallet-balance-item{min-width:0;padding:12px 8px;border-radius:15px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.07);text-align:center}
 .wallet-balance-item .wbal-label{display:flex;align-items:center;justify-content:center;gap:5px;letter-spacing:.5px}
 .wallet-balance-item .wbal-amount{font-size:25px;letter-spacing:-.5px;white-space:nowrap}
-.wallet-pmt-icon{width:32px;height:32px;vertical-align:-8px;margin-left:2px;border-radius:50%;object-fit:contain;filter:drop-shadow(0 3px 7px rgba(0,0,0,.22))}
+.wallet-crystal-icon{width:32px;height:32px;vertical-align:-8px;margin-left:2px;border-radius:50%;object-fit:contain;filter:drop-shadow(0 3px 7px rgba(0,0,0,.22))}
 
 .wallet-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:0 16px 16px}
 .wallet-action-btn{padding:16px;border-radius:14px;background:var(--glass);border:1px solid var(--glass-border);display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;transition:all 0.2s}
@@ -628,7 +624,7 @@ html,body{height:100%;background:linear-gradient(rgba(8,6,4,.78),rgba(8,6,4,.78)
 .ban-linked-name{font-size:13px;font-weight:700;color:var(--text)}
 .ban-linked-username{font-size:11.5px;color:var(--text3)}
 
-/* ORE home refresh */
+/* CRYSTAL home refresh */
 .home-header{padding-top:20px}
 .balance-card{background:linear-gradient(135deg,#13a8df 0%,#198ee0 48%,#5969ef 100%);border:0;box-shadow:0 14px 34px rgba(18,154,230,.22)}
 .balance-card::before{background:radial-gradient(circle,rgba(255,255,255,.28),transparent 68%)}
@@ -636,8 +632,8 @@ html,body{height:100%;background:linear-gradient(rgba(8,6,4,.78),rgba(8,6,4,.78)
 .balance-num,.balance-currency{color:#fff}
 .balance-currency .shiba-icon-inline{width:46px;height:46px;vertical-align:-12px;margin-left:3px;filter:drop-shadow(0 3px 7px rgba(0,0,0,.22))}
 .balance-sub{color:rgba(255,255,255,.72)}
-#homePmtTonValue{display:flex;align-items:center;gap:6px;font-size:18px;font-weight:800;color:#fff;line-height:1.25;text-shadow:0 1px 3px rgba(0,0,0,.2)}
-#homePmtTonValue .ton-icon-inline{width:25px;height:25px;filter:drop-shadow(0 2px 4px rgba(0,0,0,.28))}
+#homeCrystalTonValue{display:flex;align-items:center;gap:6px;font-size:18px;font-weight:800;color:#fff;line-height:1.25;text-shadow:0 1px 3px rgba(0,0,0,.2)}
+#homeCrystalTonValue .ton-icon-inline{width:25px;height:25px;filter:drop-shadow(0 2px 4px rgba(0,0,0,.28))}
 .balance-logo{opacity:.3}
 .home-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
 .home-action{border:0;border-radius:13px;padding:13px 10px;font-size:14px;font-weight:800;cursor:pointer}
@@ -712,11 +708,11 @@ html,body{height:100%;background:linear-gradient(rgba(8,6,4,.78),rgba(8,6,4,.78)
         <div class="user-info">
           <div class="avatar" id="homeAvatar">👤</div>
           <div class="user-name-wrap">
-            <span class="user-greeting">Welcome back</span>
             <span class="user-name" id="homeName">Player</span>
+            <span class="user-handle" id="homeUsername">@player</span>
           </div>
         </div>
-        <button class="header-wallet-connect" id="headerConnectBtn" onclick="connectHeaderWallet()">💼 Connect</button>
+        <button class="header-wallet-connect" id="headerConnectBtn" onclick="connectHeaderWallet()">Connect Wallet<span class="wallet-chevron">⌄</span></button>
         <div class="header-wallet-actions" id="headerWalletActions" style="display:none">
           <button class="header-wallet-btn plus" onclick="goHeaderDeposit()" title="Deposit TON">+</button>
           <button class="header-wallet-btn minus" onclick="goHeaderWithdraw()" title="Withdraw TON">−</button>
@@ -728,9 +724,9 @@ html,body{height:100%;background:linear-gradient(rgba(8,6,4,.78),rgba(8,6,4,.78)
           <div class="balance-label">Your Balance</div>
           <div class="balance-amount">
             <span class="balance-num" id="homeTon">0</span>
-             <span class="balance-currency"><img class="shiba-icon-inline" src="https://res.cloudinary.com/w8zhbc4b/image/upload/v1789693637/ChatGPT_Image_Aug_23_2026_06_20_10_PM.png" alt="ORE"></span>
+             <span class="balance-currency"><img class="shiba-icon-inline" src="https://i.ibb.co/chCjf1zw/Chat-GPT-Image-Sep-25-2026-04-18-45-AM-1.png" alt="CRYSTAL"></span>
           </div>
-           <div class="balance-sub" id="homePmtTonValue">≈ 0 <img class="ton-icon-inline" src="https://cdn.simpleicons.org/ton/0098EA" alt="TON"></div>
+           <div class="balance-sub" id="homeCrystalTonValue">≈ 0 <img class="ton-icon-inline" src="https://cdn.simpleicons.org/ton/0098EA" alt="TON"></div>
           <div class="balance-sub" id="homeTonUsd">Keep earning every day!</div>
            <div class="balance-logo">💠</div>
            <div class="home-actions">
@@ -740,17 +736,12 @@ html,body{height:100%;background:linear-gradient(rgba(8,6,4,.78),rgba(8,6,4,.78)
         </div>
       </div>
 
-       <div class="dailytasks-entry" onclick="switchPage('dailytasks')">
-         <div class="feature-icon gold">🗓️</div>
-         <div class="dailytasks-entry-copy"><div class="dailytasks-entry-title">Daily Tasks</div><div class="dailytasks-entry-sub">Daily bonus &amp; redeem code</div></div>
-         <div class="dailytasks-entry-arrow">›</div>
-       </div>
        <div class="mining-card">
          <div class="mining-card-head">
-           <div class="mining-icon"><img src="https://res.cloudinary.com/w8zhbc4b/image/upload/v1789693637/ChatGPT_Image_Aug_23_2026_06_20_10_PM.png" alt="ORE"></div>
+           <div class="mining-icon"><img src="https://i.ibb.co/chCjf1zw/Chat-GPT-Image-Sep-25-2026-04-18-45-AM-1.png" alt="CRYSTAL"></div>
            <div><div class="mining-title">Mining</div><div class="mining-sub">Watch an ad to start mining for one hour</div></div>
          </div>
-         <div class="mining-amount-row"><span>Mining Balance</span><b class="mining-amount" id="miningAmount">0.00</b><img class="mining-amount-icon" src="https://res.cloudinary.com/w8zhbc4b/image/upload/v1789693637/ChatGPT_Image_Aug_23_2026_06_20_10_PM.png" alt="ORE"></div>
+         <div class="mining-amount-row"><span>Mining Balance</span><b class="mining-amount" id="miningAmount">0.00</b><img class="mining-amount-icon" src="https://i.ibb.co/chCjf1zw/Chat-GPT-Image-Sep-25-2026-04-18-45-AM-1.png" alt="CRYSTAL"></div>
          <div class="mining-progress"><div class="mining-progress-fill" id="miningProgressFill"></div></div>
          <button class="mining-btn" id="miningBtn" onclick="watchMiningAd()">📺 Watch Ad &amp; Start Mining</button>
        </div>
@@ -773,30 +764,13 @@ html,body{height:100%;background:linear-gradient(rgba(8,6,4,.78),rgba(8,6,4,.78)
       </div>
     </div>
 
-    <!-- DAILY TASKS -->
-    <div class="page" id="page-dailytasks">
-      <div class="wheel-page-header">
-        <button class="back-btn" onclick="switchPage('home')">←</button>
-        <div class="page-title">Daily Tasks</div>
-      </div>
-       <div class="bonus-card">
-         <div class="feature-icon gold">🎁</div>
-         <div class="feature-copy"><div class="feature-title">Daily Bonus</div><div class="feature-sub" id="dailyBonusSub">Come back every day · +500 ORE</div></div>
-         <button class="feature-btn" id="dailyBonusBtn" onclick="claimDailyBonus()">Claim</button>
-       </div>
-       <div class="redeem-card">
-         <div class="feature-icon purple">🎟️</div>
-         <div class="feature-copy"><div class="feature-title">Redeem Code</div><div class="feature-sub">Have a promo code? Claim your reward</div></div>
-         <button class="feature-btn" onclick="openModal('redeemModal')">Redeem</button>
-       </div>
-    </div>
-
     <!-- TASKS -->
     <div class="page" id="page-tasks">
-       <div class="tasks-header"><div class="page-title">Earn</div><div style="font-size:13px;color:var(--text3);margin-top:5px">Complete tasks and collect ORE rewards</div></div>
+       <div class="tasks-header"><div class="page-title">Earn</div><div style="font-size:13px;color:var(--text3);margin-top:5px">Complete tasks and collect CRYSTAL rewards</div></div>
       <div class="tabs-section"><div class="tabs">
         <div class="tab active" onclick="switchTab(this,'ads')">▣ Ads</div>
         <div class="tab" onclick="switchTab(this,'channels')">🔗 User Tasks</div>
+        <div class="tab" onclick="switchTab(this,'daily')">🗓️ Daily</div>
       </div></div>
       <div class="add-task-section">
         <button class="add-task-btn" onclick="openAddTaskModal()"><span style="font-size:20px">+</span><span>Add Task</span></button>
@@ -811,13 +785,13 @@ html,body{height:100%;background:linear-gradient(rgba(8,6,4,.78),rgba(8,6,4,.78)
     <!-- GAMES -->
     <div class="page" id="page-games">
       <div class="games-header"><div class="page-title">Games</div><div class="games-subtitle">Play, win and get paid straight to your balance</div></div>
-          <div class="games-balance"><div class="games-balance-icon"><img src="https://res.cloudinary.com/w8zhbc4b/image/upload/v1789693637/ChatGPT_Image_Aug_23_2026_06_20_10_PM.png" alt="ORE"></div><div class="games-balance-copy"><div class="games-balance-label">Your balance</div><div class="games-balance-value" id="gamesBalance">0 <span>ORE</span></div></div></div>
+          <div class="games-balance"><div class="games-balance-icon"><img src="https://i.ibb.co/chCjf1zw/Chat-GPT-Image-Sep-25-2026-04-18-45-AM-1.png" alt="CRYSTAL"></div><div class="games-balance-copy"><div class="games-balance-label">Your balance</div><div class="games-balance-value" id="gamesBalance">0 <span>CRYSTAL</span></div></div></div>
       <div class="games-section-title">— MINI GAMES</div>
       <div class="games-grid">
-        <div class="game-card" onclick="startGame('gem')"><div class="game-card-icon">💎</div><div class="game-card-title">Gem Rush</div><div class="game-card-type">6 gems · 3 bombs</div><span class="game-card-limit">up to 30 ORE</span><span class="game-card-plays" id="plays-gem">3/3 left today</span></div>
-        <div class="game-card" onclick="startGame('wheel')"><div class="game-card-icon">🎡</div><div class="game-card-title">Number Clash</div><div class="game-card-type">Spin × spin</div><span class="game-card-limit">up to 36 ORE</span><span class="game-card-plays" id="plays-wheel">3/3 left today</span></div>
-        <div class="game-card" onclick="startGame('xo')"><div class="game-card-icon">❌⭕</div><div class="game-card-title">XO vs CPU</div><div class="game-card-type">Strategy</div><span class="game-card-limit">up to 10 ORE</span><span class="game-card-plays" id="plays-xo">3/3 left today</span></div>
-        <div class="game-card" onclick="startGame('fruit')"><div class="game-card-icon">🍒</div><div class="game-card-title">Fruit Slots</div><div class="game-card-type">Match 3</div><span class="game-card-limit">up to 20 ORE</span><span class="game-card-plays" id="plays-fruit">3/3 left today</span></div>
+        <div class="game-card" onclick="startGame('gem')"><div class="game-card-icon">💎</div><div class="game-card-title">Gem Rush</div><div class="game-card-type">6 gems · 3 bombs</div><span class="game-card-limit">up to 30 CRYSTAL</span><span class="game-card-plays" id="plays-gem">3/3 left today</span></div>
+        <div class="game-card" onclick="startGame('wheel')"><div class="game-card-icon">🎡</div><div class="game-card-title">Number Clash</div><div class="game-card-type">Spin × spin</div><span class="game-card-limit">up to 36 CRYSTAL</span><span class="game-card-plays" id="plays-wheel">3/3 left today</span></div>
+        <div class="game-card" onclick="startGame('xo')"><div class="game-card-icon">❌⭕</div><div class="game-card-title">XO vs CPU</div><div class="game-card-type">Strategy</div><span class="game-card-limit">up to 10 CRYSTAL</span><span class="game-card-plays" id="plays-xo">3/3 left today</span></div>
+        <div class="game-card" onclick="startGame('fruit')"><div class="game-card-icon">🍒</div><div class="game-card-title">Fruit Slots</div><div class="game-card-type">Match 3</div><span class="game-card-limit">up to 20 CRYSTAL</span><span class="game-card-plays" id="plays-fruit">3/3 left today</span></div>
       </div>
     </div>
 
@@ -832,7 +806,7 @@ html,body{height:100%;background:linear-gradient(rgba(8,6,4,.78),rgba(8,6,4,.78)
     <div class="page" id="page-refs">
        <div class="ref-banner">
          <div class="ref-banner-title">Invite friends and earn</div>
-          <span class="ref-banner-pct" id="refPct">4,000 ORE</span>
+          <span class="ref-banner-pct" id="refPct">4,000 CRYSTAL</span>
           <div class="ref-banner-desc">Each referral watches 10 ads — you get paid instantly, one time.<br>Plus 10% of everything they make after activation, forever.</div>
       </div>
 
@@ -881,15 +855,15 @@ html,body{height:100%;background:linear-gradient(rgba(8,6,4,.78),rgba(8,6,4,.78)
        <div class="wallet-bal-card">
         <div class="wallet-balances">
           <div class="wallet-balance-item">
-            <div class="wbal-label"><img class="shiba-icon-inline" src="https://res.cloudinary.com/w8zhbc4b/image/upload/v1789693637/ChatGPT_Image_Aug_23_2026_06_20_10_PM.png" alt="ORE"> ORE</div>
-            <div class="wbal-amount" id="walletPmtBalance">0 <img class="wallet-pmt-icon" src="https://res.cloudinary.com/w8zhbc4b/image/upload/v1789693637/ChatGPT_Image_Aug_23_2026_06_20_10_PM.png" alt="ORE"></div>
+            <div class="wbal-label"><img class="shiba-icon-inline" src="https://i.ibb.co/chCjf1zw/Chat-GPT-Image-Sep-25-2026-04-18-45-AM-1.png" alt="CRYSTAL"> CRYSTAL</div>
+            <div class="wbal-amount" id="walletCrystalBalance">0 <img class="wallet-crystal-icon" src="https://i.ibb.co/chCjf1zw/Chat-GPT-Image-Sep-25-2026-04-18-45-AM-1.png" alt="CRYSTAL"></div>
           </div>
           <div class="wallet-balance-item">
             <div class="wbal-label"><img class="ton-icon-inline" src="https://cdn.simpleicons.org/ton/0098EA" alt="TON"> TON</div>
             <div class="wbal-amount" id="walletTon">0.0000 <img class="wallet-ton-icon" src="https://cdn.simpleicons.org/ton/0098EA" alt="TON"></div>
           </div>
         </div>
-        <div class="wbal-sub" id="walletCoinsInfo">Your available ORE and TON balances</div>
+        <div class="wbal-sub" id="walletCoinsInfo">Your available CRYSTAL and TON balances</div>
       </div>
 
       <div class="wallet-actions">
@@ -900,7 +874,7 @@ html,body{height:100%;background:linear-gradient(rgba(8,6,4,.78),rgba(8,6,4,.78)
            <div class="wallet-action-icon">⬇️</div><div class="wallet-action-label">Deposit TON</div>
          </div>
          <div class="wallet-action-btn" id="walletActionConvert" onclick="openConvertForm()">
-           <div class="wallet-action-icon">🔄</div><div class="wallet-action-label">Convert ORE</div>
+           <div class="wallet-action-icon">🔄</div><div class="wallet-action-label">Convert CRYSTAL</div>
         </div>
       </div>
 
@@ -919,7 +893,7 @@ html,body{height:100%;background:linear-gradient(rgba(8,6,4,.78),rgba(8,6,4,.78)
 
        <div class="wallet-form-card" id="depositFormCard" style="display:none">
          <div class="wallet-form-title"><span>⬇️</span><span>Deposit TON</span></div>
-         <div class="wallet-form-help">Connect your TON wallet and send TON to the OreRush Bot deposit wallet. Your User ID is added as the transaction comment.</div>
+         <div class="wallet-form-help">Connect your TON wallet and send TON to the Crystal Mining Bot deposit wallet. Your User ID is added as the transaction comment.</div>
          <div id="tonConnectButton"></div>
          <input class="wallet-input" id="depositAmount" type="number" step="0.01" min="0.01" placeholder="TON amount">
          <button class="wallet-submit" id="depositSubmitBtn" onclick="submitDeposit()">Send Deposit</button>
@@ -927,16 +901,16 @@ html,body{height:100%;background:linear-gradient(rgba(8,6,4,.78),rgba(8,6,4,.78)
        </div>
 
        <div class="wallet-form-card" id="convertFormCard" style="display:none">
-         <div class="wallet-form-title"><span>🔄</span><span>Convert ORE to TON</span></div>
+         <div class="wallet-form-title"><span>🔄</span><span>Convert CRYSTAL to TON</span></div>
          <div class="convert-box">
            <div class="convert-box-label">FROM</div>
            <div class="convert-currency">
-             <img src="https://res.cloudinary.com/w8zhbc4b/image/upload/v1789693637/ChatGPT_Image_Aug_23_2026_06_20_10_PM.png" alt="ORE">
-             <span class="convert-currency-name">ORE</span>
+             <img src="https://i.ibb.co/chCjf1zw/Chat-GPT-Image-Sep-25-2026-04-18-45-AM-1.png" alt="CRYSTAL">
+             <span class="convert-currency-name">CRYSTAL</span>
              <input class="convert-amount" id="convertAmount" type="number" step="1" min="1" placeholder="0">
              <button type="button" class="convert-max-btn" onclick="setMaxConvertAmount()">MAX</button>
            </div>
-           <div class="convert-balance">Balance: <span id="convertPmtBalance">0 ORE</span></div>
+           <div class="convert-balance">Balance: <span id="convertCrystalBalance">0 CRYSTAL</span></div>
            <div class="convert-arrow">↓</div>
            <div class="convert-box-label">TO</div>
            <div class="convert-currency">
@@ -946,7 +920,7 @@ html,body{height:100%;background:linear-gradient(rgba(8,6,4,.78),rgba(8,6,4,.78)
            </div>
            <div class="convert-balance">Balance: <span id="convertTonBalance">0 TON</span></div>
          </div>
-         <div class="convert-rate" id="convertRateLabel">📊 10,000 ORE = 1 TON</div>
+         <div class="convert-rate" id="convertRateLabel">📊 10,000 CRYSTAL = 1 TON</div>
          <button class="wallet-submit" id="convertSubmitBtn" onclick="submitConvert()">⚡ Exchange Now</button>
          <button class="modal-close" style="margin-top:8px" onclick="closeWalletForm('convertFormCard')">Cancel</button>
        </div>
@@ -993,7 +967,7 @@ html,body{height:100%;background:linear-gradient(rgba(8,6,4,.78),rgba(8,6,4,.78)
 
       <div class="wheel-info-banner">
         <div class="wheel-info-emoji">🎯</div>
-        <div class="wheel-info-text">Earn <b>1 free spin</b> for every <b id="wheelRefsPerSpin">2</b> active referrals. Spin to win up to <b>10,000 <img class="shiba-icon-inline" src="https://res.cloudinary.com/w8zhbc4b/image/upload/v1789693637/ChatGPT_Image_Aug_23_2026_06_20_10_PM.png" alt="ORE"></b>!</div>
+        <div class="wheel-info-text">Earn <b>1 free spin</b> for every <b id="wheelRefsPerSpin">2</b> active referrals. Spin to win up to <b>10,000 <img class="shiba-icon-inline" src="https://i.ibb.co/chCjf1zw/Chat-GPT-Image-Sep-25-2026-04-18-45-AM-1.png" alt="CRYSTAL"></b>!</div>
       </div>
 
       <div class="wheel-stage">
@@ -1080,7 +1054,7 @@ html,body{height:100%;background:linear-gradient(rgba(8,6,4,.78),rgba(8,6,4,.78)
           <div class="price-lbl">Total Cost</div>
           <div class="price-usd" id="addTaskPriceUsd">≈ $0</div>
         </div>
-        <div class="price-val" id="addTaskPriceShiba">0 <img class="shiba-icon-inline" src="https://res.cloudinary.com/w8zhbc4b/image/upload/v1789693637/ChatGPT_Image_Aug_23_2026_06_20_10_PM.png" alt="ORE"></div>
+        <div class="price-val" id="addTaskPriceShiba">0 <img class="shiba-icon-inline" src="https://i.ibb.co/chCjf1zw/Chat-GPT-Image-Sep-25-2026-04-18-45-AM-1.png" alt="CRYSTAL"></div>
       </div>
        <div class="modal-desc" style="font-size:11px;margin-bottom:14px" id="addTaskPriceRuleText">Pricing is charged in TON: every 100 completions = 0.1500 TON. Bot tasks go live instantly; channel tasks go live after payment and setup verification.</div>
 
@@ -1120,7 +1094,7 @@ html,body{height:100%;background:linear-gradient(rgba(8,6,4,.78),rgba(8,6,4,.78)
   <div class="modal">
     <div class="modal-handle"></div>
     <div class="modal-title">🎟️ Redeem Code</div>
-    <div class="modal-desc">Enter a valid code to receive its ORE reward.</div>
+    <div class="modal-desc">Enter a valid code to receive its CRYSTAL reward.</div>
     <input class="modal-input" id="redeemCodeInput" maxlength="64" autocomplete="off" placeholder="Enter redeem code">
     <button class="modal-submit" id="redeemSubmitBtn" onclick="redeemCode()">Redeem Reward</button>
     <button class="modal-close" onclick="closeModal('redeemModal')">Cancel</button>
@@ -1143,7 +1117,7 @@ html,body{height:100%;background:linear-gradient(rgba(8,6,4,.78),rgba(8,6,4,.78)
 <script>
 // ── Config ──────────────────────────────────────────────────────────
 var API_URL  = 'https://silent-block-bedf.ahmedrabieharoun.workers.dev'; // ← Railway URL
-  var BOT_USER = 'OreRush_Bot'; // OreRush Bot username without @
+  var BOT_USER = 'CrystalMining_Bot'; // Crystal Mining Bot username without @
   // Same deposit wallet address used in the active deposit system.
   var BOT_DEPOSIT_WALLET = 'UQAACNWWtTtN7ILkhRERwYUTzo06Bd1Tv_8Yk5gPioIMFoUD';
   var tonConnectUI = null;
@@ -1179,9 +1153,9 @@ function updateHeaderWalletUI(wallet){
 }
 function connectHeaderWallet(){
   var btn = document.getElementById('headerConnectBtn');
-  if (btn){ btn.disabled = true; btn.textContent = 'Connecting…'; }
+  if (btn){ btn.disabled = true; btn.innerHTML = 'Connecting…'; }
   ensureTonConnectUI(function(ui){
-    if (btn){ btn.disabled = false; btn.textContent = '💼 Connect'; }
+    if (btn){ btn.disabled = false; btn.innerHTML = 'Connect Wallet<span class="wallet-chevron">⌄</span>'; }
     if (ui.connected){ updateHeaderWalletUI(ui.wallet || ui.account); return; }
     ui.openModal();
   });
@@ -1199,19 +1173,19 @@ function buildRefLink(code){
   return 'https://t.me/'+BOT_USER+'/'+BOT_APP_SHORT_NAME+'?startapp='+code;
 }
 
-// ORE coin icon — used instead of writing the currency name in dynamic text
-var SHIBA_ICON = '<img src="https://res.cloudinary.com/w8zhbc4b/image/upload/v1789693637/ChatGPT_Image_Aug_23_2026_06_20_10_PM.png" class="shiba-icon-inline" alt="ORE">';
+// CRYSTAL coin icon — used instead of writing the currency name in dynamic text
+var SHIBA_ICON = '<img src="https://i.ibb.co/chCjf1zw/Chat-GPT-Image-Sep-25-2026-04-18-45-AM-1.png" class="shiba-icon-inline" alt="CRYSTAL">';
 var TON_ICON = '<img src="https://cdn.simpleicons.org/ton/0098EA" class="ton-icon-inline" alt="TON">';
-function updatePmtTonValueDisplays(){
+function updateCrystalTonValueDisplays(){
   var balance = Number((S.user && S.user.balance) || 0);
   var rate = Number((S.data && S.data.config && S.data.config.tonConversionRate) || 10000);
   var value = '≈ ' + (balance / rate).toFixed(4) + ' ' + TON_ICON;
-  var homeEl = document.getElementById('homePmtTonValue');
+  var homeEl = document.getElementById('homeCrystalTonValue');
   if (homeEl) homeEl.innerHTML = value;
 }
 function updateWalletTonBalance(){
-  var pmtEl = document.getElementById('walletPmtBalance');
-  if (pmtEl) pmtEl.innerHTML = fmtShiba((S.user && S.user.balance) || 0) + ' <img class="wallet-pmt-icon" src="https://res.cloudinary.com/w8zhbc4b/image/upload/v1789693637/ChatGPT_Image_Aug_23_2026_06_20_10_PM.png" alt="ORE">';
+  var crystalEl = document.getElementById('walletCrystalBalance');
+  if (crystalEl) crystalEl.innerHTML = fmtShiba((S.user && S.user.balance) || 0) + ' <img class="wallet-crystal-icon" src="https://i.ibb.co/chCjf1zw/Chat-GPT-Image-Sep-25-2026-04-18-45-AM-1.png" alt="CRYSTAL">';
   var el = document.getElementById('walletTon');
   if (el) el.innerHTML = Number((S.user && S.user.tonBalance) || 0).toFixed(4) + ' <img class="wallet-ton-icon" src="https://cdn.simpleicons.org/ton/0098EA" alt="TON">';
 }
@@ -1862,11 +1836,13 @@ function render(){
   if (u.photoUrl) av.innerHTML = '<img src="'+u.photoUrl+'" alt="">';
   else av.textContent = (u.firstName||'P')[0].toUpperCase();
   document.getElementById('homeName').textContent = u.firstName || 'Player';
+  var homeUsernameEl = document.getElementById('homeUsername');
+  if (homeUsernameEl) homeUsernameEl.textContent = u.username ? '@'+u.username : '';
   // Balance
   document.getElementById('homeTon').textContent = fmtShiba(u.balance);
-   var pmtTonValue = Number(u.balance || 0) / (Number(cfg.tonConversionRate) || 10000);
-   var homePmtTonValueEl = document.getElementById('homePmtTonValue');
-   if (homePmtTonValueEl) homePmtTonValueEl.innerHTML = '≈ ' + pmtTonValue.toFixed(4) + ' ' + TON_ICON;
+   var crystalTonValue = Number(u.balance || 0) / (Number(cfg.tonConversionRate) || 10000);
+   var homeCrystalTonValueEl = document.getElementById('homeCrystalTonValue');
+   if (homeCrystalTonValueEl) homeCrystalTonValueEl.innerHTML = '≈ ' + crystalTonValue.toFixed(4) + ' ' + TON_ICON;
   // Stats — "Active" = passed mandatory subscription (real, verified referral)
   // NOTE: the server now sends only the latest ~100 referrals in d.referrals, so the totals
   // must come from the server-side counters (referralsTotal / referralStats), not S.refs.length.
@@ -1881,20 +1857,14 @@ function render(){
    document.getElementById('statAdsToday').textContent = stats.adsWatchedToday || 0;
    document.getElementById('statFriendsInvited').textContent = stats.friendsInvited ?? totalRefs;
    renderMining();
-   var dailyBtn = document.getElementById('dailyBonusBtn');
-   if (dailyBtn) {
-     dailyBtn.disabled = !!(d.daily && d.daily.claimed);
-     dailyBtn.textContent = d.daily && d.daily.claimed ? 'Claimed' : 'Claim';
-   }
-   var dailySub = document.getElementById('dailyBonusSub');
-   if (dailySub) dailySub.textContent = 'Come back every day · +'+fmtShiba((d.daily && d.daily.reward) || 500)+' ORE';
+   syncDailyBonusUI();
   // Referral reward (used on Referrals page)
    var refReward = cfg.referralReward || 2000;
   // Activity log
    var activity = document.getElementById('homeActivity');
    if (activity) renderActivity(d.balanceLogs || []);
   // Refs page
-   document.getElementById('refPct').textContent = fmtShiba(refReward)+' ORE';
+   document.getElementById('refPct').textContent = fmtShiba(refReward)+' CRYSTAL';
   document.getElementById('refLinkUrl').textContent = buildRefLink(u.referralCode);
   document.getElementById('refTotal').textContent = totalRefs;
   document.getElementById('refActive').textContent = activeRefs;
@@ -1937,7 +1907,7 @@ function renderMining(){
   if (!started){
     btn.disabled = false; btn.textContent = '📺 Watch Ad & Start Mining'; btn.onclick = watchMiningAd;
   } else if (ready){
-    btn.disabled = false; btn.textContent = '🎁 Claim ' + fmtShiba(reward) + ' ORE'; btn.onclick = claimMining;
+    btn.disabled = false; btn.textContent = '🎁 Claim ' + fmtShiba(reward) + ' CRYSTAL'; btn.onclick = claimMining;
   } else {
     btn.disabled = true; btn.textContent = '⛏️ Mining in progress...'; btn.onclick = null;
   }
@@ -1995,7 +1965,7 @@ function claimMining(){
       S.user.balance = res.data.shibaBalance;
       if (!S.data.mining) S.data.mining = { reward: cfg.miningReward || 50, durationMs: cfg.miningDurationMs || 3600000 };
       S.data.mining.startedAt = null;
-      showToast('+' + fmtShiba(res.data.shibaAdded) + ' ORE added to your balance 🎉', null, true);
+      showToast('+' + fmtShiba(res.data.shibaAdded) + ' CRYSTAL added to your balance 🎉', null, true);
       render();
     }).catch(function(){ showToast('Could not claim reward','error'); })
       .then(function(){
@@ -2015,13 +1985,24 @@ function claimMining(){
 function renderGames(){
   var balance = (S.user && S.user.balance) || 0;
   var balanceEl = document.getElementById('gamesBalance');
-   if (balanceEl) balanceEl.innerHTML = fmtShiba(balance)+' <span>ORE</span>';
+   if (balanceEl) balanceEl.innerHTML = fmtShiba(balance)+' <span>CRYSTAL</span>';
   var plays = (S.data && S.data.gamePlays) || {};
   var dailyLimit = Number(((S.data && S.data.config && S.data.config.gameDailyLimit)) || 3);
   ['gem','wheel','xo','fruit'].forEach(function(key){
     var el = document.getElementById('plays-'+key);
     if (el) el.textContent = Math.max(0,dailyLimit-(plays[key]||0))+'/'+dailyLimit+' left today';
   });
+}
+
+function syncDailyBonusUI(){
+  var d = S.data || {};
+  var dailyBtn = document.getElementById('dailyBonusBtn');
+  if (dailyBtn) {
+    dailyBtn.disabled = !!(d.daily && d.daily.claimed);
+    dailyBtn.textContent = d.daily && d.daily.claimed ? 'Claimed' : 'Claim';
+  }
+  var dailySub = document.getElementById('dailyBonusSub');
+  if (dailySub) dailySub.textContent = 'Come back every day · +'+fmtShiba((d.daily && d.daily.reward) || 500)+' CRYSTAL';
 }
 
 function claimDailyBonus(){
@@ -2033,12 +2014,12 @@ function claimDailyBonus(){
     api('claimDailyBonus', {}).then(function(res){
       if (!res.success){ btn.disabled=false; btn.textContent='Claim'; showToast(res.error||'Could not claim bonus','error'); return; }
       S.user.balance = res.data.shibaBalance;
-      updatePmtTonValueDisplays();
+      updateCrystalTonValueDisplays();
       S.data.daily = S.data.daily || {};
       S.data.daily.claimed = true;
       document.getElementById('homeTon').textContent = fmtShiba(S.user.balance);
       btn.textContent = 'Claimed';
-       showToast('+'+fmtShiba(res.data.shibaAdded)+' ORE added 🎉', null, true);
+       showToast('+'+fmtShiba(res.data.shibaAdded)+' CRYSTAL added 🎉', null, true);
     }).catch(function(){ btn.disabled=false; btn.textContent='Claim'; showToast('Network error','error'); });
   }, function(){ btn.disabled=false; btn.textContent='Claim'; });
 }
@@ -2056,11 +2037,11 @@ function redeemCode(){
       btn.disabled=false; btn.textContent='Redeem Reward';
       if (!res.success){ showToast(res.error||'Invalid code','error'); return; }
       S.user.balance = res.data.shibaBalance;
-      updatePmtTonValueDisplays();
+      updateCrystalTonValueDisplays();
       document.getElementById('homeTon').textContent = fmtShiba(S.user.balance);
       input.value='';
       closeModal('redeemModal');
-       showToast('+'+fmtShiba(res.data.shibaAdded)+' ORE added 🎉', null, true);
+       showToast('+'+fmtShiba(res.data.shibaAdded)+' CRYSTAL added 🎉', null, true);
     }).catch(function(){ btn.disabled=false; btn.textContent='Redeem Reward'; showToast('Network error','error'); });
   }, function(){ btn.disabled=false; btn.textContent='Redeem Reward'; });
 }
@@ -2120,8 +2101,8 @@ function renderRefs(page){
             '</div>'+
           '</div>';
         var earnedTotal = isCompleted
-          ? '<div class="ref-earned-total">Reward claimed — '+earned+' ORE total ✓</div>'
-          : '<div class="ref-earned-total">You earned '+earned+' ORE from this user</div>';
+          ? '<div class="ref-earned-total">Reward claimed — '+earned+' CRYSTAL total ✓</div>'
+          : '<div class="ref-earned-total">You earned '+earned+' CRYSTAL from this user</div>';
        htmlParts.push('<div class="ref-user-item">'+
         '<div class="ref-user-avatar">'+av+'</div>'+
          '<div class="ref-user-info">'+
@@ -2138,7 +2119,7 @@ function renderRefs(page){
          '<div class="ref-user-details">'+
             (r.fraudMultipleAccounts ? '⚠️ Flagged as multiple accounts from the same device' :
             isCompleted ? '✅ The one-time referral bonus has been credited' :
-              '📺 Watches 10 ads to unlock a one-time reward of <b>'+fmtShiba(r.reward||0)+' ORE</b>')+
+              '📺 Watches 10 ads to unlock a one-time reward of <b>'+fmtShiba(r.reward||0)+' CRYSTAL</b>')+
         '</div>'+
       '</div>');
     } catch (err) {
@@ -2447,7 +2428,7 @@ async function submitDeposit(){
   if (btn) { btn.disabled = true; btn.textContent = 'Waiting for wallet...'; }
   try {
     // Same transaction structure used in the active system: a human-readable TON comment
-    // containing the ORE user identifier, then logging the BOC and starting blockchain verification.
+    // containing the user’s core identifier, then logging the BOC and starting blockchain verification.
     var cell = new TonWeb.boc.Cell();
     cell.bits.writeUint(0, 32);
     cell.bits.writeString(String((S.user && S.user.telegramId) || 'unknown'));
@@ -2487,11 +2468,11 @@ function openConvertForm(){
   setWalletActionActive('walletActionConvert');
   closeWalletForm('depositFormCard'); closeWithdrawForm();
   document.getElementById('convertFormCard').style.display='block';
-  document.getElementById('convertPmtBalance').textContent=fmtShiba((S.user&&S.user.balance)||0)+' ORE';
+  document.getElementById('convertCrystalBalance').textContent=fmtShiba((S.user&&S.user.balance)||0)+' CRYSTAL';
   document.getElementById('convertTonBalance').textContent=Number((S.user&&S.user.tonBalance)||0).toFixed(4)+' TON';
   var rate = Number((S.data && S.data.config && S.data.config.tonConversionRate) || 10000);
   document.getElementById('convertAmount').min = 1;
-  document.getElementById('convertRateLabel').textContent = '📊 ' + rate.toLocaleString('en-US') + ' ORE = 1 TON';
+  document.getElementById('convertRateLabel').textContent = '📊 ' + rate.toLocaleString('en-US') + ' CRYSTAL = 1 TON';
   document.getElementById('convertTonOutput').textContent='0';
   document.getElementById('convertAmount').oninput=function(){
     document.getElementById('convertTonOutput').textContent=(Number(this.value||0)/rate).toFixed(4);
@@ -2513,14 +2494,14 @@ function submitConvert(){
   btn.disabled=true; btn.textContent='📺 Watch Ad...';
   watchAdThen(function(){
     btn.textContent='Converting...';
-    api('convertPmtToTon',{pmtAmount:amount}).then(function(res){
+    api('convertCrystalToTon',{crystalAmount:amount}).then(function(res){
       btn.disabled=false; btn.textContent='Convert to TON';
       if(!res.success){showToast(res.error||'Conversion failed','error');return;}
-      S.user.balance=res.data.shibaBalance; S.user.tonBalance=res.data.tonBalance; updatePmtTonValueDisplays();
+      S.user.balance=res.data.shibaBalance; S.user.tonBalance=res.data.tonBalance; updateCrystalTonValueDisplays();
       document.getElementById('homeTon').textContent=fmtShiba(S.user.balance);
-      document.getElementById('homePmtTonValue').innerHTML='≈ '+(Number(S.user.balance||0)/(Number((S.data.config||{}).tonConversionRate)||10000)).toFixed(4)+' '+TON_ICON;
+      document.getElementById('homeCrystalTonValue').innerHTML='≈ '+(Number(S.user.balance||0)/(Number((S.data.config||{}).tonConversionRate)||10000)).toFixed(4)+' '+TON_ICON;
       updateWalletTonBalance();
-      document.getElementById('convertPmtBalance').textContent=fmtShiba(S.user.balance)+' ORE';
+      document.getElementById('convertCrystalBalance').textContent=fmtShiba(S.user.balance)+' CRYSTAL';
       document.getElementById('convertTonBalance').textContent=Number(S.user.tonBalance||0).toFixed(4)+' TON';
       document.getElementById('convertAmount').value='';
       closeWalletForm('convertFormCard'); showToast('Conversion completed ✅');
@@ -2548,12 +2529,28 @@ function applyAdRewardState(data){
 }
 
 function renderTasks(tab){
-  var labels = { ads:'Advertisements', channels:'User Channels & Bots' };
+  var labels = { ads:'Advertisements', channels:'User Channels & Bots', daily:'Daily Rewards' };
   document.getElementById('tasksGroupLabel').textContent = labels[tab];
   var addSection = document.querySelector('.add-task-section');
   if (addSection) addSection.style.display = tab === 'channels' ? 'block' : 'none';
   var completed = (S.data && S.data.completedTasks) || [];
   var allTasks = (S.data && S.data.tasks) || [];
+
+  if (tab === 'daily'){
+    document.getElementById('tasksContent').innerHTML =
+      '<div class="bonus-card">'+
+        '<div class="feature-icon gold">🎁</div>'+
+        '<div class="feature-copy"><div class="feature-title">Daily Bonus</div><div class="feature-sub" id="dailyBonusSub">Come back every day · +500 CRYSTAL</div></div>'+
+        '<button class="feature-btn" id="dailyBonusBtn" onclick="claimDailyBonus()">Claim</button>'+
+      '</div>'+
+      '<div class="redeem-card">'+
+        '<div class="feature-icon purple">🎟️</div>'+
+        '<div class="feature-copy"><div class="feature-title">Redeem Code</div><div class="feature-sub">Have a promo code? Claim your reward</div></div>'+
+        '<button class="feature-btn" onclick="openModal(\'redeemModal\')">Redeem</button>'+
+      '</div>';
+    syncDailyBonusUI();
+    return;
+  }
 
   if (tab === 'ads'){
     var stats = (S.data && S.data.stats) || {};
@@ -2583,9 +2580,9 @@ function renderTasks(tab){
      var adsByCompany = stats.adsWatchedByCompany || {};
     document.getElementById('tasksContent').innerHTML =
        '<div class="ad-summary"><span><b>Today’s ads</b><br>'+watchedTotal+' of '+totalLimit+' watched today · resets daily</span><b>'+watchedTotal+'/'+totalLimit+'</b></div>'+
-       adTask('🎟️','Adsgram','+'+fmtShiba(adsgramCfg.reward)+' ORE','Watch', 'watchAdsgram()', false, Number(adsByCompany.adsgram||0), adsgramCfg.dailyLimit)+
-       adTask('🚀','Monetix','+'+fmtShiba(monetixCfg.reward)+' ORE','Watch', 'watchMonetix()', false, Number(adsByCompany.monetix||0), monetixCfg.dailyLimit)+
-       adTask('📦','GigaPub','+'+fmtShiba(gigapubCfg.reward)+' ORE','Watch', 'watchGigapub()', false, Number(adsByCompany.gigapub||0), gigapubCfg.dailyLimit);
+       adTask('🎟️','Adsgram','+'+fmtShiba(adsgramCfg.reward)+' CRYSTAL','Watch', 'watchAdsgram()', false, Number(adsByCompany.adsgram||0), adsgramCfg.dailyLimit)+
+       adTask('🚀','Monetix','+'+fmtShiba(monetixCfg.reward)+' CRYSTAL','Watch', 'watchMonetix()', false, Number(adsByCompany.monetix||0), monetixCfg.dailyLimit)+
+       adTask('📦','GigaPub','+'+fmtShiba(gigapubCfg.reward)+' CRYSTAL','Watch', 'watchGigapub()', false, Number(adsByCompany.gigapub||0), gigapubCfg.dailyLimit);
     return;
   }
 
@@ -2670,14 +2667,14 @@ function watchAdsgram(){
           return;
         }
         S.user.balance = res.data.shibaBalance;
-        updatePmtTonValueDisplays();
+        updateCrystalTonValueDisplays();
         applyAdRewardState(res.data);
         document.getElementById('homeTon').textContent = fmtShiba(S.user.balance);
         adsgramWatchBusy = false;
         adsgramCooldownUntil = Date.now() + 15000;
         startAdsgramButtonTimer();
         renderTasks('ads');
-        showToast('+'+fmtShiba(res.data.shibaAdded)+' ORE added 🎉',null,true);
+        showToast('+'+fmtShiba(res.data.shibaAdded)+' CRYSTAL added 🎉',null,true);
       });
       });
     }).catch(function(err){
@@ -2750,14 +2747,14 @@ function watchGigapub(){
         return;
       }
       S.user.balance = res.data.shibaBalance;
-      updatePmtTonValueDisplays();
+      updateCrystalTonValueDisplays();
       applyAdRewardState(res.data);
       document.getElementById('homeTon').textContent = fmtShiba(S.user.balance);
       gigapubWatchBusy = false;
       gigapubCooldownUntil = Date.now() + 15000;
       startGigapubButtonTimer();
       renderTasks('ads');
-      showToast('+'+fmtShiba(res.data.shibaAdded)+' ORE added 🎉',null,true);
+      showToast('+'+fmtShiba(res.data.shibaAdded)+' CRYSTAL added 🎉',null,true);
     }).catch(function(err){
       gigapubWatchBusy = false;
       stopGigapubButtonTimer();
@@ -2837,14 +2834,14 @@ function watchMonetix(){
           return;
         }
         S.user.balance = result.data.shibaBalance;
-        updatePmtTonValueDisplays();
+        updateCrystalTonValueDisplays();
         applyAdRewardState(result.data);
         document.getElementById('homeTon').textContent = fmtShiba(S.user.balance);
         monetixWatchBusy = false;
         monetixCooldownUntil = Date.now() + 15000;
         startMonetixButtonTimer();
         renderTasks('ads');
-        showToast('+'+fmtShiba(result.data.shibaAdded)+' ORE added 🎉',null,true);
+        showToast('+'+fmtShiba(result.data.shibaAdded)+' CRYSTAL added 🎉',null,true);
       }).catch(function(){
         monetixWatchBusy = false;
         stopMonetixButtonTimer();
@@ -2928,7 +2925,7 @@ function doVerifyTask(id, btn){
     S.data.completedTasks = S.data.completedTasks || [];
     S.data.completedTasks.push(id);
     S.user.balance = res.data.shibaBalance;
-    updatePmtTonValueDisplays();
+    updateCrystalTonValueDisplays();
     delete S.taskJoined[id];
     document.getElementById('homeTon').textContent = fmtShiba(S.user.balance);
     updateWalletTonBalance();
@@ -2946,7 +2943,7 @@ function doClaimInvite(id){
     S.data.completedTasks = S.data.completedTasks || [];
     S.data.completedTasks.push(id);
     S.user.balance = res.data.shibaBalance;
-    updatePmtTonValueDisplays();
+    updateCrystalTonValueDisplays();
     document.getElementById('homeTon').textContent = fmtShiba(S.user.balance);
     updateWalletTonBalance();
     renderTasks(currentTab);
@@ -3103,7 +3100,7 @@ function spinWheel(){
     setTimeout(function(){
       wheelSpinning = false;
       S.user.balance = res.data.shibaBalance;
-      updatePmtTonValueDisplays();
+      updateCrystalTonValueDisplays();
       S.data.wheel = S.data.wheel || {};
       S.data.wheel.spinsAvailable = res.data.spinsAvailable;
       S.data.wheel.spinsUsed = res.data.spinsUsed;
@@ -3136,7 +3133,7 @@ function spinWheel(){
 function shareInvite(){
   if (!S.user) return;
   var link = buildRefLink(S.user.referralCode);
-   var text  = 'Join me on OreRush Bot and earn real ORE!';
+   var text  = 'Join me on Crystal Mining Bot and earn real CRYSTAL!';
   var url   = 'https://t.me/share/url?url='+encodeURIComponent(link)+'&text='+encodeURIComponent(text);
   if (window.Telegram && Telegram.WebApp && Telegram.WebApp.openTelegramLink){
     try { Telegram.WebApp.openTelegramLink(url); return; } catch(_){}
@@ -3201,19 +3198,19 @@ var gemState={bombs:[],found:0,rewards:[10,20,30,30,30,30]};
 function renderGemRush(board){
   var cells=[0,1,2,3,4,5,6,7,8].sort(function(){return Math.random()-.5;});
   gemState={bombs:cells.slice(0,3),found:0,rewards:[10,20,30,30,30,30]};
-  board.innerHTML='<div class="game-help">Collect the gems and cash out your reward. Choosing a bomb ends the round.</div><div class="rush-status">Round balance: <span id="rushReward">0</span> ORE</div><div class="gem-grid">'+Array(9).fill(0).map(function(_,i){return '<button class="gem-cell rush-cell" onclick="pickRush(this,'+i+')">?</button>';}).join('')+'</div><button id="rushCashout" class="game-action rush-cashout" onclick="cashoutRush()" disabled>Cash out 0 ORE</button>';
+  board.innerHTML='<div class="game-help">Collect the gems and cash out your reward. Choosing a bomb ends the round.</div><div class="rush-status">Round balance: <span id="rushReward">0</span> CRYSTAL</div><div class="gem-grid">'+Array(9).fill(0).map(function(_,i){return '<button class="gem-cell rush-cell" onclick="pickRush(this,'+i+')">?</button>';}).join('')+'</div><button id="rushCashout" class="game-action rush-cashout" onclick="cashoutRush()" disabled>Cash out 0 CRYSTAL</button>';
 }
- function pickRush(el,index){if(gameFinished||el.disabled)return;el.disabled=true;if(gemState.bombs.indexOf(index)>-1){el.textContent='💣';el.classList.add('bomb');gameScore=0;document.getElementById('rushReward').textContent='0';finishGame();return;}gemState.found++;gameScore=gemState.rewards[gemState.found-1];el.textContent='💎';el.classList.add('safe');document.getElementById('rushReward').textContent=gameScore;var cash=document.getElementById('rushCashout');cash.disabled=false;cash.textContent='Cash out '+gameScore+' ORE';if(gemState.found===6)finishGame();}
+ function pickRush(el,index){if(gameFinished||el.disabled)return;el.disabled=true;if(gemState.bombs.indexOf(index)>-1){el.textContent='💣';el.classList.add('bomb');gameScore=0;document.getElementById('rushReward').textContent='0';finishGame();return;}gemState.found++;gameScore=gemState.rewards[gemState.found-1];el.textContent='💎';el.classList.add('safe');document.getElementById('rushReward').textContent=gameScore;var cash=document.getElementById('rushCashout');cash.disabled=false;cash.textContent='Cash out '+gameScore+' CRYSTAL';if(gemState.found===6)finishGame();}
 function cashoutRush(){if(gameFinished||gemState.found<=0)return;var btn=document.getElementById('rushCashout');if(btn)btn.disabled=true;finishGame();}
  function renderNumberClash(board){board.innerHTML='<div class="game-help">Press SPIN to rotate both dials. Your reward equals the larger number × the smaller number.</div><div class="dial-wrap"><div id="dialLarge" class="number-dial">?</div><div class="dial-x">×</div><div id="dialSmall" class="number-dial">?</div></div><div id="dialResult" class="dial-result"></div><button id="dialSpin" class="game-action" onclick="spinNumberClash()">SPIN</button>';}
-function spinNumberClash(){if(gameFinished)return;var a=document.getElementById('dialLarge'),b=document.getElementById('dialSmall'),btn=document.getElementById('dialSpin');btn.disabled=true;a.classList.add('spinning');b.classList.add('spinning');setTimeout(function(){var x=1+Math.floor(Math.random()*6),y=1+Math.floor(Math.random()*6);a.textContent=x;b.textContent=y;gameScore=x*y;document.getElementById('dialResult').textContent=x+' × '+y+' = '+gameScore+' ORE';finishGame();},700);}
+function spinNumberClash(){if(gameFinished)return;var a=document.getElementById('dialLarge'),b=document.getElementById('dialSmall'),btn=document.getElementById('dialSpin');btn.disabled=true;a.classList.add('spinning');b.classList.add('spinning');setTimeout(function(){var x=1+Math.floor(Math.random()*6),y=1+Math.floor(Math.random()*6);a.textContent=x;b.textContent=y;gameScore=x*y;document.getElementById('dialResult').textContent=x+' × '+y+' = '+gameScore+' CRYSTAL';finishGame();},700);}
 var xoState=[];
  function renderXO(board){xoState=Array(9).fill('');board.innerHTML='<div class="game-help">You are X. Choose 3 consecutive squares horizontally, vertically, or diagonally before the computer to win.</div><div id="xoStatus" class="xo-status">Your turn</div><div class="xo-grid">'+Array(9).fill(0).map(function(_,i){return '<button class="xo-cell" onclick="playXO('+i+')"></button>';}).join('')+'</div>';}
 function xoWinner(){var lines=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];for(var i=0;i<lines.length;i++){var l=lines[i];if(xoState[l[0]]&&xoState[l[0]]===xoState[l[1]]&&xoState[l[1]]===xoState[l[2]])return xoState[l[0]];}return xoState.indexOf('')<0?'draw':null;}
 function paintXO(){document.querySelectorAll('.xo-cell').forEach(function(c,i){c.textContent=xoState[i];c.className='xo-cell '+(xoState[i]||'').toLowerCase();});}
  function playXO(i){if(gameFinished||xoState[i])return;xoState[i]='X';paintXO();var result=xoWinner();if(result){gameScore=result==='X'?10:0;finishGame();return;}document.getElementById('xoStatus').textContent='Computer is thinking...';setTimeout(function(){if(gameFinished)return;var open=xoState.map(function(v,n){return v?null:n;}).filter(function(v){return v!==null;});var pick=open[Math.floor(Math.random()*open.length)];xoState[pick]='O';paintXO();var r=xoWinner();if(r){gameScore=r==='draw'?5:r==='X'?10:0;finishGame();}else document.getElementById('xoStatus').textContent='Your turn';},350);}
 var fruitSymbols=['🍒','🍉','❤️','💎'],fruitValues={'🍒':15,'🍉':20,'❤️':5,'💎':20};
- function renderFruitSlots(board){board.innerHTML='<div class="game-help">Press SPIN. Match 3 identical symbols horizontally, vertically, or diagonally to win.</div><div class="fruit-machine"><div id="fruitGrid" class="fruit-grid"></div><button id="fruitSpin" class="game-action fruit-spin" onclick="spinFruitSlots()">SPIN</button></div><div class="fruit-paytable">❤️ 5 · 🍒 15 · 🍉 20 · 💎 20 ORE</div>';drawFruitGrid(Array(9).fill('❔'));}
+ function renderFruitSlots(board){board.innerHTML='<div class="game-help">Press SPIN. Match 3 identical symbols horizontally, vertically, or diagonally to win.</div><div class="fruit-machine"><div id="fruitGrid" class="fruit-grid"></div><button id="fruitSpin" class="game-action fruit-spin" onclick="spinFruitSlots()">SPIN</button></div><div class="fruit-paytable">❤️ 5 · 🍒 15 · 🍉 20 · 💎 20 CRYSTAL</div>';drawFruitGrid(Array(9).fill('❔'));}
 function drawFruitGrid(grid){document.getElementById('fruitGrid').innerHTML=grid.map(function(s){return '<div class="fruit-cell">'+s+'</div>';}).join('');}
 function spinFruitSlots(){if(gameFinished)return;var btn=document.getElementById('fruitSpin');btn.disabled=true;var grid=Array(9).fill(0).map(function(){return fruitSymbols[Math.floor(Math.random()*fruitSymbols.length)];});drawFruitGrid(grid);setTimeout(function(){var lines=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]],win=null;for(var i=0;i<lines.length;i++){var l=lines[i];if(grid[l[0]]===grid[l[1]]&&grid[l[1]]===grid[l[2]]){win=l;break;}}if(win){var sym=grid[win[0]];gameScore=fruitValues[sym]||20;win.forEach(function(n){document.querySelectorAll('.fruit-cell')[n].classList.add('win');});}else gameScore=0;finishGame();},500);}
 function finishGame(){
@@ -3222,13 +3219,13 @@ function finishGame(){
   var key=activeGame, score=Math.min(key==='gem'?30:key==='wheel'?36:key==='xo'?10:key==='fruit'?20:0,Math.max(0,gameScore));
   apiCaptcha('playGame',{game:key,score:score}).then(function(res){
     if(!res.success){ showToast(res.error||'Game unavailable','error'); closeGame(); return; }
-    S.user.balance=res.data.shibaBalance; updatePmtTonValueDisplays();
+    S.user.balance=res.data.shibaBalance; updateCrystalTonValueDisplays();
     S.data.gamePlays=res.data.gamePlays||S.data.gamePlays||{};
     document.getElementById('homeTon').textContent=fmtShiba(S.user.balance);
     updateWalletTonBalance();
     document.getElementById('gameResult').innerHTML=(key==='gem' && score===0)
        ? '<b>💣 Game Over</b>You chose a bomb, lost the round reward, and received no coins.'
-      : '<b>+'+fmtShiba(res.data.shibaAdded)+' ORE</b> Reward added to your balance';
+      : '<b>+'+fmtShiba(res.data.shibaAdded)+' CRYSTAL</b> Reward added to your balance';
     renderGames();
     // Show the result first, then open the end-of-game ad after two seconds
     setTimeout(function(){
