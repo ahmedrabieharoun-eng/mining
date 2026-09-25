@@ -278,6 +278,36 @@ html,body{height:100%;background:linear-gradient(rgba(8,6,4,.78),rgba(8,6,4,.78)
 .ref-user-badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;display:inline-block;margin-top:2px}
 .ref-user-badge.active{background:rgba(34,197,94,0.15);color:var(--green)}
 .ref-user-badge.new{background:rgba(147,92,246,0.12);color:var(--orange)}
+
+/* ── Referral Rewards v2 (Crystals pool + Collect, combo/deposit cards, table) ── */
+.rr-row{display:flex;align-items:stretch;gap:10px;padding:0 16px;margin-bottom:12px}
+.rr-row:first-of-type{margin-top:14px}
+.rr-box{flex:1;min-width:0;display:flex;align-items:center;gap:10px;padding:14px 16px;border-radius:14px;background:var(--glass);border:1px solid var(--glass-border)}
+.rr-crystal-icon{width:32px;height:32px;object-fit:contain;flex-shrink:0}
+.rr-crystal-val{font-size:20px;font-weight:900;color:var(--text);line-height:1.1}
+.rr-crystal-lbl{font-size:11px;color:var(--text2);font-weight:600}
+.rr-link-icon{font-size:16px;flex-shrink:0}
+.rr-link-url{flex:1;min-width:0;font-size:12px;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rr-action-btn{flex-shrink:0;padding:0 22px;border-radius:14px;background:linear-gradient(135deg,var(--orange),var(--orange2));border:none;font-size:14px;font-weight:800;color:#fff;cursor:pointer;transition:transform 0.15s}
+.rr-action-btn:active{transform:scale(0.95)}
+.rr-action-btn:disabled{opacity:.5;cursor:not-allowed}
+.rr-cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 16px;margin-bottom:12px}
+.rr-card{padding:16px 14px;border-radius:16px;background:var(--glass);border:1px solid var(--glass-border);display:flex;flex-direction:column;gap:8px}
+.rr-card-icons{display:flex;align-items:center;justify-content:space-between}
+.rr-icon-people{font-size:22px}
+.rr-badge{font-size:11px;font-weight:800;color:var(--orange);background:var(--orange-dim);padding:4px 9px;border-radius:20px}
+.rr-card-title{font-size:14px;font-weight:800;color:var(--text)}
+.rr-card-desc{font-size:11.5px;color:var(--text2);line-height:1.5}
+.rr-stat-box{flex:1;min-width:0;padding:12px 14px;border-radius:14px;background:var(--glass);border:1px solid var(--glass-border);text-align:center}
+.rr-stat-lbl{font-size:11px;color:var(--text2);font-weight:700;margin-bottom:4px}
+.rr-stat-val{font-size:17px;font-weight:900;color:var(--text)}
+.rr-table{margin:0 16px 20px;border-radius:14px;background:var(--glass);border:1px solid var(--glass-border);overflow:hidden}
+.rr-table-head{display:grid;grid-template-columns:1.1fr 1fr 1fr 1fr;gap:6px;padding:10px 12px;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--text3);border-bottom:1px solid var(--glass-border)}
+.rr-table-row{display:grid;grid-template-columns:1.1fr 1fr 1fr 1fr;gap:6px;padding:12px;font-size:12px;color:var(--text);border-bottom:1px solid var(--glass-border);align-items:center}
+.rr-table-row:last-child{border-bottom:none}
+.rr-table-row .rr-cell-sub{color:var(--text3);font-size:10.5px}
+.rr-table-row .rr-income{color:var(--orange);font-weight:800;display:flex;align-items:center;gap:4px}
+.rr-table-row .rr-income img{width:14px;height:14px;object-fit:contain}
 .record-header{padding:16px 20px 8px}
 .record-list-section{padding:0 16px 16px}
 .record-item{border-radius:18px;background:linear-gradient(145deg,rgba(52,38,30,.72),rgba(24,21,20,.92));border:1px solid rgba(255,255,255,.13);margin-bottom:10px;padding:14px;box-shadow:0 4px 14px rgba(0,0,0,.22)}
@@ -813,47 +843,60 @@ html,body{height:100%;background:linear-gradient(rgba(8,6,4,.78),rgba(8,6,4,.78)
 
     <!-- REFERRALS -->
     <div class="page" id="page-refs">
-       <div class="ref-banner">
-         <div class="ref-banner-title">Invite friends and earn</div>
-          <span class="ref-banner-pct" id="refPct">4,000 CRYSTAL</span>
-          <div class="ref-banner-desc">Each referral watches 10 ads — you get paid instantly, one time.<br>Plus 10% of everything they make after activation, forever.</div>
+      <div class="rr-row">
+        <div class="rr-box rr-crystal-box">
+          <img class="rr-crystal-icon" src="https://i.ibb.co/chCjf1zw/Chat-GPT-Image-Sep-25-2026-04-18-45-AM-1.png" alt="">
+          <div>
+            <div class="rr-crystal-val" id="rrPendingCrystal">0</div>
+            <div class="rr-crystal-lbl">Crystals</div>
+          </div>
+        </div>
+        <button class="rr-action-btn" id="rrCollectBtn" onclick="collectReferralEarnings()">Collect</button>
       </div>
 
-      <div class="ref-link-section">
-        <div class="ref-link-card">
-          <div class="ref-link-label">Your Referral Link</div>
-          <div class="ref-link-row">
-            <div class="ref-link-url" id="refLinkUrl">Loading...</div>
-            <button class="copy-btn" onclick="copyRefLink()">Copy</button>
+      <div class="rr-row">
+        <div class="rr-box rr-link-box">
+          <span class="rr-link-icon">🔗</span>
+          <div class="rr-link-url" id="refLinkUrl">Loading...</div>
+        </div>
+        <button class="rr-action-btn" onclick="copyRefLink()">Copy</button>
+      </div>
+
+      <div class="rr-cards">
+        <div class="rr-card">
+          <div class="rr-card-icons">
+            <span class="rr-icon-people">👥</span>
+            <span class="rr-badge" id="rrStreakDaysBadge">2 Days</span>
           </div>
+          <div class="rr-card-title" id="rrComboTitle">Get 25 Crystals</div>
+          <div class="rr-card-desc" id="rrComboDesc">When your referral enters the combo for 2 consecutive days.</div>
+        </div>
+        <div class="rr-card">
+          <div class="rr-card-icons">
+            <span class="rr-icon-people">👤</span>
+            <span class="rr-badge" id="rrDepositPctBadge">10%</span>
+          </div>
+          <div class="rr-card-title">Get 10% from deposits</div>
+          <div class="rr-card-desc">Receive 10% of your referral's deposits from TON.</div>
         </div>
       </div>
 
-      <div class="ref-stats">
-        <div class="ref-stats-grid">
-          <div class="ref-stat-card">
-            <div class="ref-stat-val" id="refTotal">0</div>
-            <div class="ref-stat-lbl">Total Refs</div>
-          </div>
-          <div class="ref-stat-card">
-            <div class="ref-stat-val orange"><span class="active-dot"></span><span id="refActive">0</span></div>
-            <div class="ref-stat-lbl">Active Refs</div>
-          </div>
-          <div class="ref-stat-card">
-            <div class="ref-stat-val" id="refInactive">0</div>
-            <div class="ref-stat-lbl">Inactive Refs</div>
-          </div>
-          <div class="ref-stat-card">
-            <div class="ref-stat-val orange" id="refTotalEarned">0</div>
-            <div class="ref-stat-lbl">Your 10% Commission</div>
-          </div>
+      <div class="rr-row">
+        <div class="rr-stat-box">
+          <div class="rr-stat-lbl">👥 Partners</div>
+          <div class="rr-stat-val" id="rrPartners">0</div>
+        </div>
+        <div class="rr-stat-box">
+          <div class="rr-stat-lbl">💎 Total income</div>
+          <div class="rr-stat-val" id="rrTotalIncome">0</div>
         </div>
       </div>
 
-      <div class="ref-list-section">
-       <div class="ref-list-title">Referral List · One-Time Bonus</div>
-        <div id="refList"><div class="empty-state">No referrals yet</div></div>
-        <button class="load-more" id="loadMoreBtn" style="display:none" onclick="loadMoreRefs()">Load More</button>
+      <div class="rr-table">
+        <div class="rr-table-head">
+          <div>Date</div><div>User</div><div>Deposit (TON)</div><div>Income</div>
+        </div>
+        <div id="rrTableBody"><div class="empty-state">No referral earnings yet</div></div>
       </div>
     </div>
 
@@ -1772,7 +1815,8 @@ function showMockData(){
     daily:{ reward:500, claimed:false },
     stats:{ adsWatchedToday:0, friendsInvited:0, earnedToday:0 },
     forceSub:{ required:false, passed:true, channels:[] },
-    mining:{ startedAt:null, reward:50, durationMs:3600000 }
+    mining:{ startedAt:null, reward:50, durationMs:86400000 },
+    referralRewards:{ pendingCrystal:0, totalIncomeCrystal:0, partners:0, comboRewardAmount:25, comboStreakDaysRequired:2, depositCommissionPct:10, history:[] }
   };
   S.refs = [];
   showApp();
@@ -1881,24 +1925,12 @@ function render(){
    document.getElementById('statFriendsInvited').textContent = stats.friendsInvited ?? totalRefs;
    renderMining();
    syncDailyBonusUI();
-  // Referral reward (used on Referrals page)
-   var refReward = cfg.referralReward || 2000;
   // Activity log
    var activity = document.getElementById('homeActivity');
    if (activity) renderActivity(d.balanceLogs || []);
   // Refs page
-   document.getElementById('refPct').textContent = fmtShiba(refReward)+' CRYSTAL';
   document.getElementById('refLinkUrl').textContent = buildRefLink(u.referralCode);
-  document.getElementById('refTotal').textContent = totalRefs;
-  document.getElementById('refActive').textContent = activeRefs;
-   document.getElementById('refInactive').textContent = refStats.inactive ?? Math.max(0,totalRefs-activeRefs);
-    // There is no separate card for the multi-account count in the current referrals UI.
-    // Accessing a nonexistent element here used to stop render() entirely, so
-    // the referrals list wasn't rendered and the balance/wallet history wasn't updated.
-    var fraudEl = document.getElementById('refFraud');
-    if (fraudEl) fraudEl.textContent = refStats.multipleAccounts || 0;
-  document.getElementById('refTotalEarned').textContent = fmtShiba(totalRefEarned);
-  renderRefs(0);
+  renderReferralRewards(d);
   // Wallet (Balance & History)
    updateWalletTonBalance();
   renderWalletHistory(d.balanceLogs||[]);
@@ -2108,6 +2140,81 @@ function renderActivity(log){
       '<div class="reward-time">'+ts+'</div>'+
     '</div>';
   }).join('');
+}
+
+// ── Referral Rewards v2 (Crystals pool + Collect, combo/deposit cards, table) ──
+var rrCollectBusy = false;
+
+function renderReferralRewards(d){
+  var rr = d.referralRewards || {};
+  var pending = Number(rr.pendingCrystal || 0);
+
+  var pendingEl = document.getElementById('rrPendingCrystal');
+  if (pendingEl) pendingEl.textContent = fmtShiba(pending);
+
+  var collectBtn = document.getElementById('rrCollectBtn');
+  if (collectBtn && !rrCollectBusy) collectBtn.disabled = pending <= 0;
+
+  var partnersEl = document.getElementById('rrPartners');
+  if (partnersEl) partnersEl.textContent = fmtShiba(rr.partners || 0);
+
+  var totalIncomeEl = document.getElementById('rrTotalIncome');
+  if (totalIncomeEl) totalIncomeEl.textContent = fmtShiba(rr.totalIncomeCrystal || 0);
+
+  var comboAmount = rr.comboRewardAmount != null ? rr.comboRewardAmount : 25;
+  var streakDays = rr.comboStreakDaysRequired != null ? rr.comboStreakDaysRequired : 2;
+  var depositPct = rr.depositCommissionPct != null ? rr.depositCommissionPct : 10;
+
+  var streakBadge = document.getElementById('rrStreakDaysBadge');
+  if (streakBadge) streakBadge.textContent = streakDays + ' Days';
+  var comboTitle = document.getElementById('rrComboTitle');
+  if (comboTitle) comboTitle.textContent = 'Get ' + fmtShiba(comboAmount) + ' Crystals';
+  var comboDesc = document.getElementById('rrComboDesc');
+  if (comboDesc) comboDesc.textContent = 'When your referral enters the combo for ' + streakDays + ' consecutive days.';
+  var depositBadge = document.getElementById('rrDepositPctBadge');
+  if (depositBadge) depositBadge.textContent = depositPct + '%';
+
+  var body = document.getElementById('rrTableBody');
+  if (!body) return;
+  var history = rr.history || [];
+  if (!history.length){
+    body.innerHTML = '<div class="empty-state">No referral earnings yet</div>';
+    return;
+  }
+  body.innerHTML = history.map(function(e){
+    var d2 = e.ts ? new Date(e.ts) : null;
+    var dateStr = d2 ? (String(d2.getDate()).padStart(2,'0')+'.'+String(d2.getMonth()+1).padStart(2,'0')+'.'+String(d2.getFullYear()).slice(-2)+' '+String(d2.getHours()).padStart(2,'0')+':'+String(d2.getMinutes()).padStart(2,'0')) : '—';
+    var depositStr = e.currency === 'TON' && e.depositTon ? Number(e.depositTon).toFixed(2) : '0.00';
+    var incomeIcon = e.currency === 'TON' ? TON_ICON : '<img src="https://i.ibb.co/chCjf1zw/Chat-GPT-Image-Sep-25-2026-04-18-45-AM-1.png" alt="">';
+    var incomeVal = e.currency === 'TON' ? Number(e.amount).toFixed(4) : fmtShiba(e.amount);
+    return '<div class="rr-table-row">'+
+      '<div>'+esc(dateStr)+'</div>'+
+      '<div>'+esc(e.userName || 'User')+'</div>'+
+      '<div>'+depositStr+'</div>'+
+      '<div class="rr-income">'+incomeIcon+' '+incomeVal+'</div>'+
+    '</div>';
+  }).join('');
+}
+
+function collectReferralEarnings(){
+  if (rrCollectBusy) return;
+  var btn = document.getElementById('rrCollectBtn');
+  var pendingEl = document.getElementById('rrPendingCrystal');
+  var pending = pendingEl ? (parseFloat(pendingEl.textContent.replace(/,/g,'')) || 0) : 0;
+  if (pending <= 0){ showToast('Nothing to collect yet', 'error'); return; }
+  rrCollectBusy = true;
+  if (btn) btn.disabled = true;
+  api('collectReferralEarnings', {}).then(function(res){
+    if (!res.success){ showToast(res.error || 'Could not collect', 'error'); return; }
+    S.user.balance = res.data.balance;
+    if (S.data && S.data.referralRewards) S.data.referralRewards.pendingCrystal = 0;
+    showToast('+' + fmtShiba(res.data.collected) + ' CRYSTAL added to your balance 🎉', null, true);
+    render();
+  }).catch(function(){
+    showToast('Network error', 'error');
+  }).finally(function(){
+    rrCollectBusy = false;
+  });
 }
 
 function renderRefs(page){
