@@ -895,9 +895,9 @@ html,body{height:100%;background:linear-gradient(rgba(8,6,4,.78),rgba(8,6,4,.78)
     <div class="page" id="page-store">
       <div class="store-header">
         <div class="store-title">Store</div>
-        <div class="store-coin-badge"><img src="https://i.ibb.co/chCjf1zw/Chat-GPT-Image-Sep-25-2026-04-18-45-AM-1.png" alt="">  <span id="storeCoinBalance">0</span> coin</div>
+        <div class="store-coin-badge"><img src="https://cdn.simpleicons.org/ton/0098EA" alt="">  <span id="storeCoinBalance">0</span></div>
       </div>
-      <div class="store-rate-line" id="storeRateLine">700 COIN = 1 TON</div>
+      <div class="store-rate-line" id="storeRateLine">700 CRYSTAL = 1 TON</div>
       <div class="store-grid" id="storeGrid"></div>
     </div>
 
@@ -1944,9 +1944,9 @@ function render(){
 function renderMining(){
   var box = (S.data && S.data.mining) || {};
   var cfg = (S.data && S.data.config) || {};
-  var rate = Number(box.ratePerCrystal ?? cfg.miningRatePerCrystal ?? 0.0001);
-  var holding = Number((S.user && S.user.balance) || box.holding || 0);
-  var dailyEarned = holding * rate;
+  var rate = Number(box.ratePerCrystal ?? cfg.miningRatePerCrystal ?? 0.0001); // TON/day per CRYSTAL
+  var holding = Number((S.user && S.user.balance) || box.holding || 0); // CRYSTAL = mining power
+  var dailyEarned = holding * rate; // TON
   var lastClaimedAt = Number(box.lastClaimedAt || Date.now());
   var serverNow = Number(box.serverNow || Date.now());
   var localNowAtSync = Date.now();
@@ -1958,13 +1958,13 @@ function renderMining(){
   if (!holdingEl || !dayEl || !totalEl || !btn) return;
 
   holdingEl.textContent = fmtShiba(holding);
-  dayEl.textContent = dailyEarned > 0 ? ('+' + dailyEarned.toFixed(4)) : '–';
+  dayEl.textContent = dailyEarned > 0 ? ('+' + dailyEarned.toFixed(6) + ' TON') : '–';
 
   function tick(){
     var elapsedMs = (Date.now() - localNowAtSync) + Math.max(0, serverNow - lastClaimedAt);
-    var pending = holding * rate * (elapsedMs / 86400000);
-    totalEl.textContent = (pending > 0 ? '+' : '') + pending.toFixed(8);
-    btn.disabled = !(pending > 0.00000001);
+    var pendingTon = holding * rate * (elapsedMs / 86400000);
+    totalEl.textContent = (pendingTon > 0 ? '+' : '') + pendingTon.toFixed(8) + ' TON';
+    btn.disabled = !(pendingTon > 0.00000001);
   }
   tick();
   clearInterval(miningTimerId);
@@ -1991,13 +1991,13 @@ function claimMining(){
   btn.disabled = true; var origHtml = btn.innerHTML; btn.textContent = 'Claiming...';
   api('claimMining', {}).then(function(res){
     if (!res.success){ showToast(res.error || 'Nothing to claim yet','error'); return; }
-    S.user.balance = res.data.shibaBalance;
+    S.user.tonBalance = res.data.tonBalance;
     if (!S.data.mining) S.data.mining = {};
     S.data.mining.lastClaimedAt = res.data.miningLastClaimedAt;
     S.data.mining.serverNow = res.data.miningLastClaimedAt;
-    S.data.mining.holding = res.data.shibaBalance;
-    S.data.mining.dailyEarned = res.data.dailyEarned;
-    showToast('+' + fmtShiba(res.data.shibaAdded) + ' CRYSTAL added to your balance 🎉', null, true);
+    S.data.mining.dailyEarnedTon = res.data.dailyEarnedTon;
+    updateWalletTonBalance();
+    showToast('+' + Number(res.data.tonAdded||0).toFixed(6) + ' TON added to your wallet 🎉', null, true);
     render();
   }).catch(function(){ showToast('Could not claim reward','error'); })
     .then(function(){
@@ -2535,34 +2535,34 @@ function submitConvert(){
 }
 
 // ── Store / Market ───────────────────────────────────────────────────
-var STORE_PACKS = [1, 2, 3, 5, 10, 20]; // TON amounts on offer
+var STORE_PACKS = [1, 2, 3, 5, 10, 20]; // TON amounts on offer (cost)
 var storeBuyBusy = false;
 function renderStore(){
-  var rate = Number((S.data && S.data.config && S.data.config.tonConversionRate) || 700);
-  document.getElementById('storeRateLine').textContent = rate.toLocaleString('en-US') + ' COIN = 1 TON';
-  document.getElementById('storeCoinBalance').textContent = fmtShiba((S.user && S.user.balance) || 0);
+  var rate = Number((S.data && S.data.config && S.data.config.crystalPerTon) || 700);
+  document.getElementById('storeRateLine').textContent = rate.toLocaleString('en-US') + ' CRYSTAL = 1 TON';
+  document.getElementById('storeCoinBalance').textContent = Number((S.user && S.user.tonBalance) || 0).toFixed(4) + ' TON';
   var grid = document.getElementById('storeGrid');
-  grid.innerHTML = STORE_PACKS.map(function(tonAmt){
-    var coinCost = Math.round(tonAmt * rate);
+  grid.innerHTML = STORE_PACKS.map(function(tonCost){
+    var crystalGet = Math.round(tonCost * rate);
     return '<div class="store-pack-card">' +
       '<img src="https://i.ibb.co/chCjf1zw/Chat-GPT-Image-Sep-25-2026-04-18-45-AM-1.png" alt="">' +
-      '<div class="store-pack-cost">' + coinCost.toLocaleString('en-US') + '</div>' +
-      '<div class="store-pack-cost-lbl">COIN</div>' +
-      '<button class="store-pack-btn" onclick="buyStorePack(' + coinCost + ',' + tonAmt + ')">' + tonAmt + ' TON</button>' +
+      '<div class="store-pack-cost">' + crystalGet.toLocaleString('en-US') + '</div>' +
+      '<div class="store-pack-cost-lbl">CRYSTAL</div>' +
+      '<button class="store-pack-btn" onclick="buyStorePack(' + tonCost + ',' + crystalGet + ')">' + tonCost + ' TON</button>' +
       '</div>';
   }).join('');
 }
-function buyStorePack(coinCost, tonAmt){
+function buyStorePack(tonCost, crystalGet){
   if (storeBuyBusy) return;
-  var balance = Number((S.user && S.user.balance) || 0);
-  if (coinCost > balance){ showToast('Not enough CRYSTAL for this package', 'error'); return; }
+  var tonBalance = Number((S.user && S.user.tonBalance) || 0);
+  if (tonCost > tonBalance){ showToast('Not enough TON for this package', 'error'); return; }
   storeBuyBusy = true;
-  api('convertCrystalToTon', { crystalAmount: coinCost }).then(function(res){
+  api('buyCrystalWithTon', { tonAmount: tonCost }).then(function(res){
     if (!res.success){ showToast(res.error || 'Purchase failed', 'error'); return; }
     S.user.balance = res.data.shibaBalance; S.user.tonBalance = res.data.tonBalance;
     updateCrystalTonValueDisplays(); updateWalletTonBalance();
     document.getElementById('homeTon').textContent = fmtShiba(S.user.balance);
-    showToast('+' + tonAmt + ' TON added to your wallet 🎉', null, true);
+    showToast('+' + fmtShiba(res.data.crystalAdded) + ' CRYSTAL added to your mining power 🎉', null, true);
     renderStore();
     try { renderMining(); } catch(_){}
   }).catch(function(){ showToast('Network error', 'error'); })
