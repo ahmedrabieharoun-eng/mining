@@ -38,7 +38,7 @@ html,body{height:100%;background:linear-gradient(rgba(8,6,4,.78),rgba(8,6,4,.78)
 .shiba-icon-inline,.ton-icon-inline{height:0.95em;width:0.95em;vertical-align:-0.15em;object-fit:contain;display:inline-block;margin:0 1px}
 
 /* Loading */
-.loading-screen{position:fixed;inset:0;background:url('https://i.ibb.co/F4tPb69y/Chat-GPT-Image-Sep-25-2026-03-46-35-AM-1.png') center/cover no-repeat;background-color:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:12px;z-index:999;padding:0 24px 56px;overflow:hidden;text-align:center}
+.loading-screen{position:fixed;inset:0;background:url('https://i.ibb.co/qYtwF9BC/crystal-mining-no-watermark-1.png') center/cover no-repeat;background-color:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:12px;z-index:999;padding:0 24px 56px;overflow:hidden;text-align:center}
 .loading-screen.hidden{display:none}
 
 .ld-coin{position:absolute;border-radius:50%;overflow:hidden;box-shadow:0 0 18px rgba(147,92,246,0.55),0 4px 10px rgba(0,0,0,0.5);animation:ld-float 3.6s ease-in-out infinite}
@@ -67,10 +67,12 @@ html,body{height:100%;background:linear-gradient(rgba(8,6,4,.78),rgba(8,6,4,.78)
 .loading-label .ld-dot:nth-child(2){animation-delay:0.2s}
 .loading-label .ld-dot:nth-child(3){animation-delay:0.4s}
 @keyframes ld-dot-pulse{0%,60%,100%{opacity:0.25}30%{opacity:1}}
-.ld-track{position:relative;width:min(92%,360px);margin:0 auto;filter:drop-shadow(0 6px 14px rgba(0,0,0,0.45))}
-.ld-track-empty{display:block;width:100%;height:auto}
-.ld-track-fill{position:absolute;inset:0;width:100%;height:100%;clip-path:inset(0 100% 0 0);transition:clip-path 0.4s cubic-bezier(0.4,0,0.2,1)}
-.ld-cart{position:absolute;top:2%;width:26%;height:auto;left:0%;transform:translateX(-50%);transition:left 0.4s cubic-bezier(0.4,0,0.2,1);filter:drop-shadow(0 8px 8px rgba(0,0,0,0.55));pointer-events:none}
+.ld-bar{position:relative;width:min(88%,340px);height:16px;margin:0 auto;border-radius:999px;background:linear-gradient(180deg,rgba(6,14,28,0.9),rgba(3,8,18,0.95));border:1px solid rgba(94,196,255,0.35);box-shadow:inset 0 2px 6px rgba(0,0,0,0.65),inset 0 -1px 0 rgba(255,255,255,0.05),0 0 22px rgba(35,183,243,0.28);overflow:hidden}
+.ld-bar-fill{position:relative;height:100%;width:0%;border-radius:999px;background:linear-gradient(90deg,#0e7ab8,#23b7f3 45%,#8fe3ff 78%,#eafcff 100%);box-shadow:0 0 16px rgba(35,183,243,0.85),0 0 30px rgba(35,183,243,0.45);transition:width 0.4s cubic-bezier(0.4,0,0.2,1)}
+.ld-bar-fill::before{content:'';position:absolute;inset:0;background-image:repeating-linear-gradient(115deg,rgba(255,255,255,0.35) 0 3px,transparent 3px 14px);mix-blend-mode:overlay;opacity:0.55}
+.ld-bar-fill::after{content:'';position:absolute;top:0;bottom:0;width:44px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.9),transparent);filter:blur(1px);animation:ld-shine 1.5s linear infinite}
+@keyframes ld-shine{0%{transform:translateX(-60px)}100%{transform:translateX(calc(min(88vw,340px) + 60px))}}
+.ld-bar-glint{position:absolute;top:1px;left:6%;right:6%;height:3px;border-radius:999px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.5),transparent);opacity:0.6;pointer-events:none}
 .loading-percent{font-size:13px;font-weight:800;letter-spacing:0.5px;color:#f5c94b;text-shadow:0 0 10px rgba(245,201,75,0.55);font-variant-numeric:tabular-nums;margin-top:2px}
 
 .ld-status{margin-top:0}
@@ -649,10 +651,9 @@ html,body{height:100%;background:linear-gradient(rgba(8,6,4,.78),rgba(8,6,4,.78)
 <div class="loading-screen" id="loadingScreen">
   <div class="loading-panel">
     <div class="loading-label">MINING DEEPER<span class="ld-dot">.</span><span class="ld-dot">.</span><span class="ld-dot">.</span></div>
-    <div class="ld-track">
-      <img class="ld-track-empty" src="https://i.ibb.co/4nKrW1G8/Chat-GPT-Image-Sep-25-2026-03-28-34-AM.png" alt="">
-      <img class="ld-track-fill" id="loadingFill" src="https://i.ibb.co/LX4v3L3k/Chat-GPT-Image-Sep-25-2026-03-31-34-AM-removebg-preview-1.png" alt="">
-      <img class="ld-cart" id="loadingCart" src="https://i.ibb.co/pBYgrddh/Chat-GPT-Image-Sep-25-2026-03-31-04-AM-1.png" alt="">
+    <div class="ld-bar">
+      <div class="ld-bar-fill" id="loadingFill"></div>
+      <div class="ld-bar-glint"></div>
     </div>
     <div class="loading-percent" id="loadingPercent">0%</div>
   </div>
@@ -1235,10 +1236,8 @@ var _ldProgress = 0, _ldTimer = null, _ldStartTime = 0;
 var LD_MIN_DURATION_MS = 5000;
 function _ldSetPercent(p){
   var fill = document.getElementById('loadingFill');
-  var cart = document.getElementById('loadingCart');
   var pct  = document.getElementById('loadingPercent');
-  if (fill) fill.style.clipPath = 'inset(0 ' + (100 - p) + '% 0 0)';
-  if (cart) cart.style.left = (14 + (p / 100) * 68) + '%';
+  if (fill) fill.style.width = p + '%';
   if (pct)  pct.textContent  = Math.round(p) + '%';
 }
 function startLoadingProgress(){
