@@ -686,7 +686,11 @@ html,body{height:100%;background:linear-gradient(rgba(8,6,4,.78),rgba(8,6,4,.78)
 .mine-claim-btn:disabled{opacity:.5;cursor:not-allowed;box-shadow:none}
 .mine-claim-btn.running{background:rgba(255,255,255,.12);box-shadow:none;font-variant-numeric:tabular-nums;letter-spacing:.5px}
 .mine-claim-btn.ready{background:linear-gradient(135deg,#22c55e,#16a34a);box-shadow:0 6px 20px rgba(34,197,94,.4)}
+.mine-claim-btn.ready:disabled{background:rgba(255,255,255,.12);box-shadow:none}
 .mine-claim-btn img{width:20px;height:20px}
+.mining-countdown-wrap{text-align:center;margin:0 0 14px}
+.mining-countdown-label{font-size:11px;letter-spacing:1px;color:var(--text2);text-transform:uppercase;font-weight:700}
+.mining-countdown-val{font-size:28px;font-weight:900;color:#fbbf24;text-shadow:0 0 14px rgba(251,191,36,.45);margin-top:4px;font-variant-numeric:tabular-nums}
 /* Store / Market page */
 .store-header{display:flex;align-items:center;justify-content:space-between;margin:16px 16px 4px}
 .store-title{font-size:22px;font-weight:900;color:#fff}
@@ -803,7 +807,13 @@ html,body{height:100%;background:linear-gradient(rgba(8,6,4,.78),rgba(8,6,4,.78)
 
        <div class="mine-crystal-hero"><img src="https://i.ibb.co/chCjf1zw/Chat-GPT-Image-Sep-25-2026-04-18-45-AM-1.png" alt="CRYSTAL"></div>
 
-       <button class="mine-claim-btn" id="miningBtn" onclick="handleMiningBtnClick()"><img src="https://i.ibb.co/chCjf1zw/Chat-GPT-Image-Sep-25-2026-04-18-45-AM-1.png" alt=""><span id="miningBtnText">START</span></button>
+       <div class="mining-countdown-wrap" id="miningCountdownWrap" style="display:none">
+         <div class="mining-countdown-label">Time Remaining</div>
+         <div class="mining-countdown-val" id="miningCountdownVal">24:00:00</div>
+       </div>
+
+       <button class="mine-claim-btn" id="miningStartBtn" onclick="startMiningCycle()"><img src="https://i.ibb.co/chCjf1zw/Chat-GPT-Image-Sep-25-2026-04-18-45-AM-1.png" alt=""><span>START</span></button>
+       <button class="mine-claim-btn ready" id="miningClaimBtn" onclick="claimMining()" style="display:none"><img src="https://i.ibb.co/chCjf1zw/Chat-GPT-Image-Sep-25-2026-04-18-45-AM-1.png" alt=""><span>CLAIM</span></button>
 
       <div class="stats-section" style="display:none">
         <div class="stats-grid">
@@ -839,6 +849,12 @@ html,body{height:100%;background:linear-gradient(rgba(8,6,4,.78),rgba(8,6,4,.78)
         <div class="tasks-group-label" id="tasksGroupLabel">Advertisements</div>
         <div id="tasksContent"></div>
       </div>
+    </div>
+
+    <!-- COMBO -->
+    <div class="page" id="page-combo">
+      <div class="tasks-header"><div class="page-title">🗓️ Daily Combo</div><div style="font-size:13px;color:var(--text3);margin-top:5px">Solve today's combo to win CRYSTAL rewards</div></div>
+      <div id="comboPageContent"></div>
     </div>
 
     <!-- REFERRALS -->
@@ -1067,6 +1083,9 @@ html,body{height:100%;background:linear-gradient(rgba(8,6,4,.78),rgba(8,6,4,.78)
     </div>
     <div class="nav-item" onclick="switchPage('tasks')" id="nav-tasks">
       <div class="nav-icon">📋</div><div class="nav-label">Tasks</div>
+    </div>
+    <div class="nav-item" onclick="switchPage('combo')" id="nav-combo">
+      <div class="nav-icon">🗓️</div><div class="nav-label">Combo</div>
     </div>
     <div class="nav-item" onclick="switchPage('refs')" id="nav-refs">
       <div class="nav-icon">👥</div><div class="nav-label">Referrals</div>
@@ -1925,6 +1944,7 @@ function render(){
    document.getElementById('statFriendsInvited').textContent = stats.friendsInvited ?? totalRefs;
    renderMining();
    syncDailyBonusUI();
+   renderComboState();
   // Activity log
    var activity = document.getElementById('homeActivity');
    if (activity) renderActivity(d.balanceLogs || []);
@@ -1954,9 +1974,11 @@ function renderMining(){
   var holdingEl = document.getElementById('mineHoldingVal');
   var dayEl = document.getElementById('mine24hVal');
   var totalEl = document.getElementById('mineTotalVal');
-  var btn = document.getElementById('miningBtn');
-  var btnText = document.getElementById('miningBtnText');
-  if (!holdingEl || !dayEl || !totalEl || !btn || !btnText) return;
+  var cdWrap = document.getElementById('miningCountdownWrap');
+  var cdVal = document.getElementById('miningCountdownVal');
+  var startBtn = document.getElementById('miningStartBtn');
+  var claimBtn = document.getElementById('miningClaimBtn');
+  if (!holdingEl || !dayEl || !totalEl || !startBtn || !claimBtn) return;
 
   holdingEl.textContent = fmtShiba(holding);
   dayEl.textContent = (holding * rate) > 0 ? ('+' + (holding * rate).toFixed(6) + ' TON') : '–';
@@ -1969,30 +1991,37 @@ function renderMining(){
 
   function tick(){
     if (!startedAt){
-      // Never started (or just claimed) — ready to start a new cycle
+      // Never started (or just claimed) — idle: only the START button shows
       S.miningState = 'idle';
-      btn.disabled = false;
-      btn.classList.remove('running','ready');
-      btnText.textContent = 'START';
+      if (cdWrap) cdWrap.style.display = 'none';
+      startBtn.style.display = 'flex';
+      startBtn.disabled = false;
+      claimBtn.style.display = 'none';
       totalEl.textContent = '+0.00000000 TON';
       return;
     }
     var elapsedMs = (Date.now() - localNowAtSync) + Math.max(0, serverNow - startedAt);
     var remainingMs = duration - elapsedMs;
     if (remainingMs > 0){
+      // Running: show the live countdown + a Claim button underneath it (disabled until the cycle finishes)
       S.miningState = 'running';
-      btn.disabled = true;
-      btn.classList.add('running');
-      btn.classList.remove('ready');
-      btnText.textContent = fmtCountdown(remainingMs);
+      if (cdWrap) cdWrap.style.display = 'block';
+      if (cdVal) cdVal.textContent = fmtCountdown(remainingMs);
+      startBtn.style.display = 'none';
+      claimBtn.style.display = 'flex';
+      claimBtn.disabled = true;
+      claimBtn.classList.remove('ready');
       var progress = Math.min(1, elapsedMs / duration);
       totalEl.textContent = '+' + (cycleEarned * progress).toFixed(8) + ' TON';
     } else {
+      // Cycle finished: countdown reads 00:00:00 and the Claim button becomes active
       S.miningState = 'ready';
-      btn.disabled = false;
-      btn.classList.add('ready');
-      btn.classList.remove('running');
-      btnText.textContent = 'CLAIM';
+      if (cdWrap) cdWrap.style.display = 'block';
+      if (cdVal) cdVal.textContent = '00:00:00';
+      startBtn.style.display = 'none';
+      claimBtn.style.display = 'flex';
+      claimBtn.disabled = false;
+      claimBtn.classList.add('ready');
       totalEl.textContent = '+' + cycleEarned.toFixed(8) + ' TON';
     }
   }
@@ -2013,19 +2042,13 @@ function watchAdThen(onSuccess, onFail){
   });
 }
 
-function handleMiningBtnClick(){
-  if (S.miningState === 'ready') { claimMining(); return; }
-  if (S.miningState === 'running') return; // still counting down, button is disabled anyway
-  startMiningCycle();
-}
-
 function startMiningCycle(){
-  var btn = document.getElementById('miningBtn');
-  var btnText = document.getElementById('miningBtnText');
+  var btn = document.getElementById('miningStartBtn');
   if (!btn || btn.disabled) return;
   if (miningAdBusy) return;
   miningAdBusy = true;
-  btn.disabled = true; if (btnText) btnText.textContent = 'Starting...';
+  var span = btn.querySelector('span');
+  btn.disabled = true; if (span) span.textContent = 'Starting...';
   api('startMining', {}).then(function(res){
     if (!res.success){ showToast(res.error || 'Could not start mining','error'); return; }
     if (!S.data.mining) S.data.mining = {};
@@ -2035,17 +2058,18 @@ function startMiningCycle(){
   }).catch(function(){ showToast('Network error','error'); })
     .then(function(){
       miningAdBusy = false;
+      if (span) span.textContent = 'START';
       try { renderMining(); } catch(_){}
     });
 }
 
 function claimMining(){
-  var btn = document.getElementById('miningBtn');
-  var btnText = document.getElementById('miningBtnText');
+  var btn = document.getElementById('miningClaimBtn');
   if (!btn || btn.disabled) return;
   if (miningAdBusy) return;
   miningAdBusy = true;
-  btn.disabled = true; if (btnText) btnText.textContent = 'Claiming...';
+  var span = btn.querySelector('span');
+  btn.disabled = true; if (span) span.textContent = 'Claiming...';
   api('claimMining', {}).then(function(res){
     if (!res.success){ showToast(res.error || 'Nothing to claim yet','error'); return; }
     S.user.tonBalance = res.data.tonBalance;
@@ -2718,30 +2742,6 @@ function renderTasks(tab){
 
   if (tab === 'daily'){
     document.getElementById('tasksContent').innerHTML =
-      '<div class="combo-wrap">'+
-        '<div class="combo-attempts-card">'+
-          '<div class="combo-attempts-top">'+
-            '<div class="combo-attempts-label" id="comboAttemptsLabel">ATTEMPTS TODAY · 0/1</div>'+
-            '<div class="combo-timer-badge">🕐 <span id="comboTimer">--:--:--</span></div>'+
-          '</div>'+
-          '<div class="combo-slots" id="comboSlots">'+
-            COMBO_ITEMS.map(function(_, i){ return '<div class="combo-slot" id="slot-'+i+'"><span class="combo-slot-num" id="si-'+i+'">'+(i+1)+'</span></div>'; }).join('')+
-          '</div>'+
-        '</div>'+
-        '<div class="combo-info-card">'+
-          '<div class="combo-info-title" id="comboDesc">Select <b>'+COMBO_ITEMS.length+' items</b> to complete today\'s combo</div>'+
-          '<div class="combo-info-sub">Only one attempt per day</div>'+
-        '</div>'+
-        '<div class="combo-items-row" id="comboItemsRow">'+
-          COMBO_ITEMS.map(function(it){
-            return '<div class="combo-item" data-key="'+it.key+'" onclick="selectCombo(this,\''+it.key+'\')">'+
-                     '<img src="'+it.img+'" alt="'+it.name+'">'+
-                     '<div class="combo-item-name">'+it.name+'</div>'+
-                   '</div>';
-          }).join('')+
-        '</div>'+
-        '<button class="combo-check-btn" id="comboCheckBtn" onclick="checkCombo()"><span>✨</span><span>Check Combo</span></button>'+
-      '</div>'+
       '<div class="bonus-card">'+
         '<div class="feature-icon gold">🎁</div>'+
         '<div class="feature-copy"><div class="feature-title">Daily Bonus</div><div class="feature-sub" id="dailyBonusSub">Come back every day · +500 CRYSTAL</div></div>'+
@@ -2753,8 +2753,6 @@ function renderTasks(tab){
         '<button class="feature-btn" onclick="openModal(\'redeemModal\')">Redeem</button>'+
       '</div>';
     syncDailyBonusUI();
-    resetCombo();
-    renderComboState();
     return;
   }
 
@@ -3158,6 +3156,38 @@ function doClaimInvite(id){
 }
 
 // ── Daily Combo (server-validated, secret order picked by the server each day) ──
+function renderCombo(){
+  var content = document.getElementById('comboPageContent');
+  if (!content) return;
+  content.innerHTML =
+    '<div class="combo-wrap">'+
+      '<div class="combo-attempts-card">'+
+        '<div class="combo-attempts-top">'+
+          '<div class="combo-attempts-label" id="comboAttemptsLabel">ATTEMPTS TODAY · 0/1</div>'+
+          '<div class="combo-timer-badge">🕐 <span id="comboTimer">--:--:--</span></div>'+
+        '</div>'+
+        '<div class="combo-slots" id="comboSlots">'+
+          COMBO_ITEMS.map(function(_, i){ return '<div class="combo-slot" id="slot-'+i+'"><span class="combo-slot-num" id="si-'+i+'">'+(i+1)+'</span></div>'; }).join('')+
+        '</div>'+
+      '</div>'+
+      '<div class="combo-info-card">'+
+        '<div class="combo-info-title" id="comboDesc">Select <b>'+COMBO_ITEMS.length+' items</b> to complete today\'s combo</div>'+
+        '<div class="combo-info-sub">Only one attempt per day</div>'+
+      '</div>'+
+      '<div class="combo-items-row" id="comboItemsRow">'+
+        COMBO_ITEMS.map(function(it){
+          return '<div class="combo-item" data-key="'+it.key+'" onclick="selectCombo(this,\''+it.key+'\')">'+
+                   '<img src="'+it.img+'" alt="'+it.name+'">'+
+                   '<div class="combo-item-name">'+it.name+'</div>'+
+                 '</div>';
+        }).join('')+
+      '</div>'+
+      '<button class="combo-check-btn" id="comboCheckBtn" onclick="checkCombo()"><span>✨</span><span>Check Combo</span></button>'+
+    '</div>';
+  resetCombo();
+  renderComboState();
+}
+
 function renderComboState(){
   var combo = (S.data && S.data.combo) || {};
   var btn = document.getElementById('comboCheckBtn');
@@ -3394,6 +3424,7 @@ function switchPage(name){
   }
   if (name === 'record') loadRecordPage();
   if (name === 'store') renderStore();
+  if (name === 'combo') renderCombo();
   if (currentPage===name) return;
   var prev = document.getElementById('page-'+currentPage);
   var next = document.getElementById('page-'+name);
