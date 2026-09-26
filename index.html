@@ -497,6 +497,45 @@ html,body{height:100%;background:linear-gradient(rgba(8,6,4,.78),rgba(8,6,4,.78)
 .tx-badge.pend{background:rgba(147,92,246,0.12);color:var(--orange)}
 .tx-badge.err{background:rgba(239,68,68,0.15);color:var(--red)}
 
+/* ===== PROFILE PAGE ===== */
+.profile-header{padding:30px 20px 10px;display:flex;flex-direction:column;align-items:center;text-align:center}
+.profile-avatar{width:104px;height:104px;border-radius:50%;object-fit:cover;border:3px solid var(--orange);box-shadow:0 0 0 4px rgba(10,10,10,.5),0 0 26px rgba(35,183,243,.5);background:linear-gradient(135deg,var(--orange),#6d28d9);display:flex;align-items:center;justify-content:center;font-size:36px;font-weight:800;color:#fff;overflow:hidden;margin-bottom:14px;flex-shrink:0}
+.profile-avatar img{width:100%;height:100%;object-fit:cover}
+.profile-name{font-size:21px;font-weight:800;color:var(--text);margin-bottom:4px}
+.profile-username{font-size:14px;font-weight:700;color:var(--orange);text-shadow:0 0 8px rgba(35,183,243,.4);margin-bottom:14px}
+.profile-id-row{display:inline-flex;align-items:center;gap:9px;padding:9px 16px;border-radius:20px;background:var(--glass);border:1px solid var(--glass-border);font-size:12.5px;color:var(--text2);letter-spacing:.3px;margin-bottom:12px}
+.profile-id-row b{color:var(--text);font-weight:800;letter-spacing:.4px}
+.profile-copy-btn{background:transparent;border:none;color:var(--text2);cursor:pointer;font-size:15px;display:flex;align-items:center;padding:2px;line-height:1}
+.profile-copy-btn:active{color:var(--orange);transform:scale(0.9)}
+.profile-status{display:inline-flex;flex-direction:column;align-items:center;gap:4px;padding:9px 18px;border-radius:16px;background:var(--glass);border:1px solid var(--glass-border);margin-bottom:22px}
+.profile-status-row{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:800}
+.profile-status-row.connected{color:var(--green)}
+.profile-status-row.disconnected{color:var(--text3)}
+.profile-status-addr{font-size:11px;color:var(--text3);direction:ltr;letter-spacing:.3px}
+.profile-menu{padding:0 16px 6px;display:flex;flex-direction:column;gap:10px}
+.profile-menu-item{display:flex;align-items:center;gap:14px;padding:16px;border-radius:16px;background:var(--glass);border:1px solid var(--glass-border);cursor:pointer;transition:background .2s}
+.profile-menu-item:active{background:rgba(255,255,255,.08)}
+.profile-menu-icon{width:44px;height:44px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0}
+.profile-menu-icon.deposit{background:rgba(239,68,68,.15);color:#ff8a8a}
+.profile-menu-icon.withdraw{background:rgba(35,183,243,.15);color:#5ac8ff}
+.profile-menu-icon.convert{background:rgba(147,92,246,.18);color:#c4a5ff}
+.profile-menu-icon.language{background:rgba(34,197,94,.15);color:#6be79a}
+.profile-menu-text{flex:1;min-width:0}
+.profile-menu-title{font-size:15px;font-weight:800;color:var(--text)}
+.profile-menu-sub{font-size:12px;color:var(--text3);margin-top:2px}
+.profile-menu-chevron{font-size:16px;color:var(--text3);flex-shrink:0}
+
+/* ===== Language page ===== */
+.lang-list{padding:8px 16px 16px;display:flex;flex-direction:column;gap:10px}
+.lang-item{display:flex;align-items:center;gap:14px;padding:16px;border-radius:16px;background:var(--glass);border:1px solid var(--glass-border);cursor:pointer;transition:all .2s}
+.lang-item.active{border-color:var(--orange);background:rgba(35,183,243,.08)}
+.lang-flag{font-size:26px;flex-shrink:0}
+.lang-name{flex:1;min-width:0}
+.lang-name-main{font-size:15px;font-weight:800;color:var(--text)}
+.lang-name-sub{font-size:12px;color:var(--text3);margin-top:2px}
+.lang-check{font-size:18px;color:var(--orange);opacity:0;transition:opacity .2s;flex-shrink:0}
+.lang-item.active .lang-check{opacity:1}
+
 /* ===== Lucky Wheel Card (Home) ===== */
 .wheel-card-btn{width:100%;padding:18px 24px;border-radius:16px;background:linear-gradient(135deg,var(--orange),var(--orange2));border:none;cursor:pointer;display:flex;align-items:center;gap:14px;transition:transform 0.15s;position:relative;overflow:hidden}
 .wheel-card-btn:active{transform:scale(0.97)}
@@ -781,8 +820,8 @@ html,body{height:100%;background:linear-gradient(rgba(8,6,4,.78),rgba(8,6,4,.78)
           <div class="balance-sub" id="homeTonUsd">Keep earning every day!</div>
            <div class="balance-logo">💠</div>
            <div class="home-actions">
-             <button class="home-action earn" onclick="switchPage('tasks')">⚡ Earn</button>
-             <button class="home-action withdraw" onclick="switchPage('wallet')">▣ Withdraw</button>
+             <button class="home-action earn" onclick="switchPage('tasks')"><span data-i18n="home.earn">⚡ Earn</span></button>
+             <button class="home-action withdraw" onclick="switchPage('withdraw')"><span data-i18n="home.withdraw">▣ Withdraw</span></button>
            </div>
         </div>
       </div>
@@ -916,96 +955,162 @@ html,body{height:100%;background:linear-gradient(rgba(8,6,4,.78),rgba(8,6,4,.78)
       </div>
     </div>
 
-    <!-- WALLET -->
     <!-- STORE / MARKET -->
     <div class="page" id="page-store">
       <div class="store-header">
-        <div class="store-title">Store</div>
+        <div class="store-title" data-i18n="nav.store">Store</div>
         <div class="store-coin-badge"><img src="https://cdn.simpleicons.org/ton/0098EA" alt="">  <span id="storeCoinBalance">0</span></div>
       </div>
       <div class="store-rate-line" id="storeRateLine">700 CRYSTAL = 1 TON</div>
       <div class="store-grid" id="storeGrid"></div>
     </div>
 
-    <div class="page" id="page-wallet">
-      <div class="wallet-header"><div class="page-title">Wallet</div></div>
-
-       <div class="wallet-bal-card">
-        <div class="wallet-balances">
-          <div class="wallet-balance-item">
-            <div class="wbal-label"><img class="shiba-icon-inline" src="https://i.ibb.co/chCjf1zw/Chat-GPT-Image-Sep-25-2026-04-18-45-AM-1.png" alt="CRYSTAL"> CRYSTAL</div>
-            <div class="wbal-amount" id="walletCrystalBalance">0 <img class="wallet-crystal-icon" src="https://i.ibb.co/chCjf1zw/Chat-GPT-Image-Sep-25-2026-04-18-45-AM-1.png" alt="CRYSTAL"></div>
+    <!-- PROFILE (was Wallet) -->
+    <div class="page" id="page-profile">
+      <div class="profile-header">
+        <div class="profile-avatar" id="profileAvatar">👤</div>
+        <div class="profile-name" id="profileName">Player</div>
+        <div class="profile-username" id="profileUsername">@player</div>
+        <div class="profile-id-row">
+          <span data-i18n="profile.idLabel">ID</span>&nbsp;<b id="profileId">—</b>
+          <button class="profile-copy-btn" onclick="copyProfileId()" title="Copy" aria-label="Copy ID">📋</button>
+        </div>
+        <div class="profile-status">
+          <div class="profile-status-row disconnected" id="profileStatusRow">
+            <span id="profileStatusIcon">⚠️</span><span id="profileStatusText" data-i18n="profile.disconnected">Disconnected</span>
           </div>
-          <div class="wallet-balance-item">
-            <div class="wbal-label"><img class="ton-icon-inline" src="https://cdn.simpleicons.org/ton/0098EA" alt="TON"> TON</div>
-            <div class="wbal-amount" id="walletTon">0.0000 <img class="wallet-ton-icon" src="https://cdn.simpleicons.org/ton/0098EA" alt="TON"></div>
+          <div class="profile-status-addr" id="profileStatusAddr"></div>
+        </div>
+      </div>
+
+      <div class="profile-menu">
+        <div class="profile-menu-item" onclick="switchPage('deposit')">
+          <div class="profile-menu-icon deposit">⬇️</div>
+          <div class="profile-menu-text">
+            <div class="profile-menu-title" data-i18n="profile.deposit.title">Deposit</div>
+            <div class="profile-menu-sub" data-i18n="profile.deposit.sub">Deposit TON to your balance</div>
           </div>
+          <div class="profile-menu-chevron">›</div>
         </div>
-        <div class="wbal-sub" id="walletCoinsInfo">Your available CRYSTAL and TON balances</div>
-      </div>
-
-      <div class="wallet-actions">
-         <div class="wallet-action-btn" id="walletActionWithdraw" onclick="openWithdrawForm()">
-           <div class="wallet-action-icon">💸</div><div class="wallet-action-label">Withdraw TON</div>
+        <div class="profile-menu-item" onclick="switchPage('withdraw')">
+          <div class="profile-menu-icon withdraw">💸</div>
+          <div class="profile-menu-text">
+            <div class="profile-menu-title" data-i18n="profile.withdraw.title">Withdraw</div>
+            <div class="profile-menu-sub" data-i18n="profile.withdraw.sub">Withdraw your balance to your TON wallet</div>
+          </div>
+          <div class="profile-menu-chevron">›</div>
         </div>
-         <div class="wallet-action-btn" id="walletActionDeposit" onclick="openDepositForm()">
-           <div class="wallet-action-icon">⬇️</div><div class="wallet-action-label">Deposit TON</div>
-         </div>
-         <div class="wallet-action-btn" id="walletActionConvert" onclick="openConvertForm()">
-           <div class="wallet-action-icon">🔄</div><div class="wallet-action-label">Convert CRYSTAL</div>
+        <div class="profile-menu-item" onclick="switchPage('convert')">
+          <div class="profile-menu-icon convert">🔄</div>
+          <div class="profile-menu-text">
+            <div class="profile-menu-title" data-i18n="profile.convert.title">Convert</div>
+            <div class="profile-menu-sub" data-i18n="profile.convert.sub">Convert TON to CRYSTAL</div>
+          </div>
+          <div class="profile-menu-chevron">›</div>
+        </div>
+        <div class="profile-menu-item" onclick="switchPage('language')">
+          <div class="profile-menu-icon language">🌐</div>
+          <div class="profile-menu-text">
+            <div class="profile-menu-title" data-i18n="profile.language.title">Language</div>
+            <div class="profile-menu-sub" id="profileLanguageSub" data-i18n="profile.language.sub">Choose the app language</div>
+          </div>
+          <div class="profile-menu-chevron">›</div>
         </div>
       </div>
-
-      <div class="wallet-form-card" id="withdrawFormCard" style="display:none">
-         <div class="wallet-form-title"><span>💸</span><span>Withdraw TON</span></div>
-         <div class="withdraw-requirements" aria-label="Withdrawal requirements">
-           <div class="withdraw-requirement min"><span>MIN</span><span id="withdrawMinValue">0.1 TON</span></div>
-           <div class="withdraw-requirement ads"><span>ADS</span><span id="withdrawAdsValue">0/15</span></div>
-         </div>
-         <input class="wallet-input" id="withdrawWallet" placeholder="TON Wallet Address (UQ...)">
-         <input class="wallet-input" id="withdrawAmount" type="number" step="0.01" inputmode="decimal" placeholder="TON amount">
-          <div class="withdraw-fee-card">Withdrawal fee: <b>10%</b><div class="withdraw-net"><span>Amount you will receive after the fee</span><strong id="withdrawNetAmount">0.0000 TON</strong></div></div>
-         <button class="wallet-submit" id="withdrawSubmitBtn" onclick="submitWithdrawal()">Submit TON Withdrawal</button>
-        <button class="modal-close" style="margin-top:8px" onclick="closeWithdrawForm()">Cancel</button>
-      </div>
-
-       <div class="wallet-form-card" id="depositFormCard" style="display:none">
-         <div class="wallet-form-title"><span>⬇️</span><span>Deposit TON</span></div>
-         <div class="wallet-form-help">Connect your TON wallet and send TON to the Crystal Mining Bot deposit wallet. Your User ID is added as the transaction comment.</div>
-         <div id="tonConnectButton"></div>
-         <input class="wallet-input" id="depositAmount" type="number" step="0.01" min="0.01" placeholder="TON amount">
-         <button class="wallet-submit" id="depositSubmitBtn" onclick="submitDeposit()">Send Deposit</button>
-         <button class="modal-close" style="margin-top:8px" onclick="closeWalletForm('depositFormCard')">Cancel</button>
-       </div>
-
-       <div class="wallet-form-card" id="convertFormCard" style="display:none">
-         <div class="wallet-form-title"><span>🔄</span><span>Convert CRYSTAL to TON</span></div>
-         <div class="convert-box">
-           <div class="convert-box-label">FROM</div>
-           <div class="convert-currency">
-             <img src="https://i.ibb.co/chCjf1zw/Chat-GPT-Image-Sep-25-2026-04-18-45-AM-1.png" alt="CRYSTAL">
-             <span class="convert-currency-name">CRYSTAL</span>
-             <input class="convert-amount" id="convertAmount" type="number" step="1" min="1" placeholder="0">
-             <button type="button" class="convert-max-btn" onclick="setMaxConvertAmount()">MAX</button>
-           </div>
-           <div class="convert-balance">Balance: <span id="convertCrystalBalance">0 CRYSTAL</span></div>
-           <div class="convert-arrow">↓</div>
-           <div class="convert-box-label">TO</div>
-           <div class="convert-currency">
-             <img src="https://cdn.simpleicons.org/ton/0098EA" alt="TON">
-             <span class="convert-currency-name">TON</span>
-             <span class="convert-amount" id="convertTonOutput">0</span>
-           </div>
-           <div class="convert-balance">Balance: <span id="convertTonBalance">0 TON</span></div>
-         </div>
-         <div class="convert-rate" id="convertRateLabel">📊 10,000 CRYSTAL = 1 TON</div>
-         <button class="wallet-submit" id="convertSubmitBtn" onclick="submitConvert()">⚡ Exchange Now</button>
-         <button class="modal-close" style="margin-top:8px" onclick="closeWalletForm('convertFormCard')">Cancel</button>
-       </div>
 
       <div class="tx-section">
-        <div class="tx-title">Transaction History</div>
+        <div class="tx-title" data-i18n="profile.history">Transaction History</div>
         <div id="walletHistory"><div class="empty-state">No transactions yet</div></div>
+      </div>
+    </div>
+
+    <!-- DEPOSIT (own page, reached from Profile) -->
+    <div class="page" id="page-deposit">
+      <div class="wheel-page-header">
+        <button class="back-btn" onclick="switchPage('profile')">←</button>
+        <div class="page-title" data-i18n="deposit.pageTitle">Deposit TON</div>
+      </div>
+      <div class="wallet-form-card">
+        <div class="wallet-form-title"><span>⬇️</span><span data-i18n="deposit.formTitle">Deposit TON</span></div>
+        <div class="wallet-form-help" data-i18n="deposit.help">Connect your TON wallet and send TON to the Crystal Mining Bot deposit wallet. Your User ID is added as the transaction comment.</div>
+        <div id="tonConnectButton"></div>
+        <input class="wallet-input" id="depositAmount" type="number" step="0.01" min="0.01" placeholder="TON amount" data-i18n-placeholder="deposit.amountPh">
+        <button class="wallet-submit" id="depositSubmitBtn" onclick="submitDeposit()" data-i18n="deposit.submit">Send Deposit</button>
+      </div>
+    </div>
+
+    <!-- WITHDRAW (own page, reached from Profile) -->
+    <div class="page" id="page-withdraw">
+      <div class="wheel-page-header">
+        <button class="back-btn" onclick="switchPage('profile')">←</button>
+        <div class="page-title" data-i18n="withdraw.pageTitle">Withdraw TON</div>
+      </div>
+      <div class="wallet-form-card">
+        <div class="wallet-form-title"><span>💸</span><span data-i18n="withdraw.formTitle">Withdraw TON</span></div>
+        <div class="withdraw-requirements" aria-label="Withdrawal requirements">
+          <div class="withdraw-requirement min"><span data-i18n="withdraw.min">MIN</span><span id="withdrawMinValue">0.1 TON</span></div>
+          <div class="withdraw-requirement ads"><span data-i18n="withdraw.ads">ADS</span><span id="withdrawAdsValue">0/15</span></div>
+        </div>
+        <input class="wallet-input" id="withdrawWallet" placeholder="TON Wallet Address (UQ...)" data-i18n-placeholder="withdraw.walletPh">
+        <input class="wallet-input" id="withdrawAmount" type="number" step="0.01" inputmode="decimal" placeholder="TON amount" data-i18n-placeholder="deposit.amountPh">
+        <div class="withdraw-fee-card"><span data-i18n="withdraw.fee">Withdrawal fee:</span> <b>10%</b><div class="withdraw-net"><span data-i18n="withdraw.net">Amount you will receive after the fee</span><strong id="withdrawNetAmount">0.0000 TON</strong></div></div>
+        <button class="wallet-submit" id="withdrawSubmitBtn" onclick="submitWithdrawal()" data-i18n="withdraw.submit">Submit TON Withdrawal</button>
+      </div>
+    </div>
+
+    <!-- CONVERT: TON → CRYSTAL, fixed rate 1 TON = 700 CRYSTAL (own page, reached from Profile) -->
+    <div class="page" id="page-convert">
+      <div class="wheel-page-header">
+        <button class="back-btn" onclick="switchPage('profile')">←</button>
+        <div class="page-title" data-i18n="convert.pageTitle">Convert</div>
+      </div>
+      <div class="wallet-form-card">
+        <div class="wallet-form-title"><span>🔄</span><span data-i18n="convert.formTitle">Convert TON to CRYSTAL</span></div>
+        <div class="convert-box">
+          <div class="convert-box-label">FROM</div>
+          <div class="convert-currency">
+            <img src="https://cdn.simpleicons.org/ton/0098EA" alt="TON">
+            <span class="convert-currency-name">TON</span>
+            <input class="convert-amount" id="tcAmount" type="number" step="0.01" min="0.01" placeholder="0">
+            <button type="button" class="convert-max-btn" onclick="setMaxTonConvertAmount()">MAX</button>
+          </div>
+          <div class="convert-balance"><span data-i18n="convert.balance">Balance:</span> <span id="tcTonBalance">0 TON</span></div>
+          <div class="convert-arrow">↓</div>
+          <div class="convert-box-label">TO</div>
+          <div class="convert-currency">
+            <img src="https://i.ibb.co/chCjf1zw/Chat-GPT-Image-Sep-25-2026-04-18-45-AM-1.png" alt="CRYSTAL">
+            <span class="convert-currency-name">CRYSTAL</span>
+            <span class="convert-amount" id="tcCrystalOutput">0</span>
+          </div>
+          <div class="convert-balance"><span data-i18n="convert.balance">Balance:</span> <span id="tcCrystalBalance">0 CRYSTAL</span></div>
+        </div>
+        <div class="convert-rate" id="tcRateLabel">📊 1 TON = 700 CRYSTAL</div>
+        <button class="wallet-submit" id="tcSubmitBtn" onclick="submitTonToCrystalConvert()" data-i18n="convert.submit">⚡ Exchange Now</button>
+      </div>
+    </div>
+
+    <!-- LANGUAGE (own page, reached from Profile) -->
+    <div class="page" id="page-language">
+      <div class="wheel-page-header">
+        <button class="back-btn" onclick="switchPage('profile')">←</button>
+        <div class="page-title" data-i18n="language.pageTitle">Language</div>
+      </div>
+      <div class="lang-list">
+        <div class="lang-item" id="langItem-ar" onclick="setLanguage('ar')">
+          <div class="lang-flag">🇪🇬</div>
+          <div class="lang-name"><div class="lang-name-main">العربية</div><div class="lang-name-sub">Arabic</div></div>
+          <div class="lang-check">✓</div>
+        </div>
+        <div class="lang-item" id="langItem-en" onclick="setLanguage('en')">
+          <div class="lang-flag">🇬🇧</div>
+          <div class="lang-name"><div class="lang-name-main">English</div><div class="lang-name-sub">English</div></div>
+          <div class="lang-check">✓</div>
+        </div>
+        <div class="lang-item" id="langItem-fr" onclick="setLanguage('fr')">
+          <div class="lang-flag">🇫🇷</div>
+          <div class="lang-name"><div class="lang-name-main">Français</div><div class="lang-name-sub">French</div></div>
+          <div class="lang-check">✓</div>
+        </div>
       </div>
     </div>
 
@@ -1076,25 +1181,25 @@ html,body{height:100%;background:linear-gradient(rgba(8,6,4,.78),rgba(8,6,4,.78)
   <!-- Bottom Nav -->
   <div class="nav">
     <div class="nav-item active" onclick="switchPage('home')" id="nav-home">
-      <div class="nav-icon">🏠</div><div class="nav-label">Home</div>
+      <div class="nav-icon">🏠</div><div class="nav-label" data-i18n="nav.home">Home</div>
     </div>
     <div class="nav-item" onclick="switchPage('store')" id="nav-store">
-      <div class="nav-icon">🏪</div><div class="nav-label">Store</div>
+      <div class="nav-icon">🏪</div><div class="nav-label" data-i18n="nav.store">Store</div>
     </div>
     <div class="nav-item" onclick="switchPage('tasks')" id="nav-tasks">
-      <div class="nav-icon">📋</div><div class="nav-label">Tasks</div>
+      <div class="nav-icon">📋</div><div class="nav-label" data-i18n="nav.tasks">Tasks</div>
     </div>
     <div class="nav-item" onclick="switchPage('combo')" id="nav-combo">
-      <div class="nav-icon">🗓️</div><div class="nav-label">Combo</div>
+      <div class="nav-icon">🗓️</div><div class="nav-label" data-i18n="nav.combo">Combo</div>
     </div>
     <div class="nav-item" onclick="switchPage('refs')" id="nav-refs">
-      <div class="nav-icon">👥</div><div class="nav-label">Referrals</div>
+      <div class="nav-icon">👥</div><div class="nav-label" data-i18n="nav.refs">Referrals</div>
     </div>
-    <div class="nav-item" onclick="switchPage('wallet')" id="nav-wallet">
-      <div class="nav-icon">💼</div><div class="nav-label">Wallet</div>
+    <div class="nav-item" onclick="switchPage('profile')" id="nav-profile">
+      <div class="nav-icon">👤</div><div class="nav-label" data-i18n="nav.profile">Profile</div>
     </div>
     <div class="nav-item" onclick="switchPage('record')" id="nav-record">
-      <div class="nav-icon">🏆</div><div class="nav-label">Ranking</div>
+      <div class="nav-icon">🏆</div><div class="nav-label" data-i18n="nav.record">Ranking</div>
     </div>
   </div>
 </div>
@@ -1203,6 +1308,108 @@ var API_URL  = 'https://silent-block-bedf.ahmedrabieharoun.workers.dev'; // ← 
   var BOT_DEPOSIT_WALLET = 'UQAACNWWtTtN7ILkhRERwYUTzo06Bd1Tv_8Yk5gPioIMFoUD';
   var tonConnectUI = null;
 
+// ── Language / i18n ─────────────────────────────────────────────────────
+// Covers the app chrome (nav, page headers, Profile + its Deposit/Withdraw/
+// Convert/Language sub-pages). Dynamic in-game copy (toasts, task lists,
+// activity log, etc.) stays in its original language for now.
+var LANG = {
+  en: {
+    'nav.home':'Home','nav.store':'Store','nav.tasks':'Tasks','nav.combo':'Combo',
+    'nav.refs':'Referrals','nav.profile':'Profile','nav.record':'Ranking',
+    'home.earn':'⚡ Earn','home.withdraw':'▣ Withdraw',
+    'profile.idLabel':'ID','profile.connected':'Connected','profile.disconnected':'Disconnected',
+    'profile.deposit.title':'Deposit','profile.deposit.sub':'Deposit TON to your balance',
+    'profile.withdraw.title':'Withdraw','profile.withdraw.sub':'Withdraw your balance to your TON wallet',
+    'profile.convert.title':'Convert','profile.convert.sub':'Convert TON to CRYSTAL',
+    'profile.language.title':'Language','profile.language.sub':'Choose the app language',
+    'profile.history':'Transaction History',
+    'deposit.pageTitle':'Deposit TON','deposit.formTitle':'Deposit TON',
+    'deposit.help':'Connect your TON wallet and send TON to the Crystal Mining Bot deposit wallet. Your User ID is added as the transaction comment.',
+    'deposit.submit':'Send Deposit','deposit.amountPh':'TON amount',
+    'withdraw.pageTitle':'Withdraw TON','withdraw.formTitle':'Withdraw TON',
+    'withdraw.min':'MIN','withdraw.ads':'ADS','withdraw.walletPh':'TON Wallet Address (UQ...)',
+    'withdraw.fee':'Withdrawal fee:','withdraw.net':'Amount you will receive after the fee',
+    'withdraw.submit':'Submit TON Withdrawal',
+    'convert.pageTitle':'Convert','convert.formTitle':'Convert TON to CRYSTAL',
+    'convert.balance':'Balance:','convert.submit':'⚡ Exchange Now',
+    'language.pageTitle':'Language'
+  },
+  ar: {
+    'nav.home':'الرئيسية','nav.store':'المتجر','nav.tasks':'المهام','nav.combo':'الكومبو',
+    'nav.refs':'الإحالات','nav.profile':'الملف الشخصي','nav.record':'الترتيب',
+    'home.earn':'⚡ اربح','home.withdraw':'▣ سحب',
+    'profile.idLabel':'المعرف','profile.connected':'متصل','profile.disconnected':'غير متصل',
+    'profile.deposit.title':'إيداع','profile.deposit.sub':'إيداع TON إلى رصيدك',
+    'profile.withdraw.title':'سحب','profile.withdraw.sub':'سحب رصيدك إلى محفظة TON الخاصة بك',
+    'profile.convert.title':'تحويل','profile.convert.sub':'تحويل TON إلى CRYSTAL',
+    'profile.language.title':'اللغة','profile.language.sub':'اختر لغة التطبيق',
+    'profile.history':'سجل المعاملات',
+    'deposit.pageTitle':'إيداع TON','deposit.formTitle':'إيداع TON',
+    'deposit.help':'قم بربط محفظة TON الخاصة بك وأرسل TON إلى محفظة الإيداع الخاصة بالبوت. سيتم إضافة معرف المستخدم الخاص بك كتعليق على المعاملة.',
+    'deposit.submit':'إرسال الإيداع','deposit.amountPh':'كمية TON',
+    'withdraw.pageTitle':'سحب TON','withdraw.formTitle':'سحب TON',
+    'withdraw.min':'الحد الأدنى','withdraw.ads':'إعلانات','withdraw.walletPh':'عنوان محفظة TON (UQ...)',
+    'withdraw.fee':'رسوم السحب:','withdraw.net':'المبلغ الذي ستستلمه بعد خصم الرسوم',
+    'withdraw.submit':'إرسال طلب سحب TON',
+    'convert.pageTitle':'تحويل','convert.formTitle':'تحويل TON إلى CRYSTAL',
+    'convert.balance':'الرصيد:','convert.submit':'⚡ تنفيذ التحويل',
+    'language.pageTitle':'اللغة'
+  },
+  fr: {
+    'nav.home':'Accueil','nav.store':'Boutique','nav.tasks':'Tâches','nav.combo':'Combo',
+    'nav.refs':'Parrainage','nav.profile':'Profil','nav.record':'Classement',
+    'home.earn':'⚡ Gagner','home.withdraw':'▣ Retirer',
+    'profile.idLabel':'ID','profile.connected':'Connecté','profile.disconnected':'Déconnecté',
+    'profile.deposit.title':'Dépôt','profile.deposit.sub':'Déposer du TON sur votre solde',
+    'profile.withdraw.title':'Retrait','profile.withdraw.sub':'Retirer votre solde vers votre portefeuille TON',
+    'profile.convert.title':'Convertir','profile.convert.sub':'Convertir TON en CRYSTAL',
+    'profile.language.title':'Langue','profile.language.sub':"Choisissez la langue de l'application",
+    'profile.history':'Historique des transactions',
+    'deposit.pageTitle':'Dépôt TON','deposit.formTitle':'Dépôt TON',
+    'deposit.help':"Connectez votre portefeuille TON et envoyez du TON au portefeuille de dépôt du Crystal Mining Bot. Votre identifiant utilisateur est ajouté comme commentaire de transaction.",
+    'deposit.submit':'Envoyer le dépôt','deposit.amountPh':'Montant en TON',
+    'withdraw.pageTitle':'Retrait TON','withdraw.formTitle':'Retrait TON',
+    'withdraw.min':'MIN','withdraw.ads':'PUBS','withdraw.walletPh':'Adresse du portefeuille TON (UQ...)',
+    'withdraw.fee':'Frais de retrait :','withdraw.net':'Montant que vous recevrez après déduction des frais',
+    'withdraw.submit':'Envoyer la demande de retrait',
+    'convert.pageTitle':'Convertir','convert.formTitle':'Convertir TON en CRYSTAL',
+    'convert.balance':'Solde :','convert.submit':'⚡ Échanger maintenant',
+    'language.pageTitle':'Langue'
+  }
+};
+var currentLang = (function(){
+  try { return localStorage.getItem('appLang') || 'en'; } catch(_){ return 'en'; }
+})();
+function t(key){
+  var dict = LANG[currentLang] || LANG.en;
+  return (dict && dict[key]) || (LANG.en[key]) || key;
+}
+function applyLanguage(lang){
+  currentLang = LANG[lang] ? lang : 'en';
+  document.documentElement.setAttribute('lang', currentLang);
+  document.documentElement.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
+  document.querySelectorAll('[data-i18n]').forEach(function(el){
+    el.textContent = t(el.getAttribute('data-i18n'));
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(function(el){
+    el.setAttribute('placeholder', t(el.getAttribute('data-i18n-placeholder')));
+  });
+  document.querySelectorAll('.lang-item').forEach(function(el){
+    el.classList.toggle('active', el.id === 'langItem-' + currentLang);
+  });
+}
+function setLanguage(lang){
+  currentLang = LANG[lang] ? lang : 'en';
+  try { localStorage.setItem('appLang', currentLang); } catch(_){}
+  applyLanguage(currentLang);
+  showToast('✅');
+}
+function renderLanguagePage(){
+  document.querySelectorAll('.lang-item').forEach(function(el){
+    el.classList.toggle('active', el.id === 'langItem-' + currentLang);
+  });
+}
+
 // ── Header wallet widget (Connect button ↔ Deposit/Withdraw icons) ─────
 // Reuses the same TonConnectUI instance/session as the Wallet page's
 // deposit flow, so "connected" here means the same thing as there.
@@ -1222,6 +1429,7 @@ function ensureTonConnectUI(cb, tries){
     var depBtn = document.getElementById('depositSubmitBtn');
     if (depBtn) depBtn.disabled = !wallet;
     updateHeaderWalletUI(wallet);
+    updateProfileWalletStatus(wallet);
   });
   if (cb) cb(tonConnectUI);
 }
@@ -1241,8 +1449,8 @@ function connectHeaderWallet(){
     ui.openModal();
   });
 }
-function goHeaderDeposit(){ switchPage('wallet'); setTimeout(openDepositForm, 0); }
-function goHeaderWithdraw(){ switchPage('wallet'); setTimeout(openWithdrawForm, 0); }
+function goHeaderDeposit(){ switchPage('deposit'); }
+function goHeaderWithdraw(){ switchPage('withdraw'); }
 
 // The Mini App name registered in BotFather (Short Name) — must be set here because
 // this bot is a "button bot" and its Mini App is not the default Main App, so the link
@@ -1843,6 +2051,7 @@ function showMockData(){
 }
 
 function showApp(){
+  applyLanguage(currentLang);
   ensureTonConnectUI();
   var elapsed = Date.now() - _ldStartTime;
   var remaining = Math.max(0, LD_MIN_DURATION_MS - elapsed);
@@ -1954,6 +2163,7 @@ function render(){
   // Wallet (Balance & History)
    updateWalletTonBalance();
   renderWalletHistory(d.balanceLogs||[]);
+  renderProfile();
   // Tasks
   renderTasks(currentTab);
   // Lucky Wheel
@@ -2509,8 +2719,10 @@ function updateLbTimer(){
 }
 
 // ── TON Wallet ───────────────────────────────────────────────────────────
+// Deposit, Withdraw and Convert now each live on their own dedicated page
+// (reached from the Profile page), so their forms are populated whenever
+// that page is opened instead of being toggled open/closed on one page.
 function openWithdrawForm(){
-  setWalletActionActive('walletActionWithdraw');
   var cfg = (S.data && S.data.config) || {};
   if (cfg.withdrawalEnabled === false){ showToast('Withdrawals are currently disabled','error'); return; }
   var adsByCompanyW = (S.data && S.data.stats && S.data.stats.adsWatchedByCompany) || {};
@@ -2522,7 +2734,6 @@ function openWithdrawForm(){
   document.getElementById('withdrawWallet').value = (S.user && S.user.tonWallet) || '';
   document.getElementById('withdrawAmount').value = '';
   updateWithdrawalNetAmount();
-  document.getElementById('withdrawFormCard').style.display = 'block';
   document.getElementById('withdrawAmount').oninput = updateWithdrawalNetAmount;
 }
 
@@ -2535,16 +2746,6 @@ function updateWithdrawalNetAmount(){
   output.textContent = net.toFixed(4) + ' TON';
 }
 
-function closeWithdrawForm(){
-  document.getElementById('withdrawFormCard').style.display = 'none';
-}
-
-function setWalletActionActive(id){
-  document.querySelectorAll('.wallet-action-btn').forEach(function(el){ el.classList.remove('active'); });
-  var selected = document.getElementById(id);
-  if (selected) selected.classList.add('active');
-}
-
 function submitWithdrawal(){
   var wallet = document.getElementById('withdrawWallet').value.trim();
   var amount = parseFloat(document.getElementById('withdrawAmount').value);
@@ -2555,7 +2756,7 @@ function submitWithdrawal(){
   var btn = document.getElementById('withdrawSubmitBtn');
   btn.disabled = true; btn.textContent = 'Submitting...';
   api('requestWithdrawal', { walletAddress:wallet, amountTon:amount }).then(function(res){
-    btn.disabled = false; btn.textContent = 'Submit TON Withdrawal';
+    btn.disabled = false; btn.textContent = t('withdraw.submit');
     if (!res.success){ showToast(res.error||'Withdrawal failed','error'); return; }
     S.user.tonBalance = res.data.tonBalance;
     S.user.tonWallet = wallet;
@@ -2569,19 +2770,16 @@ function submitWithdrawal(){
     S.data.withdrawals = S.data.withdrawals || [];
     S.data.withdrawals.unshift({ id:res.data.withdrawalId, walletAddress:wallet, amount:res.data.netAmount, requestedAmount:amount, fee:res.data.fee, currency:'TON', status:'pending', ts:Date.now() });
     renderWalletHistory(S.data.balanceLogs||[]);
-    closeWithdrawForm();
+    switchPage('profile');
     showToast('Withdrawal request submitted ✅');
   }).catch(function(){
-    btn.disabled = false; btn.textContent = 'Submit TON Withdrawal';
+    btn.disabled = false; btn.textContent = t('withdraw.submit');
     showToast('Network error','error');
   });
 }
 
-function closeWalletForm(id){ document.getElementById(id).style.display='none'; }
 function openDepositForm(){
-  setWalletActionActive('walletActionDeposit');
-  closeWalletForm('convertFormCard'); closeWithdrawForm();
-  document.getElementById('depositFormCard').style.display='block';
+  document.getElementById('depositAmount').value = '';
   // The address comes from the active deposit system; we don't rely on an old value stored in Firebase.
   BOT_DEPOSIT_WALLET = 'UQAACNWWtTtN7ILkhRERwYUTzo06Bd1Tv_8Yk5gPioIMFoUD';
   ensureTonConnectUI(function(ui){
@@ -2610,7 +2808,7 @@ async function submitDeposit(){
     var reg = await api('createDeposit', { amount: amount, txHash: result.boc });
     if (!reg || !reg.success) throw new Error((reg && reg.error) || 'Deposit registration failed');
     showToast('Deposit sent, verifying... ✅');
-    closeWalletForm('depositFormCard');
+    switchPage('profile');
     var depositId = reg.data.depositId;
     var attempts = 0;
     var poll = setInterval(function(){
@@ -2630,52 +2828,95 @@ async function submitDeposit(){
   } catch(e){
     showToast(e && e.message ? e.message : 'Deposit cancelled','error');
   } finally {
-    if (btn) { btn.disabled = false; btn.textContent = 'Send Deposit'; }
+    if (btn) { btn.disabled = false; btn.textContent = t('deposit.submit'); }
   }
 }
+
+// ── Convert: TON → CRYSTAL, fixed rate 1 TON = 700 CRYSTAL ─────────────
+// Reuses the same store endpoint the Store page's fixed packs use
+// (buyCrystalWithTon), just with a free-form TON amount typed by the user.
+var TON_TO_CRYSTAL_RATE = 700;
 function openConvertForm(){
-  setWalletActionActive('walletActionConvert');
-  closeWalletForm('depositFormCard'); closeWithdrawForm();
-  document.getElementById('convertFormCard').style.display='block';
-  document.getElementById('convertCrystalBalance').textContent=fmtShiba((S.user&&S.user.balance)||0)+' CRYSTAL';
-  document.getElementById('convertTonBalance').textContent=Number((S.user&&S.user.tonBalance)||0).toFixed(4)+' TON';
-  var rate = Number((S.data && S.data.config && S.data.config.tonConversionRate) || 10000);
-  document.getElementById('convertAmount').min = 1;
-  document.getElementById('convertRateLabel').textContent = '📊 ' + rate.toLocaleString('en-US') + ' CRYSTAL = 1 TON';
-  document.getElementById('convertTonOutput').textContent='0';
-  document.getElementById('convertAmount').oninput=function(){
-    document.getElementById('convertTonOutput').textContent=(Number(this.value||0)/rate).toFixed(4);
+  var rate = Number((S.data && S.data.config && S.data.config.crystalPerTon) || TON_TO_CRYSTAL_RATE);
+  document.getElementById('tcTonBalance').textContent = Number((S.user&&S.user.tonBalance)||0).toFixed(4)+' TON';
+  document.getElementById('tcCrystalBalance').textContent = fmtShiba((S.user&&S.user.balance)||0)+' CRYSTAL';
+  document.getElementById('tcRateLabel').textContent = '📊 1 TON = ' + rate.toLocaleString('en-US') + ' CRYSTAL';
+  document.getElementById('tcAmount').value = '';
+  document.getElementById('tcCrystalOutput').textContent = '0';
+  document.getElementById('tcAmount').oninput = function(){
+    document.getElementById('tcCrystalOutput').textContent = fmtShiba((Number(this.value||0))*rate);
   };
 }
-function setMaxConvertAmount(){
-  var rate = Number((S.data && S.data.config && S.data.config.tonConversionRate) || 10000);
-  var max = Math.floor((S.user&&S.user.balance)||0);
-  var input = document.getElementById('convertAmount');
-  input.value = max;
-  document.getElementById('convertTonOutput').textContent=(max/rate).toFixed(4);
+function setMaxTonConvertAmount(){
+  var rate = Number((S.data && S.data.config && S.data.config.crystalPerTon) || TON_TO_CRYSTAL_RATE);
+  var max = Number((S.user&&S.user.tonBalance)||0);
+  var input = document.getElementById('tcAmount');
+  input.value = max > 0 ? max : '';
+  document.getElementById('tcCrystalOutput').textContent = fmtShiba(max*rate);
 }
-function submitConvert(){
-  var rate = Number((S.data && S.data.config && S.data.config.tonConversionRate) || 10000);
-  var amount = Math.floor(Number(document.getElementById('convertAmount').value));
-  if (!amount || amount <= 0){ showToast('Enter a valid amount','error'); return; }
-  var btn=document.getElementById('convertSubmitBtn');
+function submitTonToCrystalConvert(){
+  var amount = Number(document.getElementById('tcAmount').value);
+  if (!Number.isFinite(amount) || amount <= 0){ showToast('Enter a valid TON amount','error'); return; }
+  if (S.user && amount > Number(S.user.tonBalance || 0)){ showToast('Insufficient TON balance','error'); return; }
+  var btn = document.getElementById('tcSubmitBtn');
   if (btn.disabled) return;
-  btn.disabled=true; btn.textContent='📺 Watch Ad...';
-  watchAdThen(function(){
-    btn.textContent='Converting...';
-    api('convertCrystalToTon',{crystalAmount:amount}).then(function(res){
-      btn.disabled=false; btn.textContent='Convert to TON';
-      if(!res.success){showToast(res.error||'Conversion failed','error');return;}
-      S.user.balance=res.data.shibaBalance; S.user.tonBalance=res.data.tonBalance; updateCrystalTonValueDisplays();
-      document.getElementById('homeTon').textContent=fmtShiba(S.user.balance);
-      document.getElementById('homeCrystalTonValue').innerHTML='≈ '+(Number(S.user.balance||0)/(Number((S.data.config||{}).tonConversionRate)||10000)).toFixed(4)+' '+TON_ICON;
-      updateWalletTonBalance();
-      document.getElementById('convertCrystalBalance').textContent=fmtShiba(S.user.balance)+' CRYSTAL';
-      document.getElementById('convertTonBalance').textContent=Number(S.user.tonBalance||0).toFixed(4)+' TON';
-      document.getElementById('convertAmount').value='';
-      closeWalletForm('convertFormCard'); showToast('Conversion completed ✅');
-    }).catch(function(){btn.disabled=false;btn.textContent='Convert to TON';showToast('Network error','error');});
-  }, function(){ btn.disabled=false; btn.textContent='Convert to TON'; });
+  btn.disabled = true; btn.textContent = 'Converting...';
+  api('buyCrystalWithTon', { tonAmount: amount }).then(function(res){
+    btn.disabled = false; btn.textContent = t('convert.submit');
+    if (!res.success){ showToast(res.error||'Conversion failed','error'); return; }
+    S.user.balance = res.data.shibaBalance; S.user.tonBalance = res.data.tonBalance;
+    updateCrystalTonValueDisplays(); updateWalletTonBalance();
+    document.getElementById('homeTon').textContent = fmtShiba(S.user.balance);
+    try { renderMining(); } catch(_){}
+    document.getElementById('tcAmount').value = '';
+    document.getElementById('tcCrystalOutput').textContent = '0';
+    switchPage('profile');
+    showToast('+' + fmtShiba(res.data.crystalAdded) + ' CRYSTAL added 🎉', null, true);
+  }).catch(function(){
+    btn.disabled = false; btn.textContent = t('convert.submit');
+    showToast('Network error','error');
+  });
+}
+
+// ── Profile page ─────────────────────────────────────────────────────
+function renderProfile(){
+  var u = S.user || {};
+  var av = document.getElementById('profileAvatar');
+  if (av){
+    if (u.photoUrl) av.innerHTML = '<img src="'+u.photoUrl+'" alt="">';
+    else av.textContent = (u.firstName||'P')[0].toUpperCase();
+  }
+  var nameEl = document.getElementById('profileName');
+  if (nameEl) nameEl.textContent = [u.firstName, u.lastName].filter(Boolean).join(' ') || u.firstName || 'Player';
+  var userEl = document.getElementById('profileUsername');
+  if (userEl) userEl.textContent = u.username ? '@'+u.username : '';
+  var idEl = document.getElementById('profileId');
+  if (idEl) idEl.textContent = u.telegramId != null ? String(u.telegramId) : (u.referralCode || '—');
+  updateProfileWalletStatus(tonConnectUI && tonConnectUI.connected ? (tonConnectUI.wallet || tonConnectUI.account) : null);
+}
+function copyProfileId(){
+  var idEl = document.getElementById('profileId');
+  if (!idEl) return;
+  copyToClipboard(idEl.textContent);
+  showToast('ID copied 📋');
+}
+function shortAddr(addr){
+  if (!addr || addr.length < 10) return addr || '';
+  return addr.slice(0,4)+'…'+addr.slice(-4);
+}
+function updateProfileWalletStatus(wallet){
+  var row = document.getElementById('profileStatusRow');
+  var icon = document.getElementById('profileStatusIcon');
+  var text = document.getElementById('profileStatusText');
+  var addrEl = document.getElementById('profileStatusAddr');
+  if (!row) return;
+  var address = wallet ? (wallet.account ? wallet.account.address : (wallet.address || '')) : '';
+  var connected = !!wallet;
+  row.classList.toggle('connected', connected);
+  row.classList.toggle('disconnected', !connected);
+  if (icon) icon.textContent = connected ? '✅' : '⚠️';
+  if (text){ text.textContent = connected ? t('profile.connected') : t('profile.disconnected'); text.setAttribute('data-i18n', connected ? 'profile.connected' : 'profile.disconnected'); }
+  if (addrEl) addrEl.textContent = connected ? shortAddr(address) : '';
 }
 
 // ── Store / Market ───────────────────────────────────────────────────
@@ -3425,6 +3666,11 @@ function switchPage(name){
   if (name === 'record') loadRecordPage();
   if (name === 'store') renderStore();
   if (name === 'combo') renderCombo();
+  if (name === 'profile') renderProfile();
+  if (name === 'deposit') openDepositForm();
+  if (name === 'withdraw') openWithdrawForm();
+  if (name === 'convert') openConvertForm();
+  if (name === 'language') renderLanguagePage();
   if (currentPage===name) return;
   var prev = document.getElementById('page-'+currentPage);
   var next = document.getElementById('page-'+name);
