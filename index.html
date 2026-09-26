@@ -747,6 +747,88 @@ html,body{height:100%;background:linear-gradient(rgba(8,6,4,.78),rgba(8,6,4,.78)
 .store-pack-btn:active{transform:scale(0.96)}
 .ad-summary{margin:0 16px 12px;padding:14px;border-radius:16px;background:var(--glass);border:1px solid var(--glass-border);display:flex;justify-content:space-between;align-items:center}.ad-summary b{color:#55caff;font-size:17px}.ad-summary span{font-size:12px;color:var(--text2)}
 .maintenance{font-size:11px;color:#fbbf24;background:rgba(251,191,36,.12);padding:4px 8px;border-radius:8px;margin-top:3px;display:inline-block}
+
+/* ── Lottery page (scoped variables so the rest of the app is untouched) ── */
+#page-lottery{
+  --purple:#6d4fe0;--purple2:#8a67f5;--purple-glow:rgba(124,92,240,.35);
+  --gold:#ffc93c;--gold2:#ffb020;
+  --card:rgba(255,255,255,.045);--card-border:rgba(255,255,255,.09);
+  --text2:#b6b2d4;--text3:#7b769c;--ton:#0098EA;
+  --radius:20px;--radius-sm:12px;
+  background:
+    radial-gradient(1200px 500px at 50% -10%,rgba(124,92,240,.28),transparent 60%),
+    linear-gradient(180deg,#0c0a1a,#120e26 40%,#0c0a1a);
+  min-height:100%;
+}
+#page-lottery .lt-header{display:flex;align-items:center;justify-content:space-between;padding:18px 18px 6px}
+#page-lottery .lt-icon-btn{width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.06);border:1px solid var(--card-border);color:var(--text);font-size:18px;font-weight:700;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
+#page-lottery .lt-icon-btn:active{background:rgba(255,255,255,.12);transform:scale(.94)}
+#page-lottery .lt-title-wrap{flex:1;text-align:center}
+#page-lottery .lt-title{font-size:30px;font-weight:900;letter-spacing:.5px;background:linear-gradient(180deg,#fff,#cfc8ff);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 2px 18px rgba(124,92,240,.4)}
+#page-lottery .lt-jackpot{text-align:center;padding:2px 20px 18px}
+#page-lottery .lt-jackpot-kicker{font-size:13px;font-weight:800;letter-spacing:1.5px;color:var(--gold);text-transform:uppercase}
+#page-lottery .lt-jackpot-amount{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:8px}
+#page-lottery .lt-coin{width:46px;height:46px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ffe28a,var(--gold2) 60%,#c8860b);display:flex;align-items:center;justify-content:center;font-weight:900;color:#7a4b00;font-size:20px;box-shadow:0 4px 14px rgba(255,193,60,.45),inset 0 -3px 6px rgba(0,0,0,.2),inset 0 2px 3px rgba(255,255,255,.6)}
+#page-lottery .lt-jackpot-val{font-size:44px;font-weight:900;letter-spacing:-1px;background:linear-gradient(180deg,#ffe9a8,var(--gold) 60%,var(--gold2));-webkit-background-clip:text;background-clip:text;color:transparent}
+#page-lottery .lt-card{margin:0 16px 14px;padding:16px 16px;border-radius:var(--radius);background:var(--card);border:1px solid var(--card-border);backdrop-filter:blur(10px)}
+#page-lottery .lt-sold-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+#page-lottery .lt-sold-label{font-size:14px;font-weight:700;color:var(--text)}
+#page-lottery .lt-sold-val{font-size:15px;font-weight:800}
+#page-lottery .lt-sold-val b{color:var(--purple2)}
+#page-lottery .lt-price-box{text-align:right}
+#page-lottery .lt-price-lbl{font-size:11px;color:var(--text3);margin-bottom:2px}
+#page-lottery .lt-price-val{display:flex;align-items:center;gap:6px;font-size:14px;font-weight:800;justify-content:flex-end}
+#page-lottery .lt-price-val img{width:18px;height:18px}
+#page-lottery .lt-progress-wrap{display:flex;align-items:center;gap:12px}
+#page-lottery .lt-progress{flex:1;height:12px;border-radius:20px;background:rgba(255,255,255,.06);overflow:hidden;position:relative;border:1px solid rgba(255,255,255,.06)}
+#page-lottery .lt-progress-fill{height:100%;border-radius:20px;background:repeating-linear-gradient(135deg,var(--purple),var(--purple) 10px,var(--purple2) 10px,var(--purple2) 20px);transition:width .5s ease}
+#page-lottery .lt-progress-sub{font-size:11.5px;color:var(--text3);margin-top:8px}
+#page-lottery .lt-pick-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+#page-lottery .lt-pick-title{font-size:16px;font-weight:800}
+#page-lottery .lt-pick-title span{color:var(--gold)}
+#page-lottery .lt-random-btn{display:flex;align-items:center;gap:6px;padding:9px 14px;border-radius:14px;background:rgba(255,255,255,.07);border:1px solid var(--card-border);color:var(--text);font-size:13px;font-weight:700;cursor:pointer}
+#page-lottery .lt-random-btn:active{background:rgba(255,255,255,.14);transform:scale(.96)}
+#page-lottery .lt-slots{display:flex;justify-content:center;gap:14px;margin-bottom:18px}
+#page-lottery .lt-slot-col{display:flex;flex-direction:column;align-items:center;gap:6px}
+#page-lottery .lt-slot-lbl{font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.5px}
+#page-lottery .lt-slot{width:58px;height:58px;border-radius:16px;background:rgba(255,255,255,.04);border:2px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:900;color:var(--text);transition:all .15s;cursor:pointer}
+#page-lottery .lt-slot.active{border-color:var(--gold);box-shadow:0 0 0 3px rgba(255,201,60,.18)}
+#page-lottery .lt-slot.filled{background:rgba(124,92,240,.18);border-color:var(--purple2)}
+#page-lottery .lt-pad{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;justify-items:center;margin-bottom:8px}
+#page-lottery .lt-digit{width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.05);border:1px solid var(--card-border);color:var(--text);font-size:18px;font-weight:800;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .12s}
+#page-lottery .lt-digit:active{transform:scale(.9)}
+#page-lottery .lt-rules{text-align:center;font-size:11.5px;color:var(--text3);line-height:1.6;margin-top:10px}
+#page-lottery .lt-buy-wrap{padding:0 16px 16px}
+#page-lottery .lt-buy-btn{width:100%;padding:19px;border-radius:18px;border:none;background:linear-gradient(135deg,var(--purple),var(--purple2));color:#fff;font-size:19px;font-weight:900;cursor:pointer;box-shadow:0 10px 26px rgba(124,92,240,.35);transition:transform .12s,opacity .12s}
+#page-lottery .lt-buy-btn:active{transform:scale(.98)}
+#page-lottery .lt-buy-btn:disabled{background:#3a3752;box-shadow:none;color:#8a86ac;cursor:not-allowed}
+#page-lottery .lt-buy-sub{text-align:center;font-size:12.5px;color:var(--red);margin-top:9px;font-weight:700}
+#page-lottery .lt-buy-sub.ok{color:var(--text3);font-weight:500}
+#page-lottery .lt-sec-head{display:flex;align-items:center;justify-content:space-between;padding:0 20px 10px;margin-top:6px}
+#page-lottery .lt-sec-title{font-size:16px;font-weight:800;color:var(--text)}
+#page-lottery .lt-sec-badge{font-size:12px;font-weight:700;color:var(--text3)}
+#page-lottery .lt-status-pill{font-size:11px;font-weight:800;padding:4px 12px;border-radius:20px;background:rgba(34,197,94,.15);color:var(--green);border:1px solid rgba(34,197,94,.3)}
+#page-lottery .lt-ticket-row{display:flex;align-items:center;gap:12px;padding:12px 6px;border-bottom:1px solid rgba(255,255,255,.06)}
+#page-lottery .lt-ticket-row:last-child{border-bottom:none}
+#page-lottery .lt-ticket-idx{font-size:12px;font-weight:700;color:var(--text3);width:28px;flex-shrink:0}
+#page-lottery .lt-ticket-nums{display:flex;gap:8px;flex:1}
+#page-lottery .lt-num-chip{width:34px;height:34px;border-radius:10px;background:rgba(124,92,240,.18);border:1px solid rgba(124,92,240,.35);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;color:var(--text)}
+#page-lottery .lt-del-btn{width:34px;height:34px;border-radius:10px;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);color:#ff8a8a;font-size:15px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
+#page-lottery .lt-del-btn:active{background:rgba(239,68,68,.22);transform:scale(.92)}
+#page-lottery .lt-empty{text-align:center;padding:24px 10px;color:var(--text3);font-size:13.5px}
+#page-lottery .lt-lucky-card{text-align:center;padding:20px 14px}
+#page-lottery .lt-lucky-lbl{font-size:12px;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:14px}
+#page-lottery .lt-lucky-nums{display:flex;justify-content:center;gap:10px}
+#page-lottery .lt-lucky-ball{width:48px;height:48px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ffe28a,var(--gold2) 65%,#c8860b);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900;color:#5c3a00;box-shadow:0 4px 12px rgba(255,193,60,.4),inset 0 -3px 5px rgba(0,0,0,.2)}
+#page-lottery .lt-result-block{margin:0 16px 12px;border-radius:var(--radius-sm);background:var(--card);border:1px solid var(--card-border);overflow:hidden}
+#page-lottery .lt-result-head{display:flex;align-items:center;gap:8px;padding:12px 14px;font-size:13.5px;font-weight:800;color:var(--text);border-bottom:1px solid rgba(255,255,255,.07)}
+#page-lottery .lt-result-table{width:100%;border-collapse:collapse}
+#page-lottery .lt-result-table th{font-size:10.5px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.4px;text-align:left;padding:8px 14px 6px}
+#page-lottery .lt-result-table td{padding:9px 14px;font-size:13px;border-top:1px solid rgba(255,255,255,.05);color:var(--text)}
+#page-lottery .lt-result-table .win-nums{display:flex;gap:4px}
+#page-lottery .lt-result-table .win-num{width:24px;height:24px;border-radius:7px;background:rgba(255,201,60,.18);color:var(--gold);font-size:11.5px;font-weight:800;display:flex;align-items:center;justify-content:center}
+#page-lottery .lt-match-tag{font-size:12px;font-weight:800;color:var(--purple2)}
+#page-lottery .lt-prize-tag{font-size:12px;font-weight:800;color:var(--gold)}
 </style>
 </head>
 <body>
@@ -964,6 +1046,77 @@ html,body{height:100%;background:linear-gradient(rgba(8,6,4,.78),rgba(8,6,4,.78)
       </div>
       <div class="store-rate-line" id="storeRateLine">700 CRYSTAL = 1 TON</div>
       <div class="store-grid" id="storeGrid"></div>
+    </div>
+
+    <!-- LOTTERY -->
+    <div class="page" id="page-lottery">
+      <div class="lt-header">
+        <div class="lt-icon-btn" onclick="switchPage('home')">✕</div>
+        <div class="lt-title-wrap"><div class="lt-title">Lottery</div></div>
+        <div class="lt-icon-btn" onclick="openLotteryHelp()">?</div>
+      </div>
+
+      <div class="lt-jackpot">
+        <div class="lt-jackpot-kicker">Jackpot — Guess the Exact Order</div>
+        <div class="lt-jackpot-amount">
+          <div class="lt-coin">T</div>
+          <div class="lt-jackpot-val" id="ltJackpotVal">1 TON</div>
+        </div>
+      </div>
+
+      <div class="lt-card">
+        <div class="lt-sold-row">
+          <div>
+            <div class="lt-sold-label">Tickets Sold</div>
+            <div class="lt-sold-val"><b id="ltSoldNum">0</b> / <span id="ltSoldTotal">15</span></div>
+          </div>
+          <div class="lt-price-box">
+            <div class="lt-price-lbl">Ticket price:</div>
+            <div class="lt-price-val"><img src="https://cdn.simpleicons.org/ton/0098EA" alt="TON"><span id="ltPriceVal">0.1 TON</span></div>
+          </div>
+        </div>
+        <div class="lt-progress-wrap">
+          <div class="lt-progress"><div class="lt-progress-fill" id="ltProgressFill"></div></div>
+        </div>
+        <div class="lt-progress-sub">Draw starts automatically when <span id="ltSoldTotal2">15</span> tickets are sold</div>
+      </div>
+
+      <div class="lt-card">
+        <div class="lt-pick-head">
+          <div class="lt-pick-title">Pick 3 numbers <span>in order</span></div>
+          <button class="lt-random-btn" onclick="ltRandomPick()">🔄 Random</button>
+        </div>
+        <div class="lt-slots" id="ltSlots">
+          <div class="lt-slot-col"><div class="lt-slot-lbl">1st</div><div class="lt-slot" id="ltSlot0" onclick="ltSelectSlot(0)"></div></div>
+          <div class="lt-slot-col"><div class="lt-slot-lbl">2nd</div><div class="lt-slot" id="ltSlot1" onclick="ltSelectSlot(1)"></div></div>
+          <div class="lt-slot-col"><div class="lt-slot-lbl">3rd</div><div class="lt-slot" id="ltSlot2" onclick="ltSelectSlot(2)"></div></div>
+        </div>
+        <div class="lt-pad" id="ltPad"></div>
+        <div class="lt-rules">Exact order wins the JACKPOT • If no exact match, closest match wins<br>(2/3, then 1/3)</div>
+      </div>
+
+      <div class="lt-buy-wrap">
+        <button class="lt-buy-btn" id="ltBuyBtn" onclick="buyLotteryTicket()">Buy Ticket — <span id="ltBuyPrice">0.1 TON</span></button>
+        <div class="lt-buy-sub" id="ltBuySub"></div>
+      </div>
+
+      <div class="lt-sec-head">
+        <div class="lt-sec-title">My Tickets</div>
+        <div class="lt-sec-badge" id="ltMyTicketsCount">0 tickets</div>
+      </div>
+      <div class="lt-card" id="ltMyTicketsCard" style="padding:6px 12px">
+        <div id="ltMyTicketsList"><div class="lt-empty">No tickets yet — pick your numbers above 🎟️</div></div>
+      </div>
+
+      <div class="lt-sec-head">
+        <div class="lt-sec-title">Last Round</div>
+        <div class="lt-status-pill" id="ltRoundStatusPill">Finished</div>
+      </div>
+      <div class="lt-card lt-lucky-card">
+        <div class="lt-lucky-lbl">Lucky Number</div>
+        <div class="lt-lucky-nums" id="ltLuckyNums"></div>
+      </div>
+      <div id="ltResultsWrap"></div>
     </div>
 
     <!-- PROFILE (was Wallet) -->
@@ -1201,6 +1354,9 @@ html,body{height:100%;background:linear-gradient(rgba(8,6,4,.78),rgba(8,6,4,.78)
     <div class="nav-item" onclick="switchPage('store')" id="nav-store">
       <div class="nav-icon">🏪</div><div class="nav-label" data-i18n="nav.store">Store</div>
     </div>
+    <div class="nav-item" onclick="switchPage('lottery')" id="nav-lottery">
+      <div class="nav-icon">🎟️</div><div class="nav-label" data-i18n="nav.lottery">Lottery</div>
+    </div>
     <div class="nav-item" onclick="switchPage('tasks')" id="nav-tasks">
       <div class="nav-icon">📋</div><div class="nav-label" data-i18n="nav.tasks">Tasks</div>
     </div>
@@ -1329,7 +1485,7 @@ var API_URL  = 'https://silent-block-bedf.ahmedrabieharoun.workers.dev'; // ← 
 // activity log, etc.) stays in its original language for now.
 var LANG = {
   en: {
-    'nav.home':'Home','nav.store':'Store','nav.tasks':'Tasks','nav.combo':'Combo',
+    'nav.home':'Home','nav.store':'Store','nav.lottery':'Lottery','nav.tasks':'Tasks','nav.combo':'Combo',
     'nav.refs':'Referrals','nav.profile':'Profile','nav.record':'Ranking',
     'home.earn':'⚡ Earn','home.withdraw':'▣ Withdraw',
     'profile.idLabel':'ID','profile.connected':'Connected','profile.disconnected':'Disconnected',
@@ -1350,7 +1506,7 @@ var LANG = {
     'language.pageTitle':'Language'
   },
   ar: {
-    'nav.home':'الرئيسية','nav.store':'المتجر','nav.tasks':'المهام','nav.combo':'الكومبو',
+    'nav.home':'الرئيسية','nav.store':'المتجر','nav.lottery':'اليانصيب','nav.tasks':'المهام','nav.combo':'الكومبو',
     'nav.refs':'الإحالات','nav.profile':'الملف الشخصي','nav.record':'الترتيب',
     'home.earn':'⚡ اربح','home.withdraw':'▣ سحب',
     'profile.idLabel':'المعرف','profile.connected':'متصل','profile.disconnected':'غير متصل',
@@ -1371,7 +1527,7 @@ var LANG = {
     'language.pageTitle':'اللغة'
   },
   fr: {
-    'nav.home':'Accueil','nav.store':'Boutique','nav.tasks':'Tâches','nav.combo':'Combo',
+    'nav.home':'Accueil','nav.store':'Boutique','nav.lottery':'Loterie','nav.tasks':'Tâches','nav.combo':'Combo',
     'nav.refs':'Parrainage','nav.profile':'Profil','nav.record':'Classement',
     'home.earn':'⚡ Gagner','home.withdraw':'▣ Retirer',
     'profile.idLabel':'ID','profile.connected':'Connecté','profile.disconnected':'Déconnecté',
@@ -2982,6 +3138,211 @@ function buyStorePack(tonCost, crystalGet){
     .then(function(){ storeBuyBusy = false; });
 }
 
+// ── Lottery ───────────────────────────────────────────────────────────
+// Pick 3 digits (in order) → buy a ticket for LT.ticketPrice TON. When the
+// round's ticket quota is reached the server draws automatically: exact
+// order (3/3) wins the jackpot; if nobody hits 3/3 the best 2/3 match wins
+// instead; if nobody hits that either, the best 1/3 match wins. The prize
+// is split equally among every winner at that single best tier.
+var LT = {
+  loaded:false, busy:false,
+  ticketPriceTon:0.1, jackpotTon:1, ticketsSold:0, ticketsRequired:15,
+  slots:[null,null,null], activeSlot:0,
+  myTickets:[],       // [{id, n:[a,b,c]}]
+  lastRound:null       // {lucky:[a,b,c], winners:[{user,n,match,prize}]} | null
+};
+var ltPadBuilt = false;
+
+function ltInitPad(){
+  if (ltPadBuilt) return;
+  var pad = document.getElementById('ltPad');
+  var html = '';
+  for (var d=0; d<10; d++){ html += '<div class="lt-digit" id="ltDigit'+d+'" onclick="ltPickDigit('+d+')">'+d+'</div>'; }
+  pad.innerHTML = html;
+  ltPadBuilt = true;
+}
+
+function ltRenderSlots(){
+  for (var i=0;i<3;i++){
+    var el = document.getElementById('ltSlot'+i);
+    var val = LT.slots[i];
+    el.textContent = val === null ? '' : val;
+    el.classList.toggle('filled', val !== null);
+    el.classList.toggle('active', i === LT.activeSlot);
+  }
+}
+function ltSelectSlot(i){ LT.activeSlot = i; ltRenderSlots(); }
+function ltPickDigit(d){
+  var i = LT.activeSlot;
+  LT.slots[i] = d;
+  var next = LT.slots.findIndex(function(v){ return v === null; });
+  LT.activeSlot = next === -1 ? i : next;
+  ltRenderSlots();
+  ltUpdateBuyState();
+}
+function ltRandomPick(){
+  LT.slots = [rndInt(0,9), rndInt(0,9), rndInt(0,9)];
+  LT.activeSlot = 0;
+  ltRenderSlots();
+  ltUpdateBuyState();
+}
+function rndInt(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
+function fmtTon(n){ return (Math.round((Number(n)||0)*10000)/10000).toString().replace(/\.?0+$/,'') || '0'; }
+
+function ltRenderJackpot(){
+  document.getElementById('ltJackpotVal').textContent = fmtTon(LT.jackpotTon) + ' TON';
+  document.getElementById('ltPriceVal').textContent = fmtTon(LT.ticketPriceTon) + ' TON';
+  document.getElementById('ltBuyPrice').textContent = fmtTon(LT.ticketPriceTon) + ' TON';
+  document.getElementById('ltSoldNum').textContent = LT.ticketsSold;
+  document.getElementById('ltSoldTotal').textContent = LT.ticketsRequired;
+  document.getElementById('ltSoldTotal2').textContent = LT.ticketsRequired;
+  var pct = Math.min(100, (LT.ticketsSold / LT.ticketsRequired) * 100);
+  document.getElementById('ltProgressFill').style.width = pct + '%';
+}
+
+function ltUpdateBuyState(){
+  var btn = document.getElementById('ltBuyBtn');
+  var sub = document.getElementById('ltBuySub');
+  var picked = LT.slots.every(function(v){ return v !== null; });
+  var balance = Number((S.user && S.user.tonBalance) || 0);
+  var canAfford = balance >= LT.ticketPriceTon;
+  btn.disabled = !picked || !canAfford || LT.busy;
+  if (!canAfford){
+    sub.textContent = 'Not enough TON — your balance: ' + fmtTon(balance) + ' TON';
+    sub.classList.remove('ok');
+  } else if (!picked){
+    sub.textContent = 'Pick all 3 numbers to buy a ticket';
+    sub.classList.remove('ok');
+  } else {
+    sub.textContent = 'Balance: ' + fmtTon(balance) + ' TON';
+    sub.classList.add('ok');
+  }
+}
+
+function ltRenderMyTickets(){
+  var list = document.getElementById('ltMyTicketsList');
+  document.getElementById('ltMyTicketsCount').textContent = LT.myTickets.length + ' ticket' + (LT.myTickets.length===1?'':'s');
+  if (!LT.myTickets.length){
+    list.innerHTML = '<div class="lt-empty">No tickets yet — pick your numbers above 🎟️</div>';
+    return;
+  }
+  list.innerHTML = LT.myTickets.map(function(t, i){
+    return '<div class="lt-ticket-row">'+
+      '<div class="lt-ticket-idx">#'+(i+1)+'</div>'+
+      '<div class="lt-ticket-nums">'+
+        t.n.map(function(n){ return '<div class="lt-num-chip">'+n+'</div>'; }).join('')+
+      '</div>'+
+      '<div class="lt-del-btn" onclick="deleteLotteryTicket(\''+t.id+'\')">🗑</div>'+
+    '</div>';
+  }).join('');
+}
+
+function ltRenderLastRound(){
+  var lr = LT.lastRound;
+  var pill = document.getElementById('ltRoundStatusPill');
+  var luckyEl = document.getElementById('ltLuckyNums');
+  var wrap = document.getElementById('ltResultsWrap');
+  if (!lr){
+    pill.textContent = 'No rounds yet';
+    luckyEl.innerHTML = '<div class="lt-lucky-ball">?</div><div class="lt-lucky-ball">?</div><div class="lt-lucky-ball">?</div>';
+    wrap.innerHTML = '';
+    return;
+  }
+  pill.textContent = 'Finished';
+  luckyEl.innerHTML = lr.lucky.map(function(n){ return '<div class="lt-lucky-ball">'+n+'</div>'; }).join('');
+  var title = lr.winners && lr.winners.length && lr.winners[0].match === 3 ? '🎉 Winners (3/3 match)'
+    : lr.winners && lr.winners.length ? '🥈 Winners (' + lr.winners[0].match + '/3 closest match)' : '';
+  if (lr.winners && lr.winners.length){
+    wrap.innerHTML = '<div class="lt-result-block"><div class="lt-result-head">'+title+'</div>'+
+      '<table class="lt-result-table"><tr><th>User</th><th>Number</th><th>Match</th><th>Prize</th></tr>'+
+      lr.winners.map(function(w){
+        return '<tr><td>'+esc(w.user)+'</td>'+
+          '<td><div class="win-nums">'+w.n.map(function(n){ return '<div class="win-num">'+n+'</div>'; }).join('')+'</div></td>'+
+          '<td class="lt-match-tag">'+w.match+'/3</td>'+
+          '<td class="lt-prize-tag">'+w.prize+'</td></tr>';
+      }).join('') + '</table></div>';
+  } else {
+    wrap.innerHTML = '<div class="lt-result-block"><div class="lt-result-head">No winners this round</div></div>';
+  }
+}
+
+function ltResetPicks(){
+  LT.slots = [null,null,null];
+  LT.activeSlot = 0;
+  ltRenderSlots();
+}
+
+function loadLotteryState(){
+  api('getLotteryState', {}).then(function(res){
+    LT.loaded = true;
+    if (!res || !res.success){ showToast((res && res.error) || 'Could not load Lottery', 'error'); return; }
+    var d = res.data;
+    LT.ticketPriceTon = Number(d.ticketPriceTon);
+    LT.jackpotTon = Number(d.jackpotTon);
+    LT.ticketsSold = Number(d.ticketsSold);
+    LT.ticketsRequired = Number(d.ticketsRequired);
+    LT.myTickets = d.myTickets || [];
+    LT.lastRound = d.lastRound || null;
+    ltRenderJackpot();
+    ltRenderMyTickets();
+    ltRenderLastRound();
+    ltUpdateBuyState();
+  }).catch(function(){ showToast('Network error', 'error'); });
+}
+
+function buyLotteryTicket(){
+  if (LT.busy) return;
+  if (!LT.slots.every(function(v){ return v !== null; })){ showToast('Pick all 3 numbers first', 'error'); return; }
+  var balance = Number((S.user && S.user.tonBalance) || 0);
+  if (balance < LT.ticketPriceTon){ showToast('Not enough TON balance', 'error'); return; }
+  LT.busy = true; ltUpdateBuyState();
+  var numbers = LT.slots.slice();
+  api('buyLotteryTicket', { numbers: numbers }).then(function(res){
+    if (!res.success){ showToast(res.error || 'Purchase failed', 'error'); return; }
+    S.user.tonBalance = res.data.tonBalance;
+    updateWalletTonBalance();
+    LT.ticketsSold = res.data.ticketsSold;
+    LT.ticketsRequired = res.data.ticketsRequired;
+    LT.jackpotTon = res.data.jackpotTon;
+    LT.myTickets.push({ id: res.data.ticketId, n: numbers });
+    ltResetPicks();
+    ltRenderJackpot();
+    ltRenderMyTickets();
+    showToast('🎟️ Ticket purchased!');
+    if (res.data.round && res.data.round.finished){
+      LT.lastRound = res.data.round.lastRound;
+      LT.myTickets = [];
+      LT.ticketsSold = 0;
+      ltRenderJackpot();
+      ltRenderMyTickets();
+      ltRenderLastRound();
+      var userWon = res.data.round.userWon;
+      showToast(userWon ? '🎉 Draw finished — check Last Round, you won!' : '🎲 Draw finished — new round started!');
+    }
+  }).catch(function(){ showToast('Network error', 'error'); })
+    .then(function(){ LT.busy = false; ltUpdateBuyState(); });
+}
+
+function deleteLotteryTicket(ticketId){
+  if (LT.busy) return;
+  LT.busy = true;
+  api('deleteLotteryTicket', { ticketId: ticketId }).then(function(res){
+    if (!res.success){ showToast(res.error || 'Could not remove ticket', 'error'); return; }
+    S.user.tonBalance = res.data.tonBalance;
+    updateWalletTonBalance();
+    LT.ticketsSold = res.data.ticketsSold;
+    LT.myTickets = LT.myTickets.filter(function(t){ return t.id !== ticketId; });
+    ltRenderJackpot();
+    ltRenderMyTickets();
+    showToast('Ticket removed');
+  }).catch(function(){ showToast('Network error', 'error'); })
+    .then(function(){ LT.busy = false; ltUpdateBuyState(); });
+}
+
+function openLotteryHelp(){
+  showToast('Pick 3 numbers in order. Exact match (3/3) wins the jackpot — closest match (2/3, then 1/3) wins if nobody hits it exactly!');
+}
+
 // ── Tasks ─────────────────────────────────────────────────────────────
 function getAdNumber(value, fallback){
   var n = Number(value);
@@ -3693,6 +4054,7 @@ function switchPage(name){
   }
   if (name === 'record') loadRecordPage();
   if (name === 'store') renderStore();
+  if (name === 'lottery') { ltInitPad(); loadLotteryState(); }
   if (name === 'combo') renderCombo();
   if (name === 'profile') renderProfile();
   if (name === 'deposit') openDepositForm();
