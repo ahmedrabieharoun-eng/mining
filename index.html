@@ -520,6 +520,7 @@ html,body{height:100%;background:linear-gradient(rgba(8,6,4,.78),rgba(8,6,4,.78)
 .profile-menu-icon.withdraw{background:rgba(35,183,243,.15);color:#5ac8ff}
 .profile-menu-icon.convert{background:rgba(147,92,246,.18);color:#c4a5ff}
 .profile-menu-icon.language{background:rgba(34,197,94,.15);color:#6be79a}
+.profile-menu-icon.history{background:rgba(250,204,21,.15);color:#f8d874}
 .profile-menu-text{flex:1;min-width:0}
 .profile-menu-title{font-size:15px;font-weight:800;color:var(--text)}
 .profile-menu-sub{font-size:12px;color:var(--text3);margin-top:2px}
@@ -1016,11 +1017,14 @@ html,body{height:100%;background:linear-gradient(rgba(8,6,4,.78),rgba(8,6,4,.78)
           </div>
           <div class="profile-menu-chevron">›</div>
         </div>
-      </div>
-
-      <div class="tx-section">
-        <div class="tx-title" data-i18n="profile.history">Transaction History</div>
-        <div id="walletHistory"><div class="empty-state">No transactions yet</div></div>
+        <div class="profile-menu-item" onclick="switchPage('history')">
+          <div class="profile-menu-icon history">🧾</div>
+          <div class="profile-menu-text">
+            <div class="profile-menu-title" data-i18n="profile.history.title">Transaction History</div>
+            <div class="profile-menu-sub" data-i18n="profile.history.sub">View your deposits, withdrawals & conversions</div>
+          </div>
+          <div class="profile-menu-chevron">›</div>
+        </div>
       </div>
     </div>
 
@@ -1111,6 +1115,17 @@ html,body{height:100%;background:linear-gradient(rgba(8,6,4,.78),rgba(8,6,4,.78)
           <div class="lang-name"><div class="lang-name-main">Français</div><div class="lang-name-sub">French</div></div>
           <div class="lang-check">✓</div>
         </div>
+      </div>
+    </div>
+
+    <!-- TRANSACTION HISTORY (own page, reached from Profile) -->
+    <div class="page" id="page-history">
+      <div class="wheel-page-header">
+        <button class="back-btn" onclick="switchPage('profile')">←</button>
+        <div class="page-title" data-i18n="profile.history.title">Transaction History</div>
+      </div>
+      <div class="tx-section">
+        <div id="walletHistory"><div class="empty-state">No transactions yet</div></div>
       </div>
     </div>
 
@@ -1322,7 +1337,7 @@ var LANG = {
     'profile.withdraw.title':'Withdraw','profile.withdraw.sub':'Withdraw your balance to your TON wallet',
     'profile.convert.title':'Convert','profile.convert.sub':'Convert TON to CRYSTAL',
     'profile.language.title':'Language','profile.language.sub':'Choose the app language',
-    'profile.history':'Transaction History',
+    'profile.history.title':'Transaction History','profile.history.sub':'View your deposits, withdrawals & conversions',
     'deposit.pageTitle':'Deposit TON','deposit.formTitle':'Deposit TON',
     'deposit.help':'Connect your TON wallet and send TON to the Crystal Mining Bot deposit wallet. Your User ID is added as the transaction comment.',
     'deposit.submit':'Send Deposit','deposit.amountPh':'TON amount',
@@ -1343,7 +1358,7 @@ var LANG = {
     'profile.withdraw.title':'سحب','profile.withdraw.sub':'سحب رصيدك إلى محفظة TON الخاصة بك',
     'profile.convert.title':'تحويل','profile.convert.sub':'تحويل TON إلى CRYSTAL',
     'profile.language.title':'اللغة','profile.language.sub':'اختر لغة التطبيق',
-    'profile.history':'سجل المعاملات',
+    'profile.history.title':'سجل المعاملات','profile.history.sub':'اعرض عمليات الإيداع والسحب والتحويل',
     'deposit.pageTitle':'إيداع TON','deposit.formTitle':'إيداع TON',
     'deposit.help':'قم بربط محفظة TON الخاصة بك وأرسل TON إلى محفظة الإيداع الخاصة بالبوت. سيتم إضافة معرف المستخدم الخاص بك كتعليق على المعاملة.',
     'deposit.submit':'إرسال الإيداع','deposit.amountPh':'كمية TON',
@@ -1364,7 +1379,7 @@ var LANG = {
     'profile.withdraw.title':'Retrait','profile.withdraw.sub':'Retirer votre solde vers votre portefeuille TON',
     'profile.convert.title':'Convertir','profile.convert.sub':'Convertir TON en CRYSTAL',
     'profile.language.title':'Langue','profile.language.sub':"Choisissez la langue de l'application",
-    'profile.history':'Historique des transactions',
+    'profile.history.title':'Historique des transactions','profile.history.sub':'Voir vos dépôts, retraits et conversions',
     'deposit.pageTitle':'Dépôt TON','deposit.formTitle':'Dépôt TON',
     'deposit.help':"Connectez votre portefeuille TON et envoyez du TON au portefeuille de dépôt du Crystal Mining Bot. Votre identifiant utilisateur est ajouté comme commentaire de transaction.",
     'deposit.submit':'Envoyer le dépôt','deposit.amountPh':'Montant en TON',
@@ -2176,8 +2191,10 @@ function renderMining(){
   var rate = Number(box.ratePerCrystal ?? cfg.miningRatePerCrystal ?? 0.0001); // TON/day per CRYSTAL
   var duration = Number(box.durationMs ?? cfg.miningDurationMs ?? 86400000); // one cycle = 24h
   var holding = Number((S.user && S.user.balance) || box.holding || 0); // CRYSTAL = mining power
-  var cycleEarned = Number(box.cycleEarnedTon ?? (holding * rate * (duration / 86400000)));
   var startedAt = box.startedAt ? Number(box.startedAt) : null;
+  // Baseline for the "pending, not-yet-claimed" amount: since the last claim,
+  // or since Start if nothing has been claimed in this cycle yet.
+  var lastClaimedAt = box.lastClaimedAt ? Number(box.lastClaimedAt) : null;
   var serverNow = Number(box.serverNow || Date.now());
   var localNowAtSync = Date.now();
 
@@ -2201,38 +2218,46 @@ function renderMining(){
 
   function tick(){
     if (!startedAt){
-      // Never started (or just claimed) — idle: only the START button shows
+      // Never started (or fully closed out after the last cycle) — idle: only the START button shows
       S.miningState = 'idle';
       if (cdWrap) cdWrap.style.display = 'none';
       startBtn.style.display = 'flex';
-      startBtn.disabled = false;
+      if (!miningAdBusy) startBtn.disabled = false;
       claimBtn.style.display = 'none';
       totalEl.textContent = '+0.00000000 TON';
       return;
     }
-    var elapsedMs = (Date.now() - localNowAtSync) + Math.max(0, serverNow - startedAt);
-    var remainingMs = duration - elapsedMs;
+    var nowEst = Date.now() - localNowAtSync + serverNow; // estimated current server time
+    var elapsedSinceStart = Math.max(0, nowEst - startedAt);
+    var remainingMs = duration - elapsedSinceStart;
+    // Pending reward accrued since the last claim (or since Start), capped at
+    // the 24h mark — this is what the Claim button will actually pay out now.
+    var accrualEndEst = Math.min(nowEst, startedAt + duration);
+    var lastPoint = Math.max(lastClaimedAt || startedAt, startedAt);
+    var pendingElapsed = Math.max(0, accrualEndEst - lastPoint);
+    var pendingTon = holding * rate * (pendingElapsed / 86400000);
+
+    startBtn.style.display = 'none';
+    claimBtn.style.display = 'flex';
+    // Claim is always tappable mid-cycle now — it pays out the partial amount
+    // collected so far without resetting the 24h countdown. Don't fight the
+    // in-flight "Claiming..." disabled state set by claimMining() itself.
+    if (!miningAdBusy) claimBtn.disabled = !(pendingTon > 0);
+    totalEl.textContent = '+' + pendingTon.toFixed(8) + ' TON';
+
     if (remainingMs > 0){
-      // Running: show the live countdown + a Claim button underneath it (disabled until the cycle finishes)
       S.miningState = 'running';
       if (cdWrap) cdWrap.style.display = 'block';
       if (cdVal) cdVal.textContent = fmtCountdown(remainingMs);
-      startBtn.style.display = 'none';
-      claimBtn.style.display = 'flex';
-      claimBtn.disabled = true;
       claimBtn.classList.remove('ready');
-      var progress = Math.min(1, elapsedMs / duration);
-      totalEl.textContent = '+' + (cycleEarned * progress).toFixed(8) + ' TON';
     } else {
-      // Cycle finished: countdown reads 00:00:00 and the Claim button becomes active
+      // Cycle finished: countdown reads 00:00:00. Mining has stopped for good
+      // until Start is pressed again — but any leftover unclaimed reward from
+      // the tail of the cycle stays claimable in the meantime.
       S.miningState = 'ready';
       if (cdWrap) cdWrap.style.display = 'block';
       if (cdVal) cdVal.textContent = '00:00:00';
-      startBtn.style.display = 'none';
-      claimBtn.style.display = 'flex';
-      claimBtn.disabled = false;
       claimBtn.classList.add('ready');
-      totalEl.textContent = '+' + cycleEarned.toFixed(8) + ' TON';
     }
   }
   tick();
@@ -2263,8 +2288,9 @@ function startMiningCycle(){
     if (!res.success){ showToast(res.error || 'Could not start mining','error'); return; }
     if (!S.data.mining) S.data.mining = {};
     S.data.mining.startedAt = res.data.miningStartedAt;
+    S.data.mining.lastClaimedAt = res.data.miningStartedAt;
     S.data.mining.serverNow = res.data.miningStartedAt;
-    showToast('⛏️ Mining started — come back in 24h to claim!', null, true);
+    showToast('⛏️ Mining started — you can claim anytime, or wait the full 24h!', null, true);
   }).catch(function(){ showToast('Network error','error'); })
     .then(function(){
       miningAdBusy = false;
@@ -2284,10 +2310,12 @@ function claimMining(){
     if (!res.success){ showToast(res.error || 'Nothing to claim yet','error'); return; }
     S.user.tonBalance = res.data.tonBalance;
     if (!S.data.mining) S.data.mining = {};
-    S.data.mining.startedAt = null;
+    // If the cycle finished, mining goes idle (needs Start again). Otherwise
+    // it's a partial mid-cycle claim — the 24h countdown keeps running as-is.
+    S.data.mining.startedAt = res.data.miningStartedAt;
     S.data.mining.lastClaimedAt = res.data.miningLastClaimedAt;
     S.data.mining.serverNow = res.data.miningLastClaimedAt;
-    S.data.mining.dailyEarnedTon = res.data.dailyEarnedTon;
+    if (res.data.dailyEarnedTon != null) S.data.mining.dailyEarnedTon = res.data.dailyEarnedTon;
     updateWalletTonBalance();
     showToast('+' + Number(res.data.tonAdded||0).toFixed(6) + ' TON added to your wallet 🎉', null, true);
     render();
