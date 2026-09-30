@@ -1156,8 +1156,6 @@ html,body{height:100%;
 @keyframes n-flip{0%,55%,100%{transform:scaleX(1)}78%{transform:scaleX(.1)}}
 @keyframes n-shk{0%,60%,100%{transform:translateX(0)}66%{transform:translateX(-2px)}72%{transform:translateX(2px)}78%{transform:translateX(-2px)}84%{transform:translateX(0)}}
 @keyframes n-pop{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
-.rr-action-btn.rr-copy{display:flex;align-items:center;gap:6px;padding:0 16px;background:rgba(11,26,59,.85);border:1px solid rgba(251,191,36,.35);color:#fff;box-shadow:none}
-.rr-action-btn.rr-copy .ic{width:30px;height:30px}
 #profileStatusIcon{display:inline-flex}
 #profileStatusIcon .ic{width:28px;height:28px}
 .rr-icon-badge .ic-bonus{width:38px;height:38px}
@@ -1345,10 +1343,10 @@ html,body{height:100%;
 
       <div class="rr-row">
         <div class="rr-box rr-link-box">
-          <span class="rr-link-icon"><svg class="ic ic-link" viewBox="0 0 48 48" fill="none" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g class="la"><rect class="g fg" x="6" y="23" width="22" height="12" rx="6" transform="rotate(-45 17 29)"/></g><g class="lb"><rect class="p fp" x="20" y="9" width="22" height="12" rx="6" transform="rotate(-45 31 15)"/></g><path class="g t" d="M20 28l8-8" style="opacity:.9"/><path class="tw sg" d="M8 4Q8.6 6.4 11 7Q8.6 7.6 8 10Q7.4 7.6 5 7Q7.4 6.4 8 4z" style="animation-delay:.5s"/><path class="tw sg" d="M41 36Q41.5 38 43.5 38.5Q41.5 39 41 41Q40.5 39 38.5 38.5Q40.5 38 41 36z" style="animation-delay:1.3s"/></svg></span>
+          <span class="rr-link-icon"><svg class="ic ic-copy" viewBox="0 0 48 48" fill="none" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect class="p fp" x="14" y="4" width="26" height="30" rx="4"/><g class="cp"><rect class="g fg" x="7" y="13" width="26" height="31" rx="4"/><path class="p t" d="M13 24h14M13 30h14M13 36h8"/></g><g transform="translate(42 6)"><path class="tw sg" style="animation-delay:0.5s" d="M0-3.500Q.6-.6 3.500 0Q.6.6 0 3.500Q-.6.6-3.500 0Q-.6-.6 0-3.500z"/></g></svg></span>
           <div class="rr-link-url" id="refLinkUrl">Loading...</div>
         </div>
-        <button class="rr-action-btn rr-copy" onclick="copyRefLink()"><svg class="ic ic-copy" viewBox="0 0 48 48" fill="none" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect class="p fp" x="14" y="4" width="26" height="30" rx="4"/><g class="cp"><rect class="g fg" x="7" y="13" width="26" height="31" rx="4"/><path class="p t" d="M13 24h14M13 30h14M13 36h8"/></g><g transform="translate(42 6)"><path class="tw sg" style="animation-delay:0.5s" d="M0-3.500Q.6-.6 3.500 0Q.6.6 0 3.500Q-.6.6-3.500 0Q-.6-.6 0-3.500z"/></g></svg><span>Copy</span></button>
+        <button class="rr-action-btn" onclick="copyRefLink()">Copy</button>
       </div>
 
       <div class="rr-cards">
