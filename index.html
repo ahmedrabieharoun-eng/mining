@@ -29,9 +29,20 @@
   --radius:16px;--radius-sm:10px;
   --img-coin:url('https://i.ibb.co/chCjf1zw/Chat-GPT-Image-Sep-25-2026-04-18-45-AM-1.png');
   --img-avatar:url('https://res.cloudinary.com/w8zhbc4b/image/upload/v1789693638/ChatGPT_Image_Aug_23_2026_06_19_48_PM.png');
-  --img-bg:url('https://i.ibb.co/F4tkrrjX/Chat-GPT-Image-Sep-25-2026-04-25-34-AM-1.png');
 }
-html,body{height:100%;background:linear-gradient(rgba(8,6,4,.78),rgba(8,6,4,.78)),var(--img-bg) center top/cover no-repeat,var(--bg);color:var(--text);font-family:-apple-system,'SF Pro Display',BlinkMacSystemFont,'Segoe UI',sans-serif;overflow:hidden}
+html,body{height:100%;
+  /* خلفية عصرية: توهجات aurora ملوّنة + شبكة نقاط خفيفة فوق تدرج كحلي عميق (بدون صور) */
+  background-color:#0b1230;
+  background-image:
+    radial-gradient(rgba(255,255,255,.07) 1px,transparent 1.3px),
+    radial-gradient(70% 38% at 100% 0%,rgba(124,92,255,.50),transparent 70%),
+    radial-gradient(60% 34% at 0% 38%,rgba(35,183,243,.34),transparent 70%),
+    radial-gradient(70% 36% at 88% 100%,rgba(236,72,153,.26),transparent 70%),
+    radial-gradient(50% 30% at 10% 100%,rgba(45,212,191,.18),transparent 70%),
+    linear-gradient(180deg,#111a45 0%,#0c1334 50%,#0a1029 100%);
+  background-size:22px 22px,100% 100%,100% 100%,100% 100%,100% 100%,100% 100%;
+  background-repeat:repeat,no-repeat,no-repeat,no-repeat,no-repeat,no-repeat;
+  color:var(--text);font-family:-apple-system,'SF Pro Display',BlinkMacSystemFont,'Segoe UI',sans-serif;overflow:hidden}
 .app{display:flex;flex-direction:column;height:100vh;max-width:430px;margin:0 auto;position:relative}
 
 /* SHIBA coin icon — used inline anywhere the word "SHIBA" appears in copy */
@@ -100,7 +111,7 @@ html,body{height:100%;background:linear-gradient(rgba(8,6,4,.78),rgba(8,6,4,.78)
 .page::-webkit-scrollbar{width:0}
 
 /* Nav */
-.nav{position:absolute;bottom:0;left:0;right:0;height:72px;background:rgba(10,10,10,0.96);backdrop-filter:blur(20px);border-top:1px solid var(--glass-border);display:flex;align-items:center;z-index:100;padding:0 8px;padding-bottom:env(safe-area-inset-bottom)}
+.nav{position:absolute;bottom:0;left:0;right:0;height:72px;background:rgba(12,18,46,0.88);backdrop-filter:blur(20px);border-top:1px solid var(--glass-border);display:flex;align-items:center;z-index:100;padding:0 8px;padding-bottom:env(safe-area-inset-bottom)}
 .nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px;cursor:pointer;border-radius:12px;transition:background 0.2s;position:relative}
 .nav-item:active{background:var(--glass)}
 .nav-icon{font-size:22px;transition:all 0.2s;color:var(--text3)}
