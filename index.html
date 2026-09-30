@@ -910,8 +910,6 @@ html,body{height:100%;
 #page-lottery .lt-ticket-idx{font-size:12px;font-weight:700;color:var(--text3);width:28px;flex-shrink:0}
 #page-lottery .lt-ticket-nums{display:flex;gap:8px;flex:1}
 #page-lottery .lt-num-chip{width:34px;height:34px;border-radius:10px;background:rgba(124,92,240,.18);border:1px solid rgba(124,92,240,.35);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;color:var(--text)}
-#page-lottery .lt-del-btn{width:34px;height:34px;border-radius:10px;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);color:#ff8a8a;font-size:15px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
-#page-lottery .lt-del-btn:active{background:rgba(239,68,68,.22);transform:scale(.92)}
 #page-lottery .lt-empty{text-align:center;padding:24px 10px;color:var(--text3);font-size:13.5px}
 #page-lottery .lt-lucky-card{text-align:center;padding:20px 14px}
 #page-lottery .lt-lucky-lbl{font-size:12px;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:14px}
@@ -920,17 +918,17 @@ html,body{height:100%;
 #page-lottery .lt-result-block{margin:0 16px 12px;border-radius:var(--radius-sm);background:var(--card);border:1px solid var(--card-border);overflow:hidden}
 #page-lottery .lt-result-head{display:flex;align-items:center;gap:8px;padding:12px 14px;font-size:13.5px;font-weight:800;color:var(--text);border-bottom:1px solid rgba(255,255,255,.07)}
 #page-lottery .lt-result-table{width:100%;border-collapse:collapse;table-layout:fixed}
-#page-lottery .lt-result-table th:nth-child(2),#page-lottery .lt-result-table td:nth-child(2){width:92px}
-#page-lottery .lt-result-table th:nth-child(3),#page-lottery .lt-result-table td:nth-child(3){width:46px}
-#page-lottery .lt-result-table th:nth-child(4),#page-lottery .lt-result-table td:nth-child(4){width:64px;white-space:nowrap}
+#page-lottery .lt-result-table th:nth-child(2),#page-lottery .lt-result-table td:nth-child(2){width:80px}
+#page-lottery .lt-result-table th:nth-child(3),#page-lottery .lt-result-table td:nth-child(3){width:38px}
+#page-lottery .lt-result-table th:nth-child(4),#page-lottery .lt-result-table td:nth-child(4){width:92px;white-space:nowrap}
 #page-lottery .lt-result-table td:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 #page-lottery .lt-result-table th:first-child,#page-lottery .lt-result-table td:first-child{padding-left:14px}
-#page-lottery .lt-result-table th{font-size:10.5px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.4px;text-align:left;padding:8px 8px 6px}
-#page-lottery .lt-result-table td{padding:9px 8px;font-size:13px;border-top:1px solid rgba(255,255,255,.05);color:var(--text)}
-#page-lottery .lt-result-table .win-nums{display:flex;gap:4px}
-#page-lottery .lt-result-table .win-num{width:24px;height:24px;border-radius:7px;background:rgba(255,201,60,.18);color:var(--gold);font-size:11.5px;font-weight:800;display:flex;align-items:center;justify-content:center}
+#page-lottery .lt-result-table th{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.2px;text-align:left;padding:8px 5px 6px}
+#page-lottery .lt-result-table td{padding:9px 5px;font-size:12.5px;border-top:1px solid rgba(255,255,255,.05);color:var(--text)}
+#page-lottery .lt-result-table .win-nums{display:flex;gap:3px}
+#page-lottery .lt-result-table .win-num{width:22px;height:22px;border-radius:7px;background:rgba(255,201,60,.18);color:var(--gold);font-size:11.5px;font-weight:800;display:flex;align-items:center;justify-content:center}
 #page-lottery .lt-match-tag{font-size:12px;font-weight:800;color:var(--purple2)}
-#page-lottery .lt-prize-tag{font-size:12px;font-weight:800;color:var(--gold)}
+#page-lottery .lt-prize-tag{font-size:12px;padding-right:12px!important;font-weight:800;color:var(--gold)}
 </style>
 </head>
 <body>
@@ -3429,7 +3427,6 @@ function ltRenderMyTickets(){
       '<div class="lt-ticket-nums">'+
         t.n.map(function(n){ return '<div class="lt-num-chip">'+n+'</div>'; }).join('')+
       '</div>'+
-      '<div class="lt-del-btn" onclick="deleteLotteryTicket(\''+t.id+'\')">🗑</div>'+
     '</div>';
   }).join('');
 }
@@ -3516,22 +3513,6 @@ function buyLotteryTicket(){
       var userWon = res.data.round.userWon;
       showToast(userWon ? '🎉 Draw finished — check Last Round, you won!' : '🎲 Draw finished — new round started!');
     }
-  }).catch(function(){ showToast('Network error', 'error'); })
-    .then(function(){ LT.busy = false; ltUpdateBuyState(); });
-}
-
-function deleteLotteryTicket(ticketId){
-  if (LT.busy) return;
-  LT.busy = true;
-  api('deleteLotteryTicket', { ticketId: ticketId }).then(function(res){
-    if (!res.success){ showToast(res.error || 'Could not remove ticket', 'error'); return; }
-    S.user.tonBalance = res.data.tonBalance;
-    updateWalletTonBalance();
-    LT.ticketsSold = res.data.ticketsSold;
-    LT.myTickets = LT.myTickets.filter(function(t){ return t.id !== ticketId; });
-    ltRenderJackpot();
-    ltRenderMyTickets();
-    showToast('Ticket removed');
   }).catch(function(){ showToast('Network error', 'error'); })
     .then(function(){ LT.busy = false; ltUpdateBuyState(); });
 }
