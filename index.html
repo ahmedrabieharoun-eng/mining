@@ -929,9 +929,74 @@ html,body{height:100%;
 #page-lottery .lt-result-table .win-num{width:22px;height:22px;border-radius:7px;background:rgba(255,201,60,.18);color:var(--gold);font-size:11.5px;font-weight:800;display:flex;align-items:center;justify-content:center}
 #page-lottery .lt-match-tag{font-size:12px;font-weight:800;color:var(--purple2)}
 #page-lottery .lt-prize-tag{font-size:12px;padding-right:12px!important;font-weight:800;color:var(--gold)}
+
+/* ── Animated icons ── */
+.ic{width:44px;height:44px;overflow:visible;filter:drop-shadow(0 0 2px rgba(96,165,250,.55))}
+.ic *{transform-box:fill-box;transform-origin:center}
+.ic .g{stroke:url(#G);stroke-width:2.2}
+.ic .p{stroke:url(#P);stroke-width:2.2}
+.ic .t{stroke-width:1.5}
+.ic .fg{fill:rgba(251,191,36,.16)}
+.ic .fp{fill:rgba(59,130,246,.18)}
+.ic .occ{fill:#0b1a3b}
+.ic .sg{fill:url(#G);stroke:none}
+.ic .sp{fill:url(#P);stroke:none}
+.ic .sw{fill:#fff;opacity:.6;stroke:none;animation:ic-sw 5s ease-in-out infinite}
+.ic .tw{opacity:0;animation:ic-tw 2.6s ease-in-out infinite}
+.ic-adsgram .ply{animation:ic-beat 2.4s ease-in-out infinite}
+.ic-adsgram .pg{transform-origin:0 50%;animation:ic-pgr 4s ease-in-out infinite}
+.ic-adsgram .nmt{animation:ic-blink 3s ease-in-out infinite}
+.ic-gigapub .ply{animation:ic-beat 2.4s ease-in-out infinite}
+.ic-gigapub .rg{stroke-dasharray:100;stroke-width:3;animation:ic-rg 4s ease-in-out infinite}
+.ic-monetag .ply{animation:ic-beat 2.4s ease-in-out infinite}
+.ic-monetag .eye{animation:ic-eb 4s ease-in-out infinite}
+.ic-monetag .pl{animation:ic-pl 4s ease-in-out infinite}
+.ic-bots .rb{animation:ic-bob 2.6s ease-in-out infinite}
+.ic-bots .ey{animation:ic-eb 3.2s ease-in-out infinite}
+.ic-bots .an{animation:ic-beat 1.4s ease-in-out infinite}
+.ic-channels .mg{transform-origin:0 100%;animation:ic-mgt 2.8s ease-in-out infinite}
+.ic-channels .wv1,.ic-channels .wv2{animation:ic-wave 1.6s ease-in-out infinite}
+.ic-channels .pl5{animation:ic-beat 2s ease-in-out infinite}
+.ic-daily .ck{stroke-dasharray:100;animation:ic-ckd 3.8s ease-in-out infinite}
+.ic-daily .cal{animation:ic-calb 3.8s ease-in-out infinite}
+.ic-promo .pr{animation:ic-tilt 3.6s ease-in-out infinite}
+.ic-promo .pc{animation:ic-beat 2.4s ease-in-out infinite}
+.ic-partner .pa1{animation:ic-pa1 2.8s ease-in-out infinite}
+.ic-partner .pa2{animation:ic-pa2 2.8s ease-in-out infinite}
+.ic-partner .lk{animation:ic-dash 1s linear infinite}
+.ic-partner .pu{animation:ic-beat 2.8s ease-in-out infinite}
+.ic-usertasks .ck2{stroke-dasharray:10;animation:ic-ck2 4.2s ease-in-out infinite}
+.ic-ads .bk{animation:ic-blink 1.2s linear infinite}
+.ic-ads .adt{animation:ic-beat 2.6s ease-in-out infinite}
+@keyframes ic-beat{0%,40%,100%{transform:scale(1)}15%{transform:scale(1.22)}30%{transform:scale(1.05)}}
+@keyframes ic-blink{0%,100%{opacity:1}50%{opacity:.2}}
+@keyframes ic-sw{0%,45%{transform:translateX(-14px) skewX(-20deg)}70%,100%{transform:translateX(58px) skewX(-20deg)}}
+@keyframes ic-tw{0%,100%{opacity:0;transform:scale(.2) rotate(0)}50%{opacity:1;transform:scale(1) rotate(45deg)}}
+@keyframes ic-eb{0%,88%,100%{transform:scaleY(1)}93%{transform:scaleY(.1)}}
+@keyframes ic-pgr{0%{transform:scaleX(.02)}80%,92%{transform:scaleX(1)}100%{transform:scaleX(.02)}}
+@keyframes ic-rg{0%{stroke-dashoffset:100}75%,92%{stroke-dashoffset:0}100%{stroke-dashoffset:100}}
+@keyframes ic-pl{0%,100%{transform:translateX(0)}30%{transform:translateX(-3px)}65%{transform:translateX(3px)}}
+@keyframes ic-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-2.5px)}}
+@keyframes ic-mgt{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(4deg)}}
+@keyframes ic-wave{0%,100%{opacity:.25}50%{opacity:1}}
+@keyframes ic-calb{0%,32%,46%,100%{transform:scale(1)}38%{transform:scale(1.06)}}
+@keyframes ic-ckd{0%,10%{stroke-dashoffset:100}35%,86%{stroke-dashoffset:0}95%,100%{stroke-dashoffset:100}}
+@keyframes ic-tilt{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}}
+@keyframes ic-dash{to{stroke-dashoffset:-8}}
+@keyframes ic-pa1{0%,100%{transform:translateX(-1px)}50%{transform:translateX(2px)}}
+@keyframes ic-pa2{0%,100%{transform:translateX(1px)}50%{transform:translateX(-2px)}}
+@keyframes ic-ck2{0%,8%{stroke-dashoffset:10}20%,84%{stroke-dashoffset:0}94%,100%{stroke-dashoffset:10}}
+/* icon containers */
+.task-logo.ic-logo{background:rgba(11,26,59,.65);border-color:rgba(96,165,250,.3)}
+.task-logo .ic{width:36px;height:36px}
+.feature-icon.ic-bg{background:rgba(11,26,59,.75);border:1px solid rgba(96,165,250,.3)}
+.feature-icon .ic{width:38px;height:38px}
+.tab{display:flex;align-items:center;justify-content:center;gap:5px}
+.tab .ic{width:22px;height:22px;flex-shrink:0}
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="G" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="48"><stop offset="0" stop-color="#fef3c7"/><stop offset=".5" stop-color="#fbbf24"/><stop offset="1" stop-color="#d97706"/></linearGradient><linearGradient id="P" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="48" y2="48"><stop offset="0" stop-color="#dbeafe"/><stop offset="1" stop-color="#3b82f6"/></linearGradient><clipPath id="icclip4"><rect x="10" y="15" width="28" height="23" rx="7"/></clipPath><clipPath id="icclip7"><path d="M9 12h18a3 3 0 0 0 6 0h6a4 4 0 0 1 4 4v16a4 4 0 0 1-4 4h-6a3 3 0 0 0-6 0H9a4 4 0 0 1-4-4V16a4 4 0 0 1 4-4z"/></clipPath><clipPath id="icclip10"><rect x="5" y="9" width="38" height="23" rx="3.500"/></clipPath></defs></svg>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
   <linearGradient id="Gs2" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="48"><stop offset="0" stop-color="#fef3c7"/><stop offset=".5" stop-color="#fbbf24"/><stop offset="1" stop-color="#d97706"/></linearGradient>
   <linearGradient id="Ps2" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="48" y2="48"><stop offset="0" stop-color="#dbeafe"/><stop offset="1" stop-color="#3b82f6"/></linearGradient>
@@ -1066,9 +1131,9 @@ html,body{height:100%;
     <div class="page" id="page-tasks">
        <div class="tasks-header"><div class="page-title">Earn</div><div style="font-size:13px;color:var(--text3);margin-top:5px">Complete tasks and collect CRYSTAL rewards</div></div>
       <div class="tabs-section"><div class="tabs">
-        <div class="tab active" onclick="switchTab(this,'ads')">▣ Ads</div>
-        <div class="tab" onclick="switchTab(this,'channels')">🔗 User Tasks</div>
-        <div class="tab" onclick="switchTab(this,'partner')">🤝 Partner</div>
+        <div class="tab active" onclick="switchTab(this,'ads')"><svg class="ic ic-ads" viewBox="0 0 48 48" fill="none" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle class="bk sg" cx="14" cy="5" r="1.500"/><circle class="bk sg" cx="24" cy="5" r="1.500" style="animation-delay:.4s"/><circle class="bk sg" cx="34" cy="5" r="1.500" style="animation-delay:.8s"/><rect class="g fg" x="5" y="9" width="38" height="23" rx="3.500"/><text class="adt sg" x="24" y="20.500" text-anchor="middle" dominant-baseline="central" font-size="14" font-weight="900" font-family="Arial,sans-serif" letter-spacing="1">ADS</text><path class="p" d="M17 32v11M31 32v11"/><path class="p t" d="M12 43h24" style="opacity:.5"/><g clip-path="url(#icclip10)"><rect class="sw" x="-4" y="-4" width="8" height="56" style="animation-delay:0.6s"/></g></svg><span>Ads</span></div>
+        <div class="tab" onclick="switchTab(this,'channels')"><svg class="ic ic-usertasks" viewBox="0 0 48 48" fill="none" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect class="g fg" x="9" y="8" width="30" height="35" rx="4"/><rect class="g occ" x="17" y="4" width="14" height="7" rx="2.500"/><circle class="sp" cx="17" cy="20" r="2.400"/><path class="p t" d="M22 20h7"/><path class="ck2 g" pathLength="10" d="M32 20l2.200 2.200 4-4.500" style="stroke-width:2;animation-delay:0s"/><circle class="sp" cx="17" cy="28" r="2.400"/><path class="p t" d="M22 28h7"/><path class="ck2 g" pathLength="10" d="M32 28l2.200 2.200 4-4.500" style="stroke-width:2;animation-delay:0.5s"/><circle class="sp" cx="17" cy="36" r="2.400"/><path class="p t" d="M22 36h7"/><path class="ck2 g" pathLength="10" d="M32 36l2.200 2.200 4-4.500" style="stroke-width:2;animation-delay:1s"/></svg><span>User Tasks</span></div>
+        <div class="tab" onclick="switchTab(this,'partner')"><svg class="ic ic-partner" viewBox="0 0 48 48" fill="none" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g class="pa1"><circle class="g fg" cx="14" cy="16" r="5.500"/><path class="g fg" d="M4 38a10 9 0 0 1 20 0z"/></g><g class="pa2"><circle class="p fp" cx="34" cy="16" r="5.500"/><path class="p fp" d="M24 38a10 9 0 0 1 20 0z"/></g><path class="lk p t" d="M20 16h8" style="stroke-dasharray:2 2"/><path class="pu sg" d="M24 3Q24.8 6.2 28 7Q24.8 7.8 24 11Q23.2 7.8 20 7Q23.2 6.2 24 3z"/><path class="p" d="M4 43h40" style="opacity:.5"/></svg><span>Partner</span></div>
       </div></div>
       <div class="add-task-section">
         <button class="add-task-btn" onclick="openAddTaskModal()"><span style="font-size:20px">+</span><span>Add Task</span></button>
@@ -1084,12 +1149,12 @@ html,body{height:100%;
     <div class="page" id="page-combo">
       <div class="tasks-header"><div class="page-title">🗓️ Daily Combo</div><div style="font-size:13px;color:var(--text3);margin-top:5px">Solve today's combo to win CRYSTAL rewards</div></div>
       <div class="bonus-card">
-        <div class="feature-icon gold">🎁</div>
+        <div class="feature-icon ic-bg"><svg class="ic ic-daily" viewBox="0 0 48 48" fill="none" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g class="cal"><rect class="g fg" x="6" y="9" width="36" height="33" rx="5"/><path class="g" d="M6 19h36"/><path class="g" d="M15 5v8M33 5v8"/><path class="ck g" pathLength="100" d="M16 31l6 6 11-12" style="stroke-width:3.200"/></g><path class="tw sg" d="M41 4Q41.6 6.4 44 7Q41.6 7.6 41 10Q40.4 7.6 38 7Q40.4 6.4 41 4z" style="animation-delay:0.9s"/></svg></div>
         <div class="feature-copy"><div class="feature-title">Daily Bonus</div><div class="feature-sub" id="dailyBonusSub">Come back every day · +500 CRYSTAL</div></div>
         <button class="feature-btn" id="dailyBonusBtn" onclick="claimDailyBonus()">Claim</button>
       </div>
       <div class="redeem-card">
-        <div class="feature-icon purple">🎟️</div>
+        <div class="feature-icon ic-bg"><svg class="ic ic-promo" viewBox="0 0 48 48" fill="none" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g class="pr"><path class="g fg" d="M9 12h18a3 3 0 0 0 6 0h6a4 4 0 0 1 4 4v16a4 4 0 0 1-4 4h-6a3 3 0 0 0-6 0H9a4 4 0 0 1-4-4V16a4 4 0 0 1 4-4z"/><path class="p t" d="M30 16v16" style="stroke-dasharray:2 2.500"/><text class="pc sg" x="17" y="24.500" text-anchor="middle" dominant-baseline="central" font-size="16" font-weight="900" font-family="Arial,sans-serif">%</text><path class="p t" d="M36 20v8M38.500 20v8M41 20v8" style="opacity:.8;stroke-width:1.300"/><g clip-path="url(#icclip7)"><rect class="sw" x="-4" y="-4" width="8" height="56" style="animation-delay:0.3s"/></g></g><path class="tw sg" d="M42 4Q42.6 6.4 45 7Q42.6 7.6 42 10Q41.4 7.6 39 7Q41.4 6.4 42 4z" style="animation-delay:0.5s"/></svg></div>
         <div class="feature-copy"><div class="feature-title">Redeem Code</div><div class="feature-sub">Have a promo code? Claim your reward</div></div>
         <button class="feature-btn" onclick="openModal('redeemModal')">Redeem</button>
       </div>
@@ -1910,6 +1975,8 @@ function collectFraudCached(){
 var currentTab = 'ads';
 
 // ── AdsGram ─────────────────────────────────────────────────────────
+var IC = {"adsgram": "<svg class=\"ic ic-adsgram\" viewBox=\"0 0 48 48\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\" xmlns=\"http://www.w3.org/2000/svg\" aria-hidden=\"true\"><rect class=\"g fg\" x=\"5\" y=\"4\" width=\"38\" height=\"25\" rx=\"4\"/><path class=\"ply sg\" d=\"M20.500 9.500v11l9-5.500z\"/><rect class=\"p t\" x=\"10\" y=\"23.500\" width=\"28\" height=\"2.600\" rx=\"1.300\" style=\"opacity:.5\"/><rect class=\"pg sg\" x=\"10\" y=\"23.500\" width=\"28\" height=\"2.600\" rx=\"1.300\"/><text class=\"nmt sg\" x=\"24\" y=\"38\" text-anchor=\"middle\" dominant-baseline=\"central\" font-size=\"10\" font-weight=\"900\" font-family=\"Arial,sans-serif\" textLength=\"38\" lengthAdjust=\"spacingAndGlyphs\">AdsGram</text><path class=\"p t\" d=\"M12 44h24\" style=\"opacity:.5\"/><path class=\"tw sg\" d=\"M42 2.2Q42.56 4.44 44.8 5Q42.56 5.56 42 7.8Q41.44 5.56 39.2 5Q41.44 4.44 42 2.2z\" style=\"animation-delay:0.4s\"/></svg>", "gigapub": "<svg class=\"ic ic-gigapub\" viewBox=\"0 0 48 48\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\" xmlns=\"http://www.w3.org/2000/svg\" aria-hidden=\"true\"><circle class=\"p t\" cx=\"24\" cy=\"25\" r=\"16\" style=\"opacity:.35\"/><path class=\"rg g\" pathLength=\"100\" d=\"M24 9a16 16 0 1 1 0 32a16 16 0 1 1 0-32\"/><path class=\"ply sg\" d=\"M20.500 18v14l11.500-7z\"/><rect class=\"g occ\" x=\"33.5\" y=\"2\" width=\"12.5\" height=\"9\" rx=\"3\"/><text class=\"sg\" x=\"39.75\" y=\"6.9\" text-anchor=\"middle\" dominant-baseline=\"central\" font-size=\"6.5\" font-weight=\"900\" font-family=\"Arial,sans-serif\">AD</text></svg>", "monetag": "<svg class=\"ic ic-monetag\" viewBox=\"0 0 48 48\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\" xmlns=\"http://www.w3.org/2000/svg\" aria-hidden=\"true\"><g class=\"eye\"><path class=\"g fg\" d=\"M3 23C9 12 16 8 24 8s15 4 21 15C39 34 32 38 24 38S9 34 3 23z\"/><g class=\"pl\"><circle class=\"p fp\" cx=\"24\" cy=\"23\" r=\"8.500\"/><path class=\"ply sg\" d=\"M21.500 18.500v9l7.500-4.500z\"/></g></g><rect class=\"g occ\" x=\"33\" y=\"33.5\" width=\"12.5\" height=\"9\" rx=\"3\"/><text class=\"sg\" x=\"39.25\" y=\"38.4\" text-anchor=\"middle\" dominant-baseline=\"central\" font-size=\"6.5\" font-weight=\"900\" font-family=\"Arial,sans-serif\">AD</text><path class=\"tw sg\" d=\"M6 5.4Q6.52 7.48 8.6 8Q6.52 8.52 6 10.6Q5.48 8.52 3.4 8Q5.48 7.48 6 5.4z\" style=\"animation-delay:0.6s\"/></svg>", "bots": "<svg class=\"ic ic-bots\" viewBox=\"0 0 48 48\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\" xmlns=\"http://www.w3.org/2000/svg\" aria-hidden=\"true\"><g class=\"rb\"><path class=\"p\" d=\"M24 15V9\"/><circle class=\"an sg\" cx=\"24\" cy=\"7\" r=\"2.600\"/><rect class=\"p fp\" x=\"5\" y=\"22\" width=\"4\" height=\"9\" rx=\"2\"/><rect class=\"p fp\" x=\"39\" y=\"22\" width=\"4\" height=\"9\" rx=\"2\"/><rect class=\"g fg\" x=\"10\" y=\"15\" width=\"28\" height=\"23\" rx=\"7\"/><circle class=\"ey sg\" cx=\"18\" cy=\"25\" r=\"3.200\"/><circle class=\"ey sg\" cx=\"30\" cy=\"25\" r=\"3.200\"/><path class=\"g t\" d=\"M17 32h14\"/><path class=\"p\" d=\"M20 38v4h8v-4\"/><g clip-path=\"url(#icclip4)\"><rect class=\"sw\" x=\"-4\" y=\"-4\" width=\"8\" height=\"56\" style=\"animation-delay:0.5s\"/></g></g></svg>", "channels": "<svg class=\"ic ic-channels\" viewBox=\"0 0 48 48\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\" xmlns=\"http://www.w3.org/2000/svg\" aria-hidden=\"true\"><g class=\"mg\"><path class=\"g fg\" d=\"M5 19h8l16-9v25l-16-9H5z\"/><path class=\"p\" d=\"M11 26l2 10h5l-2-9\"/></g><path class=\"wv1 g t\" d=\"M34 18a7 7 0 0 1 0 10\"/><path class=\"wv2 g t\" d=\"M38 13a12 12 0 0 1 0 20\" style=\"animation-delay:.3s\"/><circle class=\"pl5 g occ\" cx=\"38.500\" cy=\"39\" r=\"6\"/><path d=\"M38.500 36v6M35.500 39h6\" stroke=\"#fff\" stroke-width=\"1.900\"/></svg>", "daily": "<svg class=\"ic ic-daily\" viewBox=\"0 0 48 48\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\" xmlns=\"http://www.w3.org/2000/svg\" aria-hidden=\"true\"><g class=\"cal\"><rect class=\"g fg\" x=\"6\" y=\"9\" width=\"36\" height=\"33\" rx=\"5\"/><path class=\"g\" d=\"M6 19h36\"/><path class=\"g\" d=\"M15 5v8M33 5v8\"/><path class=\"ck g\" pathLength=\"100\" d=\"M16 31l6 6 11-12\" style=\"stroke-width:3.200\"/></g><path class=\"tw sg\" d=\"M41 4Q41.6 6.4 44 7Q41.6 7.6 41 10Q40.4 7.6 38 7Q40.4 6.4 41 4z\" style=\"animation-delay:0.9s\"/></svg>", "promo": "<svg class=\"ic ic-promo\" viewBox=\"0 0 48 48\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\" xmlns=\"http://www.w3.org/2000/svg\" aria-hidden=\"true\"><g class=\"pr\"><path class=\"g fg\" d=\"M9 12h18a3 3 0 0 0 6 0h6a4 4 0 0 1 4 4v16a4 4 0 0 1-4 4h-6a3 3 0 0 0-6 0H9a4 4 0 0 1-4-4V16a4 4 0 0 1 4-4z\"/><path class=\"p t\" d=\"M30 16v16\" style=\"stroke-dasharray:2 2.500\"/><text class=\"pc sg\" x=\"17\" y=\"24.500\" text-anchor=\"middle\" dominant-baseline=\"central\" font-size=\"16\" font-weight=\"900\" font-family=\"Arial,sans-serif\">%</text><path class=\"p t\" d=\"M36 20v8M38.500 20v8M41 20v8\" style=\"opacity:.8;stroke-width:1.300\"/><g clip-path=\"url(#icclip7)\"><rect class=\"sw\" x=\"-4\" y=\"-4\" width=\"8\" height=\"56\" style=\"animation-delay:0.3s\"/></g></g><path class=\"tw sg\" d=\"M42 4Q42.6 6.4 45 7Q42.6 7.6 42 10Q41.4 7.6 39 7Q41.4 6.4 42 4z\" style=\"animation-delay:0.5s\"/></svg>", "partner": "<svg class=\"ic ic-partner\" viewBox=\"0 0 48 48\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\" xmlns=\"http://www.w3.org/2000/svg\" aria-hidden=\"true\"><g class=\"pa1\"><circle class=\"g fg\" cx=\"14\" cy=\"16\" r=\"5.500\"/><path class=\"g fg\" d=\"M4 38a10 9 0 0 1 20 0z\"/></g><g class=\"pa2\"><circle class=\"p fp\" cx=\"34\" cy=\"16\" r=\"5.500\"/><path class=\"p fp\" d=\"M24 38a10 9 0 0 1 20 0z\"/></g><path class=\"lk p t\" d=\"M20 16h8\" style=\"stroke-dasharray:2 2\"/><path class=\"pu sg\" d=\"M24 3Q24.8 6.2 28 7Q24.8 7.8 24 11Q23.2 7.8 20 7Q23.2 6.2 24 3z\"/><path class=\"p\" d=\"M4 43h40\" style=\"opacity:.5\"/></svg>", "usertasks": "<svg class=\"ic ic-usertasks\" viewBox=\"0 0 48 48\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\" xmlns=\"http://www.w3.org/2000/svg\" aria-hidden=\"true\"><rect class=\"g fg\" x=\"9\" y=\"8\" width=\"30\" height=\"35\" rx=\"4\"/><rect class=\"g occ\" x=\"17\" y=\"4\" width=\"14\" height=\"7\" rx=\"2.500\"/><circle class=\"sp\" cx=\"17\" cy=\"20\" r=\"2.400\"/><path class=\"p t\" d=\"M22 20h7\"/><path class=\"ck2 g\" pathLength=\"10\" d=\"M32 20l2.200 2.200 4-4.500\" style=\"stroke-width:2;animation-delay:0s\"/><circle class=\"sp\" cx=\"17\" cy=\"28\" r=\"2.400\"/><path class=\"p t\" d=\"M22 28h7\"/><path class=\"ck2 g\" pathLength=\"10\" d=\"M32 28l2.200 2.200 4-4.500\" style=\"stroke-width:2;animation-delay:0.5s\"/><circle class=\"sp\" cx=\"17\" cy=\"36\" r=\"2.400\"/><path class=\"p t\" d=\"M22 36h7\"/><path class=\"ck2 g\" pathLength=\"10\" d=\"M32 36l2.200 2.200 4-4.500\" style=\"stroke-width:2;animation-delay:1s\"/></svg>", "ads": "<svg class=\"ic ic-ads\" viewBox=\"0 0 48 48\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\" xmlns=\"http://www.w3.org/2000/svg\" aria-hidden=\"true\"><circle class=\"bk sg\" cx=\"14\" cy=\"5\" r=\"1.500\"/><circle class=\"bk sg\" cx=\"24\" cy=\"5\" r=\"1.500\" style=\"animation-delay:.4s\"/><circle class=\"bk sg\" cx=\"34\" cy=\"5\" r=\"1.500\" style=\"animation-delay:.8s\"/><rect class=\"g fg\" x=\"5\" y=\"9\" width=\"38\" height=\"23\" rx=\"3.500\"/><text class=\"adt sg\" x=\"24\" y=\"20.500\" text-anchor=\"middle\" dominant-baseline=\"central\" font-size=\"14\" font-weight=\"900\" font-family=\"Arial,sans-serif\" letter-spacing=\"1\">ADS</text><path class=\"p\" d=\"M17 32v11M31 32v11\"/><path class=\"p t\" d=\"M12 43h24\" style=\"opacity:.5\"/><g clip-path=\"url(#icclip10)\"><rect class=\"sw\" x=\"-4\" y=\"-4\" width=\"8\" height=\"56\" style=\"animation-delay:0.6s\"/></g></svg>"};
+function taskIcon(t){ return isBotTask(t) ? IC.bots : IC.channels; }
 var ADSGRAM_BLOCK_ID = '';
 var adsgramController = null;
 var adsgramWatchBusy = false;
@@ -3595,9 +3662,9 @@ function renderTasks(tab){
      var watchedTotal = getAdNumber(stats.adsWatchedToday, 0);
      var adsByCompany = stats.adsWatchedByCompany || {};
     document.getElementById('tasksContent').innerHTML =
-       adTask('🎟️','Adsgram','+'+fmtShiba(adsgramCfg.reward)+' CRYSTAL','Watch', 'watchAdsgram()', false, Number(adsByCompany.adsgram||0), adsgramCfg.dailyLimit)+
-       adTask('🚀','Monetix','+'+fmtShiba(monetixCfg.reward)+' CRYSTAL','Watch', 'watchMonetix()', false, Number(adsByCompany.monetix||0), monetixCfg.dailyLimit)+
-       adTask('📦','GigaPub','+'+fmtShiba(gigapubCfg.reward)+' CRYSTAL','Watch', 'watchGigapub()', false, Number(adsByCompany.gigapub||0), gigapubCfg.dailyLimit);
+       adTask(IC.adsgram,'Adsgram','+'+fmtShiba(adsgramCfg.reward)+' CRYSTAL','Watch', 'watchAdsgram()', false, Number(adsByCompany.adsgram||0), adsgramCfg.dailyLimit)+
+       adTask(IC.monetag,'Monetix','+'+fmtShiba(monetixCfg.reward)+' CRYSTAL','Watch', 'watchMonetix()', false, Number(adsByCompany.monetix||0), monetixCfg.dailyLimit)+
+       adTask(IC.gigapub,'GigaPub','+'+fmtShiba(gigapubCfg.reward)+' CRYSTAL','Watch', 'watchGigapub()', false, Number(adsByCompany.gigapub||0), gigapubCfg.dailyLimit);
     return;
   }
 
@@ -3617,7 +3684,7 @@ function renderTasks(tab){
     var btnText  = st==='join'?'Join':st==='verify'?'Verify':'✓ Done';
     var onclick  = st==='join' ? 'doJoinTask(\''+t.id+'\',this)'  : st==='verify' ? 'doVerifyTask(\''+t.id+'\',this)' : '';
     return '<div class="task-item">'+
-       '<div class="task-logo">'+(t.icon||(t.category==='partner'?(isBotTask(t)?'🤖':'🤝'):(t.category==='channels'?'✈️':'🤖')))+'</div>'+
+       '<div class="task-logo'+(t.icon?'':' ic-logo')+'">'+(t.icon||taskIcon(t))+'</div>'+
       '<div class="task-info">'+
         '<div class="task-name">'+esc(t.title||t.name)+'</div>'+
         '<div class="task-reward">+'+fmtShiba(t.reward)+' '+SHIBA_ICON+'</div>'+
@@ -3639,7 +3706,7 @@ function renderTasks(tab){
   var displayButton = busy ? 'Watching...' :
     cooldownSeconds > 0 ? 'Wait '+cooldownSeconds+'s' : button;
    var counter = !disabled && typeof watched === 'number' ? '<span class="task-limit">'+watched+'/'+limit+' today</span>' : '';
-   return '<div class="task-item"><div class="task-logo">'+icon+'</div><div class="task-info"><div class="task-name">'+name+'</div>'+
+   return '<div class="task-item"><div class="task-logo ic-logo">'+icon+'</div><div class="task-info"><div class="task-name">'+name+'</div>'+
      '<div class="task-reward">'+(disabled?'<span class="maintenance">Under maintenance</span>':reward)+counter+'</div></div>'+
     '<button '+(btnId?'id="'+btnId+'" ':'')+'class="task-btn '+(disabled?'verify':'join')+'" '+((disabled||isLocked)?'disabled':'onclick="'+action+'"')+'>'+displayButton+'</button></div>';
 }
