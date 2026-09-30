@@ -996,17 +996,24 @@ html,body{height:100%;
 
 /* ── Tasks page: dark gold-accent cards ── */
 .tabs{background:rgba(9,15,32,.9);border-color:rgba(251,191,36,.14)}
-.task-item,.bonus-card,.redeem-card,.combo-attempts-card,.combo-info-card{position:relative;overflow:hidden;background:linear-gradient(145deg,#0c1428,#080e1e);border:1px solid rgba(251,191,36,.14);box-shadow:0 4px 14px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.03);animation:cardBorder 5s ease-in-out infinite}
-.task-item::after,.bonus-card::after,.redeem-card::after,.combo-attempts-card::after,.combo-info-card::after,.add-task-btn::after{content:'';position:absolute;top:0;left:-60%;width:38%;height:100%;background:linear-gradient(100deg,transparent,rgba(251,191,36,.10),transparent);transform:skewX(-20deg);animation:cardGold 6s ease-in-out infinite;pointer-events:none}
-.task-item:nth-child(2)::after{animation-delay:1.4s}.task-item:nth-child(3)::after{animation-delay:2.8s}.task-item:nth-child(4)::after{animation-delay:4.2s}.task-item:nth-child(n+5)::after{animation-delay:5s}
-.redeem-card::after{animation-delay:1.5s}.combo-attempts-card::after{animation-delay:.8s}.combo-info-card::after{animation-delay:2.2s}
+.task-item,.bonus-card,.redeem-card,.combo-attempts-card,.combo-info-card{position:relative;overflow:hidden;background:radial-gradient(120% 140% at 100% 100%,rgba(251,191,36,.14),transparent 55%),radial-gradient(90% 120% at 0% 0%,rgba(59,130,246,.10),transparent 60%),linear-gradient(145deg,#0c1428,#080e1e);border:1px solid rgba(251,191,36,.16);box-shadow:0 4px 14px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.03);animation:cardBorder 5s ease-in-out infinite}
+.task-item::before,.bonus-card::before,.redeem-card::before,.combo-attempts-card::before,.combo-info-card::before,.add-task-btn::before,.task-item::after,.bonus-card::after,.redeem-card::after,.combo-attempts-card::after,.combo-info-card::after,.add-task-btn::after{content:'';position:absolute;inset:0;pointer-events:none;z-index:0;background-repeat:repeat}
+.task-item::before,.bonus-card::before,.redeem-card::before,.combo-attempts-card::before,.combo-info-card::before,.add-task-btn::before{background-image:radial-gradient(circle,rgba(251,191,36,.95) 0 .9px,transparent 1.7px),radial-gradient(circle,rgba(253,224,71,.75) 0 .7px,transparent 1.4px),radial-gradient(circle,rgba(245,158,11,.85) 0 1.2px,transparent 2.1px);background-size:47px 53px,71px 61px,97px 89px;background-position:0 0,13px 21px,31px 7px;animation:dotsA 16s linear infinite}
+.task-item::after,.bonus-card::after,.redeem-card::after,.combo-attempts-card::after,.combo-info-card::after,.add-task-btn::after{background-image:radial-gradient(circle,rgba(251,191,36,.6) 0 1.5px,rgba(251,191,36,.16) 2.5px,transparent 4.2px),radial-gradient(circle,rgba(252,211,77,.5) 0 1.2px,rgba(251,191,36,.12) 2.2px,transparent 3.6px);background-size:83px 79px,59px 67px;background-position:20px 10px,0 33px;animation:dotsB 22s linear infinite,dotsTw 3.6s ease-in-out infinite}
+.task-item>*,.bonus-card>*,.redeem-card>*,.combo-attempts-card>*,.combo-info-card>*,.add-task-btn>*{position:relative;z-index:1}
+.task-item:nth-child(2)::before{animation-delay:-4s}.task-item:nth-child(3)::before{animation-delay:-8s}.task-item:nth-child(4)::before{animation-delay:-12s}
+.task-item:nth-child(2)::after{animation-delay:-6s,-1s}.task-item:nth-child(3)::after{animation-delay:-11s,-2s}.task-item:nth-child(4)::after{animation-delay:-16s,-3s}
+.redeem-card::before{animation-delay:-5s}.redeem-card::after{animation-delay:-9s,-1.5s}.combo-info-card::before{animation-delay:-7s}.combo-info-card::after{animation-delay:-13s,-2s}
+@keyframes dotsA{to{background-position:47px -53px,-58px -40px,128px 7px}}
+@keyframes dotsB{to{background-position:-63px 89px,-59px -34px}}
+@keyframes dotsTw{0%,100%{opacity:.45}50%{opacity:1}}
 .combo-item{background:rgba(9,15,32,.85);border-color:rgba(251,191,36,.12)}
 .combo-slot{background:rgba(4,9,22,.6)}
 @keyframes cardGold{0%,55%{left:-60%}100%{left:130%}}
 @keyframes cardBorder{0%,100%{border-color:rgba(251,191,36,.12)}50%{border-color:rgba(251,191,36,.27)}}
 /* ── Add Task card ── */
-.add-task-btn{position:relative;overflow:hidden;width:100%;padding:14px 16px;border-radius:18px;border:1.5px solid transparent;background:linear-gradient(135deg,#0d1832,#08101f) padding-box,linear-gradient(110deg,#fbbf24,#3b82f6,#fbbf24) border-box;background-size:100% 100%,300% 100%;animation:atBorder 6s linear infinite;display:flex;align-items:center;justify-content:flex-start;gap:14px;text-align:left;color:var(--text);cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.4),0 0 18px rgba(251,191,36,.08)}
-.add-task-btn:active{background:linear-gradient(135deg,#0d1832,#08101f) padding-box,linear-gradient(110deg,#fbbf24,#3b82f6,#fbbf24) border-box;transform:scale(.98)}
+.add-task-btn{position:relative;overflow:hidden;width:100%;padding:14px 16px;border-radius:18px;border:1.5px solid transparent;background:radial-gradient(120% 140% at 100% 100%,rgba(251,191,36,.16),transparent 55%) padding-box,linear-gradient(135deg,#0d1832,#08101f) padding-box,linear-gradient(110deg,#fbbf24,#3b82f6,#fbbf24) border-box;background-size:100% 100%,100% 100%,300% 100%;animation:atBorder 6s linear infinite;display:flex;align-items:center;justify-content:flex-start;gap:14px;text-align:left;color:var(--text);cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.4),0 0 18px rgba(251,191,36,.08)}
+.add-task-btn:active{background:radial-gradient(120% 140% at 100% 100%,rgba(251,191,36,.16),transparent 55%) padding-box,linear-gradient(135deg,#0d1832,#08101f) padding-box,linear-gradient(110deg,#fbbf24,#3b82f6,#fbbf24) border-box;transform:scale(.98)}
 .at-plus{position:relative;width:46px;height:46px;flex-shrink:0;border-radius:14px;background:linear-gradient(145deg,#fde68a,#f59e0b);animation:atPulse 2.6s ease-out infinite}
 .at-plus i{position:absolute;left:50%;top:50%;background:#0b1a3b;border-radius:2px;transform:translate(-50%,-50%)}
 .at-plus i:first-child{width:20px;height:3.5px}.at-plus i:last-child{width:3.5px;height:20px}
@@ -1014,7 +1021,7 @@ html,body{height:100%;
 .at-title{font-size:15px;font-weight:800;color:#fff;letter-spacing:.3px}
 .at-sub{font-size:11.5px;font-weight:500;color:#8ea2cf;line-height:1.35}
 .at-tag{flex-shrink:0;padding:5px 10px;border-radius:999px;font-size:11px;font-weight:800;letter-spacing:.8px;color:#93c5fd;background:rgba(59,130,246,.14);border:1px solid rgba(96,165,250,.35)}
-@keyframes atBorder{to{background-position:0 0,300% 0}}
+@keyframes atBorder{to{background-position:0 0,0 0,300% 0}}
 @keyframes atPulse{0%{box-shadow:0 0 0 0 rgba(251,191,36,.45)}70%,100%{box-shadow:0 0 0 12px rgba(251,191,36,0)}}
 /* ── Add Task modal ── */
 #addTaskModal{background:rgba(2,6,16,.84)}
