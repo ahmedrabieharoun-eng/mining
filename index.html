@@ -1068,7 +1068,7 @@ html,body{height:100%;
       <div class="tabs-section"><div class="tabs">
         <div class="tab active" onclick="switchTab(this,'ads')">▣ Ads</div>
         <div class="tab" onclick="switchTab(this,'channels')">🔗 User Tasks</div>
-        <div class="tab" onclick="switchTab(this,'daily')">🗓️ Daily</div>
+        <div class="tab" onclick="switchTab(this,'partner')">🤝 Partner</div>
       </div></div>
       <div class="add-task-section">
         <button class="add-task-btn" onclick="openAddTaskModal()"><span style="font-size:20px">+</span><span>Add Task</span></button>
@@ -1083,6 +1083,16 @@ html,body{height:100%;
     <!-- COMBO -->
     <div class="page" id="page-combo">
       <div class="tasks-header"><div class="page-title">🗓️ Daily Combo</div><div style="font-size:13px;color:var(--text3);margin-top:5px">Solve today's combo to win CRYSTAL rewards</div></div>
+      <div class="bonus-card">
+        <div class="feature-icon gold">🎁</div>
+        <div class="feature-copy"><div class="feature-title">Daily Bonus</div><div class="feature-sub" id="dailyBonusSub">Come back every day · +500 CRYSTAL</div></div>
+        <button class="feature-btn" id="dailyBonusBtn" onclick="claimDailyBonus()">Claim</button>
+      </div>
+      <div class="redeem-card">
+        <div class="feature-icon purple">🎟️</div>
+        <div class="feature-copy"><div class="feature-title">Redeem Code</div><div class="feature-sub">Have a promo code? Claim your reward</div></div>
+        <button class="feature-btn" onclick="openModal('redeemModal')">Redeem</button>
+      </div>
       <div id="comboPageContent"></div>
     </div>
 
@@ -3540,29 +3550,23 @@ function applyAdRewardState(data){
   if (data.shibaAdded != null) stats.earnedToday = getAdNumber(stats.earnedToday) + getAdNumber(data.shibaAdded);
 }
 
+// Bot-style task = link-open + wait (no membership check). Mirrors isBotStyleTask() on the server.
+function isBotTask(t){
+  if (!t) return false;
+  if (t.category === 'bots') return true;
+  if (t.category !== 'partner') return false;
+  if (t.type === 'bot' || t.kind === 'bot') return true;
+  var m = String(t.link || '').match(/t\.me\/([A-Za-z0-9_]+)/);
+  return !!m && /bot$/i.test(m[1]);
+}
+
 function renderTasks(tab){
-  var labels = { ads:'Advertisements', channels:'User Channels & Bots', daily:'Daily Rewards' };
+  var labels = { ads:'Advertisements', channels:'User Channels & Bots', partner:'Partner Tasks' };
   document.getElementById('tasksGroupLabel').textContent = labels[tab];
   var addSection = document.querySelector('.add-task-section');
   if (addSection) addSection.style.display = tab === 'channels' ? 'block' : 'none';
   var completed = (S.data && S.data.completedTasks) || [];
   var allTasks = (S.data && S.data.tasks) || [];
-
-  if (tab === 'daily'){
-    document.getElementById('tasksContent').innerHTML =
-      '<div class="bonus-card">'+
-        '<div class="feature-icon gold">🎁</div>'+
-        '<div class="feature-copy"><div class="feature-title">Daily Bonus</div><div class="feature-sub" id="dailyBonusSub">Come back every day · +500 CRYSTAL</div></div>'+
-        '<button class="feature-btn" id="dailyBonusBtn" onclick="claimDailyBonus()">Claim</button>'+
-      '</div>'+
-      '<div class="redeem-card">'+
-        '<div class="feature-icon purple">🎟️</div>'+
-        '<div class="feature-copy"><div class="feature-title">Redeem Code</div><div class="feature-sub">Have a promo code? Claim your reward</div></div>'+
-        '<button class="feature-btn" onclick="openModal(\'redeemModal\')">Redeem</button>'+
-      '</div>';
-    syncDailyBonusUI();
-    return;
-  }
 
   if (tab === 'ads'){
     var stats = (S.data && S.data.stats) || {};
@@ -3591,14 +3595,17 @@ function renderTasks(tab){
      var watchedTotal = getAdNumber(stats.adsWatchedToday, 0);
      var adsByCompany = stats.adsWatchedByCompany || {};
     document.getElementById('tasksContent').innerHTML =
-       '<div class="ad-summary"><span><b>Today’s ads</b><br>'+watchedTotal+' of '+totalLimit+' watched today · resets daily</span><b>'+watchedTotal+'/'+totalLimit+'</b></div>'+
        adTask('🎟️','Adsgram','+'+fmtShiba(adsgramCfg.reward)+' CRYSTAL','Watch', 'watchAdsgram()', false, Number(adsByCompany.adsgram||0), adsgramCfg.dailyLimit)+
        adTask('🚀','Monetix','+'+fmtShiba(monetixCfg.reward)+' CRYSTAL','Watch', 'watchMonetix()', false, Number(adsByCompany.monetix||0), monetixCfg.dailyLimit)+
        adTask('📦','GigaPub','+'+fmtShiba(gigapubCfg.reward)+' CRYSTAL','Watch', 'watchGigapub()', false, Number(adsByCompany.gigapub||0), gigapubCfg.dailyLimit);
     return;
   }
 
-  var list = allTasks.filter(function(t){ return t.category==='channels' || t.category==='bots'; });
+  // Partner tab shows tasks with category 'partner' (read from Firebase like any other task);
+  // User Tasks tab keeps the user-submitted channels & bots.
+  var list = allTasks.filter(function(t){
+    return tab === 'partner' ? t.category === 'partner' : (t.category==='channels' || t.category==='bots');
+  });
   if (!list.length){ document.getElementById('tasksContent').innerHTML = '<div class="empty-state">No tasks right now</div>'; return; }
   list = list.map(function(t, idx){ return { t:t, idx:idx, done: completed.indexOf(t.id) > -1 }; })
     .sort(function(a, b){ return (a.done === b.done) ? (a.idx - b.idx) : (a.done ? 1 : -1); })
@@ -3610,7 +3617,7 @@ function renderTasks(tab){
     var btnText  = st==='join'?'Join':st==='verify'?'Verify':'✓ Done';
     var onclick  = st==='join' ? 'doJoinTask(\''+t.id+'\',this)'  : st==='verify' ? 'doVerifyTask(\''+t.id+'\',this)' : '';
     return '<div class="task-item">'+
-       '<div class="task-logo">'+(t.icon||(t.category==='channels'?'✈️':'🤖'))+'</div>'+
+       '<div class="task-logo">'+(t.icon||(t.category==='partner'?(isBotTask(t)?'🤖':'🤝'):(t.category==='channels'?'✈️':'🤖')))+'</div>'+
       '<div class="task-info">'+
         '<div class="task-name">'+esc(t.title||t.name)+'</div>'+
         '<div class="task-reward">+'+fmtShiba(t.reward)+' '+SHIBA_ICON+'</div>'+
@@ -3914,7 +3921,7 @@ function doJoinTask(id, btn){
     }
     S.taskJoined[id] = true;
     renderTasks(currentTab);
-    showToast(task.category === 'bots' ? 'Open bot, wait 5s, then Verify' : 'Join channel, then Verify ✓');
+    showToast(isBotTask(task) ? 'Open bot, wait 5s, then Verify' : 'Join channel, then Verify ✓');
     if (task.link && window.Telegram && Telegram.WebApp && Telegram.WebApp.openTelegramLink){
       try { Telegram.WebApp.openTelegramLink(task.link); } catch(_){}
     } else if (task.link){
@@ -4233,7 +4240,7 @@ function switchPage(name){
   if (name === 'record') loadRecordPage();
   if (name === 'store') renderStore();
   if (name === 'lottery') { ltInitPad(); loadLotteryState(); }
-  if (name === 'combo') renderCombo();
+  if (name === 'combo') { renderCombo(); syncDailyBonusUI(); }
   if (name === 'profile') renderProfile();
   if (name === 'deposit') openDepositForm();
   if (name === 'withdraw') openWithdrawForm();
