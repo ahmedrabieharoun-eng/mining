@@ -762,6 +762,7 @@ html,body{height:100%;
 .store-pack-card:nth-child(2n) img{animation-delay:.8s}
 @keyframes spFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
 .store-pack-cost{font-size:18px;font-weight:900;color:#fff}
+.store-pack-daily{margin-top:4px;padding:3px 9px;border-radius:999px;font-size:11px;font-weight:800;color:#5eead4;background:rgba(94,234,212,.12);border:1px solid rgba(94,234,212,.28);font-variant-numeric:tabular-nums}
 .store-pack-cost-lbl{font-size:10px;letter-spacing:.5px;color:var(--text2);text-transform:uppercase;font-weight:700;margin-top:-4px}
 .store-pack-btn{position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;gap:6px;width:100%;margin-top:6px;padding:10px;border-radius:13px;border:0;color:#fff;font-weight:800;font-size:13px;cursor:pointer;
   background:linear-gradient(135deg,#22d3ee 0%,#3b82f6 55%,#8b5cf6 100%);box-shadow:0 6px 18px rgba(59,130,246,.42);
@@ -3181,6 +3182,9 @@ var STORE_PACKS = [1, 2, 3, 5, 10, 20]; // TON amounts on offer (cost)
 var storeBuyBusy = false;
 function renderStore(){
   var rate = Number((S.data && S.data.config && S.data.config.crystalPerTon) || 700);
+  // Daily mining income per CRYSTAL (same source as renderMining) — used to show each pack's daily boost
+  var miningBox = (S.data && S.data.mining) || {}, miningCfg = (S.data && S.data.config) || {};
+  var dailyPerCrystal = Number(miningBox.ratePerCrystal ?? miningCfg.miningRatePerCrystal ?? 0.0001);
   document.getElementById('storeRateLine').textContent = rate.toLocaleString('en-US') + ' CRYSTAL = 1 TON';
   document.getElementById('storeCoinBalance').textContent = Number((S.user && S.user.tonBalance) || 0).toFixed(4) + ' TON';
   var grid = document.getElementById('storeGrid');
@@ -3190,6 +3194,7 @@ function renderStore(){
       '<img src="https://i.ibb.co/chCjf1zw/Chat-GPT-Image-Sep-25-2026-04-18-45-AM-1.png" alt="">' +
       '<div class="store-pack-cost">' + crystalGet.toLocaleString('en-US') + '</div>' +
       '<div class="store-pack-cost-lbl">CRYSTAL</div>' +
+      '<div class="store-pack-daily">+' + parseFloat((crystalGet * dailyPerCrystal).toFixed(6)) + ' TON daily</div>' +
       '<button class="store-pack-btn" onclick="buyStorePack(' + tonCost + ',' + crystalGet + ',this)">' + tonCost + ' TON</button>' +
       '</div>';
   }).join('');
