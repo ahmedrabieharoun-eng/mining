@@ -721,7 +721,7 @@ html,body{height:100%;background:linear-gradient(rgba(8,6,4,.78),rgba(8,6,4,.78)
 .mine-total-label{font-size:11px;letter-spacing:1px;color:var(--text2);text-transform:uppercase;font-weight:700}
 .mine-total-val{font-size:30px;font-weight:900;color:#5eead4;text-shadow:0 0 14px rgba(45,212,191,.55);margin-top:4px;font-variant-numeric:tabular-nums}
 .mine-crystal-hero{display:flex;align-items:center;justify-content:center;margin:8px 0 18px}
-#mineScene{width:min(340px,88%);aspect-ratio:380/340;display:block;border-radius:12px;box-shadow:0 0 28px rgba(45,140,255,.35)}
+#mineScene{width:min(340px,88%);aspect-ratio:380/340;display:block}
 .mine-claim-btn{width:100%;padding:15px;border:0;border-radius:16px;background:linear-gradient(135deg,#1c9dfa,#0a5fd4);color:#fff;font-size:15px;font-weight:800;cursor:pointer;box-shadow:0 6px 20px rgba(28,157,250,.35);display:flex;align-items:center;justify-content:center;gap:8px}
 .mine-claim-btn:disabled{opacity:.5;cursor:not-allowed;box-shadow:none}
 .mine-claim-btn.running{background:rgba(255,255,255,.12);box-shadow:none;font-variant-numeric:tabular-nums;letter-spacing:.5px}
@@ -4277,15 +4277,7 @@ function timeAgo(ts){
 
   function drawScene(frame) {
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    var bg = ctx.createLinearGradient(0, 0, 0, H); bg.addColorStop(0, '#060b14'); bg.addColorStop(1, '#0f2338');
-    ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H);
-    ctx.fillStyle = '#0b1726';
-    [[20,70],[80,45],[150,90],[230,50],[300,80],[350,55]].forEach(function (a) { ctx.beginPath(); ctx.moveTo(a[0] - 22, 0); ctx.lineTo(a[0] + 22, 0); ctx.lineTo(a[0], a[1]); ctx.fill(); });
-    var mist = ctx.createRadialGradient(150, 200, 10, 150, 200, 190); mist.addColorStop(0, 'rgba(90,140,190,.32)'); mist.addColorStop(1, 'rgba(90,140,190,0)');
-    ctx.fillStyle = mist; ctx.fillRect(0, 0, W, H);
-    var fl = ctx.createLinearGradient(0, GROUND, 0, H); fl.addColorStop(0, '#1a2f45'); fl.addColorStop(1, '#0b1624');
-    ctx.fillStyle = fl; ctx.fillRect(0, GROUND, W, H - GROUND);
-    ctx.fillStyle = 'rgba(120,200,255,.35)'; ctx.fillRect(0, GROUND, W, 2);
+    ctx.clearRect(0, 0, W, H);   // شفاف: بدون خلفية وبدون خط أرض
     drawCrystal();
     ctx.save(); ctx.shadowColor = 'rgba(130,210,255,.75)'; ctx.shadowBlur = 7 * dpr;
     drawFarmer(frame.i, AX_SCENE, GROUND, S); ctx.restore();
