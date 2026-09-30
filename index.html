@@ -780,6 +780,45 @@ html,body{height:100%;
   .store-pack-card::before,.store-pack-card img,.store-pack-btn::after,.ic-store *{animation:none!important}
 }
 
+
+/* Lottery icons: scratch card (title) + number balls (section titles) */
+.ic-scratch,.ic-balls{width:44px;height:44px;overflow:visible;filter:drop-shadow(0 0 2px rgba(96,165,250,.55))}
+.ic-scratch *,.ic-balls *{transform-box:fill-box;transform-origin:center}
+.ic-scratch .g{stroke:url(#Gs2);stroke-width:2.2}
+.ic-scratch .p{stroke:url(#Ps2);stroke-width:2.2}
+.ic-scratch .t{stroke-width:1.5}
+.ic-scratch .fg{fill:rgba(251,191,36,.16)}
+.ic-scratch .occ{fill:#0b1a3b}
+.ic-scratch .sg{fill:url(#Gs2);stroke:none}
+.ic-scratch .sl{fill:#94a3b8;stroke:none}
+.ic-scratch .s1{animation:scS1 5s infinite}
+.ic-scratch .s2{animation:scS2 5s infinite}
+.ic-scratch .s3{animation:scS3 5s infinite}
+.ic-scratch .s4{animation:scS4 5s infinite}
+@keyframes scS1{0%,14%{opacity:1}20%,86%{opacity:0}94%,100%{opacity:1}}
+@keyframes scS2{0%,26%{opacity:1}32%,86%{opacity:0}94%,100%{opacity:1}}
+@keyframes scS3{0%,38%{opacity:1}44%,86%{opacity:0}94%,100%{opacity:1}}
+@keyframes scS4{0%,50%{opacity:1}56%,86%{opacity:0}94%,100%{opacity:1}}
+.ic-scratch .sc{opacity:0;animation:scCoin 5s ease-in-out infinite}
+@keyframes scCoin{
+  0%{opacity:0;transform:translate(0,0)}
+  8%{opacity:1}
+  20%{transform:translate(7px,4px)}
+  34%{transform:translate(13px,-4px)}
+  48%{transform:translate(19px,4px)}
+  58%{opacity:1;transform:translate(24px,0)}
+  64%,100%{opacity:0;transform:translate(24px,0)}
+}
+.ic-balls .g{stroke:url(#Gs3);stroke-width:2.2}
+.ic-balls .p{stroke:url(#Ps3);stroke-width:2.2}
+.ic-balls .t{stroke-width:1.5}
+.ic-balls .fg{fill:rgba(251,191,36,.16)}
+.ic-balls .fp{fill:rgba(59,130,246,.18)}
+.ic-balls .wt{fill:#fff;stroke:none}
+.ic-balls .b3{animation:blPop 2.8s ease-in-out infinite}
+@keyframes blPop{0%,100%{transform:translateY(0)}20%{transform:translateY(-6px)}38%{transform:translateY(0)}}
+@media (prefers-reduced-motion:reduce){.ic-scratch *,.ic-balls *{animation:none!important}}
+
 /* Store icon (animated cart) */
 .ic-store{width:44px;height:44px;overflow:visible;filter:drop-shadow(0 0 2px rgba(96,165,250,.55))}
 .ic-store *{transform-box:fill-box;transform-origin:center}
@@ -819,7 +858,8 @@ html,body{height:100%;
 #page-lottery .lt-header{display:flex;align-items:center;justify-content:space-between;padding:18px 18px 6px}
 #page-lottery .lt-icon-btn{width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.06);border:1px solid var(--card-border);color:var(--text);font-size:18px;font-weight:700;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
 #page-lottery .lt-icon-btn:active{background:rgba(255,255,255,.12);transform:scale(.94)}
-#page-lottery .lt-title-wrap{flex:1;text-align:center}
+#page-lottery .lt-title-wrap{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;text-align:center}
+#page-lottery .lt-title-wrap .ic-scratch{width:38px;height:38px;flex-shrink:0}
 #page-lottery .lt-title{font-size:30px;font-weight:900;letter-spacing:.5px;background:linear-gradient(180deg,#fff,#cfc8ff);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 2px 18px rgba(124,92,240,.4)}
 #page-lottery .lt-jackpot{text-align:center;padding:2px 20px 18px}
 #page-lottery .lt-jackpot-kicker{font-size:13px;font-weight:800;letter-spacing:1.5px;color:var(--gold);text-transform:uppercase}
@@ -861,7 +901,8 @@ html,body{height:100%;
 #page-lottery .lt-buy-sub{text-align:center;font-size:12.5px;color:var(--red);margin-top:9px;font-weight:700}
 #page-lottery .lt-buy-sub.ok{color:var(--text3);font-weight:500}
 #page-lottery .lt-sec-head{display:flex;align-items:center;justify-content:space-between;padding:0 20px 10px;margin-top:6px}
-#page-lottery .lt-sec-title{font-size:16px;font-weight:800;color:var(--text)}
+#page-lottery .lt-sec-title{display:flex;align-items:center;gap:8px;font-size:16px;font-weight:800;color:var(--text)}
+#page-lottery .lt-sec-title .ic-balls{width:30px;height:30px;flex-shrink:0}
 #page-lottery .lt-sec-badge{font-size:12px;font-weight:700;color:var(--text3)}
 #page-lottery .lt-status-pill{font-size:11px;font-weight:800;padding:4px 12px;border-radius:20px;background:rgba(34,197,94,.15);color:var(--green);border:1px solid rgba(34,197,94,.3)}
 #page-lottery .lt-ticket-row{display:flex;align-items:center;gap:12px;padding:12px 6px;border-bottom:1px solid rgba(255,255,255,.06)}
@@ -893,6 +934,13 @@ html,body{height:100%;
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+  <linearGradient id="Gs2" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="48"><stop offset="0" stop-color="#fef3c7"/><stop offset=".5" stop-color="#fbbf24"/><stop offset="1" stop-color="#d97706"/></linearGradient>
+  <linearGradient id="Ps2" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="48" y2="48"><stop offset="0" stop-color="#dbeafe"/><stop offset="1" stop-color="#3b82f6"/></linearGradient>
+  <linearGradient id="Gs3" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="48"><stop offset="0" stop-color="#fef3c7"/><stop offset=".5" stop-color="#fbbf24"/><stop offset="1" stop-color="#d97706"/></linearGradient>
+  <linearGradient id="Ps3" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="48" y2="48"><stop offset="0" stop-color="#dbeafe"/><stop offset="1" stop-color="#3b82f6"/></linearGradient>
+</defs></svg>
+
 
 <!-- Loading -->
 <div class="loading-screen" id="loadingScreen">
@@ -1131,7 +1179,33 @@ html,body{height:100%;
     <div class="page" id="page-lottery">
       <div class="lt-header">
         <div class="lt-icon-btn" onclick="switchPage('home')">✕</div>
-        <div class="lt-title-wrap"><div class="lt-title">Lottery</div></div>
+        <div class="lt-title-wrap">
+        <svg class="ic-scratch" viewBox="0 0 48 48" fill="none" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect class="g fg" x="6" y="7" width="36" height="34" rx="4"/>
+          <path class="p t" d="M11 13h14" style="opacity:.7"/>
+          <path class="sg" d="M16 22.4Q16.72 25.28 19.6 26Q16.72 26.72 16 29.6Q15.28 26.72 12.4 26Q15.28 25.28 16 22.4z"/>
+          <path class="sg" d="M24 20.8Q25.04 24.96 29.2 26Q25.04 27.04 24 31.2Q22.96 27.04 18.8 26Q22.96 24.96 24 20.8z"/>
+          <path class="sg" d="M32 22.4Q32.72 25.28 35.6 26Q32.72 26.72 32 29.6Q31.28 26.72 28.4 26Q31.28 25.28 32 22.4z"/>
+          <rect class="s1 sl" x="11" y="18" width="6.5" height="16"/>
+          <rect class="s2 sl" x="17.5" y="18" width="6.5" height="16"/>
+          <rect class="s3 sl" x="24" y="18" width="6.5" height="16"/>
+          <rect class="s4 sl" x="30.5" y="18" width="6.5" height="16"/>
+          <circle class="sc g occ" cx="12" cy="26" r="4"/>
+        </svg>
+        <div class="lt-title">Lottery</div>
+        <svg class="ic-scratch" viewBox="0 0 48 48" fill="none" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect class="g fg" x="6" y="7" width="36" height="34" rx="4"/>
+          <path class="p t" d="M11 13h14" style="opacity:.7"/>
+          <path class="sg" d="M16 22.4Q16.72 25.28 19.6 26Q16.72 26.72 16 29.6Q15.28 26.72 12.4 26Q15.28 25.28 16 22.4z"/>
+          <path class="sg" d="M24 20.8Q25.04 24.96 29.2 26Q25.04 27.04 24 31.2Q22.96 27.04 18.8 26Q22.96 24.96 24 20.8z"/>
+          <path class="sg" d="M32 22.4Q32.72 25.28 35.6 26Q32.72 26.72 32 29.6Q31.28 26.72 28.4 26Q31.28 25.28 32 22.4z"/>
+          <rect class="s1 sl" x="11" y="18" width="6.5" height="16"/>
+          <rect class="s2 sl" x="17.5" y="18" width="6.5" height="16"/>
+          <rect class="s3 sl" x="24" y="18" width="6.5" height="16"/>
+          <rect class="s4 sl" x="30.5" y="18" width="6.5" height="16"/>
+          <circle class="sc g occ" cx="12" cy="26" r="4"/>
+        </svg>
+        </div>
         <div class="lt-icon-btn" onclick="openLotteryHelp()">?</div>
       </div>
 
@@ -1180,7 +1254,23 @@ html,body{height:100%;
       </div>
 
       <div class="lt-sec-head">
-        <div class="lt-sec-title">My Tickets</div>
+        <div class="lt-sec-title"><svg class="ic-balls" viewBox="0 0 48 48" fill="none" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <g class="b3">
+            <circle class="g fg" cx="12" cy="32" r="7.5"/>
+            <path class="t" d="M7.5 29a5.5 5.5 0 0 1 3.5-3" stroke="#fff" opacity=".55"/>
+            <text class="wt" x="12" y="32.5" text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="900" font-family="Arial,sans-serif">7</text>
+          </g>
+          <g class="b3" style="animation-delay:.35s">
+            <circle class="p fp" cx="24" cy="16" r="7.5"/>
+            <path class="t" d="M19.5 13a5.5 5.5 0 0 1 3.5-3" stroke="#fff" opacity=".55"/>
+            <text class="wt" x="24" y="16.5" text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="900" font-family="Arial,sans-serif">3</text>
+          </g>
+          <g class="b3" style="animation-delay:.7s">
+            <circle class="g fg" cx="36" cy="32" r="7.5"/>
+            <path class="t" d="M31.5 29a5.5 5.5 0 0 1 3.5-3" stroke="#fff" opacity=".55"/>
+            <text class="wt" x="36" y="32.5" text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="900" font-family="Arial,sans-serif">9</text>
+          </g>
+        </svg><span>My Tickets</span></div>
         <div class="lt-sec-badge" id="ltMyTicketsCount">0 tickets</div>
       </div>
       <div class="lt-card" id="ltMyTicketsCard" style="padding:6px 12px">
@@ -1188,7 +1278,23 @@ html,body{height:100%;
       </div>
 
       <div class="lt-sec-head">
-        <div class="lt-sec-title">Last Round</div>
+        <div class="lt-sec-title"><svg class="ic-balls" viewBox="0 0 48 48" fill="none" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <g class="b3">
+            <circle class="g fg" cx="12" cy="32" r="7.5"/>
+            <path class="t" d="M7.5 29a5.5 5.5 0 0 1 3.5-3" stroke="#fff" opacity=".55"/>
+            <text class="wt" x="12" y="32.5" text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="900" font-family="Arial,sans-serif">7</text>
+          </g>
+          <g class="b3" style="animation-delay:.35s">
+            <circle class="p fp" cx="24" cy="16" r="7.5"/>
+            <path class="t" d="M19.5 13a5.5 5.5 0 0 1 3.5-3" stroke="#fff" opacity=".55"/>
+            <text class="wt" x="24" y="16.5" text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="900" font-family="Arial,sans-serif">3</text>
+          </g>
+          <g class="b3" style="animation-delay:.7s">
+            <circle class="g fg" cx="36" cy="32" r="7.5"/>
+            <path class="t" d="M31.5 29a5.5 5.5 0 0 1 3.5-3" stroke="#fff" opacity=".55"/>
+            <text class="wt" x="36" y="32.5" text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="900" font-family="Arial,sans-serif">9</text>
+          </g>
+        </svg><span>Last Round</span></div>
         <div class="lt-status-pill" id="ltRoundStatusPill">Finished</div>
       </div>
       <div class="lt-card lt-lucky-card">
