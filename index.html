@@ -721,7 +721,7 @@ html,body{height:100%;background:linear-gradient(rgba(8,6,4,.78),rgba(8,6,4,.78)
 .mine-total-label{font-size:11px;letter-spacing:1px;color:var(--text2);text-transform:uppercase;font-weight:700}
 .mine-total-val{font-size:30px;font-weight:900;color:#5eead4;text-shadow:0 0 14px rgba(45,212,191,.55);margin-top:4px;font-variant-numeric:tabular-nums}
 .mine-crystal-hero{display:flex;align-items:center;justify-content:center;margin:8px 0 18px}
-.mine-crystal-hero img{width:150px;height:150px;object-fit:contain;filter:drop-shadow(0 0 28px rgba(45,140,255,.55))}
+#mineScene{width:min(340px,88%);aspect-ratio:380/340;display:block;border-radius:12px;box-shadow:0 0 28px rgba(45,140,255,.35)}
 .mine-claim-btn{width:100%;padding:15px;border:0;border-radius:16px;background:linear-gradient(135deg,#1c9dfa,#0a5fd4);color:#fff;font-size:15px;font-weight:800;cursor:pointer;box-shadow:0 6px 20px rgba(28,157,250,.35);display:flex;align-items:center;justify-content:center;gap:8px}
 .mine-claim-btn:disabled{opacity:.5;cursor:not-allowed;box-shadow:none}
 .mine-claim-btn.running{background:rgba(255,255,255,.12);box-shadow:none;font-variant-numeric:tabular-nums;letter-spacing:.5px}
@@ -927,7 +927,7 @@ html,body{height:100%;background:linear-gradient(rgba(8,6,4,.78),rgba(8,6,4,.78)
          <div class="mine-total-val" id="mineTotalVal">+0.00000000</div>
        </div>
 
-       <div class="mine-crystal-hero"><img src="https://i.ibb.co/chCjf1zw/Chat-GPT-Image-Sep-25-2026-04-18-45-AM-1.png" alt="CRYSTAL"></div>
+       <div class="mine-crystal-hero"><canvas id="mineScene" width="380" height="340" role="img" aria-label="Worker mining crystal"></canvas></div>
 
        <div class="mining-countdown-wrap" id="miningCountdownWrap" style="display:none">
          <div class="mining-countdown-label">Time Remaining</div>
@@ -4200,5 +4200,134 @@ function timeAgo(ts){
   return Math.floor(d/86400)+'d ago';
 }
 </script>
+
+<script>
+/* ===== Worker & Crystal mining animation (replaces the static crystal image) ===== */
+(function () {
+  var cv = document.getElementById('mineScene');
+  if (!cv) return;
+  var IMG_URLS = {
+    worker:  ['https://i.ibb.co/YmmBP2n/worker-1-ready.png', 'https://i.ibb.co/993trSzq/worker-2-raise.png', 'https://i.ibb.co/YBMPqQjm/worker-3-strike.png', 'https://i.ibb.co/Mk3kgPY7/worker-4-recoil.png'],
+    crystal: ['https://i.ibb.co/zhGSzDgj/crystal-1-intact.png', 'https://i.ibb.co/HD1Y7j48/crystal-2-hit1.png', 'https://i.ibb.co/5gPKSvjC/crystal-3-hit2.png', 'https://i.ibb.co/F4ZyjbKc/crystal-4-stump.png'],
+    shards:  ['https://i.ibb.co/Xk30yvVz/shard-1.png', 'https://i.ibb.co/DP1T46x9/shard-2.png', 'https://i.ibb.co/gbWD04jW/shard-3.png', 'https://i.ibb.co/KxWgV9Nm/shard-4.png', 'https://i.ibb.co/99QQs82D/shard-5.png', 'https://i.ibb.co/vCc2WLLz/shard-6.png'],
+    flash:   'https://i.ibb.co/LdxVz5tH/flash.png'
+  };
+  var CELL = { w:457, h:654, ax:127, base:646, tipX:341, tipY:642 };
+  var FRAMES = [
+    { i:0, t:220 },
+    { i:1, t:200 },
+    { i:2, t:170, hit:true },
+    { i:3, t:230 }
+  ];
+
+  var W = 380, H = 340, S = 0.38, GROUND = 300, AX_SCENE = 105, CX = 236;
+  var HIT = { x: AX_SCENE + (CELL.tipX - CELL.ax) * S, y: GROUND - (CELL.base - CELL.tipY) * S };
+  var ctx = cv.getContext('2d');
+  var dpr = Math.min(window.devicePixelRatio || 1, 2);
+  cv.width = W * dpr; cv.height = H * dpr;
+  ctx.imageSmoothingQuality = 'high';
+
+  var WK = [], CRY = [], SHD = [], FLS = new Image();
+  var CC = { w:349, h:430, ax:172, base:412, hgt:305 }, SHC = { w:64, h:114, n:6 };
+  var CSC = 150 / CC.hgt;
+
+  function loadAll(cb, fail) {
+    var jobs = [];
+    function add(im, src) {
+      jobs.push(new Promise(function (ok, no) { im.onload = ok; im.onerror = function () { no(src); }; im.referrerPolicy = 'no-referrer'; im.src = src; }));
+    }
+    IMG_URLS.worker.forEach(function (u, i) { add(WK[i] = new Image(), u); });
+    IMG_URLS.crystal.forEach(function (u, i) { add(CRY[i] = new Image(), u); });
+    IMG_URLS.shards.forEach(function (u, i) { add(SHD[i] = new Image(), u); });
+    add(FLS, IMG_URLS.flash);
+    Promise.all(jobs).then(cb).catch(fail);
+  }
+
+  var shards = [], hits = 0, flash = 0;
+  function burst(n, power) {
+    for (var i = 0; i < n; i++) {
+      var ang = -Math.PI * (0.05 + Math.random() * 0.75), sp = power * (0.5 + Math.random());
+      shards.push({ x: HIT.x + 6, y: HIT.y - 8 + Math.random() * 10, vx: Math.cos(ang) * sp * 1.1 + 20,
+        vy: Math.sin(ang) * sp, r: 3 + Math.random() * 5, rot: Math.random() * 6, vr: (Math.random() - .5) * 14, life: 1, k: Math.random() * SHC.n | 0 });
+    }
+  }
+  function onHit() {
+    hits++; flash = 1;
+    if (hits % 3 === 0) burst(24, 180);
+    else burst(11, 130);
+  }
+
+  function drawCell(i) {
+    ctx.drawImage(CRY[i], -CC.ax * CSC, -CC.base * CSC, CC.w * CSC, CC.h * CSC);
+  }
+  function drawCrystal() {
+    var st = hits > 0 ? 2 : 0;   // سليمة، وبعد أول ضربة تثبت على فريم 3
+    var pulse = .7 + .3 * Math.sin(performance.now() / 420) + flash * .7;
+    ctx.save(); ctx.translate(CX + Math.sin(performance.now() / 22) * 2 * flash, GROUND + 3);
+    ctx.save(); ctx.globalCompositeOperation = 'lighter';
+    var gl = ctx.createRadialGradient(0, -70, 5, 0, -70, 140);
+    gl.addColorStop(0, 'rgba(60,150,255,' + (.32 * pulse) + ')'); gl.addColorStop(1, 'rgba(30,90,200,0)');
+    ctx.fillStyle = gl; ctx.fillRect(-150, -220, 300, 240); ctx.restore();
+    drawCell(st);
+    ctx.restore();
+  }
+  function drawFarmer(i, x, baseY, s) {
+    ctx.drawImage(WK[i], x - CELL.ax * s, baseY - CELL.base * s, CELL.w * s, CELL.h * s);
+  }
+
+  function drawScene(frame) {
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    var bg = ctx.createLinearGradient(0, 0, 0, H); bg.addColorStop(0, '#060b14'); bg.addColorStop(1, '#0f2338');
+    ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H);
+    ctx.fillStyle = '#0b1726';
+    [[20,70],[80,45],[150,90],[230,50],[300,80],[350,55]].forEach(function (a) { ctx.beginPath(); ctx.moveTo(a[0] - 22, 0); ctx.lineTo(a[0] + 22, 0); ctx.lineTo(a[0], a[1]); ctx.fill(); });
+    var mist = ctx.createRadialGradient(150, 200, 10, 150, 200, 190); mist.addColorStop(0, 'rgba(90,140,190,.32)'); mist.addColorStop(1, 'rgba(90,140,190,0)');
+    ctx.fillStyle = mist; ctx.fillRect(0, 0, W, H);
+    var fl = ctx.createLinearGradient(0, GROUND, 0, H); fl.addColorStop(0, '#1a2f45'); fl.addColorStop(1, '#0b1624');
+    ctx.fillStyle = fl; ctx.fillRect(0, GROUND, W, H - GROUND);
+    ctx.fillStyle = 'rgba(120,200,255,.35)'; ctx.fillRect(0, GROUND, W, 2);
+    drawCrystal();
+    ctx.save(); ctx.shadowColor = 'rgba(130,210,255,.75)'; ctx.shadowBlur = 7 * dpr;
+    drawFarmer(frame.i, AX_SCENE, GROUND, S); ctx.restore();
+    if (flash > 0) {
+      var sz = 80 + (1 - flash) * 50;
+      ctx.save(); ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = Math.min(1, flash * 1.3);
+      ctx.translate(HIT.x + 8, HIT.y - 6); ctx.rotate(hits * 1.3); ctx.drawImage(FLS, -sz / 2, -sz / 2, sz, sz); ctx.restore();
+    }
+    shards.forEach(function (p) {
+      var h = 10 + p.r * 3.2, w = h * SHC.w / SHC.h;
+      ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rot); ctx.globalAlpha = Math.min(1, p.life * 1.5);
+      ctx.drawImage(SHD[p.k], -w / 2, -h / 2, w, h); ctx.restore();
+    });
+  }
+
+  var idx = 0, elapsed = 0, last = performance.now();
+  var reduced = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function tick(now) {
+    var dt = Math.min(now - last, 50); last = now;
+    if (cv.offsetParent !== null) {   // مش بيشتغل وهو مخفي (صفحة تانية مفتوحة)
+      elapsed += dt;
+      while (elapsed >= FRAMES[idx].t) {
+        elapsed -= FRAMES[idx].t; idx = (idx + 1) % FRAMES.length;
+        if (FRAMES[idx].hit) onHit();
+      }
+      var s = dt / 1000;
+      shards.forEach(function (p) { p.vy += 700 * s; p.x += p.vx * s; p.y += p.vy * s; p.rot += p.vr * s; p.life -= s * 1.1; });
+      shards = shards.filter(function (p) { return p.life > 0 && p.y < GROUND + 6; });
+      flash = Math.max(0, flash - s * 4);
+      drawScene(FRAMES[idx]);
+    }
+    requestAnimationFrame(tick);
+  }
+
+  loadAll(function () {
+    if (reduced) { drawScene(FRAMES[0]); return; }
+    requestAnimationFrame(tick);
+  }, function () {   // لو الصور ما اتحملتش نرجع للصورة الثابتة
+    var hero = cv.parentNode;
+    hero.innerHTML = '<img src="https://i.ibb.co/chCjf1zw/Chat-GPT-Image-Sep-25-2026-04-18-45-AM-1.png" alt="CRYSTAL" style="width:150px;height:150px;object-fit:contain;filter:drop-shadow(0 0 28px rgba(45,140,255,.55))">';
+  });
+})();
+</script>
 </body>
-</html> 
+</html>
