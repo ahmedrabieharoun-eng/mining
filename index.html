@@ -4279,8 +4279,7 @@ function timeAgo(ts){
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, W, H);   // شفاف: بدون خلفية وبدون خط أرض
     drawCrystal();
-    ctx.save(); ctx.shadowColor = 'rgba(130,210,255,.75)'; ctx.shadowBlur = 7 * dpr;
-    drawFarmer(frame.i, AX_SCENE, GROUND, S); ctx.restore();
+    drawFarmer(frame.i, AX_SCENE, GROUND, S);
     if (flash > 0) {
       var sz = 80 + (1 - flash) * 50;
       ctx.save(); ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = Math.min(1, flash * 1.3);
