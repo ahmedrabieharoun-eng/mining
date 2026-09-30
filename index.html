@@ -756,32 +756,29 @@ html,body{height:100%;
 .store-pack-card>*{position:relative;z-index:1}
 .store-pack-card::before{content:"";position:absolute;top:-46px;left:50%;width:160px;height:160px;margin-left:-80px;border-radius:50%;
   background:radial-gradient(circle,rgba(56,189,248,.34),transparent 68%);animation:spGlow 3.6s ease-in-out infinite}
-.store-pack-card::after{content:"";position:absolute;top:0;left:-70%;width:38%;height:100%;transform:skewX(-20deg);pointer-events:none;
-  background:linear-gradient(90deg,transparent,rgba(255,255,255,.09),transparent);animation:spSweep 6s ease-in-out infinite}
-.store-pack-card:nth-child(2n)::after{animation-delay:1.4s}
-.store-pack-card:nth-child(3n)::after{animation-delay:2.8s}
 .store-pack-card:nth-child(2n)::before{animation-delay:1.2s}
 @keyframes spGlow{0%,100%{opacity:.55;transform:scale(.95)}50%{opacity:1;transform:scale(1.08)}}
-@keyframes spSweep{0%{left:-70%}45%,100%{left:140%}}
 .store-pack-card img{width:56px;height:56px;object-fit:contain;filter:drop-shadow(0 0 14px rgba(45,140,255,.55));margin-bottom:2px;animation:spFloat 3.2s ease-in-out infinite}
 .store-pack-card:nth-child(2n) img{animation-delay:.8s}
 @keyframes spFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
 .store-pack-cost{font-size:18px;font-weight:900;color:#fff}
 .store-pack-cost-lbl{font-size:10px;letter-spacing:.5px;color:var(--text2);text-transform:uppercase;font-weight:700;margin-top:-4px}
-.store-pack-btn{position:relative;overflow:hidden;width:100%;margin-top:6px;padding:10px;border-radius:13px;border:0;color:#fff;font-weight:800;font-size:13px;cursor:pointer;
+.store-pack-btn{position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;gap:6px;width:100%;margin-top:6px;padding:10px;border-radius:13px;border:0;color:#fff;font-weight:800;font-size:13px;cursor:pointer;
   background:linear-gradient(135deg,#22d3ee 0%,#3b82f6 55%,#8b5cf6 100%);box-shadow:0 6px 18px rgba(59,130,246,.42);
   transition:transform .15s,opacity .2s,box-shadow .2s}
 .store-pack-btn::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;transform:skewX(-20deg);pointer-events:none;
   background:linear-gradient(90deg,transparent,rgba(255,255,255,.38),transparent);animation:spShine 3.4s ease-in-out infinite}
 @keyframes spShine{0%{left:-60%}40%,100%{left:140%}}
+.store-pack-card .store-pack-btn img{width:18px;height:18px;margin:0;padding:2px;border-radius:50%;background:#fff;filter:none;animation:none;transform:none}
 .store-pack-btn.loading{color:transparent;pointer-events:none;box-shadow:0 0 0 rgba(0,0,0,0)}
+.store-pack-btn.loading img,.store-pack-btn.loading span{opacity:0}
 .store-pack-btn.loading::after{display:none}
 .store-pack-btn.loading::before{content:"";position:absolute;top:50%;left:50%;width:18px;height:18px;margin:-9px 0 0 -9px;border-radius:50%;
   border:2.5px solid rgba(255,255,255,.35);border-top-color:#fff;animation:spSpin .7s linear infinite}
 @keyframes spSpin{to{transform:rotate(360deg)}}
 .store-grid.busy .store-pack-btn:not(.loading){opacity:.4;pointer-events:none}
 @media (prefers-reduced-motion:reduce){
-  .store-pack-card::before,.store-pack-card::after,.store-pack-card img,.store-pack-btn::after,.ic-store *{animation:none!important}
+  .store-pack-card::before,.store-pack-card img,.store-pack-btn::after,.ic-store *{animation:none!important}
 }
 
 /* Store icon (animated cart) */
@@ -1102,7 +1099,6 @@ html,body{height:100%;
     <div class="page" id="page-store">
       <div class="store-header">
         <div class="store-title-wrap">
-        <div class="store-title" data-i18n="nav.store">Store</div>
         <svg class="ic-store" viewBox="0 0 48 48" fill="none" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <defs>
             <linearGradient id="Gs" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="48">
@@ -1119,6 +1115,7 @@ html,body{height:100%;
             <g class="wh"><circle class="p" cx="33" cy="37" r="3.2"/><path class="p t" d="M33 34.4v5.2"/></g>
           </g>
         </svg>
+        <div class="store-title" data-i18n="nav.store">Store</div>
         </div>
         <div class="store-coin-badge"><img src="https://cdn.simpleicons.org/ton/0098EA" alt="">  <span id="storeCoinBalance">0</span></div>
       </div>
@@ -3195,7 +3192,7 @@ function renderStore(){
       '<img src="https://i.ibb.co/chCjf1zw/Chat-GPT-Image-Sep-25-2026-04-18-45-AM-1.png" alt="">' +
       '<div class="store-pack-cost">' + crystalGet.toLocaleString('en-US') + '</div>' +
       '<div class="store-pack-cost-lbl">CRYSTAL</div>' +
-      '<button class="store-pack-btn" onclick="buyStorePack(' + tonCost + ',' + crystalGet + ',this)">' + tonCost + ' TON</button>' +
+      '<button class="store-pack-btn" onclick="buyStorePack(' + tonCost + ',' + crystalGet + ',this)"><span>' + tonCost + '</span><img src="https://cdn.simpleicons.org/ton/0098EA" alt="TON"></button>' +
       '</div>';
   }).join('');
 }
