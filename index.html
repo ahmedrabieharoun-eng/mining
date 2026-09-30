@@ -993,6 +993,49 @@ html,body{height:100%;
 .feature-icon .ic{width:38px;height:38px}
 .tab{display:flex;align-items:center;justify-content:center;gap:5px}
 .tab .ic{width:22px;height:22px;flex-shrink:0}
+
+/* ── Tasks page: dark gold-accent cards ── */
+.tabs{background:rgba(9,15,32,.9);border-color:rgba(251,191,36,.14)}
+.task-item,.bonus-card,.redeem-card,.combo-attempts-card,.combo-info-card{position:relative;overflow:hidden;background:linear-gradient(145deg,#0c1428,#080e1e);border:1px solid rgba(251,191,36,.14);box-shadow:0 4px 14px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.03);animation:cardBorder 5s ease-in-out infinite}
+.task-item::after,.bonus-card::after,.redeem-card::after,.combo-attempts-card::after,.combo-info-card::after,.add-task-btn::after{content:'';position:absolute;top:0;left:-60%;width:38%;height:100%;background:linear-gradient(100deg,transparent,rgba(251,191,36,.10),transparent);transform:skewX(-20deg);animation:cardGold 6s ease-in-out infinite;pointer-events:none}
+.task-item:nth-child(2)::after{animation-delay:1.4s}.task-item:nth-child(3)::after{animation-delay:2.8s}.task-item:nth-child(4)::after{animation-delay:4.2s}.task-item:nth-child(n+5)::after{animation-delay:5s}
+.redeem-card::after{animation-delay:1.5s}.combo-attempts-card::after{animation-delay:.8s}.combo-info-card::after{animation-delay:2.2s}
+.combo-item{background:rgba(9,15,32,.85);border-color:rgba(251,191,36,.12)}
+.combo-slot{background:rgba(4,9,22,.6)}
+@keyframes cardGold{0%,55%{left:-60%}100%{left:130%}}
+@keyframes cardBorder{0%,100%{border-color:rgba(251,191,36,.12)}50%{border-color:rgba(251,191,36,.27)}}
+/* ── Add Task card ── */
+.add-task-btn{position:relative;overflow:hidden;width:100%;padding:14px 16px;border-radius:18px;border:1.5px solid transparent;background:linear-gradient(135deg,#0d1832,#08101f) padding-box,linear-gradient(110deg,#fbbf24,#3b82f6,#fbbf24) border-box;background-size:100% 100%,300% 100%;animation:atBorder 6s linear infinite;display:flex;align-items:center;justify-content:flex-start;gap:14px;text-align:left;color:var(--text);cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.4),0 0 18px rgba(251,191,36,.08)}
+.add-task-btn:active{background:linear-gradient(135deg,#0d1832,#08101f) padding-box,linear-gradient(110deg,#fbbf24,#3b82f6,#fbbf24) border-box;transform:scale(.98)}
+.at-plus{position:relative;width:46px;height:46px;flex-shrink:0;border-radius:14px;background:linear-gradient(145deg,#fde68a,#f59e0b);animation:atPulse 2.6s ease-out infinite}
+.at-plus i{position:absolute;left:50%;top:50%;background:#0b1a3b;border-radius:2px;transform:translate(-50%,-50%)}
+.at-plus i:first-child{width:20px;height:3.5px}.at-plus i:last-child{width:3.5px;height:20px}
+.at-copy{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.at-title{font-size:15px;font-weight:800;color:#fff;letter-spacing:.3px}
+.at-sub{font-size:11.5px;font-weight:500;color:#8ea2cf;line-height:1.35}
+.at-tag{flex-shrink:0;padding:5px 10px;border-radius:999px;font-size:11px;font-weight:800;letter-spacing:.8px;color:#93c5fd;background:rgba(59,130,246,.14);border:1px solid rgba(96,165,250,.35)}
+@keyframes atBorder{to{background-position:0 0,300% 0}}
+@keyframes atPulse{0%{box-shadow:0 0 0 0 rgba(251,191,36,.45)}70%,100%{box-shadow:0 0 0 12px rgba(251,191,36,0)}}
+/* ── Add Task modal ── */
+#addTaskModal{background:rgba(2,6,16,.84)}
+#addTaskModal .modal{position:relative;background:radial-gradient(120% 60% at 50% 0%,rgba(59,130,246,.18),transparent 62%),linear-gradient(180deg,#0e1a36,#080e1f);border:1px solid rgba(96,165,250,.2);box-shadow:0 22px 60px rgba(0,0,0,.65),0 0 40px rgba(59,130,246,.08);padding:24px 20px 18px}
+#addTaskModal .modal::before{content:'';position:absolute;left:18%;right:18%;top:0;height:2px;background:linear-gradient(90deg,transparent,#fbbf24,transparent)}
+#addTaskModal .modal-title{display:flex;flex-direction:column;align-items:center;gap:10px;font-size:20px;letter-spacing:1.6px;margin:0 0 10px}
+.at-ico{width:60px;height:60px;border-radius:18px;display:grid;place-items:center;background:rgba(11,26,59,.85);border:1px solid rgba(251,191,36,.32);box-shadow:0 0 22px rgba(251,191,36,.18)}
+.at-ico .ic{width:44px;height:44px}
+#addTaskModal .modal-desc{color:#9fb0d3}
+#addTaskModal .modal-input{background:rgba(4,9,22,.85);border:1px solid rgba(96,165,250,.18)}
+#addTaskModal .modal-input:focus{border-color:rgba(251,191,36,.6);box-shadow:0 0 0 3px rgba(251,191,36,.1)}
+#addTaskModal .modal-field-label{color:#7d8fb8;letter-spacing:.8px}
+#addTaskModal .modal-field-label:not(:has(+ .modal-input)){color:#fbbf24;font-weight:700}
+#addTaskModal #taskCategoryChips .qty-chip,#addTaskModal #qtyChips .qty-chip{background:rgba(255,255,255,.04);border:1px solid rgba(96,165,250,.16);color:#d5def5}
+#addTaskModal #taskCategoryChips .qty-chip.active,#addTaskModal #qtyChips .qty-chip.active{background:linear-gradient(160deg,rgba(251,191,36,.22),rgba(251,191,36,.05));border-color:#fbbf24;color:#fff;box-shadow:0 0 16px rgba(251,191,36,.22)}
+#addTaskModal #qtyChips .qty-chip::after{color:#60a5fa}
+#addTaskModal #qtyChips .qty-chip.active::after{color:#fbbf24}
+#addTaskModal .modal-submit{position:relative;overflow:hidden;background:linear-gradient(135deg,#fde68a,#fbbf24 45%,#f59e0b);color:#1a1200;box-shadow:0 6px 20px rgba(251,191,36,.28)}
+#addTaskModal .modal-submit::after{content:'';position:absolute;top:0;left:-60%;width:35%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.5),transparent);transform:skewX(-20deg);animation:cardGold 4s ease-in-out infinite;pointer-events:none}
+#addTaskModal .modal-close{border-color:rgba(96,165,250,.28);color:#8ea2cf}
+#addTaskModal .task-channel-warning{border:1px solid rgba(251,191,36,.35);border-left:3px solid #fbbf24;background:rgba(251,191,36,.07);color:#fcd34d}
 </style>
 </head>
 <body>
@@ -1132,12 +1175,11 @@ html,body{height:100%;
        <div class="tasks-header"><div class="page-title">Earn</div><div style="font-size:13px;color:var(--text3);margin-top:5px">Complete tasks and collect CRYSTAL rewards</div></div>
       <div class="tabs-section"><div class="tabs">
         <div class="tab active" onclick="switchTab(this,'ads')"><svg class="ic ic-ads" viewBox="0 0 48 48" fill="none" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle class="bk sg" cx="14" cy="5" r="1.500"/><circle class="bk sg" cx="24" cy="5" r="1.500" style="animation-delay:.4s"/><circle class="bk sg" cx="34" cy="5" r="1.500" style="animation-delay:.8s"/><rect class="g fg" x="5" y="9" width="38" height="23" rx="3.500"/><text class="adt sg" x="24" y="20.500" text-anchor="middle" dominant-baseline="central" font-size="14" font-weight="900" font-family="Arial,sans-serif" letter-spacing="1">ADS</text><path class="p" d="M17 32v11M31 32v11"/><path class="p t" d="M12 43h24" style="opacity:.5"/><g clip-path="url(#icclip10)"><rect class="sw" x="-4" y="-4" width="8" height="56" style="animation-delay:0.6s"/></g></svg><span>Ads</span></div>
-        <div class="tab" onclick="switchTab(this,'channels')"><svg class="ic ic-usertasks" viewBox="0 0 48 48" fill="none" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect class="g fg" x="9" y="8" width="30" height="35" rx="4"/><rect class="g occ" x="17" y="4" width="14" height="7" rx="2.500"/><circle class="sp" cx="17" cy="20" r="2.400"/><path class="p t" d="M22 20h7"/><path class="ck2 g" pathLength="10" d="M32 20l2.200 2.200 4-4.500" style="stroke-width:2;animation-delay:0s"/><circle class="sp" cx="17" cy="28" r="2.400"/><path class="p t" d="M22 28h7"/><path class="ck2 g" pathLength="10" d="M32 28l2.200 2.200 4-4.500" style="stroke-width:2;animation-delay:0.5s"/><circle class="sp" cx="17" cy="36" r="2.400"/><path class="p t" d="M22 36h7"/><path class="ck2 g" pathLength="10" d="M32 36l2.200 2.200 4-4.500" style="stroke-width:2;animation-delay:1s"/></svg><span>User Tasks</span></div>
+        <div class="tab" onclick="switchTab(this,'channels')"><svg class="ic ic-usertasks" viewBox="0 0 48 48" fill="none" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect class="g fg" x="9" y="8" width="30" height="35" rx="4"/><rect class="g occ" x="17" y="4" width="14" height="7" rx="2.500"/><circle class="sp" cx="17" cy="20" r="2.400"/><path class="p t" d="M22 20h7"/><path class="ck2 g" pathLength="10" d="M32 20l2.200 2.200 4-4.500" style="stroke-width:2;animation-delay:0s"/><circle class="sp" cx="17" cy="28" r="2.400"/><path class="p t" d="M22 28h7"/><path class="ck2 g" pathLength="10" d="M32 28l2.200 2.200 4-4.500" style="stroke-width:2;animation-delay:0.5s"/><circle class="sp" cx="17" cy="36" r="2.400"/><path class="p t" d="M22 36h7"/><path class="ck2 g" pathLength="10" d="M32 36l2.200 2.200 4-4.500" style="stroke-width:2;animation-delay:1s"/></svg><span>TASKS</span></div>
         <div class="tab" onclick="switchTab(this,'partner')"><svg class="ic ic-partner" viewBox="0 0 48 48" fill="none" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g class="pa1"><circle class="g fg" cx="14" cy="16" r="5.500"/><path class="g fg" d="M4 38a10 9 0 0 1 20 0z"/></g><g class="pa2"><circle class="p fp" cx="34" cy="16" r="5.500"/><path class="p fp" d="M24 38a10 9 0 0 1 20 0z"/></g><path class="lk p t" d="M20 16h8" style="stroke-dasharray:2 2"/><path class="pu sg" d="M24 3Q24.8 6.2 28 7Q24.8 7.8 24 11Q23.2 7.8 20 7Q23.2 6.2 24 3z"/><path class="p" d="M4 43h40" style="opacity:.5"/></svg><span>Partner</span></div>
       </div></div>
       <div class="add-task-section">
-        <button class="add-task-btn" onclick="openAddTaskModal()"><span style="font-size:20px">+</span><span>Add Task</span></button>
-         <div class="add-task-sub">Pay with TON to promote your channel or bot</div>
+        <button class="add-task-btn" onclick="openAddTaskModal()"><span class="at-plus"><i></i><i></i></span><span class="at-copy"><span class="at-title">Add Task</span><span class="at-sub">Pay with TON to promote your channel or bot</span></span><span class="at-tag">TON</span></button>
       </div>
       <div class="tasks-list">
         <div class="tasks-group-label" id="tasksGroupLabel">Advertisements</div>
@@ -1639,7 +1681,7 @@ html,body{height:100%;
     <div class="modal-handle"></div>
 
     <div id="addTaskFormView">
-       <div class="modal-title">📢 Add Task</div>
+       <div class="modal-title"><span class="at-ico"><svg class="ic ic-channels" viewBox="0 0 48 48" fill="none" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g class="mg"><path class="g fg" d="M5 19h8l16-9v25l-16-9H5z"/><path class="p" d="M11 26l2 10h5l-2-9"/></g><path class="wv1 g t" d="M34 18a7 7 0 0 1 0 10"/><path class="wv2 g t" d="M38 13a12 12 0 0 1 0 20" style="animation-delay:.3s"/><circle class="pl5 g occ" cx="38.500" cy="39" r="6"/><path d="M38.500 36v6M35.500 39h6" stroke="#fff" stroke-width="1.900"/></svg></span><span>Add Task</span></div>
         <div class="modal-desc">Promote your Telegram channel or bot. Bot tasks are approved instantly. Channel tasks are checked immediately to confirm that the bot is an administrator.</div>
 
        <div class="modal-field-label">Task Name</div>
