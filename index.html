@@ -769,9 +769,7 @@ html,body{height:100%;
 .store-pack-btn::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;transform:skewX(-20deg);pointer-events:none;
   background:linear-gradient(90deg,transparent,rgba(255,255,255,.38),transparent);animation:spShine 3.4s ease-in-out infinite}
 @keyframes spShine{0%{left:-60%}40%,100%{left:140%}}
-.store-pack-card .store-pack-btn img{width:18px;height:18px;margin:0;padding:2px;border-radius:50%;background:#fff;filter:none;animation:none;transform:none}
 .store-pack-btn.loading{color:transparent;pointer-events:none;box-shadow:0 0 0 rgba(0,0,0,0)}
-.store-pack-btn.loading img,.store-pack-btn.loading span{opacity:0}
 .store-pack-btn.loading::after{display:none}
 .store-pack-btn.loading::before{content:"";position:absolute;top:50%;left:50%;width:18px;height:18px;margin:-9px 0 0 -9px;border-radius:50%;
   border:2.5px solid rgba(255,255,255,.35);border-top-color:#fff;animation:spSpin .7s linear infinite}
@@ -3192,7 +3190,7 @@ function renderStore(){
       '<img src="https://i.ibb.co/chCjf1zw/Chat-GPT-Image-Sep-25-2026-04-18-45-AM-1.png" alt="">' +
       '<div class="store-pack-cost">' + crystalGet.toLocaleString('en-US') + '</div>' +
       '<div class="store-pack-cost-lbl">CRYSTAL</div>' +
-      '<button class="store-pack-btn" onclick="buyStorePack(' + tonCost + ',' + crystalGet + ',this)"><span>' + tonCost + '</span><img src="https://cdn.simpleicons.org/ton/0098EA" alt="TON"></button>' +
+      '<button class="store-pack-btn" onclick="buyStorePack(' + tonCost + ',' + crystalGet + ',this)">' + tonCost + ' TON</button>' +
       '</div>';
   }).join('');
 }
