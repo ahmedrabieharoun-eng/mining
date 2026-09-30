@@ -1073,6 +1073,17 @@ html,body{height:100%;
 .rr-table-row{border-bottom-color:rgba(96,165,250,.1)}
 .rr-table-row:nth-child(even){background:rgba(255,255,255,.02)}
 .rr-table-row .rr-income{color:#fbbf24}
+
+/* ── Profile page: same dark gold cards ── */
+.profile-menu-item,.profile-id-row,.profile-status{position:relative;overflow:hidden;background:linear-gradient(145deg,#0c1428,#080e1e);border:1px solid rgba(251,191,36,.14);box-shadow:0 4px 14px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.03);animation:cardBorder 5s ease-in-out infinite}
+.profile-menu-item{border-radius:16px}
+.profile-menu-item::after,.profile-id-row::after,.profile-status::after{content:'';position:absolute;top:0;left:-60%;width:38%;height:100%;background:linear-gradient(100deg,transparent,rgba(251,191,36,.10),transparent);transform:skewX(-20deg);animation:cardGold 6s ease-in-out infinite;pointer-events:none}
+.profile-menu-item:nth-child(2)::after{animation-delay:1.2s}.profile-menu-item:nth-child(3)::after{animation-delay:2.4s}.profile-menu-item:nth-child(4)::after{animation-delay:3.6s}.profile-menu-item:nth-child(5)::after{animation-delay:4.8s}
+.profile-status::after{animation-delay:2s}
+.profile-menu-item:active{background:linear-gradient(145deg,#111c38,#0a1226)}
+.profile-menu-icon.deposit,.profile-menu-icon.withdraw,.profile-menu-icon.convert,.profile-menu-icon.language,.profile-menu-icon.history{background:rgba(11,26,59,.85);border:1px solid rgba(96,165,250,.3);color:inherit}
+.profile-menu-sub{color:#8ea2cf}
+.profile-menu-chevron{color:#fbbf24}
 </style>
 </head>
 <body>
