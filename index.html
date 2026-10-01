@@ -1160,6 +1160,56 @@ html,body{height:100%;
 #profileStatusIcon .ic{width:28px;height:28px}
 .rr-icon-badge .ic-bonus{width:38px;height:38px}
 @media (hover:hover){.pf-tile:hover,.profile-menu-item:hover{border-color:rgba(251,191,36,.4);transform:translateY(-2px)}.profile-menu-item,.pf-tile{transition:transform .15s,border-color .2s}}
+
+/* ── Wallet pages redesign (Deposit / Withdraw / Convert / Language / History) ── */
+.profile-status{cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .15s,border-color .2s}
+.profile-status:active{transform:scale(.97)}
+.profile-status.is-off,.profile-status:has(.disconnected){border-color:rgba(251,191,36,.38)}
+.profile-status-addr:empty{display:none}
+.wheel-page-header{padding:16px 16px 12px;gap:12px}
+.pg-title{display:flex;align-items:center;gap:11px;font-size:20px;letter-spacing:.2px}
+.pg-ico{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;flex-shrink:0;background:rgba(11,26,59,.85);border:1px solid rgba(96,165,250,.3);box-shadow:0 4px 14px rgba(0,0,0,.35)}
+.pg-ico .ic{width:34px;height:34px}
+.wheel-page-header .back-btn{background:linear-gradient(145deg,#0c1428,#080e1e);border:1px solid rgba(251,191,36,.2);color:#fbbf24}
+[dir=rtl] .wheel-page-header .back-btn{transform:scaleX(-1)}
+#page-deposit .wallet-form-card,#page-withdraw .wallet-form-card,#page-convert .wallet-form-card,.lang-item,.tx-item{position:relative;overflow:hidden;background:linear-gradient(145deg,#0c1428,#080e1e);border:1px solid rgba(251,191,36,.14);box-shadow:0 4px 14px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.03)}
+#page-deposit .wallet-form-card,#page-withdraw .wallet-form-card,#page-convert .wallet-form-card{border-radius:20px;padding:18px;animation:cardBorder 5s ease-in-out infinite}
+#page-deposit .wallet-form-card::after,#page-withdraw .wallet-form-card::after,#page-convert .wallet-form-card::after{content:'';position:absolute;top:0;left:-60%;width:38%;height:100%;background:linear-gradient(100deg,transparent,rgba(251,191,36,.08),transparent);transform:skewX(-20deg);animation:cardGold 7s ease-in-out infinite;pointer-events:none}
+.wallet-form-title{font-size:16px;font-weight:800;color:#fff;padding-bottom:12px;margin-bottom:14px;border-bottom:1px solid rgba(251,191,36,.12)}
+.wallet-form-help{color:#8ea2cf;line-height:1.7;margin:0 0 14px}
+#tonConnectButton{display:flex;justify-content:center;margin-bottom:14px}
+.wallet-input{height:50px;padding:0 16px;border-radius:14px;background:rgba(4,9,22,.7);border:1px solid rgba(96,165,250,.22);color:#fff;font-weight:700}
+.wallet-input:focus{border-color:rgba(251,191,36,.55);box-shadow:0 0 0 3px rgba(251,191,36,.08)}
+.wallet-submit{height:52px;padding:0 14px;border-radius:14px;font-size:15px;font-weight:800;letter-spacing:.2px;box-shadow:0 8px 20px rgba(18,154,230,.28);margin-top:4px}
+.wallet-submit:active:not(:disabled){transform:scale(.98)}
+.withdraw-requirements{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0;background:none;border:0}
+.withdraw-requirement{flex-direction:column;align-items:flex-start;gap:6px;padding:12px 14px;border-radius:14px;background:rgba(4,9,22,.7);border:1px solid rgba(96,165,250,.22);font-size:12px;color:#8ea2cf}
+.withdraw-requirement span:last-child{font-size:17px}
+.withdraw-fee-card{border-radius:14px;background:rgba(251,191,36,.07);border:1px solid rgba(251,191,36,.22);color:#8ea2cf}
+.convert-box{padding:16px;border-radius:16px;background:rgba(4,9,22,.6);border:1px solid rgba(96,165,250,.2)}
+.convert-box-label{font-size:12px;color:#8ea2cf;margin-bottom:10px}
+.convert-currency{padding:10px 12px;border-radius:14px;background:rgba(11,26,59,.6);border:1px solid rgba(96,165,250,.18);margin-bottom:8px}
+.convert-currency img{width:36px;height:36px}
+.convert-currency-name{font-size:17px}
+.convert-amount{margin-left:0;margin-inline-start:auto;text-align:end;font-size:22px;border-bottom:0;width:120px}
+.convert-balance{color:#8ea2cf;font-size:12px}
+.convert-arrow{width:44px;height:44px;font-size:22px;margin:10px auto}
+.convert-rate{border-radius:14px;margin:14px 0}
+.lang-list{padding:8px 16px 16px;gap:10px}
+.lang-item{border-radius:18px;transition:transform .15s,border-color .2s}
+.lang-item:active{transform:scale(.98)}
+.lang-item.active{border-color:rgba(251,191,36,.6);background:linear-gradient(145deg,#12203f,#0a1226)}
+.lang-flag{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;font-size:24px;background:rgba(11,26,59,.85);border:1px solid rgba(96,165,250,.3)}
+.lang-name-sub{color:#8ea2cf}
+.lang-check{color:#fbbf24;font-weight:900}
+.tx-section{padding:4px 16px 20px}
+.tx-item{justify-content:flex-start;gap:12px;padding:12px 14px;border-radius:16px;margin-bottom:10px}
+.tx-ico{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;flex-shrink:0;font-size:17px;font-weight:900;background:rgba(11,26,59,.85);border:1px solid rgba(96,165,250,.3);color:#fbbf24}
+.tx-ico.in{color:#62e69a}.tx-ico.out{color:#5ac8ff}
+.tx-label{flex:1;min-width:0;font-weight:700;color:#fff}
+.tx-badge{flex-shrink:0}
+#page-history .empty-state{padding:36px 16px;border-radius:18px;background:linear-gradient(145deg,#0c1428,#080e1e);border:1px dashed rgba(251,191,36,.2);color:#8ea2cf;text-align:center}
+@media (prefers-reduced-motion:reduce){#page-deposit .wallet-form-card,#page-withdraw .wallet-form-card,#page-convert .wallet-form-card{animation:none}}
 </style>
 </head>
 <body>
@@ -1556,11 +1606,11 @@ html,body{height:100%;
             <span data-i18n="profile.idLabel">ID</span><b id="profileId">—</b>
             <button class="profile-copy-btn" onclick="copyProfileId()" title="Copy" aria-label="Copy ID"><svg class="ic ic-copy" viewBox="0 0 48 48" fill="none" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect class="p fp" x="14" y="4" width="26" height="30" rx="4"/><g class="cp"><rect class="g fg" x="7" y="13" width="26" height="31" rx="4"/><path class="p t" d="M13 24h14M13 30h14M13 36h8"/></g><g transform="translate(42 6)"><path class="tw sg" style="animation-delay:0.5s" d="M0-3.500Q.6-.6 3.500 0Q.6.6 0 3.500Q-.6.6-3.500 0Q-.6-.6 0-3.500z"/></g></svg></button>
           </div>
-          <div class="profile-status">
+          <div class="profile-status" id="profileStatusCard" role="button" tabindex="0" onclick="toggleProfileWallet()">
             <div class="profile-status-row disconnected" id="profileStatusRow">
               <span id="profileStatusIcon"><svg class="ic ic-wallet-off" viewBox="0 0 48 48" fill="none" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g class="shk"><rect class="g fg" x="4" y="14" width="36" height="28" rx="5"/><path class="g t" d="M4 21h36" style="opacity:.5"/><rect class="p fp" x="28" y="26" width="17" height="10" rx="4"/><circle class="sg blk" cx="35" cy="31" r="1.700"/></g><path class="p t" d="M10 30h12M10 35h7" style="opacity:.35"/><g class="blk"><circle class="g occ" cx="38" cy="10" r="8.500"/><path class="g" d="M34.500 6.500l7 7M41.500 6.500l-7 7" style="stroke-width:2.400"/></g></svg></span><span id="profileStatusText" data-i18n="profile.disconnected">Disconnected</span>
             </div>
-            <div class="profile-status-addr" id="profileStatusAddr"></div>
+            <div class="profile-status-addr" id="profileStatusAddr" data-i18n="profile.tapConnect">Tap to connect</div>
           </div>
         </div>
       </div>
@@ -1595,10 +1645,10 @@ html,body{height:100%;
     <div class="page" id="page-deposit">
       <div class="wheel-page-header">
         <button class="back-btn" onclick="switchPage('profile')">←</button>
-        <div class="page-title" data-i18n="deposit.pageTitle">Deposit TON</div>
+        <div class="page-title pg-title"><span class="pg-ico"><svg class="ic ic-deposit" viewBox="0 0 48 48" fill="none" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path class="g fg" d="M5 30h10l3 5h12l3-5h10v9a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4z"/><g class="dn"><path class="g" d="M24 5v22M16 19l8 8 8-8"/></g><g transform="translate(41 10)"><path class="tw sg" style="animation-delay:0.5s" d="M0-3.500Q.6-.6 3.500 0Q.6.6 0 3.500Q-.6.6-3.500 0Q-.6-.6 0-3.500z"/></g></svg></span><span data-i18n="deposit.pageTitle">Deposit TON</span></div>
       </div>
       <div class="wallet-form-card">
-        <div class="wallet-form-title"><span>⬇️</span><span data-i18n="deposit.formTitle">Deposit TON</span></div>
+        <div class="wallet-form-title"><span data-i18n="deposit.formTitle">Deposit TON</span></div>
         <div class="wallet-form-help" data-i18n="deposit.help">Connect your TON wallet and send TON to the Crystal Mining Bot deposit wallet. Your User ID is added as the transaction comment.</div>
         <div id="tonConnectButton"></div>
         <input class="wallet-input" id="depositAmount" type="number" step="0.01" min="0.01" placeholder="TON amount" data-i18n-placeholder="deposit.amountPh">
@@ -1610,10 +1660,10 @@ html,body{height:100%;
     <div class="page" id="page-withdraw">
       <div class="wheel-page-header">
         <button class="back-btn" onclick="switchPage('profile')">←</button>
-        <div class="page-title" data-i18n="withdraw.pageTitle">Withdraw TON</div>
+        <div class="page-title pg-title"><span class="pg-ico"><svg class="ic ic-withdraw" viewBox="0 0 48 48" fill="none" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path class="g fg" d="M5 30h10l3 5h12l3-5h10v9a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4z"/><g class="up"><path class="g" d="M24 27V5M16 13l8-8 8 8"/></g><g transform="translate(41 10)"><path class="tw sg" style="animation-delay:0.5s" d="M0-3.500Q.6-.6 3.500 0Q.6.6 0 3.500Q-.6.6-3.500 0Q-.6-.6 0-3.500z"/></g></svg></span><span data-i18n="withdraw.pageTitle">Withdraw TON</span></div>
       </div>
       <div class="wallet-form-card">
-        <div class="wallet-form-title"><span>💸</span><span data-i18n="withdraw.formTitle">Withdraw TON</span></div>
+        <div class="wallet-form-title"><span data-i18n="withdraw.formTitle">Withdraw TON</span></div>
         <div class="withdraw-requirements" aria-label="Withdrawal requirements">
           <div class="withdraw-requirement min"><span data-i18n="withdraw.min">MIN</span><span id="withdrawMinValue">0.1 TON</span></div>
           <div class="withdraw-requirement ads"><span data-i18n="withdraw.ads">ADS</span><span id="withdrawAdsValue">0/15</span></div>
@@ -1629,10 +1679,10 @@ html,body{height:100%;
     <div class="page" id="page-convert">
       <div class="wheel-page-header">
         <button class="back-btn" onclick="switchPage('profile')">←</button>
-        <div class="page-title" data-i18n="convert.pageTitle">Convert</div>
+        <div class="page-title pg-title"><span class="pg-ico"><svg class="ic ic-convert" viewBox="0 0 48 48" fill="none" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g class="sa"><path class="g" d="M8 16h30M31 9l7 7-7 7"/></g><g class="sb"><path class="p" d="M40 32H10M17 25l-7 7 7 7"/></g><g transform="translate(40 40)"><path class="tw sg" style="animation-delay:0.6s" d="M0-3.500Q.6-.6 3.500 0Q.6.6 0 3.500Q-.6.6-3.500 0Q-.6-.6 0-3.500z"/></g></svg></span><span data-i18n="convert.pageTitle">Convert</span></div>
       </div>
       <div class="wallet-form-card">
-        <div class="wallet-form-title"><span>🔄</span><span data-i18n="convert.formTitle">Convert TON to CRYSTAL</span></div>
+        <div class="wallet-form-title"><span data-i18n="convert.formTitle">Convert TON to CRYSTAL</span></div>
         <div class="convert-box">
           <div class="convert-box-label">FROM</div>
           <div class="convert-currency">
@@ -1660,7 +1710,7 @@ html,body{height:100%;
     <div class="page" id="page-language">
       <div class="wheel-page-header">
         <button class="back-btn" onclick="switchPage('profile')">←</button>
-        <div class="page-title" data-i18n="language.pageTitle">Language</div>
+        <div class="page-title pg-title"><span class="pg-ico"><svg class="ic ic-language" viewBox="0 0 48 48" fill="none" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle class="g fg" cx="24" cy="24" r="18"/><path class="p t" d="M6 24h36M9 15h30M9 33h30" style="opacity:.6"/><ellipse class="flip p" cx="24" cy="24" rx="8" ry="18"/><g class="bt"><rect class="g occ" x="29" y="30" width="17" height="13" rx="4"/><text class="sg " x="37.5" y="36.8" text-anchor="middle" dominant-baseline="central" font-size="9" font-weight="900" font-family="Arial,sans-serif">A</text></g><g transform="translate(6 7)"><path class="tw sg" style="animation-delay:0.5s" d="M0-3.500Q.6-.6 3.500 0Q.6.6 0 3.500Q-.6.6-3.500 0Q-.6-.6 0-3.500z"/></g></svg></span><span data-i18n="language.pageTitle">Language</span></div>
       </div>
       <div class="lang-list">
         <div class="lang-item" id="langItem-ar" onclick="setLanguage('ar')">
@@ -1685,7 +1735,7 @@ html,body{height:100%;
     <div class="page" id="page-history">
       <div class="wheel-page-header">
         <button class="back-btn" onclick="switchPage('profile')">←</button>
-        <div class="page-title" data-i18n="profile.history.title">Transaction History</div>
+        <div class="page-title pg-title"><span class="pg-ico"><svg class="ic ic-history" viewBox="0 0 48 48" fill="none" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle class="g fg" cx="27" cy="24" r="15"/><path class="p" d="M27 24l5 3"/><path class="hd g" d="M27 24V14"/><path class="g" d="M3 21l4 4 4-4"/><g transform="translate(42 6)"><path class="tw sg" style="animation-delay:0.5s" d="M0-3.500Q.6-.6 3.500 0Q.6.6 0 3.500Q-.6.6-3.500 0Q-.6-.6 0-3.500z"/></g></svg></span><span data-i18n="profile.history.title">Transaction History</span></div>
       </div>
       <div class="tx-section">
         <div id="walletHistory"><div class="empty-state">No transactions yet</div></div>
@@ -1898,7 +1948,7 @@ var LANG = {
     'nav.home':'Home','nav.store':'Store','nav.lottery':'Lottery','nav.tasks':'Tasks','nav.combo':'Combo',
     'nav.refs':'Referrals','nav.profile':'Profile','nav.record':'Ranking',
     'home.earn':'⚡ Earn','home.withdraw':'▣ Withdraw',
-    'profile.idLabel':'ID','profile.connected':'Connected','profile.disconnected':'Disconnected',
+    'profile.tapConnect':'Tap to connect wallet','profile.disconnectAsk':'Disconnect your wallet?','profile.idLabel':'ID','profile.connected':'Connected','profile.disconnected':'Disconnected',
     'profile.deposit.title':'Deposit','profile.deposit.sub':'Deposit TON to your balance',
     'profile.withdraw.title':'Withdraw','profile.withdraw.sub':'Withdraw your balance to your TON wallet',
     'profile.convert.title':'Convert','profile.convert.sub':'Convert TON to CRYSTAL',
@@ -1919,7 +1969,7 @@ var LANG = {
     'nav.home':'الرئيسية','nav.store':'المتجر','nav.lottery':'اليانصيب','nav.tasks':'المهام','nav.combo':'الكومبو',
     'nav.refs':'الإحالات','nav.profile':'الملف الشخصي','nav.record':'الترتيب',
     'home.earn':'⚡ اربح','home.withdraw':'▣ سحب',
-    'profile.idLabel':'المعرف','profile.connected':'متصل','profile.disconnected':'غير متصل',
+    'profile.tapConnect':'اضغط لربط المحفظة','profile.disconnectAsk':'هل تريد فصل المحفظة؟','profile.idLabel':'المعرف','profile.connected':'متصل','profile.disconnected':'غير متصل',
     'profile.deposit.title':'إيداع','profile.deposit.sub':'إيداع TON إلى رصيدك',
     'profile.withdraw.title':'سحب','profile.withdraw.sub':'سحب رصيدك إلى محفظة TON الخاصة بك',
     'profile.convert.title':'تحويل','profile.convert.sub':'تحويل TON إلى CRYSTAL',
@@ -1940,7 +1990,7 @@ var LANG = {
     'nav.home':'Accueil','nav.store':'Boutique','nav.lottery':'Loterie','nav.tasks':'Tâches','nav.combo':'Combo',
     'nav.refs':'Parrainage','nav.profile':'Profil','nav.record':'Classement',
     'home.earn':'⚡ Gagner','home.withdraw':'▣ Retirer',
-    'profile.idLabel':'ID','profile.connected':'Connecté','profile.disconnected':'Déconnecté',
+    'profile.tapConnect':'Touchez pour connecter','profile.disconnectAsk':'Déconnecter votre portefeuille ?','profile.idLabel':'ID','profile.connected':'Connecté','profile.disconnected':'Déconnecté',
     'profile.deposit.title':'Dépôt','profile.deposit.sub':'Déposer du TON sur votre solde',
     'profile.withdraw.title':'Retrait','profile.withdraw.sub':'Retirer votre solde vers votre portefeuille TON',
     'profile.convert.title':'Convertir','profile.convert.sub':'Convertir TON en CRYSTAL',
@@ -1998,7 +2048,7 @@ function ensureTonConnectUI(cb, tries){
   if (tonConnectUI){ if (cb) cb(tonConnectUI); return; }
   if (!window.TON_CONNECT_UI){
     tries = tries || 0;
-    if (tries > 40) return; // SDK failed to load; leave the Connect button as-is
+    if (tries > 40){ showToast('Wallet SDK failed to load, check your connection','error'); return; }
     setTimeout(function(){ ensureTonConnectUI(cb, tries + 1); }, 150);
     return;
   }
@@ -2027,6 +2077,15 @@ function connectHeaderWallet(){
   ensureTonConnectUI(function(ui){
     if (btn){ btn.disabled = false; btn.innerHTML = 'Connect Wallet<span class="wallet-chevron">⌄</span>'; }
     if (ui.connected){ updateHeaderWalletUI(ui.wallet || ui.account); return; }
+    ui.openModal();
+  });
+}
+function toggleProfileWallet(){
+  ensureTonConnectUI(function(ui){
+    if (ui.connected){
+      if (window.confirm(t('profile.disconnectAsk'))) ui.disconnect();
+      return;
+    }
     ui.openModal();
   });
 }
@@ -3132,21 +3191,22 @@ function renderWalletHistory(logs){
      var labels = { task_reward:'Task Reward', claim_task:'Invite Reward', combo_claim:'Daily Combo', referral_reward:'Referral Bonus', wheel_spin:'Lucky Wheel', deposit:'Deposit' };
     var label = labels[l.type] || (l.type||'Reward');
      if (l.type === 'deposit' || l.currency === 'TON') {
-       entries.push({ ts:l.ts||0, label:label+' +'+Number(l.amount||0).toFixed(4)+' TON', cls:'ok', txt:'Done' });
+       entries.push({ ts:l.ts||0, kind:'in', label:label+' +'+Number(l.amount||0).toFixed(4)+' TON', cls:'ok', txt:'Done' });
      } else {
-       entries.push({ ts:l.ts||0, label:label+' +'+fmtShiba(l.amount)+' '+SHIBA_ICON, cls:'ok', txt:'Done' });
+       entries.push({ ts:l.ts||0, kind:'rw', label:label+' +'+fmtShiba(l.amount)+' '+SHIBA_ICON, cls:'ok', txt:'Done' });
      }
   });
   withdrawals.forEach(function(w){
     var isPaid = w.status==='completed' || w.status==='paid';
     var cls = isPaid ? 'ok' : w.status==='rejected' ? 'err' : 'pend';
     var txt = isPaid ? 'Paid' : w.status==='rejected' ? 'Rejected' : 'Pending';
-    entries.push({ ts:w.ts||0, label:'Withdraw -'+Number(w.amount||0).toFixed(4)+' TON', cls:cls, txt:txt });
+    entries.push({ ts:w.ts||0, kind:'out', label:'Withdraw -'+Number(w.amount||0).toFixed(4)+' TON', cls:cls, txt:txt });
   });
   entries.sort(function(a,b){ return (b.ts||0)-(a.ts||0); });
   if (!entries.length){ document.getElementById('walletHistory').innerHTML = '<div class="empty-state">No transactions yet</div>'; return; }
   document.getElementById('walletHistory').innerHTML = entries.map(function(r){
-    return '<div class="tx-item"><span class="tx-label">'+r.label+'</span><span class="tx-badge '+r.cls+'">'+r.txt+'</span></div>';
+    var g = {in:'↓',out:'↑',rw:'★'}[r.kind] || '•';
+    return '<div class="tx-item"><span class="tx-ico '+(r.kind||'')+'">'+g+'</span><span class="tx-label">'+r.label+'</span><span class="tx-badge '+r.cls+'">'+r.txt+'</span></div>';
   }).join('');
 }
 
@@ -3513,7 +3573,10 @@ function updateProfileWalletStatus(wallet){
   row.classList.toggle('disconnected', !connected);
   if (icon) icon.innerHTML = connected ? WALLET_ICONS.on : WALLET_ICONS.off;
   if (text){ text.textContent = connected ? t('profile.connected') : t('profile.disconnected'); text.setAttribute('data-i18n', connected ? 'profile.connected' : 'profile.disconnected'); }
-  if (addrEl) addrEl.textContent = connected ? shortAddr(address) : '';
+  if (addrEl){
+    if (connected){ addrEl.removeAttribute('data-i18n'); addrEl.textContent = shortAddr(address); }
+    else { addrEl.setAttribute('data-i18n','profile.tapConnect'); addrEl.textContent = t('profile.tapConnect'); }
+  }
 }
 
 // ── Store / Market ───────────────────────────────────────────────────
