@@ -1212,6 +1212,18 @@ html,body{height:100%;
 .tx-badge{flex-shrink:0}
 #page-history .empty-state{padding:36px 16px;border-radius:18px;background:linear-gradient(145deg,#0c1428,#080e1e);border:1px dashed rgba(251,191,36,.2);color:#8ea2cf;text-align:center}
 @media (prefers-reduced-motion:reduce){#page-deposit .wallet-form-card,#page-withdraw .wallet-form-card,#page-convert .wallet-form-card{animation:none}}
+
+/* ── TON balance card on the Mining page ── */
+.mine-ton-card{position:relative;overflow:hidden;display:flex;align-items:center;gap:14px;margin:0 16px 12px;padding:14px 14px 14px 16px;border-radius:20px;background:radial-gradient(90% 160% at 0% 0%,rgba(0,152,234,.22),transparent 60%),linear-gradient(145deg,#0c1428,#080e1e);border:1px solid rgba(0,152,234,.38);box-shadow:0 6px 20px rgba(0,0,0,.4),0 0 22px rgba(0,152,234,.14),inset 0 1px 0 rgba(255,255,255,.04)}
+.mine-ton-card::after{content:'';position:absolute;top:0;left:-60%;width:38%;height:100%;background:linear-gradient(100deg,transparent,rgba(125,211,252,.12),transparent);transform:skewX(-20deg);animation:cardGold 6s ease-in-out infinite;pointer-events:none}
+.mine-ton-ico{width:50px;height:50px;border-radius:16px;display:grid;place-items:center;flex-shrink:0;background:rgba(0,152,234,.14);border:1px solid rgba(0,152,234,.45);box-shadow:0 0 16px rgba(0,152,234,.3)}
+.mine-ton-ico img{width:28px;height:28px}
+.mine-ton-body{flex:1;min-width:0}
+.mine-ton-label{font-size:12px;font-weight:700;color:#8ea2cf}
+.mine-ton-val{display:flex;align-items:baseline;gap:6px;margin-top:2px;font-size:26px;font-weight:900;color:#fff;font-variant-numeric:tabular-nums;text-shadow:0 0 14px rgba(0,152,234,.5)}
+.mine-ton-unit{font-size:13px;font-weight:800;color:#38bdf8}
+.mine-ton-add{width:40px;height:40px;border-radius:50%;flex-shrink:0;cursor:pointer;font-size:24px;font-weight:700;line-height:1;color:#fbbf24;background:rgba(11,26,59,.85);border:1px solid rgba(251,191,36,.35)}
+.mine-ton-add:active{transform:scale(.92)}
 </style>
 </head>
 <body>
@@ -1299,6 +1311,15 @@ html,body{height:100%;
            </div>
         </div>
       </div>
+
+       <div class="mine-ton-card" id="mineTonCard">
+         <div class="mine-ton-ico"><img src="https://cdn.simpleicons.org/ton/0098EA" alt="TON"></div>
+         <div class="mine-ton-body">
+           <div class="mine-ton-label" data-i18n="mine.tonBalance">TON Balance</div>
+           <div class="mine-ton-val"><span id="mineTonVal">0.0000</span><span class="mine-ton-unit">TON</span></div>
+         </div>
+         <button type="button" class="mine-ton-add" onclick="switchPage('deposit')" aria-label="Deposit TON">+</button>
+       </div>
 
        <div class="mine-stats-row">
          <div class="mine-stat-box">
@@ -1981,7 +2002,7 @@ var LANG = {
     'nav.home':'Home','nav.store':'Store','nav.lottery':'Lottery','nav.tasks':'Tasks','nav.combo':'Combo',
     'nav.refs':'Referrals','nav.profile':'Profile','nav.record':'Ranking',
     'home.earn':'⚡ Earn','home.withdraw':'▣ Withdraw',
-    'profile.tapConnect':'Tap to connect wallet','profile.disconnectAsk':'Disconnect your wallet?','profile.idLabel':'ID','profile.connected':'Connected','profile.disconnected':'Disconnected',
+    'profile.tapConnect':'Tap to connect wallet','profile.disconnectAsk':'Disconnect your wallet?','mine.tonBalance':'TON Balance','profile.idLabel':'ID','profile.connected':'Connected','profile.disconnected':'Disconnected',
     'profile.deposit.title':'Deposit','profile.deposit.sub':'Deposit TON to your balance',
     'profile.withdraw.title':'Withdraw','profile.withdraw.sub':'Withdraw your balance to your TON wallet',
     'profile.convert.title':'Convert','profile.convert.sub':'Convert TON to CRYSTAL',
@@ -2002,7 +2023,7 @@ var LANG = {
     'nav.home':'الرئيسية','nav.store':'المتجر','nav.lottery':'اليانصيب','nav.tasks':'المهام','nav.combo':'الكومبو',
     'nav.refs':'الإحالات','nav.profile':'الملف الشخصي','nav.record':'الترتيب',
     'home.earn':'⚡ اربح','home.withdraw':'▣ سحب',
-    'profile.tapConnect':'اضغط لربط المحفظة','profile.disconnectAsk':'هل تريد فصل المحفظة؟','profile.idLabel':'المعرف','profile.connected':'متصل','profile.disconnected':'غير متصل',
+    'profile.tapConnect':'اضغط لربط المحفظة','profile.disconnectAsk':'هل تريد فصل المحفظة؟','mine.tonBalance':'رصيد TON','profile.idLabel':'المعرف','profile.connected':'متصل','profile.disconnected':'غير متصل',
     'profile.deposit.title':'إيداع','profile.deposit.sub':'إيداع TON إلى رصيدك',
     'profile.withdraw.title':'سحب','profile.withdraw.sub':'سحب رصيدك إلى محفظة TON الخاصة بك',
     'profile.convert.title':'تحويل','profile.convert.sub':'تحويل TON إلى CRYSTAL',
@@ -2023,7 +2044,7 @@ var LANG = {
     'nav.home':'Accueil','nav.store':'Boutique','nav.lottery':'Loterie','nav.tasks':'Tâches','nav.combo':'Combo',
     'nav.refs':'Parrainage','nav.profile':'Profil','nav.record':'Classement',
     'home.earn':'⚡ Gagner','home.withdraw':'▣ Retirer',
-    'profile.tapConnect':'Touchez pour connecter','profile.disconnectAsk':'Déconnecter votre portefeuille ?','profile.idLabel':'ID','profile.connected':'Connecté','profile.disconnected':'Déconnecté',
+    'profile.tapConnect':'Touchez pour connecter','profile.disconnectAsk':'Déconnecter votre portefeuille ?','mine.tonBalance':'Solde TON','profile.idLabel':'ID','profile.connected':'Connecté','profile.disconnected':'Déconnecté',
     'profile.deposit.title':'Dépôt','profile.deposit.sub':'Déposer du TON sur votre solde',
     'profile.withdraw.title':'Retrait','profile.withdraw.sub':'Retirer votre solde vers votre portefeuille TON',
     'profile.convert.title':'Convertir','profile.convert.sub':'Convertir TON en CRYSTAL',
@@ -2146,6 +2167,8 @@ function updateCrystalTonValueDisplays(){
   if (homeEl) homeEl.innerHTML = value;
 }
 function updateWalletTonBalance(){
+  var mt = document.getElementById('mineTonVal');
+  if (mt) mt.textContent = Number((S.user && S.user.tonBalance) || 0).toFixed(4);
   var crystalEl = document.getElementById('walletCrystalBalance');
   if (crystalEl) crystalEl.innerHTML = fmtShiba((S.user && S.user.balance) || 0) + ' <img class="wallet-crystal-icon" src="https://i.ibb.co/chCjf1zw/Chat-GPT-Image-Sep-25-2026-04-18-45-AM-1.png" alt="CRYSTAL">';
   var el = document.getElementById('walletTon');
@@ -2869,6 +2892,7 @@ function renderMining(){
   if (!holdingEl || !dayEl || !totalEl || !startBtn || !claimBtn) return;
 
   holdingEl.textContent = fmtShiba(holding);
+  updateWalletTonBalance();
   dayEl.textContent = (holding * rate) > 0 ? ('+' + (holding * rate).toFixed(6) + ' TON') : '–';
 
   function fmtCountdown(ms){
