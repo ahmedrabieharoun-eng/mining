@@ -734,7 +734,7 @@ html,body{height:100%;
 .mine-crystal-hero{display:flex;align-items:center;justify-content:center;margin:0 0 14px}
 .mine-flake{width:min(72vw,300px);height:auto;max-width:100%;display:block;pointer-events:none}
 .sf-glow{transform-origin:200px 200px;animation:sfPulse 3s ease-in-out infinite}
-@keyframes sfPulse{0%,100%{filter:drop-shadow(0 0 6px #38bdf8aa)}50%{filter:drop-shadow(0 0 16px #f5b942cc)}}
+@keyframes sfPulse{0%,100%{filter:drop-shadow(0 0 5px rgba(59,130,246,.45))}50%{filter:drop-shadow(0 0 14px rgba(251,191,36,.55))}}
 .mine-claim-btn{width:100%;padding:15px;border:0;border-radius:16px;background:linear-gradient(135deg,#1c9dfa,#0a5fd4);color:#fff;font-size:15px;font-weight:800;cursor:pointer;box-shadow:0 6px 20px rgba(28,157,250,.35);display:flex;align-items:center;justify-content:center;gap:8px}
 .mine-claim-btn:disabled{opacity:.5;cursor:not-allowed;box-shadow:none}
 .mine-claim-btn.running{background:rgba(255,255,255,.12);box-shadow:none;font-variant-numeric:tabular-nums;letter-spacing:.5px}
@@ -1342,8 +1342,11 @@ html,body{height:100%;
 
        <div class="mine-crystal-hero"><svg id="mineFlake" class="mine-flake" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mining snowflake">
   <defs>
-    <radialGradient id="sf-fillg" gradientUnits="userSpaceOnUse" cx="200" cy="200" r="175">
-      <stop offset="0" stop-color="#38bdf8"/><stop offset="0.4" stop-color="#5fd0ff"/><stop offset="0.65" stop-color="#f5b942"/><stop offset="1" stop-color="#ffd978"/>
+    <radialGradient id="sf-fillg" gradientUnits="userSpaceOnUse" cx="200" cy="200" r="178">
+      <stop offset="0" stop-color="#2f7fd1"/><stop offset="0.28" stop-color="#4d8fc4"/><stop offset="0.46" stop-color="#b8923f"/><stop offset="0.72" stop-color="#e0a92f"/><stop offset="1" stop-color="#f6c453"/>
+    </radialGradient>
+    <radialGradient id="sf-halo" cx="200" cy="200" r="190" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1d4f8f" stop-opacity=".28"/><stop offset="0.55" stop-color="#fbbf24" stop-opacity=".07"/><stop offset="1" stop-color="#fbbf24" stop-opacity="0"/>
     </radialGradient>
     <clipPath id="sf-reveal"><rect x="100" y="200" width="200" height="0">
       <animate id="sf-grow" attributeName="y" values="200;16;16;200" keyTimes="0;0.6;0.85;1" dur="6s" repeatCount="indefinite"/>
@@ -1367,10 +1370,11 @@ html,body{height:100%;
       <use href="#sf-arm" transform="rotate(180 200 200)"/><use href="#sf-arm" transform="rotate(240 200 200)"/><use href="#sf-arm" transform="rotate(300 200 200)"/>
     </g>
   </defs>
-  <use href="#sf-flake" fill="none" stroke="#38bdf8" stroke-opacity=".4" stroke-width="2" stroke-linejoin="round"/>
-  <g class="sf-glow" id="sfFill" style="display:none"><use href="#sf-flakef" fill="url(#sf-fillg)" stroke="#ffffff" stroke-opacity=".45" stroke-width="1.5" stroke-linejoin="round"/></g>
-  <polygon points="200,181 216,190 216,210 200,219 184,210 184,190" fill="#0b1226" stroke="#38bdf8" stroke-width="3"/>
-  <circle cx="200" cy="200" r="6" fill="#ffd978"/>
+  <circle cx="200" cy="200" r="190" fill="url(#sf-halo)"/>
+  <use href="#sf-flake" fill="none" stroke="#fbbf24" stroke-opacity=".28" stroke-width="2" stroke-linejoin="round"/>
+  <g class="sf-glow" id="sfFill" style="display:none"><use href="#sf-flakef" fill="url(#sf-fillg)" stroke="#fde68a" stroke-opacity=".35" stroke-width="1.2" stroke-linejoin="round"/></g>
+  <polygon points="200,181 216,190 216,210 200,219 184,210 184,190" fill="#0a1124" stroke="#d9a441" stroke-width="3"/>
+  <circle cx="200" cy="200" r="6" fill="#f6c453"/>
 </svg></div>
 
        <div class="mining-countdown-wrap" id="miningCountdownWrap" style="display:none">
