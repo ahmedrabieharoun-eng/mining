@@ -1313,6 +1313,42 @@ html,body{height:100%;
 .nav-icon{display:flex;align-items:center;justify-content:center;height:30px}
 .nav-item .nav-icon svg{opacity:.72;transition:opacity .2s,transform .2s}
 .nav-item.active .nav-icon svg{opacity:1;transform:translateY(-1px) scale(1.06);filter:drop-shadow(0 0 5px rgba(96,165,250,.7))}
+
+/* ===== Home screen: fit the whole screen, no scrolling (everything scales with the viewport) ===== */
+.app{height:100vh;height:100dvh}
+#page-home{--h:calc((100vh - 72px - env(safe-area-inset-bottom,0px)) / 100)}
+@supports (height:100dvh){#page-home{--h:calc((100dvh - 72px - env(safe-area-inset-bottom,0px)) / 100)}}
+#page-home.active{display:flex;flex-direction:column;overflow:hidden;padding-bottom:calc(72px + env(safe-area-inset-bottom,0px))}
+#page-home > *{flex-shrink:0}
+#page-home .home-header{margin:calc(var(--h)*1.8) 16px calc(var(--h)*1.3);padding:calc(var(--h)*1.4) 14px;border-radius:calc(var(--h)*2.6)}
+#page-home .avatar{width:clamp(34px,calc(var(--h)*6),50px);height:clamp(34px,calc(var(--h)*6),50px);font-size:clamp(14px,calc(var(--h)*2.3),19px)}
+#page-home .user-name{font-size:clamp(13px,calc(var(--h)*2.1),17px)}
+#page-home .user-handle{font-size:clamp(10.5px,calc(var(--h)*1.65),13.5px)}
+#page-home .header-wallet-connect{padding:clamp(6px,calc(var(--h)*1.1),9px) clamp(10px,calc(var(--h)*1.7),14px);font-size:clamp(11px,calc(var(--h)*1.6),13px)}
+#page-home .header-wallet-btn{width:clamp(34px,calc(var(--h)*5.2),44px);height:clamp(34px,calc(var(--h)*5.2),44px);font-size:clamp(24px,calc(var(--h)*3.8),32px)}
+#page-home .mine-ton-card{margin:0 16px calc(var(--h)*1.3);padding:calc(var(--h)*1.5) 14px calc(var(--h)*1.5) 16px;gap:clamp(10px,calc(var(--h)*1.7),14px);border-radius:calc(var(--h)*2.4)}
+#page-home .mine-ton-ico{width:clamp(36px,calc(var(--h)*6),50px);height:clamp(36px,calc(var(--h)*6),50px);border-radius:calc(var(--h)*1.9)}
+#page-home .mine-ton-ico img{width:clamp(20px,calc(var(--h)*3.4),28px);height:clamp(20px,calc(var(--h)*3.4),28px)}
+#page-home .mine-ton-label{font-size:clamp(10.5px,calc(var(--h)*1.5),12px)}
+#page-home .mine-ton-val{font-size:clamp(19px,calc(var(--h)*3.3),26px)}
+#page-home .mine-ton-unit{font-size:clamp(11px,calc(var(--h)*1.6),13px)}
+#page-home .mine-ton-add{width:clamp(36px,calc(var(--h)*5.6),46px);height:clamp(36px,calc(var(--h)*5.6),46px)}
+#page-home .mine-ton-add .ic{width:clamp(26px,calc(var(--h)*4.2),34px);height:clamp(26px,calc(var(--h)*4.2),34px)}
+#page-home .mine-stats-row{margin:0 16px calc(var(--h)*1.3);gap:clamp(8px,calc(var(--h)*1.3),10px)}
+#page-home .mine-stat-box{padding:calc(var(--h)*1.2) 14px;border-radius:calc(var(--h)*2)}
+#page-home .mine-stat-icon{width:clamp(22px,calc(var(--h)*3.7),30px);height:clamp(22px,calc(var(--h)*3.7),30px);margin-bottom:calc(var(--h)*.8)}
+#page-home .mine-stat-icon img{width:clamp(14px,calc(var(--h)*2.5),20px);height:clamp(14px,calc(var(--h)*2.5),20px)}
+#page-home .mine-stat-label{font-size:clamp(8.5px,calc(var(--h)*1.25),10px)}
+#page-home .mine-stat-val{font-size:clamp(14px,calc(var(--h)*2.4),19px)}
+#page-home .mine-total-wrap{margin:calc(var(--h)*.2) 0 calc(var(--h)*1)}
+#page-home .mine-total-label{font-size:clamp(9.5px,calc(var(--h)*1.4),11px)}
+#page-home .mine-total-val{font-size:clamp(21px,calc(var(--h)*3.9),34px);margin-top:calc(var(--h)*.4)}
+#page-home .mine-crystal-hero{flex:1 1 0;min-height:0;margin:0 16px calc(var(--h)*1.2)}
+#page-home .mine-flake{height:100%;width:auto;max-width:88%;max-height:100%}
+#page-home .mining-countdown-wrap{margin:0 0 calc(var(--h)*1.2)}
+#page-home .mining-countdown-label{font-size:clamp(9.5px,calc(var(--h)*1.4),11px)}
+#page-home .mining-countdown-val{font-size:clamp(20px,calc(var(--h)*3.6),28px);margin-top:calc(var(--h)*.3)}
+#page-home .mine-claim-btn{width:calc(100% - 32px);margin:0 16px calc(var(--h)*1.2);padding:clamp(10px,calc(var(--h)*1.9),15px);font-size:clamp(13px,calc(var(--h)*1.95),15px);border-radius:calc(var(--h)*2.1)}
 </style>
 </head>
 <body>
