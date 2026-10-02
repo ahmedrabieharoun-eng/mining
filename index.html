@@ -1164,6 +1164,31 @@ html,body{height:100%;
 .ct-list{margin:0 16px 24px;gap:9px}
 .ct-row{padding:12px 14px;border-radius:16px}
 .ct-pos{font-size:15px;width:30px;color:#7d8fb8}
+
+/* Contest v3 polish */
+.ct-prizes{display:block}
+.ctp-top{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+.ctp-big{position:relative;padding:14px 6px 12px;border-radius:18px;text-align:center;border:1px solid rgba(255,255,255,.12);overflow:hidden}
+.ctp-big::before{content:'';position:absolute;inset:0;background:radial-gradient(90% 60% at 50% 0%,rgba(255,255,255,.16),transparent 70%);pointer-events:none}
+.ctp-big.g1{background:linear-gradient(165deg,rgba(251,191,36,.38),rgba(251,191,36,.05));border-color:rgba(251,191,36,.7);box-shadow:0 8px 22px rgba(251,191,36,.14)}
+.ctp-big.g2{background:linear-gradient(165deg,rgba(203,213,225,.3),rgba(203,213,225,.04));border-color:rgba(203,213,225,.55)}
+.ctp-big.g3{background:linear-gradient(165deg,rgba(217,119,6,.34),rgba(217,119,6,.04));border-color:rgba(217,119,6,.6)}
+.ctp-medal{font-size:26px;line-height:1;filter:drop-shadow(0 4px 8px rgba(0,0,0,.4))}
+.ctp-amt{display:flex;align-items:center;justify-content:center;gap:4px;margin-top:8px;font-size:18px;font-weight:900;color:#fff}
+.ctp-amt img{width:15px;height:15px}
+.ctp-big.g1 .ctp-amt{color:#fde68a}
+.ctp-lbl{margin-top:3px;font-size:10px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:#a9b8dc}
+.ctp-rest{display:grid;grid-template-columns:repeat(auto-fit,minmax(58px,1fr));gap:7px;margin-top:9px}
+.ctp-chip{display:flex;align-items:center;justify-content:space-between;padding:8px 10px;border-radius:11px;background:rgba(255,255,255,.04);border:1px solid rgba(96,165,250,.16);font-size:11px}
+.ctp-chip span{color:#7d8fb8;font-weight:800}.ctp-chip b{color:#fff;font-weight:900}
+.ct-gap{display:inline-block;margin-top:6px;padding:3px 10px;border-radius:20px;font-size:10.5px;font-weight:800;color:#fbbf24;background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.3)}
+.ct-gap.lead{color:#4ade80;background:rgba(34,197,94,.12);border-color:rgba(34,197,94,.35)}
+.ct-bar{height:5px;margin-top:7px;border-radius:5px;background:rgba(255,255,255,.07);overflow:hidden}
+.ct-bar i{display:block;height:100%;border-radius:5px;background:linear-gradient(90deg,#3b82f6,#23b7f3)}
+.ct-row.me .ct-bar i{background:linear-gradient(90deg,#f59e0b,#fde68a)}
+.ct-row-prize{display:inline-flex;align-items:center;gap:4px;padding:5px 10px;border-radius:20px;background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.3)}
+.ct-row-prize.none{color:#4b5a82;background:transparent;border-color:transparent}
+.ct-row.me{background:linear-gradient(145deg,rgba(35,183,243,.14),#080e1e 70%)}
 </style>
 </head>
 <body>
@@ -3086,15 +3111,34 @@ function renderLeaderboard(){
   var myName = u.firstName || (u.username ? '@'+u.username : '') || 'You';
   var myAv = u.photoUrl ? '<img src="'+esc2(u.photoUrl)+'" alt="">' : esc2(myName.charAt(0).toUpperCase());
   var myCount = data.myActiveReferrals || data.myReferralsThisWeek || 0;
+  var gapHint = '';
+  (function(){
+    var rk = Number(data.myRank || 0);
+    if (rk > 1){
+      var above = list.filter(function(r){ return r.rank === rk-1; })[0];
+      var cOf = function(r){ return r.activeReferrals != null ? r.activeReferrals : (r.referralsThisWeek || 0); };
+      if (above){
+        var gap = Math.max(1, cOf(above) - myCount + 1);
+        gapHint = '<div class="ct-gap">⚡ '+gap+' more to reach #'+(rk-1)+'</div>';
+      }
+    } else if (rk === 1){
+      gapHint = '<div class="ct-gap lead">👑 You\'re leading!</div>';
+    }
+  })();
   var meEl = document.getElementById('ctMe');
   if (meEl) meEl.innerHTML = '<div class="ct-me"><div class="ct-av">'+myAv+'</div>'+
-    '<div class="ct-me-info"><div class="ct-me-name">'+esc2(myName)+'</div><div class="ct-me-sub">'+myCount+' active referral'+(myCount===1?'':'s')+' this round</div></div>'+
+    '<div class="ct-me-info"><div class="ct-me-name">'+esc2(myName)+'</div><div class="ct-me-sub">'+myCount+' active referral'+(myCount===1?'':'s')+' this round</div>'+gapHint+'</div>'+
     '<div class="ct-me-rank"><b>'+(data.myRank ? '#'+data.myRank : '—')+'</b><span>YOUR RANK</span></div></div>';
 
   var pz = document.getElementById('ctPrizes');
-  if (pz) pz.innerHTML = prizes.map(function(p,i){
-    return '<div class="ct-prize'+(i<3?' top':'')+'"><div class="ct-prize-rank">'+(LB_MEDALS[i]||('#'+(i+1)))+'</div><div class="ct-prize-val">'+p+'</div></div>';
-  }).join('');
+  var tonS = '<img src="https://cdn.simpleicons.org/ton/0098EA" alt="">';
+  if (pz) pz.innerHTML =
+    '<div class="ctp-top">'+prizes.slice(0,3).map(function(p,i){
+      return '<div class="ctp-big g'+(i+1)+'"><div class="ctp-medal">'+LB_MEDALS[i]+'</div><div class="ctp-amt">'+p+' '+tonS+'</div><div class="ctp-lbl">'+['1st','2nd','3rd'][i]+' place</div></div>';
+    }).join('')+'</div>'+
+    (prizes.length>3 ? '<div class="ctp-rest">'+prizes.slice(3).map(function(p,i){
+      return '<div class="ctp-chip"><span>#'+(i+4)+'</span><b>'+p+'</b></div>';
+    }).join('')+'</div>' : '');
 
   var top3El = document.getElementById('ctTop3');
   var listEl = document.getElementById('ctList');
@@ -3109,13 +3153,17 @@ function renderLeaderboard(){
   var nameOf = function(r){ return r.firstName || (r.username ? '@'+r.username : '') || 'User'; };
   var avOf = function(r){ var n = nameOf(r); return r.photoUrl ? '<img src="'+esc2(r.photoUrl)+'" alt="">' : esc2(n.charAt(0).toUpperCase()); };
   var cntOf = function(r){ return r.activeReferrals != null ? r.activeReferrals : (r.referralsThisWeek || 0); };
+  var maxCnt = Math.max(1, cntOf(list[0]));
   var rowHtml = function(r, i){
     var cls = r.rank<=3 ? ' r'+r.rank : '';
+    var pct = Math.max(4, Math.round(cntOf(r) / maxCnt * 100));
     return '<div class="ct-row'+cls+(isMe(r)?' me':'')+'" style="animation-delay:'+Math.min(i*0.04,0.4)+'s">'+
       '<div class="ct-pos">'+(LB_MEDALS[r.rank-1]||('#'+r.rank))+'</div>'+
       '<div class="ct-av">'+avOf(r)+'</div>'+
-      '<div class="ct-row-info"><div class="ct-row-name">'+esc2(nameOf(r))+(isMe(r)?'<span class="ct-you">YOU</span>':'')+'</div><div class="ct-row-cnt">👥 '+cntOf(r)+' referral'+(cntOf(r)===1?'':'s')+'</div></div>'+
-      (r.prizeTon ? '<div class="ct-row-prize">+'+r.prizeTon+' '+tonImg+'</div>' : '')+
+      '<div class="ct-row-info"><div class="ct-row-name">'+esc2(nameOf(r))+(isMe(r)?'<span class="ct-you">YOU</span>':'')+'</div>'+
+        '<div class="ct-row-cnt">👥 '+cntOf(r)+' referral'+(cntOf(r)===1?'':'s')+'</div>'+
+        '<div class="ct-bar"><i style="width:'+pct+'%"></i></div></div>'+
+      (r.prizeTon ? '<div class="ct-row-prize">+'+r.prizeTon+' '+tonImg+'</div>' : '<div class="ct-row-prize none">—</div>')+
     '</div>';
   };
   var pod = function(r, place){
@@ -3499,7 +3547,7 @@ function renderTasks(tab){
     var done = completed.indexOf(t.id) > -1;
     var st = done ? 'done' : (S.taskJoined && S.taskJoined[t.id] ? 'verify' : 'join');
     var btnClass = st==='join'?'join':st==='verify'?'verify':'done';
-    var btnText  = st==='join'?'Join':st==='verify'?'Verify':'✓ Done';
+    var btnText  = st==='join'?((S.taskTried && S.taskTried[t.id])?'Open':'Join'):st==='verify'?'Verify':'✓ Done';
     var onclick  = st==='join' ? 'doJoinTask(\''+t.id+'\',this)'  : st==='verify' ? 'doVerifyTask(\''+t.id+'\',this)' : '';
     return '<div class="task-item">'+
        '<div class="task-logo'+(t.icon?'':' ic-logo')+'">'+(t.icon||taskIcon(t))+'</div>'+
@@ -3793,12 +3841,42 @@ function switchTab(el, tab){
 }
 
 S.taskJoined = {};
+S.taskTried = {};   // tasks the user already tried to verify once (button shows "Open" again)
+
+// Rejects if a request takes too long, so a button can never stay stuck on "Checking..."
+function withTimeout(promise, ms){
+  return new Promise(function(resolve, reject){
+    var t = setTimeout(function(){ reject(new Error('timeout')); }, ms);
+    promise.then(function(v){ clearTimeout(t); resolve(v); }, function(e){ clearTimeout(t); reject(e); });
+  });
+}
+
+function openTaskLink(task){
+  if (!task || !task.link) return;
+  try {
+    if (window.Telegram && Telegram.WebApp && /^https?:\/\/(t\.me|telegram\.me)\//i.test(task.link) && Telegram.WebApp.openTelegramLink){
+      Telegram.WebApp.openTelegramLink(task.link);
+    } else if (window.Telegram && Telegram.WebApp && Telegram.WebApp.openLink){
+      Telegram.WebApp.openLink(task.link);
+    } else {
+      window.open(task.link, '_blank');
+    }
+  } catch(_){ try { window.open(task.link, '_blank'); } catch(__){} }
+}
+
+// Puts the task button back to "Open" so the user can open the link again
+function resetTaskToOpen(id){
+  delete S.taskJoined[id];
+  S.taskTried[id] = true;
+  renderTasks(currentTab);
+}
+
 function doJoinTask(id, btn){
   var list = (S.data && S.data.tasks) || [];
   var task = list.find(function(t){ return t.id===id; });
   if (!task) return;
   if (btn){ if (btn.disabled) return; btn.disabled = true; btn.dataset.label = btn.textContent; btn.textContent = '...'; }
-  api('startTask', { taskId:id }).then(function(res){
+  withTimeout(api('startTask', { taskId:id }), 15000).then(function(res){
     if (!res.success){
       showToast(res.error||'Unable to start task','error');
       if (btn){ btn.disabled = false; btn.textContent = btn.dataset.label || 'Join'; }
@@ -3807,11 +3885,7 @@ function doJoinTask(id, btn){
     S.taskJoined[id] = true;
     renderTasks(currentTab);
     showToast(isBotTask(task) ? 'Open bot, wait 5s, then Verify' : 'Join channel, then Verify ✓');
-    if (task.link && window.Telegram && Telegram.WebApp && Telegram.WebApp.openTelegramLink){
-      try { Telegram.WebApp.openTelegramLink(task.link); } catch(_){}
-    } else if (task.link){
-      window.open(task.link, '_blank');
-    }
+    openTaskLink(task);
   }).catch(function(){
     showToast('Network error','error');
     if (btn){ btn.disabled = false; btn.textContent = btn.dataset.label || 'Join'; }
@@ -3820,10 +3894,10 @@ function doJoinTask(id, btn){
 
 function doVerifyTask(id, btn){
   if (btn){ if (btn.disabled) return; btn.disabled = true; btn.dataset.label = btn.textContent; btn.textContent = 'Checking...'; }
-  api('verifyTask', { taskId:id }).then(function(res){
+  withTimeout(api('verifyTask', { taskId:id }), 20000).then(function(res){
     if (!res.success){
       showToast(res.error||'Verification failed','error');
-      if (btn){ btn.disabled = false; btn.textContent = btn.dataset.label || 'Verify'; }
+      resetTaskToOpen(id);   // not completed -> button goes back to "Open"
       return;
     }
     S.data.completedTasks = S.data.completedTasks || [];
@@ -3831,13 +3905,14 @@ function doVerifyTask(id, btn){
     S.user.balance = res.data.shibaBalance;
     updateCrystalTonValueDisplays();
     delete S.taskJoined[id];
+    delete S.taskTried[id];
     document.getElementById('homeTon').textContent = fmtShiba(S.user.balance);
     updateWalletTonBalance();
     renderTasks(currentTab);
     showToast('+'+fmtShiba(res.data.shibaAdded)+' '+SHIBA_ICON+' added! 🎉',null,true);
   }).catch(function(){
-    showToast('Network error','error');
-    if (btn){ btn.disabled = false; btn.textContent = btn.dataset.label || 'Verify'; }
+    showToast('Network error — tap Open to try again','error');
+    resetTaskToOpen(id);     // timeout / network error -> never stays stuck on "Checking..."
   });
 }
 
