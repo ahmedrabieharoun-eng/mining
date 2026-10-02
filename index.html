@@ -4028,12 +4028,22 @@ function stopGigapubButtonTimer(){
 var ADLOOP_SLOT_ID = "351541";
 function showAdloopAd(cb){
   var done = false;
-  function finish(status){ if (done) return; done = true; cb({status: status}); }
+  function finish(status, reason){
+    if (done) return; done = true;
+    if (status !== 'completed') console.warn('[Adloop] ad not completed:', reason);
+    cb({status: status, reason: reason || ''});
+  }
   try {
     var ad = window.Adloop.init({ slotId: ADLOOP_SLOT_ID });
-    ad.show().then(function(){ finish('completed'); }).catch(function(){ finish('skipped'); });
+    ad.show().then(function(r){
+      // SDK resolves with { done: true } once the ad was actually watched/closed
+      if (r && r.done === false) finish('skipped', 'not_done');
+      else finish('completed');
+    }).catch(function(e){
+      finish('skipped', (e && (e.description || e.message)) || String(e));
+    });
   } catch (e) {
-    finish('skipped');
+    finish('skipped', (e && e.message) || 'exception');
   }
 }
 
@@ -4064,7 +4074,7 @@ function watchAdloop(){
         adloopWatchBusy = false;
         stopAdloopButtonTimer();
         renderTasks('ads');
-        showToast('Ad was not completed','error');
+        showToast('Ad was not completed' + (res && res.reason ? ' (' + res.reason + ')' : ''),'error');
         return;
       }
       pulseChain.finish().then(function(chk){
