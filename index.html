@@ -290,6 +290,82 @@ html,body{height:100%;
 .ref-user-badge.active{background:rgba(34,197,94,0.15);color:var(--green)}
 .ref-user-badge.new{background:rgba(147,92,246,0.12);color:var(--orange)}
 
+/* ══ WEEKLY CONTEST — redesigned ══ */
+@keyframes ctRise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes ctShine{0%{transform:translateX(-120%) skewX(-20deg)}100%{transform:translateX(320%) skewX(-20deg)}}
+#page-record{background:radial-gradient(900px 380px at 50% -8%,rgba(59,130,246,.22),transparent 65%),var(--bg)}
+.ct-head{display:flex;align-items:center;justify-content:space-between;padding:18px 18px 4px}
+.ct-title{font-size:22px;font-weight:900;letter-spacing:.3px;background:linear-gradient(180deg,#fff,#bcd2ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.ct-sub{font-size:12px;color:#8ea2cf;margin-top:3px}
+.ct-help{width:40px;height:40px;border-radius:50%;flex-shrink:0;border:1.5px solid rgba(251,191,36,.55);background:rgba(251,191,36,.1);color:#fbbf24;font-size:20px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 0 14px rgba(251,191,36,.18)}
+.ct-help:active{transform:scale(.92)}
+.ct-pool{position:relative;overflow:hidden;margin:12px 16px;padding:20px 18px;border-radius:22px;text-align:center;background:linear-gradient(160deg,#10224a,#0a1330 70%);border:1px solid rgba(96,165,250,.28);box-shadow:0 10px 30px rgba(0,0,0,.4);animation:ctRise .4s ease both}
+.ct-pool::after{content:'';position:absolute;top:0;left:0;width:28%;height:100%;background:linear-gradient(100deg,transparent,rgba(251,191,36,.14),transparent);animation:ctShine 5s ease-in-out infinite;pointer-events:none}
+.ct-pool-lbl{font-size:11px;font-weight:800;letter-spacing:1.5px;color:#fbbf24;text-transform:uppercase}
+.ct-pool-val{display:flex;align-items:center;justify-content:center;gap:8px;margin:6px 0 14px;font-size:40px;font-weight:900;color:#fff;line-height:1}
+.ct-pool-val img{width:34px;height:34px}
+.ct-timer{display:inline-flex;align-items:center;gap:10px;padding:9px 18px;border-radius:14px;background:rgba(4,9,22,.7);border:1px solid rgba(251,191,36,.25)}
+.ct-timer-lbl{font-size:11px;color:#8ea2cf;font-weight:700;text-transform:uppercase}
+.ct-timer-val{font-size:18px;font-weight:900;color:#fbbf24;font-variant-numeric:tabular-nums;letter-spacing:.5px}
+.ct-me{display:flex;align-items:center;gap:12px;margin:0 16px 14px;padding:14px;border-radius:18px;background:linear-gradient(145deg,#0c1428,#080e1e);border:1px solid rgba(251,191,36,.22);animation:ctRise .45s ease both}
+.ct-av{width:44px;height:44px;border-radius:50%;overflow:hidden;flex-shrink:0;background:linear-gradient(135deg,#1b2a52,#0e1733);border:1px solid rgba(96,165,250,.35);display:flex;align-items:center;justify-content:center;font-weight:800;color:#fbbf24}
+.ct-av img{width:100%;height:100%;object-fit:cover}
+.ct-me-info{flex:1;min-width:0}
+.ct-me-name{font-size:14px;font-weight:800;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ct-me-sub{font-size:11.5px;color:#8ea2cf;margin-top:2px}
+.ct-me-rank{text-align:center;padding:6px 14px;border-radius:12px;background:rgba(251,191,36,.12);border:1px solid rgba(251,191,36,.3)}
+.ct-me-rank b{display:block;font-size:19px;font-weight:900;color:#fbbf24;line-height:1.1}
+.ct-me-rank span{font-size:9px;font-weight:800;color:#8ea2cf;letter-spacing:1px}
+.ct-sec{margin:16px 18px 10px;font-size:13px;font-weight:800;color:#bcd2ff;letter-spacing:.6px;text-transform:uppercase}
+.ct-prizes{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin:0 16px}
+.ct-prize{padding:9px 2px;border-radius:12px;text-align:center;background:rgba(255,255,255,.04);border:1px solid rgba(96,165,250,.16)}
+.ct-prize.top{background:linear-gradient(160deg,rgba(251,191,36,.2),rgba(251,191,36,.04));border-color:rgba(251,191,36,.5)}
+.ct-prize-rank{font-size:10px;font-weight:800;color:#8ea2cf}
+.ct-prize-val{font-size:13px;font-weight:900;color:#fff;margin-top:2px}
+.ct-prize.top .ct-prize-val{color:#fbbf24}
+.ct-top3{display:flex;flex-direction:column;gap:9px;margin:0 16px}
+.ct-row{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:16px;background:linear-gradient(145deg,#0c1428,#080e1e);border:1px solid rgba(96,165,250,.15);animation:ctRise .4s ease both}
+.ct-row.r1{border-color:rgba(251,191,36,.6);background:linear-gradient(145deg,rgba(251,191,36,.16),#0a1330 60%)}
+.ct-row.r2{border-color:rgba(203,213,225,.45)}
+.ct-row.r3{border-color:rgba(217,119,6,.5)}
+.ct-row.me{box-shadow:0 0 0 2px rgba(35,183,243,.55)}
+.ct-pos{width:34px;text-align:center;font-size:20px;font-weight:900;color:#8ea2cf;flex-shrink:0}
+.ct-row-info{flex:1;min-width:0}
+.ct-row-name{font-size:14px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ct-row-cnt{font-size:11.5px;color:#8ea2cf;margin-top:2px}
+.ct-row-prize{font-size:13px;font-weight:900;color:#fbbf24;white-space:nowrap}
+.ct-you{font-size:9px;font-weight:900;color:#0b1020;background:#23b7f3;padding:1px 6px;border-radius:8px;margin-left:6px;vertical-align:1px}
+.ct-list{display:flex;flex-direction:column;gap:8px;margin:0 16px 24px}
+.ct-modal{align-items:flex-end}
+.ct-sheet{width:100%;max-width:480px;margin:0 auto;max-height:86vh;overflow-y:auto;padding:22px 20px 20px;border-radius:26px 26px 0 0;background:radial-gradient(120% 60% at 50% 0%,rgba(59,130,246,.2),transparent 62%),linear-gradient(180deg,#0e1a36,#080e1f);border:1px solid rgba(96,165,250,.25);border-bottom:none}
+.ct-sheet h3{margin:0 0 4px;text-align:center;font-size:19px;font-weight:900;color:#fff}
+.ct-sheet-sub{text-align:center;font-size:12px;color:#8ea2cf;margin-bottom:16px}
+.ct-step{display:flex;gap:12px;padding:11px 12px;margin-bottom:8px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid rgba(96,165,250,.14)}
+.ct-step-n{width:26px;height:26px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,#fde68a,#f59e0b);color:#1a1200;font-weight:900;font-size:13px;display:flex;align-items:center;justify-content:center}
+.ct-step-t{font-size:12.5px;line-height:1.6;color:#d5def5}
+.ct-step-t b{color:#fbbf24}
+.ct-close{width:100%;margin-top:8px;padding:14px;border-radius:14px;border:none;background:linear-gradient(135deg,#fde68a,#fbbf24 45%,#f59e0b);color:#1a1200;font-size:15px;font-weight:900;cursor:pointer}
+/* ── My Referrals list ── */
+.rf-list-wrap{margin:0 16px 24px}
+.rf-list-head{display:flex;align-items:center;justify-content:space-between;margin:4px 2px 12px;font-size:16px;font-weight:800;color:var(--text)}
+.rf-list-count{font-size:12px;font-weight:800;color:#fbbf24;background:rgba(251,191,36,.12);border:1px solid rgba(251,191,36,.25);padding:3px 11px;border-radius:20px}
+.rf-card{position:relative;padding:14px;margin-bottom:10px;border-radius:16px;background:linear-gradient(145deg,#0c1428,#080e1e);border:1px solid rgba(251,191,36,.14);box-shadow:0 4px 14px rgba(0,0,0,.3)}
+.rf-top{display:flex;align-items:center;gap:12px}
+.rf-avatar{width:42px;height:42px;border-radius:50%;overflow:hidden;flex-shrink:0;background:linear-gradient(135deg,#1b2a52,#0e1733);border:1px solid rgba(96,165,250,.3);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;color:#fbbf24}
+.rf-avatar img{width:100%;height:100%;object-fit:cover}
+.rf-info{flex:1;min-width:0}
+.rf-name{font-size:14px;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rf-meta{font-size:11px;color:#8ea2cf;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rf-badge{font-size:10.5px;font-weight:800;padding:4px 10px;border-radius:20px;flex-shrink:0}
+.rf-badge.active{background:rgba(34,197,94,.14);color:var(--green);border:1px solid rgba(34,197,94,.3)}
+.rf-badge.pending{background:rgba(251,191,36,.12);color:#fbbf24;border:1px solid rgba(251,191,36,.28)}
+.rf-badge.fraud{background:rgba(239,68,68,.14);color:#f87171;border:1px solid rgba(239,68,68,.3)}
+.rf-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.rf-stat{padding:8px 6px;border-radius:11px;text-align:center;background:rgba(4,9,22,.7);border:1px solid rgba(96,165,250,.14)}
+.rf-stat-val{font-size:12.5px;font-weight:800;color:var(--text);display:flex;align-items:center;justify-content:center;gap:4px;white-space:nowrap}
+.rf-stat-val img{width:13px;height:13px;object-fit:contain}
+.rf-stat-val.done{color:var(--green)}
+.rf-stat-lbl{font-size:9.5px;color:#7d8fb8;margin-top:3px;text-transform:uppercase;letter-spacing:.3px}
 /* ── Referral Rewards v2 (Crystals pool + Collect, combo/deposit cards, table) ── */
 .rr-row{display:flex;align-items:stretch;gap:10px;padding:0 16px;margin-bottom:12px}
 .rr-row:first-of-type{margin-top:14px}
@@ -331,120 +407,21 @@ html,body{height:100%;
 .record-view-btn{width:100%;margin-top:10px;padding:9px;border-radius:12px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);color:var(--text2);font-size:12px;font-weight:700;cursor:pointer}
 .record-view-btn:active{background:rgba(255,255,255,.12)}
 
-/* ══════════════════════════════════════════════════════════════════════
-   REFERRAL LEADERBOARD — full redesign
-   ══════════════════════════════════════════════════════════════════════ */
-@keyframes lbGlowPulse{0%,100%{box-shadow:0 0 0 0 rgba(255,197,66,.45),0 8px 24px rgba(0,0,0,.35)}50%{box-shadow:0 0 0 8px rgba(255,197,66,0),0 8px 24px rgba(0,0,0,.35)}}
-@keyframes lbFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
-@keyframes lbSheen{0%{background-position:-160% 0}100%{background-position:260% 0}}
-@keyframes lbPop{from{opacity:0;transform:translateY(10px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
-@keyframes lbSpin{to{transform:rotate(360deg)}}
 
-.lb-page-header{padding:16px 20px 4px}
-.lb-page-title{font-size:21px;font-weight:900;letter-spacing:.2px;display:flex;align-items:center;gap:8px}
-.lb-page-sub{font-size:12.5px;color:var(--text3);margin-top:4px}
 
 /* Hero card: current user's own standing */
-.lb-hero{position:relative;margin:10px 16px 14px;padding:18px 16px;border-radius:22px;overflow:hidden;
-  background:linear-gradient(150deg,rgba(35,183,243,.28),rgba(89,120,245,.16) 45%,rgba(20,17,16,.96));
-  border:1px solid rgba(35,183,243,.4);box-shadow:0 10px 30px rgba(0,0,0,.35);animation:lbPop .45s ease both}
-.lb-hero::before{content:'';position:absolute;inset:-40% -20%;background:
-  radial-gradient(closest-side,rgba(255,255,255,.16),transparent 70%);
-  transform:rotate(8deg);pointer-events:none;opacity:.7}
-.lb-hero-top{display:flex;align-items:center;gap:12px;position:relative;z-index:1}
-.lb-hero-avatar-wrap{position:relative;flex-shrink:0}
-.lb-hero-avatar{width:58px;height:58px;border-radius:50%;overflow:hidden;background:linear-gradient(135deg,#2d1f00,#1a1500);
-  display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800;color:#fff;
-  border:2.5px solid rgba(255,255,255,.55);box-shadow:0 4px 14px rgba(0,0,0,.4)}
-.lb-hero-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
-.lb-hero-medal{position:absolute;bottom:-4px;right:-4px;font-size:18px;filter:drop-shadow(0 2px 3px rgba(0,0,0,.5))}
-.lb-hero-info{flex:1;min-width:0}
-.lb-hero-name{font-size:15.5px;font-weight:800;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.lb-hero-label{font-size:11.5px;color:rgba(255,255,255,.72);font-weight:600;letter-spacing:.3px;text-transform:uppercase;margin-top:1px}
-.lb-hero-rank{text-align:center;flex-shrink:0;padding-left:6px}
-.lb-hero-rank-num{font-size:26px;font-weight:900;color:#fff;line-height:1;font-variant-numeric:tabular-nums}
-.lb-hero-rank-tag{font-size:10px;color:rgba(255,255,255,.7);font-weight:700;letter-spacing:.4px;margin-top:2px}
-.lb-hero-stats{display:flex;gap:8px;margin-top:14px;position:relative;z-index:1}
-.lb-hero-stat{flex:1;background:rgba(0,0,0,.22);border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:9px 8px;text-align:center;backdrop-filter:blur(2px)}
-.lb-hero-stat-val{font-size:16px;font-weight:800;color:#fff}
-.lb-hero-stat-lbl{font-size:10px;color:rgba(255,255,255,.68);font-weight:600;margin-top:1px}
 
 /* Timer card */
-.lb-timer-card{margin:0 16px 14px;padding:15px 16px;border-radius:18px;position:relative;overflow:hidden;
-  background:linear-gradient(145deg,rgba(255,197,66,.16),rgba(24,21,20,.94));
-  border:1px solid rgba(255,197,66,.35);display:flex;align-items:center;gap:12px}
-.lb-timer-icon{width:40px;height:40px;border-radius:12px;flex-shrink:0;display:flex;align-items:center;justify-content:center;
-  font-size:19px;background:rgba(255,197,66,.16);border:1px solid rgba(255,197,66,.3);animation:lbFloat 2.6s ease-in-out infinite}
-.lb-timer-body{flex:1;min-width:0}
-.lb-timer-label{font-size:11.5px;color:var(--text2);font-weight:700;letter-spacing:.3px;text-transform:uppercase}
-.lb-timer-value{font-size:22px;font-weight:900;color:var(--text);margin-top:2px;font-variant-numeric:tabular-nums;letter-spacing:.5px}
 
-.lb-note{margin:0 16px 16px;padding:11px 13px;border-radius:13px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.09);font-size:11.5px;color:var(--text3);line-height:1.55;display:flex;gap:8px;align-items:flex-start}
-.lb-note-icon{flex-shrink:0;font-size:14px;margin-top:1px}
 
-.lb-prizes-strip{display:flex;gap:8px;overflow-x:auto;padding:0 16px 16px;scrollbar-width:none}
-.lb-prizes-strip::-webkit-scrollbar{display:none}
-.lb-prize-chip{flex-shrink:0;padding:7px 13px;border-radius:12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);font-size:12px;color:var(--text2);white-space:nowrap;font-weight:600}
-.lb-prize-chip b{color:var(--text)}
 
 /* Section label */
-.lb-section-label{padding:0 20px 10px;font-size:12px;font-weight:800;color:var(--text2);letter-spacing:.8px;text-transform:uppercase;display:flex;align-items:center;gap:6px}
-.lb-section-label::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(255,255,255,.15),transparent)}
 
 /* Podium (top 3) */
-.lb-podium{display:flex;align-items:flex-end;gap:8px;padding:4px 16px 22px;position:relative}
-.lb-podium-slot{flex:1;display:flex;flex-direction:column;align-items:center;position:relative;animation:lbPop .5s ease both}
-.lb-podium-slot.rank2{animation-delay:.05s}
-.lb-podium-slot.rank1{animation-delay:0s;order:2;margin-bottom:14px}
-.lb-podium-slot.rank2{order:1}
-.lb-podium-slot.rank3{order:3;animation-delay:.1s}
-.lb-podium-crown{font-size:20px;margin-bottom:2px;animation:lbFloat 2.2s ease-in-out infinite}
-.lb-podium-avatar-wrap{position:relative;margin-bottom:8px}
-.lb-podium-avatar{border-radius:50%;overflow:hidden;display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;
-  background:linear-gradient(135deg,#2d1f00,#1a1500);box-shadow:0 6px 18px rgba(0,0,0,.4)}
-.lb-podium-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
-.rank1 .lb-podium-avatar{width:70px;height:70px;font-size:26px;border:3px solid #ffd558;animation:lbGlowPulse 2.4s ease-in-out infinite}
-.rank2 .lb-podium-avatar{width:58px;height:58px;font-size:21px;border:3px solid #cfd8e3}
-.rank3 .lb-podium-avatar{width:58px;height:58px;font-size:21px;border:3px solid #e3a56b}
-.lb-podium-rank-badge{position:absolute;bottom:-3px;left:50%;transform:translateX(-50%);width:22px;height:22px;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;color:#1a1500;border:2px solid rgba(24,21,20,.9)}
-.rank1 .lb-podium-rank-badge{background:linear-gradient(135deg,#ffe08a,#ffb636)}
-.rank2 .lb-podium-rank-badge{background:linear-gradient(135deg,#eef3f8,#b9c4d0)}
-.rank3 .lb-podium-rank-badge{background:linear-gradient(135deg,#f0b57e,#c97a3d)}
-.lb-podium-name{font-size:12.5px;font-weight:700;color:var(--text);max-width:92px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center}
-.lb-podium-count{font-size:11px;color:var(--orange);font-weight:800;margin-top:2px;display:flex;align-items:center;gap:3px}
-.lb-podium-plinth{width:100%;margin-top:9px;border-radius:12px 12px 0 0;text-align:center;padding-top:6px;font-size:15px;font-weight:900;
-  color:rgba(0,0,0,.55);position:relative;overflow:hidden}
-.rank1 .lb-podium-plinth{height:64px;background:linear-gradient(180deg,#ffe08a,#d9a53e)}
-.rank2 .lb-podium-plinth{height:46px;background:linear-gradient(180deg,#eef3f8,#a9b6c4)}
-.rank3 .lb-podium-plinth{height:36px;background:linear-gradient(180deg,#f0b57e,#b56a34)}
-.lb-podium-plinth::after{content:'';position:absolute;inset:0;background:linear-gradient(100deg,transparent 0%,rgba(255,255,255,.55) 15%,transparent 30%);
-  background-size:250% 100%;animation:lbSheen 3.2s ease-in-out infinite}
 
 /* List rows (rank 4+) */
-.lb-list{padding:0 16px 8px}
-.lb-item{border-radius:16px;background:linear-gradient(145deg,rgba(52,38,30,.55),rgba(24,21,20,.9));border:1px solid rgba(255,255,255,.1);
-  margin-bottom:8px;padding:11px 13px;display:flex;align-items:center;gap:11px;animation:lbPop .4s ease both;transition:transform .15s ease}
-.lb-item:active{transform:scale(.98)}
-.lb-item.lb-item-me{border-color:rgba(35,183,243,.55);background:linear-gradient(145deg,rgba(35,183,243,.18),rgba(24,21,20,.94));box-shadow:0 0 0 1px rgba(35,183,243,.25) inset}
-.lb-rank-badge{width:30px;height:30px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;
-  font-size:12.5px;font-weight:800;color:var(--text2);background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1)}
-.lb-avatar{width:38px;height:38px;border-radius:50%;overflow:hidden;flex-shrink:0;background:linear-gradient(135deg,#2d1f00,#1a1500);
-  display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:var(--orange);border:1.5px solid rgba(147,92,246,.22)}
-.lb-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
-.lb-item-info{flex:1;min-width:0}
-.lb-item-name{font-size:13.5px;font-weight:700;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.lb-item-you{font-size:10px;color:var(--orange);font-weight:800;margin-left:5px}
-.lb-item-right{display:flex;flex-direction:column;align-items:flex-end;gap:2px;flex-shrink:0}
-.lb-count{font-size:12.5px;color:var(--text2);font-weight:700;display:flex;align-items:center;gap:4px}
-.lb-count b{color:var(--green);font-weight:800}
-.lb-prize-tag{font-size:10.5px;font-weight:800;color:#ffd558}
 
-.lb-loading-row{border-radius:16px;background:rgba(255,255,255,.04);height:58px;margin-bottom:8px;position:relative;overflow:hidden}
-.lb-loading-row::after{content:'';position:absolute;inset:0;background:linear-gradient(100deg,transparent 0%,rgba(255,255,255,.08) 20%,transparent 40%);
-  background-size:250% 100%;animation:lbSheen 1.5s ease-in-out infinite}
 
-.lb-refresh-spin{display:inline-block;animation:lbSpin 1s linear infinite}
 .tx-detail-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--glass-border);font-size:13px}
 .tx-detail-row:last-child{border-bottom:none}
 .tx-detail-label{color:var(--text3);flex-shrink:0}
@@ -478,7 +455,7 @@ html,body{height:100%;
 .wallet-form-help{font-size:12px;color:var(--text2);line-height:1.6;margin:-4px 0 14px}
 .withdraw-requirements{display:flex;flex-direction:column;gap:7px;margin:0 0 16px;padding:12px 14px;border-radius:13px;background:#000;border:1px solid rgba(255,255,255,.2)}
 .withdraw-requirement{display:flex;align-items:center;justify-content:space-between;font-size:15px;font-weight:900;letter-spacing:.5px;line-height:1.2}
-.withdraw-requirement.min{color:#ffe066}.withdraw-requirement.ads{color:#72e6ff}.withdraw-requirement.left{color:#ff9d9d}
+.withdraw-requirement.min{color:#ffe066}.withdraw-requirement.left{color:#ff9d9d}
 .wallet-form-title{font-size:15px;font-weight:700;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:8px}
 .wallet-input{width:100%;padding:12px 16px;border-radius:12px;background:var(--bg3);border:1px solid rgba(255,255,255,0.08);font-size:14px;color:var(--text);outline:none;margin-bottom:10px;font-family:inherit;transition:border-color 0.2s}
 .wallet-input:focus{border-color:rgba(147,92,246,0.5)}
@@ -783,43 +760,6 @@ html,body{height:100%;
 }
 
 
-/* Lottery icons: scratch card (title) + number balls (section titles) */
-.ic-scratch,.ic-balls{width:44px;height:44px;overflow:visible;filter:drop-shadow(0 0 2px rgba(96,165,250,.55))}
-.ic-scratch *,.ic-balls *{transform-box:fill-box;transform-origin:center}
-.ic-scratch .g{stroke:url(#Gs2);stroke-width:2.2}
-.ic-scratch .p{stroke:url(#Ps2);stroke-width:2.2}
-.ic-scratch .t{stroke-width:1.5}
-.ic-scratch .fg{fill:rgba(251,191,36,.16)}
-.ic-scratch .occ{fill:#0b1a3b}
-.ic-scratch .sg{fill:url(#Gs2);stroke:none}
-.ic-scratch .sl{fill:#94a3b8;stroke:none}
-.ic-scratch .s1{animation:scS1 5s infinite}
-.ic-scratch .s2{animation:scS2 5s infinite}
-.ic-scratch .s3{animation:scS3 5s infinite}
-.ic-scratch .s4{animation:scS4 5s infinite}
-@keyframes scS1{0%,14%{opacity:1}20%,86%{opacity:0}94%,100%{opacity:1}}
-@keyframes scS2{0%,26%{opacity:1}32%,86%{opacity:0}94%,100%{opacity:1}}
-@keyframes scS3{0%,38%{opacity:1}44%,86%{opacity:0}94%,100%{opacity:1}}
-@keyframes scS4{0%,50%{opacity:1}56%,86%{opacity:0}94%,100%{opacity:1}}
-.ic-scratch .sc{opacity:0;animation:scCoin 5s ease-in-out infinite}
-@keyframes scCoin{
-  0%{opacity:0;transform:translate(0,0)}
-  8%{opacity:1}
-  20%{transform:translate(7px,4px)}
-  34%{transform:translate(13px,-4px)}
-  48%{transform:translate(19px,4px)}
-  58%{opacity:1;transform:translate(24px,0)}
-  64%,100%{opacity:0;transform:translate(24px,0)}
-}
-.ic-balls .g{stroke:url(#Gs3);stroke-width:2.2}
-.ic-balls .p{stroke:url(#Ps3);stroke-width:2.2}
-.ic-balls .t{stroke-width:1.5}
-.ic-balls .fg{fill:rgba(251,191,36,.16)}
-.ic-balls .fp{fill:rgba(59,130,246,.18)}
-.ic-balls .wt{fill:#fff;stroke:none}
-.ic-balls .b3{animation:blPop 2.8s ease-in-out infinite}
-@keyframes blPop{0%,100%{transform:translateY(0)}20%{transform:translateY(-6px)}38%{transform:translateY(0)}}
-@media (prefers-reduced-motion:reduce){.ic-scratch *,.ic-balls *{animation:none!important}}
 
 /* Store icon (animated cart) */
 .ic-store{width:44px;height:44px;overflow:visible;filter:drop-shadow(0 0 2px rgba(96,165,250,.55))}
@@ -845,92 +785,6 @@ html,body{height:100%;
 .ad-summary{margin:0 16px 12px;padding:14px;border-radius:16px;background:var(--glass);border:1px solid var(--glass-border);display:flex;justify-content:space-between;align-items:center}.ad-summary b{color:#55caff;font-size:17px}.ad-summary span{font-size:12px;color:var(--text2)}
 .maintenance{font-size:11px;color:#fbbf24;background:rgba(251,191,36,.12);padding:4px 8px;border-radius:8px;margin-top:3px;display:inline-block}
 
-/* ── Lottery page (scoped variables so the rest of the app is untouched) ── */
-#page-lottery{
-  --purple:#6d4fe0;--purple2:#8a67f5;--purple-glow:rgba(124,92,240,.35);
-  --gold:#ffc93c;--gold2:#ffb020;
-  --card:rgba(255,255,255,.045);--card-border:rgba(255,255,255,.09);
-  --text2:#b6b2d4;--text3:#7b769c;--ton:#0098EA;
-  --radius:20px;--radius-sm:12px;
-  background:
-    radial-gradient(1200px 500px at 50% -10%,rgba(124,92,240,.28),transparent 60%),
-    linear-gradient(180deg,#0c0a1a,#120e26 40%,#0c0a1a);
-  min-height:100%;
-}
-#page-lottery .lt-header{display:flex;align-items:center;justify-content:space-between;padding:18px 18px 6px}
-#page-lottery .lt-icon-btn{width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.06);border:1px solid var(--card-border);color:var(--text);font-size:18px;font-weight:700;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
-#page-lottery .lt-icon-btn:active{background:rgba(255,255,255,.12);transform:scale(.94)}
-#page-lottery .lt-title-wrap{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;text-align:center}
-#page-lottery .lt-title-wrap .ic-scratch{width:38px;height:38px;flex-shrink:0}
-#page-lottery .lt-title{font-size:30px;font-weight:900;letter-spacing:.5px;background:linear-gradient(180deg,#fff,#cfc8ff);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 2px 18px rgba(124,92,240,.4)}
-#page-lottery .lt-jackpot{text-align:center;padding:2px 20px 18px}
-#page-lottery .lt-jackpot-kicker{font-size:13px;font-weight:800;letter-spacing:1.5px;color:var(--gold);text-transform:uppercase}
-#page-lottery .lt-jackpot-amount{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:8px}
-#page-lottery .lt-coin{width:46px;height:46px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ffe28a,var(--gold2) 60%,#c8860b);display:flex;align-items:center;justify-content:center;font-weight:900;color:#7a4b00;font-size:20px;box-shadow:0 4px 14px rgba(255,193,60,.45),inset 0 -3px 6px rgba(0,0,0,.2),inset 0 2px 3px rgba(255,255,255,.6)}
-#page-lottery .lt-jackpot-val{font-size:44px;font-weight:900;letter-spacing:-1px;background:linear-gradient(180deg,#ffe9a8,var(--gold) 60%,var(--gold2));-webkit-background-clip:text;background-clip:text;color:transparent}
-#page-lottery .lt-card{margin:0 16px 14px;padding:16px 16px;border-radius:var(--radius);background:var(--card);border:1px solid var(--card-border);backdrop-filter:blur(10px)}
-#page-lottery .lt-sold-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-#page-lottery .lt-sold-label{font-size:14px;font-weight:700;color:var(--text)}
-#page-lottery .lt-sold-val{font-size:15px;font-weight:800}
-#page-lottery .lt-sold-val b{color:var(--purple2)}
-#page-lottery .lt-price-box{text-align:right}
-#page-lottery .lt-price-lbl{font-size:11px;color:var(--text3);margin-bottom:2px}
-#page-lottery .lt-price-val{display:flex;align-items:center;gap:6px;font-size:14px;font-weight:800;justify-content:flex-end}
-#page-lottery .lt-price-val img{width:18px;height:18px}
-#page-lottery .lt-progress-wrap{display:flex;align-items:center;gap:12px}
-#page-lottery .lt-progress{flex:1;height:12px;border-radius:20px;background:rgba(255,255,255,.06);overflow:hidden;position:relative;border:1px solid rgba(255,255,255,.06)}
-#page-lottery .lt-progress-fill{height:100%;border-radius:20px;background:repeating-linear-gradient(135deg,var(--purple),var(--purple) 10px,var(--purple2) 10px,var(--purple2) 20px);transition:width .5s ease}
-#page-lottery .lt-progress-sub{font-size:11.5px;color:var(--text3);margin-top:8px}
-#page-lottery .lt-pick-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
-#page-lottery .lt-pick-title{font-size:16px;font-weight:800}
-#page-lottery .lt-pick-title span{color:var(--gold)}
-#page-lottery .lt-random-btn{display:flex;align-items:center;gap:6px;padding:9px 14px;border-radius:14px;background:rgba(255,255,255,.07);border:1px solid var(--card-border);color:var(--text);font-size:13px;font-weight:700;cursor:pointer}
-#page-lottery .lt-random-btn:active{background:rgba(255,255,255,.14);transform:scale(.96)}
-#page-lottery .lt-slots{display:flex;justify-content:center;gap:clamp(8px,3vw,14px);margin-bottom:18px}
-#page-lottery .lt-slot-col{display:flex;flex-direction:column;align-items:center;gap:6px}
-#page-lottery .lt-slot-lbl{font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.5px}
-#page-lottery .lt-slot{width:clamp(46px,16vw,60px);aspect-ratio:1/1;border-radius:clamp(12px,3.6vw,16px);flex-shrink:1;min-width:0;background:rgba(255,255,255,.04);border:2px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:clamp(20px,6vw,25px);font-weight:900;color:var(--text);transition:all .15s;cursor:pointer}
-#page-lottery .lt-slot.active{border-color:var(--gold);box-shadow:0 0 0 3px rgba(255,201,60,.18)}
-#page-lottery .lt-slot.filled{background:rgba(124,92,240,.18);border-color:var(--purple2)}
-#page-lottery .lt-pad{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:clamp(8px,2.6vw,12px);justify-items:center;margin-bottom:8px}
-#page-lottery .lt-digit{width:100%;max-width:58px;aspect-ratio:1/1;border-radius:50%;background:rgba(255,255,255,.05);border:1px solid var(--card-border);color:var(--text);font-size:clamp(16px,4.8vw,20px);font-weight:800;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .12s}
-#page-lottery .lt-digit:active{transform:scale(.9)}
-#page-lottery .lt-rules{text-align:center;font-size:11.5px;color:var(--text3);line-height:1.6;margin-top:10px}
-#page-lottery .lt-buy-wrap{padding:0 16px 16px}
-#page-lottery .lt-buy-btn{width:100%;padding:19px;border-radius:18px;border:none;background:linear-gradient(135deg,var(--purple),var(--purple2));color:#fff;font-size:19px;font-weight:900;cursor:pointer;box-shadow:0 10px 26px rgba(124,92,240,.35);transition:transform .12s,opacity .12s}
-#page-lottery .lt-buy-btn:active{transform:scale(.98)}
-#page-lottery .lt-buy-btn:disabled{background:#3a3752;box-shadow:none;color:#8a86ac;cursor:not-allowed}
-#page-lottery .lt-buy-sub{text-align:center;font-size:12.5px;color:var(--red);margin-top:9px;font-weight:700}
-#page-lottery .lt-buy-sub.ok{color:var(--text3);font-weight:500}
-#page-lottery .lt-sec-head{display:flex;align-items:center;justify-content:space-between;padding:0 20px 10px;margin-top:6px}
-#page-lottery .lt-sec-title{display:flex;align-items:center;gap:8px;font-size:16px;font-weight:800;color:var(--text)}
-#page-lottery .lt-sec-title .ic-balls{width:30px;height:30px;flex-shrink:0}
-#page-lottery .lt-sec-badge{font-size:12px;font-weight:700;color:var(--text3)}
-#page-lottery .lt-status-pill{font-size:11px;font-weight:800;padding:4px 12px;border-radius:20px;background:rgba(34,197,94,.15);color:var(--green);border:1px solid rgba(34,197,94,.3)}
-#page-lottery .lt-ticket-row{display:flex;align-items:center;gap:12px;padding:12px 6px;border-bottom:1px solid rgba(255,255,255,.06)}
-#page-lottery .lt-ticket-row:last-child{border-bottom:none}
-#page-lottery .lt-ticket-idx{font-size:12px;font-weight:700;color:var(--text3);width:28px;flex-shrink:0}
-#page-lottery .lt-ticket-nums{display:flex;gap:8px;flex:1}
-#page-lottery .lt-num-chip{width:34px;height:34px;border-radius:10px;background:rgba(124,92,240,.18);border:1px solid rgba(124,92,240,.35);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;color:var(--text)}
-#page-lottery .lt-empty{text-align:center;padding:24px 10px;color:var(--text3);font-size:13.5px}
-#page-lottery .lt-lucky-card{text-align:center;padding:20px 14px}
-#page-lottery .lt-lucky-lbl{font-size:12px;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:14px}
-#page-lottery .lt-lucky-nums{display:flex;justify-content:center;gap:10px}
-#page-lottery .lt-lucky-ball{width:48px;height:48px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ffe28a,var(--gold2) 65%,#c8860b);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900;color:#5c3a00;box-shadow:0 4px 12px rgba(255,193,60,.4),inset 0 -3px 5px rgba(0,0,0,.2)}
-#page-lottery .lt-result-block{margin:0 16px 12px;border-radius:var(--radius-sm);background:var(--card);border:1px solid var(--card-border);overflow:hidden}
-#page-lottery .lt-result-head{display:flex;align-items:center;gap:8px;padding:12px 14px;font-size:13.5px;font-weight:800;color:var(--text);border-bottom:1px solid rgba(255,255,255,.07)}
-#page-lottery .lt-result-table{width:100%;border-collapse:collapse;table-layout:fixed}
-#page-lottery .lt-result-table th:nth-child(2),#page-lottery .lt-result-table td:nth-child(2){width:80px}
-#page-lottery .lt-result-table th:nth-child(3),#page-lottery .lt-result-table td:nth-child(3){width:38px}
-#page-lottery .lt-result-table th:nth-child(4),#page-lottery .lt-result-table td:nth-child(4){width:92px;white-space:nowrap}
-#page-lottery .lt-result-table td:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-#page-lottery .lt-result-table th:first-child,#page-lottery .lt-result-table td:first-child{padding-left:14px}
-#page-lottery .lt-result-table th{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.2px;text-align:left;padding:8px 5px 6px}
-#page-lottery .lt-result-table td{padding:9px 5px;font-size:12.5px;border-top:1px solid rgba(255,255,255,.05);color:var(--text)}
-#page-lottery .lt-result-table .win-nums{display:flex;gap:3px}
-#page-lottery .lt-result-table .win-num{width:22px;height:22px;border-radius:7px;background:rgba(255,201,60,.18);color:var(--gold);font-size:11.5px;font-weight:800;display:flex;align-items:center;justify-content:center}
-#page-lottery .lt-match-tag{font-size:12px;font-weight:800;color:var(--purple2)}
-#page-lottery .lt-prize-tag{font-size:12px;padding-right:12px!important;font-weight:800;color:var(--gold)}
 
 /* ── Animated icons ── */
 .ic{width:44px;height:44px;overflow:visible;filter:drop-shadow(0 0 2px rgba(96,165,250,.55))}
@@ -1087,19 +941,13 @@ html,body{height:100%;
 .profile-menu-sub{color:#8ea2cf}
 .profile-menu-chevron{color:#fbbf24}
 
-/* ── Home + Lottery: same dark gold cards ── */
-.mine-stat-box,.stat-card,#page-lottery .lt-card{position:relative;overflow:hidden;background:linear-gradient(145deg,#0c1428,#080e1e);border:1px solid rgba(251,191,36,.14);box-shadow:0 4px 14px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.03);animation:cardBorder 5s ease-in-out infinite}
+/* ── Home: dark gold cards ── */
+.mine-stat-box,.stat-card{position:relative;overflow:hidden;background:linear-gradient(145deg,#0c1428,#080e1e);border:1px solid rgba(251,191,36,.14);box-shadow:0 4px 14px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.03);animation:cardBorder 5s ease-in-out infinite}
 .mine-stat-box,.stat-card{border-radius:16px}
-.mine-stat-box::after,.stat-card::after,#page-lottery .lt-card::after{content:'';position:absolute;top:0;left:-60%;width:38%;height:100%;background:linear-gradient(100deg,transparent,rgba(251,191,36,.10),transparent);transform:skewX(-20deg);animation:cardGold 6s ease-in-out infinite;pointer-events:none}
+.mine-stat-box::after,.stat-card::after{content:'';position:absolute;top:0;left:-60%;width:38%;height:100%;background:linear-gradient(100deg,transparent,rgba(251,191,36,.10),transparent);transform:skewX(-20deg);animation:cardGold 6s ease-in-out infinite;pointer-events:none}
 .mine-stat-box:nth-child(2)::after{animation-delay:1.8s}
-#page-lottery .lt-card ~ .lt-card::after{animation-delay:2s}
-#page-lottery .lt-card ~ .lt-card ~ .lt-card::after{animation-delay:4s}
 .mine-stat-icon{background:rgba(11,26,59,.85);border:1px solid rgba(96,165,250,.3)}
 .mine-stat-label{color:#8ea2cf}
-#page-lottery .lt-slot{background:rgba(4,9,22,.6);border-color:rgba(251,191,36,.18)}
-#page-lottery .lt-digit{background:rgba(255,255,255,.04);border-color:rgba(96,165,250,.2)}
-#page-lottery .lt-random-btn{background:rgba(251,191,36,.08);border-color:rgba(251,191,36,.3)}
-#page-lottery .lt-progress{background:rgba(4,9,22,.7);border-color:rgba(251,191,36,.15)}
 
 /* ── Profile redesign ── */
 .ic-deposit .ar{animation:ic-dn 1.8s ease-in-out infinite}
@@ -1228,13 +1076,6 @@ html,body{height:100%;
 </style>
 </head>
 <body>
-<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="G" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="48"><stop offset="0" stop-color="#fef3c7"/><stop offset=".5" stop-color="#fbbf24"/><stop offset="1" stop-color="#d97706"/></linearGradient><linearGradient id="P" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="48" y2="48"><stop offset="0" stop-color="#dbeafe"/><stop offset="1" stop-color="#3b82f6"/></linearGradient><clipPath id="icclip4"><rect x="10" y="15" width="28" height="23" rx="7"/></clipPath><clipPath id="icclip7"><path d="M9 12h18a3 3 0 0 0 6 0h6a4 4 0 0 1 4 4v16a4 4 0 0 1-4 4h-6a3 3 0 0 0-6 0H9a4 4 0 0 1-4-4V16a4 4 0 0 1 4-4z"/></clipPath><clipPath id="icclip10"><rect x="5" y="9" width="38" height="23" rx="3.500"/></clipPath><clipPath id="icclipgem"><path d="M14 9h20l9 10-19 22L5 19z"/></clipPath></defs></svg>
-<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
-  <linearGradient id="Gs2" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="48"><stop offset="0" stop-color="#fef3c7"/><stop offset=".5" stop-color="#fbbf24"/><stop offset="1" stop-color="#d97706"/></linearGradient>
-  <linearGradient id="Ps2" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="48" y2="48"><stop offset="0" stop-color="#dbeafe"/><stop offset="1" stop-color="#3b82f6"/></linearGradient>
-  <linearGradient id="Gs3" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="48"><stop offset="0" stop-color="#fef3c7"/><stop offset=".5" stop-color="#fbbf24"/><stop offset="1" stop-color="#d97706"/></linearGradient>
-  <linearGradient id="Ps3" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="48" y2="48"><stop offset="0" stop-color="#dbeafe"/><stop offset="1" stop-color="#3b82f6"/></linearGradient>
-</defs></svg>
 
 
 <!-- Loading -->
@@ -1494,6 +1335,12 @@ html,body{height:100%;
         </div>
         <div id="rrTableBody"><div class="empty-state">No referral earnings yet</div></div>
       </div>
+
+      <div class="rf-list-wrap">
+        <div class="rf-list-head"><span>My Referrals</span><span class="rf-list-count" id="rfCount">0</span></div>
+        <div id="refList"><div class="empty-state">No referrals yet</div></div>
+        <button class="load-more" id="loadMoreBtn" onclick="loadMoreRefs()" style="display:none">Load more</button>
+      </div>
     </div>
 
     <!-- STORE / MARKET -->
@@ -1522,135 +1369,6 @@ html,body{height:100%;
       </div>
       <div class="store-rate-line" id="storeRateLine">700 CRYSTAL = 1 TON</div>
       <div class="store-grid" id="storeGrid"></div>
-    </div>
-
-    <!-- LOTTERY -->
-    <div class="page" id="page-lottery">
-      <div class="lt-header">
-        <div class="lt-icon-btn" onclick="switchPage('home')">✕</div>
-        <div class="lt-title-wrap">
-        <svg class="ic-scratch" viewBox="0 0 48 48" fill="none" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <rect class="g fg" x="6" y="7" width="36" height="34" rx="4"/>
-          <path class="p t" d="M11 13h14" style="opacity:.7"/>
-          <path class="sg" d="M16 22.4Q16.72 25.28 19.6 26Q16.72 26.72 16 29.6Q15.28 26.72 12.4 26Q15.28 25.28 16 22.4z"/>
-          <path class="sg" d="M24 20.8Q25.04 24.96 29.2 26Q25.04 27.04 24 31.2Q22.96 27.04 18.8 26Q22.96 24.96 24 20.8z"/>
-          <path class="sg" d="M32 22.4Q32.72 25.28 35.6 26Q32.72 26.72 32 29.6Q31.28 26.72 28.4 26Q31.28 25.28 32 22.4z"/>
-          <rect class="s1 sl" x="11" y="18" width="6.5" height="16"/>
-          <rect class="s2 sl" x="17.5" y="18" width="6.5" height="16"/>
-          <rect class="s3 sl" x="24" y="18" width="6.5" height="16"/>
-          <rect class="s4 sl" x="30.5" y="18" width="6.5" height="16"/>
-          <circle class="sc g occ" cx="12" cy="26" r="4"/>
-        </svg>
-        <div class="lt-title">Lottery</div>
-        <svg class="ic-scratch" viewBox="0 0 48 48" fill="none" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <rect class="g fg" x="6" y="7" width="36" height="34" rx="4"/>
-          <path class="p t" d="M11 13h14" style="opacity:.7"/>
-          <path class="sg" d="M16 22.4Q16.72 25.28 19.6 26Q16.72 26.72 16 29.6Q15.28 26.72 12.4 26Q15.28 25.28 16 22.4z"/>
-          <path class="sg" d="M24 20.8Q25.04 24.96 29.2 26Q25.04 27.04 24 31.2Q22.96 27.04 18.8 26Q22.96 24.96 24 20.8z"/>
-          <path class="sg" d="M32 22.4Q32.72 25.28 35.6 26Q32.72 26.72 32 29.6Q31.28 26.72 28.4 26Q31.28 25.28 32 22.4z"/>
-          <rect class="s1 sl" x="11" y="18" width="6.5" height="16"/>
-          <rect class="s2 sl" x="17.5" y="18" width="6.5" height="16"/>
-          <rect class="s3 sl" x="24" y="18" width="6.5" height="16"/>
-          <rect class="s4 sl" x="30.5" y="18" width="6.5" height="16"/>
-          <circle class="sc g occ" cx="12" cy="26" r="4"/>
-        </svg>
-        </div>
-        <div class="lt-icon-btn" onclick="openLotteryHelp()">?</div>
-      </div>
-
-      <div class="lt-jackpot">
-        <div class="lt-jackpot-kicker">Jackpot — Guess the Exact Order</div>
-        <div class="lt-jackpot-amount">
-          <div class="lt-coin">T</div>
-          <div class="lt-jackpot-val" id="ltJackpotVal">1 TON</div>
-        </div>
-      </div>
-
-      <div class="lt-card">
-        <div class="lt-sold-row">
-          <div>
-            <div class="lt-sold-label">Tickets Sold</div>
-            <div class="lt-sold-val"><b id="ltSoldNum">0</b> / <span id="ltSoldTotal">15</span></div>
-          </div>
-          <div class="lt-price-box">
-            <div class="lt-price-lbl">Ticket price:</div>
-            <div class="lt-price-val"><img src="https://cdn.simpleicons.org/ton/0098EA" alt="TON"><span id="ltPriceVal">0.1 TON</span></div>
-          </div>
-        </div>
-        <div class="lt-progress-wrap">
-          <div class="lt-progress"><div class="lt-progress-fill" id="ltProgressFill"></div></div>
-        </div>
-        <div class="lt-progress-sub">Draw starts automatically when <span id="ltSoldTotal2">15</span> tickets are sold</div>
-      </div>
-
-      <div class="lt-card">
-        <div class="lt-pick-head">
-          <div class="lt-pick-title">Pick 3 numbers <span>in order</span></div>
-          <button class="lt-random-btn" onclick="ltRandomPick()">🔄 Random</button>
-        </div>
-        <div class="lt-slots" id="ltSlots">
-          <div class="lt-slot-col"><div class="lt-slot-lbl">1st</div><div class="lt-slot" id="ltSlot0" onclick="ltSelectSlot(0)"></div></div>
-          <div class="lt-slot-col"><div class="lt-slot-lbl">2nd</div><div class="lt-slot" id="ltSlot1" onclick="ltSelectSlot(1)"></div></div>
-          <div class="lt-slot-col"><div class="lt-slot-lbl">3rd</div><div class="lt-slot" id="ltSlot2" onclick="ltSelectSlot(2)"></div></div>
-        </div>
-        <div class="lt-pad" id="ltPad"></div>
-        <div class="lt-rules">Exact order wins the JACKPOT • If no exact match, closest match wins<br>(2/3, then 1/3)</div>
-      </div>
-
-      <div class="lt-buy-wrap">
-        <button class="lt-buy-btn" id="ltBuyBtn" onclick="buyLotteryTicket()">Buy Ticket — <span id="ltBuyPrice">0.1 TON</span></button>
-        <div class="lt-buy-sub" id="ltBuySub"></div>
-      </div>
-
-      <div class="lt-sec-head">
-        <div class="lt-sec-title"><svg class="ic-balls" viewBox="0 0 48 48" fill="none" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <g class="b3">
-            <circle class="g fg" cx="12" cy="32" r="7.5"/>
-            <path class="t" d="M7.5 29a5.5 5.5 0 0 1 3.5-3" stroke="#fff" opacity=".55"/>
-            <text class="wt" x="12" y="32.5" text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="900" font-family="Arial,sans-serif">7</text>
-          </g>
-          <g class="b3" style="animation-delay:.35s">
-            <circle class="p fp" cx="24" cy="16" r="7.5"/>
-            <path class="t" d="M19.5 13a5.5 5.5 0 0 1 3.5-3" stroke="#fff" opacity=".55"/>
-            <text class="wt" x="24" y="16.5" text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="900" font-family="Arial,sans-serif">3</text>
-          </g>
-          <g class="b3" style="animation-delay:.7s">
-            <circle class="g fg" cx="36" cy="32" r="7.5"/>
-            <path class="t" d="M31.5 29a5.5 5.5 0 0 1 3.5-3" stroke="#fff" opacity=".55"/>
-            <text class="wt" x="36" y="32.5" text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="900" font-family="Arial,sans-serif">9</text>
-          </g>
-        </svg><span>My Tickets</span></div>
-        <div class="lt-sec-badge" id="ltMyTicketsCount">0 tickets</div>
-      </div>
-      <div class="lt-card" id="ltMyTicketsCard" style="padding:6px 12px">
-        <div id="ltMyTicketsList"><div class="lt-empty">No tickets yet — pick your numbers above 🎟️</div></div>
-      </div>
-
-      <div class="lt-sec-head">
-        <div class="lt-sec-title"><svg class="ic-balls" viewBox="0 0 48 48" fill="none" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <g class="b3">
-            <circle class="g fg" cx="12" cy="32" r="7.5"/>
-            <path class="t" d="M7.5 29a5.5 5.5 0 0 1 3.5-3" stroke="#fff" opacity=".55"/>
-            <text class="wt" x="12" y="32.5" text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="900" font-family="Arial,sans-serif">7</text>
-          </g>
-          <g class="b3" style="animation-delay:.35s">
-            <circle class="p fp" cx="24" cy="16" r="7.5"/>
-            <path class="t" d="M19.5 13a5.5 5.5 0 0 1 3.5-3" stroke="#fff" opacity=".55"/>
-            <text class="wt" x="24" y="16.5" text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="900" font-family="Arial,sans-serif">3</text>
-          </g>
-          <g class="b3" style="animation-delay:.7s">
-            <circle class="g fg" cx="36" cy="32" r="7.5"/>
-            <path class="t" d="M31.5 29a5.5 5.5 0 0 1 3.5-3" stroke="#fff" opacity=".55"/>
-            <text class="wt" x="36" y="32.5" text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="900" font-family="Arial,sans-serif">9</text>
-          </g>
-        </svg><span>Last Round</span></div>
-        <div class="lt-status-pill" id="ltRoundStatusPill">Finished</div>
-      </div>
-      <div class="lt-card lt-lucky-card">
-        <div class="lt-lucky-lbl">Lucky Number</div>
-        <div class="lt-lucky-nums" id="ltLuckyNums"></div>
-      </div>
-      <div id="ltResultsWrap"></div>
     </div>
 
     <!-- PROFILE (was Wallet) -->
@@ -1709,8 +1427,9 @@ html,body{height:100%;
       <div class="wallet-form-card">
         <div class="wallet-form-title"><span data-i18n="deposit.formTitle">Deposit TON</span></div>
         <div class="wallet-form-help" data-i18n="deposit.help">Connect your TON wallet and send TON to the Crystal Mining Bot deposit wallet. Your User ID is added as the transaction comment.</div>
+        <div class="withdraw-requirements" aria-label="Deposit requirements"><div class="withdraw-requirement min"><span data-i18n="withdraw.min">MIN</span><span id="depositMinValue">1 TON</span></div></div>
         <div id="tonConnectButton"></div>
-        <input class="wallet-input" id="depositAmount" type="number" step="0.01" min="0.01" placeholder="TON amount" data-i18n-placeholder="deposit.amountPh">
+        <input class="wallet-input" id="depositAmount" type="number" step="0.01" min="1" placeholder="TON amount" data-i18n-placeholder="deposit.amountPh">
         <button class="wallet-submit" id="depositSubmitBtn" onclick="submitDeposit()" data-i18n="deposit.submit">Send Deposit</button>
       </div>
     </div>
@@ -1725,7 +1444,6 @@ html,body{height:100%;
         <div class="wallet-form-title"><span data-i18n="withdraw.formTitle">Withdraw TON</span></div>
         <div class="withdraw-requirements" aria-label="Withdrawal requirements">
           <div class="withdraw-requirement min"><span data-i18n="withdraw.min">MIN</span><span id="withdrawMinValue">0.1 TON</span></div>
-          <div class="withdraw-requirement ads"><span data-i18n="withdraw.ads">ADS</span><span id="withdrawAdsValue">0/15</span></div>
         </div>
         <input class="wallet-input" id="withdrawWallet" placeholder="TON Wallet Address (UQ...)" data-i18n-placeholder="withdraw.walletPh">
         <input class="wallet-input" id="withdrawAmount" type="number" step="0.01" inputmode="decimal" placeholder="TON amount" data-i18n-placeholder="deposit.amountPh">
@@ -1801,31 +1519,24 @@ html,body{height:100%;
       </div>
     </div>
 
-    <!-- REFERRAL LEADERBOARD -->
+    <!-- WEEKLY CONTEST -->
     <div class="page" id="page-record">
-      <div class="lb-page-header">
-        <div class="lb-page-title">🏆 Referral Leaderboard</div>
-        <div class="lb-page-sub">Ranked by <b style="color:var(--text2)">active referrals</b> only — top 10 win TON prizes every round, automatically</div>
+      <div class="ct-head">
+        <div><div class="ct-title">🏆 Weekly Contest</div><div class="ct-sub">Invite friends · climb the ranks · win TON</div></div>
+        <button class="ct-help" onclick="openModal('contestHelpModal')" aria-label="How the contest works">?</button>
       </div>
-
-      <div id="lbMyRank"></div>
-
-      <div class="lb-timer-card">
-        <div class="lb-timer-icon">⏳</div>
-        <div class="lb-timer-body">
-          <div class="lb-timer-label">Round ends in</div>
-          <div class="lb-timer-value" id="lbTimer">--:--:--</div>
-        </div>
+      <div class="ct-pool">
+        <div class="ct-pool-lbl">Total prize pool</div>
+        <div class="ct-pool-val"><img src="https://cdn.simpleicons.org/ton/0098EA" alt=""><span id="ctPool">3</span></div>
+        <div class="ct-timer"><span class="ct-timer-lbl">Ends in</span><span class="ct-timer-val" id="lbTimer">--:--:--</span></div>
       </div>
-
-      <div class="lb-prizes-strip" id="lbPrizesStrip"></div>
-
-      <div class="lb-note"><span class="lb-note-icon">💡</span><span>Only <b style="color:var(--text)">active</b> referrals count toward your rank — invites that haven't completed the required subscription (or were made before this round began) are excluded.</span></div>
-
-      <div id="lbPodiumWrap"></div>
-
-      <div class="lb-section-label" id="lbListLabel">Top 25</div>
-      <div class="lb-list" id="leaderboardList"><div class="lb-loading-row"></div><div class="lb-loading-row"></div><div class="lb-loading-row"></div></div>
+      <div id="ctMe"></div>
+      <div class="ct-sec">Prizes</div>
+      <div class="ct-prizes" id="ctPrizes"></div>
+      <div class="ct-sec" id="ctTopLabel">Leaderboard</div>
+      <div class="ct-top3" id="ctTop3"><div class="empty-state">Loading…</div></div>
+      <div class="ct-sec" id="ctListLabel" style="display:none">Rank 4+</div>
+      <div class="ct-list" id="ctList"></div>
     </div>
 
     <!-- LUCKY WHEEL -->
@@ -1873,9 +1584,6 @@ html,body{height:100%;
     <div class="nav-item" onclick="switchPage('store')" id="nav-store">
       <div class="nav-icon">🏪</div><div class="nav-label" data-i18n="nav.store">Store</div>
     </div>
-    <div class="nav-item" onclick="switchPage('lottery')" id="nav-lottery">
-      <div class="nav-icon">🎟️</div><div class="nav-label" data-i18n="nav.lottery">Lottery</div>
-    </div>
     <div class="nav-item" onclick="switchPage('tasks')" id="nav-tasks">
       <div class="nav-icon">📋</div><div class="nav-label" data-i18n="nav.tasks">Tasks</div>
     </div>
@@ -1895,6 +1603,19 @@ html,body{height:100%;
 </div>
 
 <!-- Add Task Modal -->
+<div class="modal-overlay ct-modal" id="contestHelpModal" onclick="closeModalOutside(event,'contestHelpModal')">
+  <div class="ct-sheet">
+    <h3>How the contest works</h3>
+    <div class="ct-sheet-sub">Everything you need to know</div>
+    <div class="ct-step"><div class="ct-step-n">1</div><div class="ct-step-t"><b>Invite friends</b> with your personal link from the Referrals page. Each round lasts <b>7 days</b>.</div></div>
+    <div class="ct-step"><div class="ct-step-n">2</div><div class="ct-step-t">Only <b>active</b> referrals who joined <b>during the current round</b> count. Pending, flagged or older invites are not counted.</div></div>
+    <div class="ct-step"><div class="ct-step-n">3</div><div class="ct-step-t">Ranking is by number of active referrals. On a tie, whoever reached the count <b>first</b> ranks higher.</div></div>
+    <div class="ct-step"><div class="ct-step-n">4</div><div class="ct-step-t">The <b>top 10</b> win TON prizes. The prize pool is <b id="ctHelpPool">3</b> TON in total, with the biggest prize for #1.</div></div>
+    <div class="ct-step"><div class="ct-step-n">5</div><div class="ct-step-t">When the timer ends, prizes are <b>added to your TON balance automatically</b> and you get a Telegram message. A new round starts right away.</div></div>
+    <button class="ct-close" onclick="closeModal('contestHelpModal')">Got it</button>
+  </div>
+</div>
+
 <div class="modal-overlay" id="addTaskModal" onclick="closeModalOutside(event,'addTaskModal')">
   <div class="modal">
     <div class="modal-handle"></div>
@@ -2004,7 +1725,7 @@ var API_URL  = 'https://silent-block-bedf.ahmedrabieharoun.workers.dev'; // ← 
 // activity log, etc.) stays in its original language for now.
 var LANG = {
   en: {
-    'nav.home':'Home','nav.store':'Store','nav.lottery':'Lottery','nav.tasks':'Tasks','nav.combo':'Combo',
+    'nav.home':'Home','nav.store':'Store','nav.tasks':'Tasks','nav.combo':'Combo',
     'nav.refs':'Referrals','nav.profile':'Profile','nav.record':'Ranking',
     'home.earn':'⚡ Earn','home.withdraw':'▣ Withdraw',
     'profile.tapConnect':'Tap to connect wallet','profile.disconnectAsk':'Disconnect your wallet?','mine.tonBalance':'TON Balance','profile.idLabel':'ID','profile.connected':'Connected','profile.disconnected':'Disconnected',
@@ -2017,7 +1738,7 @@ var LANG = {
     'deposit.help':'Connect your TON wallet and send TON to the Crystal Mining Bot deposit wallet. Your User ID is added as the transaction comment.',
     'deposit.submit':'Send Deposit','deposit.amountPh':'TON amount',
     'withdraw.pageTitle':'Withdraw TON','withdraw.formTitle':'Withdraw TON',
-    'withdraw.min':'MIN','withdraw.ads':'ADS','withdraw.walletPh':'TON Wallet Address (UQ...)',
+    'withdraw.min':'MIN','withdraw.walletPh':'TON Wallet Address (UQ...)',
     'withdraw.fee':'Withdrawal fee:','withdraw.net':'Amount you will receive after the fee',
     'withdraw.submit':'Submit TON Withdrawal',
     'convert.pageTitle':'Convert','convert.formTitle':'Convert TON to CRYSTAL',
@@ -2025,7 +1746,7 @@ var LANG = {
     'language.pageTitle':'Language'
   },
   ar: {
-    'nav.home':'الرئيسية','nav.store':'المتجر','nav.lottery':'اليانصيب','nav.tasks':'المهام','nav.combo':'الكومبو',
+    'nav.home':'الرئيسية','nav.store':'المتجر','nav.tasks':'المهام','nav.combo':'الكومبو',
     'nav.refs':'الإحالات','nav.profile':'الملف الشخصي','nav.record':'الترتيب',
     'home.earn':'⚡ اربح','home.withdraw':'▣ سحب',
     'profile.tapConnect':'اضغط لربط المحفظة','profile.disconnectAsk':'هل تريد فصل المحفظة؟','mine.tonBalance':'رصيد TON','profile.idLabel':'المعرف','profile.connected':'متصل','profile.disconnected':'غير متصل',
@@ -2038,7 +1759,7 @@ var LANG = {
     'deposit.help':'قم بربط محفظة TON الخاصة بك وأرسل TON إلى محفظة الإيداع الخاصة بالبوت. سيتم إضافة معرف المستخدم الخاص بك كتعليق على المعاملة.',
     'deposit.submit':'إرسال الإيداع','deposit.amountPh':'كمية TON',
     'withdraw.pageTitle':'سحب TON','withdraw.formTitle':'سحب TON',
-    'withdraw.min':'الحد الأدنى','withdraw.ads':'إعلانات','withdraw.walletPh':'عنوان محفظة TON (UQ...)',
+    'withdraw.min':'الحد الأدنى','withdraw.walletPh':'عنوان محفظة TON (UQ...)',
     'withdraw.fee':'رسوم السحب:','withdraw.net':'المبلغ الذي ستستلمه بعد خصم الرسوم',
     'withdraw.submit':'إرسال طلب سحب TON',
     'convert.pageTitle':'تحويل','convert.formTitle':'تحويل TON إلى CRYSTAL',
@@ -2046,7 +1767,7 @@ var LANG = {
     'language.pageTitle':'اللغة'
   },
   fr: {
-    'nav.home':'Accueil','nav.store':'Boutique','nav.lottery':'Loterie','nav.tasks':'Tâches','nav.combo':'Combo',
+    'nav.home':'Accueil','nav.store':'Boutique','nav.tasks':'Tâches','nav.combo':'Combo',
     'nav.refs':'Parrainage','nav.profile':'Profil','nav.record':'Classement',
     'home.earn':'⚡ Gagner','home.withdraw':'▣ Retirer',
     'profile.tapConnect':'Touchez pour connecter','profile.disconnectAsk':'Déconnecter votre portefeuille ?','mine.tonBalance':'Solde TON','profile.idLabel':'ID','profile.connected':'Connecté','profile.disconnected':'Déconnecté',
@@ -2059,7 +1780,7 @@ var LANG = {
     'deposit.help':"Connectez votre portefeuille TON et envoyez du TON au portefeuille de dépôt du Crystal Mining Bot. Votre identifiant utilisateur est ajouté comme commentaire de transaction.",
     'deposit.submit':'Envoyer le dépôt','deposit.amountPh':'Montant en TON',
     'withdraw.pageTitle':'Retrait TON','withdraw.formTitle':'Retrait TON',
-    'withdraw.min':'MIN','withdraw.ads':'PUBS','withdraw.walletPh':'Adresse du portefeuille TON (UQ...)',
+    'withdraw.min':'MIN','withdraw.walletPh':'Adresse du portefeuille TON (UQ...)',
     'withdraw.fee':'Frais de retrait :','withdraw.net':'Montant que vous recevrez après déduction des frais',
     'withdraw.submit':'Envoyer la demande de retrait',
     'convert.pageTitle':'Convertir','convert.formTitle':'Convertir TON en CRYSTAL',
@@ -2864,6 +2585,7 @@ function render(){
   // Refs page
   document.getElementById('refLinkUrl').textContent = buildRefLink(u.referralCode);
   renderReferralRewards(d);
+  renderRefs(S.refPage || 0);
   // Wallet (Balance & History)
    updateWalletTonBalance();
   renderWalletHistory(d.balanceLogs||[]);
@@ -3171,73 +2893,52 @@ function collectReferralEarnings(){
 
 function renderRefs(page){
   var el = document.getElementById('refList');
-  var refs = S.refs;
-  if (!refs || !refs.length){ el.innerHTML = '<div class="empty-state">No referrals yet</div>'; return; }
-  var visible = refs.slice(0, 5 + page*5);
-  var htmlParts = [];
-  visible.forEach(function(r){
-    try {
-      if (!r) throw new Error('empty referral entry');
-      var name = r.firstName || r.name || 'Unknown';
-      if (typeof name !== 'string' || !name.length) name = 'Unknown';
-      var handle = r.username ? '@'+r.username : '';
-      var isCompleted = r.status === 'completed' || r.status === 'active';
-       var earned = fmtShiba(r.totalReferralEarned || 0);
-       var badge = r.fraudMultipleAccounts
-        ? '<span class="ref-user-badge fraud">Multiple Accounts</span>'
-         : isCompleted
-           ? '<span class="ref-user-badge active">Completed</span>'
-          : '<span class="ref-user-badge inactive">Pending</span>';
-       var av = r.photoUrl ? '<img src="'+r.photoUrl+'" alt="">' : esc(name.charAt(0).toUpperCase());
-       var date = r.joinedAt ? new Date(r.joinedAt).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) : '';
-        var adsWatched = Math.min(Number(r.adsWatched || 0), 10);
-        var progressHtml = '<div class="ref-days">'+
-            '<div class="ref-day '+(isCompleted?'done':'')+'">'+
-              '<div class="ref-day-title">'+(isCompleted?'✓ ':'')+(isCompleted?'Reward claimed':'Watching ads')+'</div>'+
-              '<div>ads '+adsWatched+'/10</div>'+
-            '</div>'+
-          '</div>';
-        var earnedTotal = isCompleted
-          ? '<div class="ref-earned-total">Reward claimed — '+earned+' CRYSTAL total ✓</div>'
-          : '<div class="ref-earned-total">You earned '+earned+' CRYSTAL from this user</div>';
-       htmlParts.push('<div class="ref-user-item">'+
-        '<div class="ref-user-avatar">'+av+'</div>'+
-         '<div class="ref-user-info">'+
-          '<div class="ref-user-name">'+esc(name)+'</div>'+
-           '<div class="ref-user-meta">'+esc(handle)+(date?' · Joined '+date:'')+'</div>'+
-        '</div>'+
-        '<div class="ref-user-earn">'+
-            badge+
-           '<span class="ref-user-earn-val">'+earned+'</span>'+
-           '<span class="ref-user-earn-lbl">Total earned</span>'+
-        '</div>'+
-         progressHtml+
-         earnedTotal+
-         '<div class="ref-user-details">'+
-            (r.fraudMultipleAccounts ? '⚠️ Flagged as multiple accounts from the same device' :
-            isCompleted ? '✅ The one-time referral bonus has been credited' :
-              '📺 Watches 10 ads to unlock a one-time reward of <b>'+fmtShiba(r.reward||0)+' CRYSTAL</b>')+
-        '</div>'+
-      '</div>');
-    } catch (err) {
-      // Don't let the error break the whole list — just log it to the console so
-      // we can diagnose any missing field in the referral data without the user
-      // seeing a blank page.
-      console.error('renderRefs: failed to render one referral entry', err, r);
-      htmlParts.push('<div class="ref-user-item"><div class="ref-user-info"><div class="ref-user-name">'+esc((r && (r.firstName||r.username)) || 'Unknown')+'</div></div></div>');
-    }
-  });
-  // The server sends only the latest referrals (see referralsLimit) — tell the user when
-  // they've reached the end of what is listed but have more referrals in total.
-  var totalRefsAll = Number(S.data && S.data.referralsTotal) || refs.length;
-  if (visible.length >= refs.length && totalRefsAll > refs.length){
-    htmlParts.push('<div style="text-align:center;color:var(--text3);font-size:12px;padding:12px 0;direction:ltr">Showing your latest '+refs.length+' of '+totalRefsAll+' referrals</div>');
-  }
-  el.innerHTML = htmlParts.join('');
+  if (!el) return;
+  var refs = S.refs || [];
+  var cnt = document.getElementById('rfCount'); if (cnt) cnt.textContent = refs.length;
   var loadBtn = document.getElementById('loadMoreBtn');
-  if (loadBtn) {
-    if (visible.length < refs.length){ loadBtn.style.display='block'; } else { loadBtn.style.display='none'; }
+  if (!refs.length){
+    el.innerHTML = '<div class="empty-state">No referrals yet — share your link to invite friends 🚀</div>';
+    if (loadBtn) loadBtn.style.display = 'none';
+    return;
   }
+  var cfg = (S.data && S.data.config) || {};
+  var streakNeeded = Number((S.data && S.data.referralRewards && S.data.referralRewards.comboStreakDaysRequired) || cfg.comboStreakDaysRequired || 2);
+  var visible = refs.slice(0, 10 + (page||0)*10);
+  var crystalImg = '<img src="https://i.ibb.co/chCjf1zw/Chat-GPT-Image-Sep-25-2026-04-18-45-AM-1.png" alt="">';
+  var tonImg = '<img src="https://cdn.simpleicons.org/ton/0098EA" alt="">';
+  el.innerHTML = visible.map(function(r){
+    try {
+      var name = (r.firstName || r.username || 'User');
+      var handle = r.username ? '@'+r.username : '';
+      var isActive = r.status === 'completed' || r.status === 'active';
+      var badge = r.fraudMultipleAccounts ? '<span class="rf-badge fraud">Flagged</span>'
+                : isActive ? '<span class="rf-badge active">Active</span>'
+                : '<span class="rf-badge pending">Pending</span>';
+      var av = r.photoUrl ? '<img src="'+esc(r.photoUrl)+'" alt="">' : esc(String(name).charAt(0).toUpperCase());
+      var date = r.joinedAt ? new Date(r.joinedAt).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) : '';
+      var ads = Math.min(Number(r.adsWatched || 0), 10);
+      var streak = r.comboRewardGiven ? streakNeeded : Math.min(Number(r.comboStreak || 0), streakNeeded);
+      var crystal = Number(r.crystalEarned || 0);
+      var ton = Number(r.tonEarned || 0);
+      return '<div class="rf-card">'+
+        '<div class="rf-top">'+
+          '<div class="rf-avatar">'+av+'</div>'+
+          '<div class="rf-info"><div class="rf-name">'+esc(name)+'</div><div class="rf-meta">'+esc(handle)+(handle&&date?' · ':'')+(date?'Joined '+esc(date):'')+'</div></div>'+
+          badge+
+        '</div>'+
+        '<div class="rf-stats">'+
+          '<div class="rf-stat"><div class="rf-stat-val'+(ads>=10?' done':'')+'">'+ads+'/10</div><div class="rf-stat-lbl">Ads</div></div>'+
+          '<div class="rf-stat"><div class="rf-stat-val'+(r.comboRewardGiven?' done':'')+'">'+streak+'/'+streakNeeded+'</div><div class="rf-stat-lbl">Combo days</div></div>'+
+          '<div class="rf-stat"><div class="rf-stat-val">'+(ton>0 ? tonImg+ton.toFixed(4) : crystalImg+fmtShiba(crystal))+'</div><div class="rf-stat-lbl">You earned</div></div>'+
+        '</div>'+
+      '</div>';
+    } catch (err) {
+      console.error('renderRefs: failed to render one referral entry', err, r);
+      return '<div class="rf-card"><div class="rf-top"><div class="rf-info"><div class="rf-name">'+esc((r && (r.firstName||r.username)) || 'User')+'</div></div></div></div>';
+    }
+  }).join('');
+  if (loadBtn) loadBtn.style.display = visible.length < refs.length ? 'block' : 'none';
 }
 
 function loadMoreRefs(){
@@ -3277,9 +2978,9 @@ var LB_MEDALS = ['🥇','🥈','🥉'];
 var lbTimerInterval = null;
 
 function loadRecordPage(){
-  var el = document.getElementById('leaderboardList');
+  var el = document.getElementById('ctTop3');
   if (!el) return;
-  if (!S.lbLoaded) el.innerHTML = '<div class="lb-loading-row"></div><div class="lb-loading-row"></div><div class="lb-loading-row"></div>';
+  if (!S.lbLoaded) el.innerHTML = '<div class="empty-state">Loading…</div>';
   api('getWeeklyLeaderboard', {}).then(function(res){
     if (!res || !res.success){
       if (!S.lbLoaded) el.innerHTML = '<div class="empty-state">Unable to load the leaderboard right now</div>';
@@ -3298,110 +2999,55 @@ function renderLeaderboard(){
   var data = S.lb;
   if (!data) return;
   var list = data.leaderboard || [];
+  var prizes = data.prizesTon || [];
+  var tonImg = '<img src="https://cdn.simpleicons.org/ton/0098EA" alt="" style="width:13px;height:13px;vertical-align:-2px">';
+  var esc2 = esc;
 
-  // ── "My rank" hero card ──────────────────────────────────────────
-  var myRankEl = document.getElementById('lbMyRank');
-  if (myRankEl){
-    var myCount = data.myActiveReferrals || data.myReferralsThisWeek || 0;
-    var myRank = data.myRank || null;
-    var myRankTxt = myRank ? ('#'+myRank) : '—';
-    var u = S.user || {};
-    var myName = u.firstName || (u.username ? '@'+u.username : '') || 'You';
-    var myAv = u.photoUrl ? '<img src="'+u.photoUrl+'" alt="">' : esc(myName.charAt(0).toUpperCase());
-    var myMedal = myRank && LB_MEDALS[myRank-1] ? '<div class="lb-hero-medal">'+LB_MEDALS[myRank-1]+'</div>' : '';
-    var totalRanked = list.length ? (data.topLimit || 25) : 0;
-    myRankEl.innerHTML =
-      '<div class="lb-hero">'+
-        '<div class="lb-hero-top">'+
-          '<div class="lb-hero-avatar-wrap"><div class="lb-hero-avatar">'+myAv+'</div>'+myMedal+'</div>'+
-          '<div class="lb-hero-info">'+
-            '<div class="lb-hero-name">'+esc(myName)+'</div>'+
-            '<div class="lb-hero-label">Your standing</div>'+
-          '</div>'+
-          '<div class="lb-hero-rank"><div class="lb-hero-rank-num">'+myRankTxt+'</div><div class="lb-hero-rank-tag">RANK</div></div>'+
-        '</div>'+
-        '<div class="lb-hero-stats">'+
-          '<div class="lb-hero-stat"><div class="lb-hero-stat-val">'+myCount+'</div><div class="lb-hero-stat-lbl">Active referrals</div></div>'+
-          '<div class="lb-hero-stat"><div class="lb-hero-stat-val">'+(myRank ? 'Top '+Math.max(1,myRank) : '—')+'</div><div class="lb-hero-stat-lbl">This round</div></div>'+
-        '</div>'+
-      '</div>';
-  }
+  var poolEl = document.getElementById('ctPool');
+  var pool = data.totalPrizePoolTon != null ? data.totalPrizePoolTon : prizes.reduce(function(a,b){return a+b;},0);
+  if (poolEl) poolEl.textContent = pool;
+  var hp = document.getElementById('ctHelpPool'); if (hp) hp.textContent = pool;
 
-  // ── Prize chips ──────────────────────────────────────────────────
-  var prizesEl = document.getElementById('lbPrizesStrip');
-  if (prizesEl){
-    var prizes = data.prizesTon || [];
-    prizesEl.innerHTML = prizes.map(function(p, i){
-      var medal = LB_MEDALS[i] || ('#'+(i+1));
-      return '<div class="lb-prize-chip">'+medal+' <b>'+p+'</b> TON</div>';
-    }).join('');
-  }
+  var u = S.user || {};
+  var myName = u.firstName || (u.username ? '@'+u.username : '') || 'You';
+  var myAv = u.photoUrl ? '<img src="'+esc2(u.photoUrl)+'" alt="">' : esc2(myName.charAt(0).toUpperCase());
+  var myCount = data.myActiveReferrals || data.myReferralsThisWeek || 0;
+  var meEl = document.getElementById('ctMe');
+  if (meEl) meEl.innerHTML = '<div class="ct-me"><div class="ct-av">'+myAv+'</div>'+
+    '<div class="ct-me-info"><div class="ct-me-name">'+esc2(myName)+'</div><div class="ct-me-sub">'+myCount+' active referral'+(myCount===1?'':'s')+' this round</div></div>'+
+    '<div class="ct-me-rank"><b>'+(data.myRank ? '#'+data.myRank : '—')+'</b><span>YOUR RANK</span></div></div>';
 
-  var podiumWrap = document.getElementById('lbPodiumWrap');
-  var listEl = document.getElementById('leaderboardList');
-  var listLabel = document.getElementById('lbListLabel');
-  if (!listEl) return;
+  var pz = document.getElementById('ctPrizes');
+  if (pz) pz.innerHTML = prizes.map(function(p,i){
+    return '<div class="ct-prize'+(i<3?' top':'')+'"><div class="ct-prize-rank">'+(LB_MEDALS[i]||('#'+(i+1)))+'</div><div class="ct-prize-val">'+p+'</div></div>';
+  }).join('');
 
+  var top3El = document.getElementById('ctTop3');
+  var listEl = document.getElementById('ctList');
+  var listLabel = document.getElementById('ctListLabel');
+  if (!top3El || !listEl) return;
   if (!list.length){
-    if (podiumWrap) podiumWrap.innerHTML = '';
-    if (listLabel) listLabel.style.display = 'none';
-    listEl.innerHTML = '<div class="empty-state">No active referrals yet this round — invite a friend to claim #1! 🚀</div>';
+    top3El.innerHTML = '<div class="empty-state">No active referrals yet this round — invite a friend to claim #1! 🚀</div>';
+    listEl.innerHTML = ''; if (listLabel) listLabel.style.display = 'none';
     return;
   }
-  if (listLabel) listLabel.style.display = '';
-
   var isMe = function(r){ return S.user && String(r.telegramId) === String(S.user.telegramId); };
   var nameOf = function(r){ return r.firstName || (r.username ? '@'+r.username : '') || 'User'; };
-  var avatarOf = function(r, name){ return r.photoUrl ? '<img src="'+r.photoUrl+'" alt="">' : esc(name.charAt(0).toUpperCase()); };
-  var countOf = function(r){ return r.activeReferrals != null ? r.activeReferrals : (r.referralsThisWeek || 0); };
-
-  // ── Podium for top 3 ─────────────────────────────────────────────
-  var top3 = list.slice(0, 3);
-  var rest = list.slice(3);
-  if (podiumWrap && top3.length){
-    var order = ['rank1','rank2','rank3'];
-    podiumWrap.innerHTML = '<div class="lb-podium">'+
-      top3.map(function(r, i){
-        var name = nameOf(r);
-        var cls = order[i] || ('rank'+(i+1));
-        var crown = i === 0 ? '<div class="lb-podium-crown">👑</div>' : '';
-        return '<div class="lb-podium-slot '+cls+'">'+
-          crown+
-          '<div class="lb-podium-avatar-wrap">'+
-            '<div class="lb-podium-avatar">'+avatarOf(r, name)+'</div>'+
-            '<div class="lb-podium-rank-badge">'+r.rank+'</div>'+
-          '</div>'+
-          '<div class="lb-podium-name">'+esc(name)+(isMe(r)?' <span class="lb-item-you">YOU</span>':'')+'</div>'+
-          '<div class="lb-podium-count">👥 '+countOf(r)+'</div>'+
-          '<div class="lb-podium-plinth">'+(r.prizeTon ? '+'+r.prizeTon+' TON' : '#'+r.rank)+'</div>'+
-        '</div>';
-      }).join('')+
+  var avOf = function(r){ var n = nameOf(r); return r.photoUrl ? '<img src="'+esc2(r.photoUrl)+'" alt="">' : esc2(n.charAt(0).toUpperCase()); };
+  var cntOf = function(r){ return r.activeReferrals != null ? r.activeReferrals : (r.referralsThisWeek || 0); };
+  var rowHtml = function(r, i){
+    var cls = r.rank<=3 ? ' r'+r.rank : '';
+    return '<div class="ct-row'+cls+(isMe(r)?' me':'')+'" style="animation-delay:'+Math.min(i*0.04,0.4)+'s">'+
+      '<div class="ct-pos">'+(LB_MEDALS[r.rank-1]||('#'+r.rank))+'</div>'+
+      '<div class="ct-av">'+avOf(r)+'</div>'+
+      '<div class="ct-row-info"><div class="ct-row-name">'+esc2(nameOf(r))+(isMe(r)?'<span class="ct-you">YOU</span>':'')+'</div><div class="ct-row-cnt">👥 '+cntOf(r)+' referral'+(cntOf(r)===1?'':'s')+'</div></div>'+
+      (r.prizeTon ? '<div class="ct-row-prize">+'+r.prizeTon+' '+tonImg+'</div>' : '')+
     '</div>';
-  } else if (podiumWrap){
-    podiumWrap.innerHTML = '';
-  }
-
-  // ── List for rank 4+ ─────────────────────────────────────────────
-  if (!rest.length){
-    listEl.innerHTML = list.length <= 3 ? '' : '<div class="empty-state">That\'s everyone in this round so far!</div>';
-    if (!rest.length && list.length <= 3) listLabel.style.display = 'none';
-    return;
-  }
-  listEl.innerHTML = rest.map(function(r, idx){
-    var name = nameOf(r);
-    var av = avatarOf(r, name);
-    var me = isMe(r);
-    var delay = Math.min(idx * 0.03, 0.4);
-    return '<div class="lb-item'+(me?' lb-item-me':'')+'" style="animation-delay:'+delay+'s">'+
-        '<div class="lb-rank-badge">#'+r.rank+'</div>'+
-        '<div class="lb-avatar">'+av+'</div>'+
-        '<div class="lb-item-info"><div class="lb-item-name">'+esc(name)+(me?'<span class="lb-item-you">YOU</span>':'')+'</div></div>'+
-        '<div class="lb-item-right">'+
-          '<div class="lb-count">👥 <b>'+countOf(r)+'</b></div>'+
-          (r.prizeTon ? '<div class="lb-prize-tag">+'+r.prizeTon+' TON</div>' : '')+
-        '</div>'+
-      '</div>';
-  }).join('');
+  };
+  top3El.innerHTML = list.slice(0,3).map(rowHtml).join('');
+  var rest = list.slice(3);
+  listEl.innerHTML = rest.map(function(r,i){ return rowHtml(r,i); }).join('');
+  if (listLabel) listLabel.style.display = rest.length ? '' : 'none';
 }
 
 function startLbTimer(){
@@ -3444,12 +3090,8 @@ function updateLbTimer(){
 function openWithdrawForm(){
   var cfg = (S.data && S.data.config) || {};
   if (cfg.withdrawalEnabled === false){ showToast('Withdrawals are currently disabled','error'); return; }
-  var adsByCompanyW = (S.data && S.data.stats && S.data.stats.adsWatchedByCompany) || {};
-  var watched = Number(adsByCompanyW.adsgram || 0);
-  var count = ((S.data && S.data.withdrawals) || []).length;
-  var rule = [{min:0.1,ads:15},{min:0.2,ads:20},{min:0.3,ads:25}][Math.min(count,2)];
-  document.getElementById('withdrawMinValue').textContent = rule.min.toFixed(1)+' TON';
-  document.getElementById('withdrawAdsValue').textContent = Math.min(watched, rule.ads)+'/'+rule.ads;
+  var minW = Number(cfg.minWithdrawalTon != null ? cfg.minWithdrawalTon : 0.1);
+  document.getElementById('withdrawMinValue').textContent = minW + ' TON';
   document.getElementById('withdrawWallet').value = (S.user && S.user.tonWallet) || '';
   document.getElementById('withdrawAmount').value = '';
   updateWithdrawalNetAmount();
@@ -3471,6 +3113,8 @@ function submitWithdrawal(){
   if (!wallet){ showToast('Enter a TON wallet address','error'); return; }
   if (!/^([UE]Q)[A-Za-z0-9_-]{46}$/.test(wallet)){ showToast('Invalid wallet address','error'); return; }
   if (!amount || amount<=0){ showToast('Enter a valid amount','error'); return; }
+  var minW = Number((S.data && S.data.config && S.data.config.minWithdrawalTon != null) ? S.data.config.minWithdrawalTon : 0.1);
+  if (amount < minW){ showToast('Minimum withdrawal is ' + minW + ' TON','error'); return; }
   if (S.user && amount > Number(S.user.tonBalance || 0)){ showToast('Insufficient TON balance','error'); return; }
   var btn = document.getElementById('withdrawSubmitBtn');
   btn.disabled = true; btn.textContent = 'Submitting...';
@@ -3480,12 +3124,6 @@ function submitWithdrawal(){
     S.user.tonBalance = res.data.tonBalance;
     S.user.tonWallet = wallet;
     updateWalletTonBalance();
-    // The counter resets on the server after any successful withdrawal (in addition to the daily reset),
-    // so we reflect the zero value immediately in the UI as well.
-    if (S.data && S.data.stats) {
-      S.data.stats.adsWatchedToday = 0;
-      S.data.stats.adsWatchedByCompany = {};
-    }
     S.data.withdrawals = S.data.withdrawals || [];
     S.data.withdrawals.unshift({ id:res.data.withdrawalId, walletAddress:wallet, amount:res.data.netAmount, requestedAmount:amount, fee:res.data.fee, currency:'TON', status:'pending', ts:Date.now() });
     renderWalletHistory(S.data.balanceLogs||[]);
@@ -3499,6 +3137,9 @@ function submitWithdrawal(){
 
 function openDepositForm(){
   document.getElementById('depositAmount').value = '';
+  var minD = Number((S.data && S.data.config && S.data.config.minDepositTon != null) ? S.data.config.minDepositTon : 1);
+  var minDEl = document.getElementById('depositMinValue'); if (minDEl) minDEl.textContent = minD + ' TON';
+  document.getElementById('depositAmount').min = String(minD);
   // The address comes from the active deposit system; we don't rely on an old value stored in Firebase.
   BOT_DEPOSIT_WALLET = 'UQAACNWWtTtN7ILkhRERwYUTzo06Bd1Tv_8Yk5gPioIMFoUD';
   ensureTonConnectUI(function(ui){
@@ -3509,6 +3150,8 @@ function openDepositForm(){
 async function submitDeposit(){
   var amount = Number(document.getElementById('depositAmount').value);
   if (!Number.isFinite(amount) || amount <= 0){ showToast('Enter a valid TON amount','error'); return; }
+  var minD = Number((S.data && S.data.config && S.data.config.minDepositTon != null) ? S.data.config.minDepositTon : 1);
+  if (amount < minD){ showToast('Minimum deposit is ' + minD + ' TON','error'); return; }
   if (!tonConnectUI){ showToast('Connect your TON wallet first','error'); return; }
   var btn = document.getElementById('depositSubmitBtn');
   if (btn) { btn.disabled = true; btn.textContent = 'Waiting for wallet...'; }
@@ -3686,194 +3329,6 @@ function buyStorePack(tonCost, crystalGet, btn){
       if (btn) btn.classList.remove('loading');
       if (storeGridEl) storeGridEl.classList.remove('busy');
     });
-}
-
-// ── Lottery ───────────────────────────────────────────────────────────
-// Pick 3 digits (in order) → buy a ticket for LT.ticketPrice TON. When the
-// round's ticket quota is reached the server draws automatically: exact
-// order (3/3) wins the jackpot; if nobody hits 3/3 the best 2/3 match wins
-// instead; if nobody hits that either, the best 1/3 match wins. The prize
-// is split equally among every winner at that single best tier.
-var LT = {
-  loaded:false, busy:false,
-  ticketPriceTon:0.1, jackpotTon:1, ticketsSold:0, ticketsRequired:15,
-  slots:[null,null,null], activeSlot:0,
-  myTickets:[],       // [{id, n:[a,b,c]}]
-  lastRound:null       // {lucky:[a,b,c], winners:[{user,n,match,prize}]} | null
-};
-var ltPadBuilt = false;
-
-function ltInitPad(){
-  if (ltPadBuilt) return;
-  var pad = document.getElementById('ltPad');
-  var html = '';
-  for (var d=0; d<10; d++){ html += '<div class="lt-digit" id="ltDigit'+d+'" onclick="ltPickDigit('+d+')">'+d+'</div>'; }
-  pad.innerHTML = html;
-  ltPadBuilt = true;
-}
-
-function ltRenderSlots(){
-  for (var i=0;i<3;i++){
-    var el = document.getElementById('ltSlot'+i);
-    var val = LT.slots[i];
-    el.textContent = val === null ? '' : val;
-    el.classList.toggle('filled', val !== null);
-    el.classList.toggle('active', i === LT.activeSlot);
-  }
-}
-function ltSelectSlot(i){ LT.activeSlot = i; ltRenderSlots(); }
-function ltPickDigit(d){
-  var i = LT.activeSlot;
-  LT.slots[i] = d;
-  var next = LT.slots.findIndex(function(v){ return v === null; });
-  LT.activeSlot = next === -1 ? i : next;
-  ltRenderSlots();
-  ltUpdateBuyState();
-}
-function ltRandomPick(){
-  LT.slots = [rndInt(0,9), rndInt(0,9), rndInt(0,9)];
-  LT.activeSlot = 0;
-  ltRenderSlots();
-  ltUpdateBuyState();
-}
-function rndInt(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
-function fmtTon(n){ return (Math.round((Number(n)||0)*10000)/10000).toString().replace(/\.?0+$/,'') || '0'; }
-
-function ltRenderJackpot(){
-  document.getElementById('ltJackpotVal').textContent = fmtTon(LT.jackpotTon) + ' TON';
-  document.getElementById('ltPriceVal').textContent = fmtTon(LT.ticketPriceTon) + ' TON';
-  document.getElementById('ltBuyPrice').textContent = fmtTon(LT.ticketPriceTon) + ' TON';
-  document.getElementById('ltSoldNum').textContent = LT.ticketsSold;
-  document.getElementById('ltSoldTotal').textContent = LT.ticketsRequired;
-  document.getElementById('ltSoldTotal2').textContent = LT.ticketsRequired;
-  var pct = Math.min(100, (LT.ticketsSold / LT.ticketsRequired) * 100);
-  document.getElementById('ltProgressFill').style.width = pct + '%';
-}
-
-function ltUpdateBuyState(){
-  var btn = document.getElementById('ltBuyBtn');
-  var sub = document.getElementById('ltBuySub');
-  var picked = LT.slots.every(function(v){ return v !== null; });
-  var balance = Number((S.user && S.user.tonBalance) || 0);
-  var canAfford = balance >= LT.ticketPriceTon;
-  btn.disabled = !picked || !canAfford || LT.busy;
-  if (!canAfford){
-    sub.textContent = 'Not enough TON — your balance: ' + fmtTon(balance) + ' TON';
-    sub.classList.remove('ok');
-  } else if (!picked){
-    sub.textContent = 'Pick all 3 numbers to buy a ticket';
-    sub.classList.remove('ok');
-  } else {
-    sub.textContent = 'Balance: ' + fmtTon(balance) + ' TON';
-    sub.classList.add('ok');
-  }
-}
-
-function ltRenderMyTickets(){
-  var list = document.getElementById('ltMyTicketsList');
-  document.getElementById('ltMyTicketsCount').textContent = LT.myTickets.length + ' ticket' + (LT.myTickets.length===1?'':'s');
-  if (!LT.myTickets.length){
-    list.innerHTML = '<div class="lt-empty">No tickets yet — pick your numbers above 🎟️</div>';
-    return;
-  }
-  list.innerHTML = LT.myTickets.map(function(t, i){
-    return '<div class="lt-ticket-row">'+
-      '<div class="lt-ticket-idx">#'+(i+1)+'</div>'+
-      '<div class="lt-ticket-nums">'+
-        t.n.map(function(n){ return '<div class="lt-num-chip">'+n+'</div>'; }).join('')+
-      '</div>'+
-    '</div>';
-  }).join('');
-}
-
-function ltRenderLastRound(){
-  var lr = LT.lastRound;
-  var pill = document.getElementById('ltRoundStatusPill');
-  var luckyEl = document.getElementById('ltLuckyNums');
-  var wrap = document.getElementById('ltResultsWrap');
-  if (!lr){
-    pill.textContent = 'No rounds yet';
-    luckyEl.innerHTML = '<div class="lt-lucky-ball">?</div><div class="lt-lucky-ball">?</div><div class="lt-lucky-ball">?</div>';
-    wrap.innerHTML = '';
-    return;
-  }
-  pill.textContent = 'Finished';
-  luckyEl.innerHTML = lr.lucky.map(function(n){ return '<div class="lt-lucky-ball">'+n+'</div>'; }).join('');
-  var title = lr.winners && lr.winners.length && lr.winners[0].match === 3 ? '🎉 Winners (3/3 match)'
-    : lr.winners && lr.winners.length ? '🥈 Winners (' + lr.winners[0].match + '/3 closest match)' : '';
-  if (lr.winners && lr.winners.length){
-    wrap.innerHTML = '<div class="lt-result-block"><div class="lt-result-head">'+title+'</div>'+
-      '<table class="lt-result-table"><tr><th>User</th><th>Number</th><th>Match</th><th>Prize</th></tr>'+
-      lr.winners.map(function(w){
-        return '<tr><td title="'+esc(w.user)+'">'+esc(w.user)+'</td>'+
-          '<td><div class="win-nums">'+w.n.map(function(n){ return '<div class="win-num">'+n+'</div>'; }).join('')+'</div></td>'+
-          '<td class="lt-match-tag">'+w.match+'/3</td>'+
-          '<td class="lt-prize-tag">'+w.prize+'</td></tr>';
-      }).join('') + '</table></div>';
-  } else {
-    wrap.innerHTML = '<div class="lt-result-block"><div class="lt-result-head">No winners this round</div></div>';
-  }
-}
-
-function ltResetPicks(){
-  LT.slots = [null,null,null];
-  LT.activeSlot = 0;
-  ltRenderSlots();
-}
-
-function loadLotteryState(){
-  api('getLotteryState', {}).then(function(res){
-    LT.loaded = true;
-    if (!res || !res.success){ showToast((res && res.error) || 'Could not load Lottery', 'error'); return; }
-    var d = res.data;
-    LT.ticketPriceTon = Number(d.ticketPriceTon);
-    LT.jackpotTon = Number(d.jackpotTon);
-    LT.ticketsSold = Number(d.ticketsSold);
-    LT.ticketsRequired = Number(d.ticketsRequired);
-    LT.myTickets = d.myTickets || [];
-    LT.lastRound = d.lastRound || null;
-    ltRenderJackpot();
-    ltRenderMyTickets();
-    ltRenderLastRound();
-    ltUpdateBuyState();
-  }).catch(function(){ showToast('Network error', 'error'); });
-}
-
-function buyLotteryTicket(){
-  if (LT.busy) return;
-  if (!LT.slots.every(function(v){ return v !== null; })){ showToast('Pick all 3 numbers first', 'error'); return; }
-  var balance = Number((S.user && S.user.tonBalance) || 0);
-  if (balance < LT.ticketPriceTon){ showToast('Not enough TON balance', 'error'); return; }
-  LT.busy = true; ltUpdateBuyState();
-  var numbers = LT.slots.slice();
-  api('buyLotteryTicket', { numbers: numbers }).then(function(res){
-    if (!res.success){ showToast(res.error || 'Purchase failed', 'error'); return; }
-    S.user.tonBalance = res.data.tonBalance;
-    updateWalletTonBalance();
-    LT.ticketsSold = res.data.ticketsSold;
-    LT.ticketsRequired = res.data.ticketsRequired;
-    LT.jackpotTon = res.data.jackpotTon;
-    LT.myTickets.push({ id: res.data.ticketId, n: numbers });
-    ltResetPicks();
-    ltRenderJackpot();
-    ltRenderMyTickets();
-    showToast('🎟️ Ticket purchased!');
-    if (res.data.round && res.data.round.finished){
-      LT.lastRound = res.data.round.lastRound;
-      LT.myTickets = [];
-      LT.ticketsSold = 0;
-      ltRenderJackpot();
-      ltRenderMyTickets();
-      ltRenderLastRound();
-      var userWon = res.data.round.userWon;
-      showToast(userWon ? '🎉 Draw finished — check Last Round, you won!' : '🎲 Draw finished — new round started!');
-    }
-  }).catch(function(){ showToast('Network error', 'error'); })
-    .then(function(){ LT.busy = false; ltUpdateBuyState(); });
-}
-
-function openLotteryHelp(){
-  showToast('Pick 3 numbers in order. Exact match (3/3) wins the jackpot — closest match (2/3, then 1/3) wins if nobody hits it exactly!');
 }
 
 // ── Tasks ─────────────────────────────────────────────────────────────
@@ -4584,7 +4039,6 @@ function switchPage(name){
   }
   if (name === 'record') loadRecordPage();
   if (name === 'store') renderStore();
-  if (name === 'lottery') { ltInitPad(); loadLotteryState(); }
   if (name === 'combo') { renderCombo(); syncDailyBonusUI(); }
   if (name === 'profile') renderProfile();
   if (name === 'deposit') openDepositForm();
@@ -4679,18 +4133,25 @@ function submitAddTask(){
   btn.disabled = true; btn.textContent = 'Submitting...';
    api('submitTaskSuggestion', { name:name, link:link, category:selectedTaskCategory, membersNeeded:members, desc:desc, priceTon:priceTon }).then(function(res){
     btn.disabled = false; btn.textContent = '📤 Submit Request';
-    if (!res.success){ showToast(res.error||'Failed to submit','error'); return; }
-     if (typeof res.data.tonBalance === 'number') {
-       S.user.tonBalance = res.data.tonBalance;
-       updateWalletTonBalance();
-       document.getElementById('convertTonBalance').textContent = res.data.tonBalance.toFixed(4)+' TON';
-     }
-    document.getElementById('successChannelLink').textContent = link;
-    document.getElementById('successMembers').textContent = fmtNum(members);
-     document.getElementById('successPrice').innerHTML = (res.data.priceTon || priceTon).toFixed(4)+' TON';
-    document.getElementById('addTaskFormView').style.display = 'none';
-    document.getElementById('addTaskSuccessView').style.display = 'block';
-  }).catch(function(){
+    if (!res || !res.success){ showToast((res && res.error)||'Failed to submit','error'); return; }
+    // The task is already created and paid for on the server at this point, so any
+    // UI-refresh problem below must never be reported to the user as a failure.
+    try {
+      var d = res.data || {};
+      if (typeof d.tonBalance === 'number') {
+        S.user.tonBalance = d.tonBalance;
+        updateWalletTonBalance();
+      }
+      var elLink = document.getElementById('successChannelLink'); if (elLink) elLink.textContent = link;
+      var elMem = document.getElementById('successMembers'); if (elMem) elMem.textContent = fmtNum(members);
+      var elPrice = document.getElementById('successPrice'); if (elPrice) elPrice.innerHTML = Number(d.priceTon || priceTon).toFixed(4)+' TON';
+      document.getElementById('addTaskFormView').style.display = 'none';
+      document.getElementById('addTaskSuccessView').style.display = 'block';
+    } catch (uiErr) {
+      console.error('addTask: UI update failed after a successful submit', uiErr);
+      showToast('Task added successfully ✅');
+    }
+  }, function(){
     btn.disabled = false; btn.textContent = '📤 Submit Request';
     showToast('Network error','error');
   });
