@@ -1073,6 +1073,97 @@ html,body{height:100%;
 .mine-ton-add{width:46px;height:46px;border-radius:14px;flex-shrink:0;cursor:pointer;display:grid;place-items:center;padding:0;background:rgba(11,26,59,.85);border:1px solid rgba(96,165,250,.3)}
 .mine-ton-add .ic{width:34px;height:34px}
 .mine-ton-add:active{transform:scale(.92)}
+
+/* ===== Referral list v3 (Date / User / Combo / Income) ===== */
+.rf2-wrap{margin:4px 16px 24px;border-radius:18px;background:linear-gradient(145deg,#0c1428,#080e1e);border:1px solid rgba(251,191,36,.14);box-shadow:0 6px 18px rgba(0,0,0,.35);overflow:hidden}
+.rf2-head{display:flex;align-items:center;justify-content:space-between;padding:14px 14px 12px;font-size:15px;font-weight:800;color:#fff}
+.rf2-cols,.rf2-row{display:grid;grid-template-columns:50px minmax(0,1fr) 52px 78px;gap:8px;align-items:center;padding:0 14px}
+.rf2-cols{padding-top:9px;padding-bottom:9px;font-size:10px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:#7d8fb8;background:rgba(4,9,22,.55);border-top:1px solid rgba(96,165,250,.12);border-bottom:1px solid rgba(96,165,250,.12)}
+.rf2-cols div:nth-child(3){text-align:center}.rf2-cols div:nth-child(4){text-align:right}
+.rf2-row{padding-top:11px;padding-bottom:11px;border-bottom:1px solid rgba(96,165,250,.08);animation:ctRise .35s ease both}
+.rf2-row:last-of-type{border-bottom:none}
+.rf2-date{line-height:1.2}.rf2-date b{display:block;font-size:12.5px;font-weight:800;color:#fff}.rf2-date small{font-size:10px;color:#7d8fb8}
+.rf2-user{display:flex;align-items:center;gap:9px;min-width:0}
+.rf2-av{width:34px;height:34px;border-radius:50%;overflow:hidden;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:#fbbf24;background:linear-gradient(135deg,#1b2a52,#0e1733);border:1.5px solid rgba(96,165,250,.35)}
+.rf2-av img{width:100%;height:100%;object-fit:cover}
+.rf2-uinfo{min-width:0}
+.rf2-un{font-size:12.5px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rf2-sub{font-size:10.5px;color:#7d8fb8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px}
+.rf2-combo{justify-self:center;min-width:44px;text-align:center;font-size:11px;font-weight:800;padding:4px 8px;border-radius:20px;white-space:nowrap}
+.rf2-combo.done{color:#4ade80;background:rgba(34,197,94,.14);border:1px solid rgba(34,197,94,.35)}
+.rf2-combo.part{color:#fbbf24;background:rgba(251,191,36,.12);border:1px solid rgba(251,191,36,.3)}
+.rf2-combo.none{color:#7d8fb8;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1)}
+.rf2-inc{display:flex;flex-direction:column;align-items:flex-end;gap:2px}
+.rf2-inc-line{display:inline-flex;align-items:center;gap:4px;font-size:12.5px;font-weight:800;color:#23b7f3}
+.rf2-inc-line img{width:14px;height:14px;object-fit:contain}
+.rf2-inc-line.ton{color:#6cc4ff;font-size:11px}
+.rf2-more{margin:0;border-radius:0;border-left:0;border-right:0;border-bottom:0}
+
+/* ===== Deposit / Withdraw minimum cards ===== */
+.limit-card{display:flex;align-items:center;gap:12px;margin:0 0 16px;padding:12px 14px;border-radius:16px;position:relative;overflow:hidden;background:linear-gradient(135deg,rgba(35,183,243,.14),rgba(89,120,245,.08) 55%,rgba(4,9,22,.6));border:1px solid rgba(96,165,250,.3);box-shadow:0 6px 18px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.06)}
+.limit-ico{width:40px;height:40px;border-radius:12px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.limit-ico svg{width:20px;height:20px}
+.limit-card.dep .limit-ico{color:#4ade80;background:rgba(34,197,94,.14);border:1px solid rgba(34,197,94,.35)}
+.limit-card.wd .limit-ico{color:#fbbf24;background:rgba(251,191,36,.12);border:1px solid rgba(251,191,36,.32)}
+.limit-lbl{flex:1;font-size:12px;font-weight:800;letter-spacing:1.2px;color:#8ea2cf;text-transform:uppercase}
+.limit-val{display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border-radius:12px;font-size:16px;font-weight:900;color:#fff;background:rgba(4,9,22,.75);border:1px solid rgba(96,165,250,.28);font-variant-numeric:tabular-nums}
+.limit-ton{width:18px;height:18px;object-fit:contain}
+
+/* ===== Weekly Contest v2 ===== */
+@keyframes ctGlow{0%,100%{opacity:.55;transform:scale(1)}50%{opacity:.95;transform:scale(1.12)}}
+@keyframes ctFloat{0%,100%{transform:translateY(0) rotate(-6deg)}50%{transform:translateY(-6px) rotate(6deg)}}
+@keyframes ctTwinkle{0%,100%{opacity:.2;transform:scale(.6)}50%{opacity:1;transform:scale(1.15)}}
+@keyframes ctPulse{0%{box-shadow:0 0 0 0 rgba(74,222,128,.6)}100%{box-shadow:0 0 0 8px rgba(74,222,128,0)}}
+.ct-head{padding:20px 18px 6px}
+.ct-title{font-size:24px;letter-spacing:.2px;background:linear-gradient(180deg,#fff 20%,#fbbf24);-webkit-background-clip:text;background-clip:text;color:transparent}
+.ct-pool{margin:14px 16px;padding:26px 18px 20px;border-radius:26px;background:radial-gradient(120% 90% at 50% 0%,rgba(251,191,36,.2),transparent 60%),linear-gradient(160deg,#142a5c,#0a1330 72%);border:1px solid rgba(251,191,36,.38);box-shadow:0 16px 40px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.04) inset}
+.ct-pool-glow{position:absolute;top:-60px;left:50%;width:240px;height:240px;margin-left:-120px;border-radius:50%;background:radial-gradient(circle,rgba(251,191,36,.35),transparent 65%);animation:ctGlow 4s ease-in-out infinite;pointer-events:none}
+.ct-pool-trophy{position:relative;font-size:38px;line-height:1;margin-bottom:6px;display:inline-block;filter:drop-shadow(0 6px 14px rgba(251,191,36,.5));animation:ctFloat 3.6s ease-in-out infinite}
+.ct-spark{position:absolute;color:#fbbf24;font-size:14px;animation:ctTwinkle 2.4s ease-in-out infinite;pointer-events:none}
+.ct-spark.s1{top:20px;left:22px}.ct-spark.s2{top:46px;right:26px;animation-delay:.8s;font-size:11px}.ct-spark.s3{bottom:62px;left:34px;animation-delay:1.5s;font-size:10px}
+.ct-pool-lbl{position:relative;font-size:11px;letter-spacing:2px;color:#fcd34d}
+.ct-pool-val{position:relative;margin:8px 0 16px;font-size:52px;letter-spacing:-1px;background:linear-gradient(180deg,#fff,#fde68a 80%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 4px 14px rgba(251,191,36,.25))}
+.ct-pool-val img{width:38px;height:38px;filter:drop-shadow(0 3px 10px rgba(0,152,234,.5))}
+.ct-pool-val em{font-style:normal;font-size:18px;font-weight:800;letter-spacing:1px;color:#8ea2cf;-webkit-text-fill-color:#8ea2cf;align-self:flex-end;margin-bottom:8px}
+.ct-timer{position:relative;gap:9px;padding:10px 18px;border-radius:30px;background:rgba(4,9,22,.78);border:1px solid rgba(251,191,36,.32)}
+.ct-live{width:8px;height:8px;border-radius:50%;background:#4ade80;animation:ctPulse 1.6s ease-out infinite}
+.ct-timer-val{font-size:19px;color:#fde68a;text-shadow:0 0 12px rgba(251,191,36,.35)}
+.ct-me{margin:0 16px 6px;padding:14px 16px;border-radius:20px;background:linear-gradient(135deg,rgba(35,183,243,.16),rgba(89,120,245,.08) 50%,#080e1e);border:1px solid rgba(35,183,243,.4);box-shadow:0 8px 22px rgba(0,0,0,.35)}
+.ct-av{border:2px solid rgba(35,183,243,.6)}
+.ct-me-rank{padding:8px 16px;border-radius:14px;background:linear-gradient(160deg,rgba(251,191,36,.22),rgba(251,191,36,.06));border:1px solid rgba(251,191,36,.45)}
+.ct-me-rank b{font-size:22px}
+.ct-sec{display:flex;align-items:center;gap:10px;margin:22px 18px 12px;color:#e2e9ff;font-size:13px}
+.ct-sec::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(251,191,36,.4),transparent)}
+.ct-prizes{grid-template-columns:repeat(auto-fit,minmax(54px,1fr));gap:8px}
+.ct-prize{padding:11px 2px 10px;border-radius:14px;background:linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.02));border:1px solid rgba(96,165,250,.2)}
+.ct-prize-rank{font-size:17px;line-height:1.2}
+.ct-prize-val{font-size:14px;margin-top:4px}
+.ct-prize.top{box-shadow:0 6px 16px rgba(251,191,36,.12)}
+.ct-prize:nth-child(1){background:linear-gradient(160deg,rgba(251,191,36,.34),rgba(251,191,36,.06));border-color:rgba(251,191,36,.7)}
+.ct-prize:nth-child(2){background:linear-gradient(160deg,rgba(203,213,225,.26),rgba(203,213,225,.04));border-color:rgba(203,213,225,.55)}
+.ct-prize:nth-child(3){background:linear-gradient(160deg,rgba(217,119,6,.28),rgba(217,119,6,.04));border-color:rgba(217,119,6,.6)}
+.ct-prize:nth-child(2) .ct-prize-val{color:#e2e8f0}.ct-prize:nth-child(3) .ct-prize-val{color:#f59e0b}
+.ct-top3{display:block;margin:0 14px}
+.ct-podium{display:grid;grid-template-columns:1fr 1.15fr 1fr;gap:8px;align-items:end;padding-top:6px}
+.pd{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;min-width:0;animation:ctRise .5s ease both}
+.pd.p1{animation-delay:.05s}.pd.p2{animation-delay:.15s}.pd.p3{animation-delay:.25s}
+.pd-crown{font-size:24px;line-height:1;margin-bottom:-4px;filter:drop-shadow(0 4px 8px rgba(251,191,36,.6));animation:ctFloat 3s ease-in-out infinite}
+.pd-av{width:58px;height:58px;border-radius:50%;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:900;color:#fbbf24;background:linear-gradient(135deg,#1b2a52,#0e1733);border:3px solid #cbd5e1;box-shadow:0 6px 16px rgba(0,0,0,.45)}
+.pd-av img{width:100%;height:100%;object-fit:cover}
+.pd.p1 .pd-av{width:72px;height:72px;border-color:#fbbf24;box-shadow:0 0 0 4px rgba(251,191,36,.18),0 10px 24px rgba(251,191,36,.3)}
+.pd.p3 .pd-av{border-color:#d97706}
+.pd-name{max-width:100%;margin-top:8px;font-size:12px;font-weight:800;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pd-cnt{font-size:11px;color:#8ea2cf;margin-top:2px}
+.pd-prize{margin-top:6px;padding:3px 10px;border-radius:20px;font-size:11.5px;font-weight:900;color:#fbbf24;background:rgba(251,191,36,.12);border:1px solid rgba(251,191,36,.35);white-space:nowrap}
+.pd-base{width:100%;margin-top:10px;border-radius:14px 14px 0 0;display:flex;align-items:flex-start;justify-content:center;padding-top:8px;font-size:22px;font-weight:900;border:1px solid rgba(255,255,255,.1);border-bottom:none}
+.pd.p1 .pd-base{height:84px;color:#3a2600;background:linear-gradient(180deg,#fde68a,#f59e0b);box-shadow:0 -6px 22px rgba(251,191,36,.25)}
+.pd.p2 .pd-base{height:62px;color:#1e293b;background:linear-gradient(180deg,#e2e8f0,#94a3b8)}
+.pd.p3 .pd-base{height:48px;color:#2b1700;background:linear-gradient(180deg,#f5b25a,#b45309)}
+.pd.empty{opacity:.45}.pd.empty .pd-base{background:rgba(255,255,255,.06);color:#7d8fb8}
+.pd.me .pd-av{box-shadow:0 0 0 3px rgba(35,183,243,.7),0 6px 16px rgba(0,0,0,.45)}
+.ct-list{margin:0 16px 24px;gap:9px}
+.ct-row{padding:12px 14px;border-radius:16px}
+.ct-pos{font-size:15px;width:30px;color:#7d8fb8}
 </style>
 </head>
 <body>
@@ -1330,17 +1421,11 @@ html,body{height:100%;
         </div>
       </div>
 
-      <div class="rr-table">
-        <div class="rr-table-head">
-          <div>Date</div><div>User</div><div>Deposit (TON)</div><div>Income</div>
-        </div>
-        <div id="rrTableBody"><div class="empty-state">No referral earnings yet</div></div>
-      </div>
-
-      <div class="rf-list-wrap">
-        <div class="rf-list-head"><span>My Referrals</span><span class="rf-list-count" id="rfCount">0</span></div>
+      <div class="rf2-wrap">
+        <div class="rf2-head"><span>My Referrals</span><span class="rf-list-count" id="rfCount">0</span></div>
+        <div class="rf2-cols"><div>Date</div><div>User</div><div>Combo</div><div>Income</div></div>
         <div id="refList"><div class="empty-state">No referrals yet</div></div>
-        <button class="load-more" id="loadMoreBtn" onclick="loadMoreRefs()" style="display:none">Load more</button>
+        <button class="load-more rf2-more" id="loadMoreBtn" onclick="loadMoreRefs()" style="display:none">Load more</button>
       </div>
     </div>
 
@@ -1428,7 +1513,11 @@ html,body{height:100%;
       <div class="wallet-form-card">
         <div class="wallet-form-title"><span data-i18n="deposit.formTitle">Deposit TON</span></div>
         <div class="wallet-form-help" data-i18n="deposit.help">Connect your TON wallet and send TON to the Crystal Mining Bot deposit wallet. Your User ID is added as the transaction comment.</div>
-        <div class="withdraw-requirements" aria-label="Deposit requirements"><div class="withdraw-requirement min"><span data-i18n="withdraw.min">MIN</span><span id="depositMinValue">1 TON</span></div></div>
+        <div class="limit-card dep" aria-label="Deposit requirements">
+          <div class="limit-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v12M6 11l6 6 6-6M5 20h14"/></svg></div>
+          <div class="limit-lbl" data-i18n="withdraw.min">MIN</div>
+          <div class="limit-val"><img class="limit-ton" src="https://cdn.simpleicons.org/ton/0098EA" alt=""><span id="depositMinValue">1 TON</span></div>
+        </div>
         <div id="tonConnectButton"></div>
         <input class="wallet-input" id="depositAmount" type="number" step="0.01" min="1" placeholder="TON amount" data-i18n-placeholder="deposit.amountPh">
         <button class="wallet-submit" id="depositSubmitBtn" onclick="submitDeposit()" data-i18n="deposit.submit">Send Deposit</button>
@@ -1443,8 +1532,10 @@ html,body{height:100%;
       </div>
       <div class="wallet-form-card">
         <div class="wallet-form-title"><span data-i18n="withdraw.formTitle">Withdraw TON</span></div>
-        <div class="withdraw-requirements" aria-label="Withdrawal requirements">
-          <div class="withdraw-requirement min"><span data-i18n="withdraw.min">MIN</span><span id="withdrawMinValue">0.1 TON</span></div>
+        <div class="limit-card wd" aria-label="Withdrawal requirements">
+          <div class="limit-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V8M6 13l6-6 6 6M5 4h14"/></svg></div>
+          <div class="limit-lbl" data-i18n="withdraw.min">MIN</div>
+          <div class="limit-val"><img class="limit-ton" src="https://cdn.simpleicons.org/ton/0098EA" alt=""><span id="withdrawMinValue">0.1 TON</span></div>
         </div>
         <input class="wallet-input" id="withdrawWallet" placeholder="TON Wallet Address (UQ...)" data-i18n-placeholder="withdraw.walletPh">
         <input class="wallet-input" id="withdrawAmount" type="number" step="0.01" inputmode="decimal" placeholder="TON amount" data-i18n-placeholder="deposit.amountPh">
@@ -1527,9 +1618,12 @@ html,body{height:100%;
         <button class="ct-help" onclick="openModal('contestHelpModal')" aria-label="How the contest works">?</button>
       </div>
       <div class="ct-pool">
+        <div class="ct-pool-glow"></div>
+        <div class="ct-pool-trophy">🏆</div>
+        <div class="ct-spark s1">✦</div><div class="ct-spark s2">✦</div><div class="ct-spark s3">✦</div>
         <div class="ct-pool-lbl">Total prize pool</div>
-        <div class="ct-pool-val"><img src="https://cdn.simpleicons.org/ton/0098EA" alt=""><span id="ctPool">3</span></div>
-        <div class="ct-timer"><span class="ct-timer-lbl">Ends in</span><span class="ct-timer-val" id="lbTimer">--:--:--</span></div>
+        <div class="ct-pool-val"><img src="https://cdn.simpleicons.org/ton/0098EA" alt=""><span id="ctPool">3</span><em>TON</em></div>
+        <div class="ct-timer"><span class="ct-live"></span><span class="ct-timer-lbl">Ends in</span><span class="ct-timer-val" id="lbTimer">--:--:--</span></div>
       </div>
       <div id="ctMe"></div>
       <div class="ct-sec">Prizes</div>
@@ -2849,26 +2943,6 @@ function renderReferralRewards(d){
   var depositBadge = document.getElementById('rrDepositPctBadge');
   if (depositBadge) depositBadge.textContent = depositPct + '%';
 
-  var body = document.getElementById('rrTableBody');
-  if (!body) return;
-  var history = rr.history || [];
-  if (!history.length){
-    body.innerHTML = '<div class="empty-state">No referral earnings yet</div>';
-    return;
-  }
-  body.innerHTML = history.map(function(e){
-    var d2 = e.ts ? new Date(e.ts) : null;
-    var dateStr = d2 ? (String(d2.getDate()).padStart(2,'0')+'.'+String(d2.getMonth()+1).padStart(2,'0')+'.'+String(d2.getFullYear()).slice(-2)+' '+String(d2.getHours()).padStart(2,'0')+':'+String(d2.getMinutes()).padStart(2,'0')) : '—';
-    var depositStr = e.currency === 'TON' && e.depositTon ? Number(e.depositTon).toFixed(2) : '0.00';
-    var incomeIcon = e.currency === 'TON' ? TON_ICON : '<img src="https://i.ibb.co/chCjf1zw/Chat-GPT-Image-Sep-25-2026-04-18-45-AM-1.png" alt="">';
-    var incomeVal = e.currency === 'TON' ? Number(e.amount).toFixed(4) : fmtShiba(e.amount);
-    return '<div class="rr-table-row">'+
-      '<div>'+esc(dateStr)+'</div>'+
-      '<div>'+esc(e.userName || 'User')+'</div>'+
-      '<div>'+depositStr+'</div>'+
-      '<div class="rr-income">'+incomeIcon+' '+incomeVal+'</div>'+
-    '</div>';
-  }).join('');
 }
 
 function collectReferralEarnings(){
@@ -2895,7 +2969,7 @@ function collectReferralEarnings(){
 function renderRefs(page){
   var el = document.getElementById('refList');
   if (!el) return;
-  var refs = S.refs || [];
+  var refs = (S.refs || []).slice().sort(function(x,y){ return (y.joinedAt||0)-(x.joinedAt||0); });
   var cnt = document.getElementById('rfCount'); if (cnt) cnt.textContent = refs.length;
   var loadBtn = document.getElementById('loadMoreBtn');
   if (!refs.length){
@@ -2903,40 +2977,39 @@ function renderRefs(page){
     if (loadBtn) loadBtn.style.display = 'none';
     return;
   }
+  var rrCfg = (S.data && S.data.referralRewards) || {};
   var cfg = (S.data && S.data.config) || {};
-  var streakNeeded = Number((S.data && S.data.referralRewards && S.data.referralRewards.comboStreakDaysRequired) || cfg.comboStreakDaysRequired || 2);
+  var need = Number(rrCfg.comboStreakDaysRequired || cfg.comboStreakDaysRequired || 2);
   var visible = refs.slice(0, 10 + (page||0)*10);
   var crystalImg = '<img src="https://i.ibb.co/chCjf1zw/Chat-GPT-Image-Sep-25-2026-04-18-45-AM-1.png" alt="">';
   var tonImg = '<img src="https://cdn.simpleicons.org/ton/0098EA" alt="">';
   el.innerHTML = visible.map(function(r){
     try {
-      var name = (r.firstName || r.username || 'User');
+      var first = r.firstName || '';
       var handle = r.username ? '@'+r.username : '';
-      var isActive = r.status === 'completed' || r.status === 'active';
-      var badge = r.fraudMultipleAccounts ? '<span class="rf-badge fraud">Flagged</span>'
-                : isActive ? '<span class="rf-badge active">Active</span>'
-                : '<span class="rf-badge pending">Pending</span>';
-      var av = r.photoUrl ? '<img src="'+esc(r.photoUrl)+'" alt="">' : esc(String(name).charAt(0).toUpperCase());
-      var date = r.joinedAt ? new Date(r.joinedAt).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) : '';
-      var ads = Math.min(Number(r.adsWatched || 0), 10);
-      var streak = r.comboRewardGiven ? streakNeeded : Math.min(Number(r.comboStreak || 0), streakNeeded);
+      var main = handle || first || 'User';
+      var sub = handle && first ? first : '';
+      var av = r.photoUrl ? '<img src="'+esc(r.photoUrl)+'" alt="">' : esc(String(main).replace('@','').charAt(0).toUpperCase());
+      var d = r.joinedAt ? new Date(r.joinedAt) : null;
+      var dd = d ? String(d.getDate()).padStart(2,'0')+'.'+String(d.getMonth()+1).padStart(2,'0') : '—';
+      var yy = d ? String(d.getFullYear()) : '';
+      var done = !!r.comboRewardGiven;
+      var streak = done ? need : Math.min(Number(r.comboStreak || 0), need);
+      var comboCls = done ? 'done' : (streak > 0 ? 'part' : 'none');
       var crystal = Number(r.crystalEarned || 0);
       var ton = Number(r.tonEarned || 0);
-      return '<div class="rf-card">'+
-        '<div class="rf-top">'+
-          '<div class="rf-avatar">'+av+'</div>'+
-          '<div class="rf-info"><div class="rf-name">'+esc(name)+'</div><div class="rf-meta">'+esc(handle)+(handle&&date?' · ':'')+(date?'Joined '+esc(date):'')+'</div></div>'+
-          badge+
-        '</div>'+
-        '<div class="rf-stats">'+
-          '<div class="rf-stat"><div class="rf-stat-val'+(ads>=10?' done':'')+'">'+ads+'/10</div><div class="rf-stat-lbl">Ads</div></div>'+
-          '<div class="rf-stat"><div class="rf-stat-val'+(r.comboRewardGiven?' done':'')+'">'+streak+'/'+streakNeeded+'</div><div class="rf-stat-lbl">Combo days</div></div>'+
-          '<div class="rf-stat"><div class="rf-stat-val">'+(ton>0 ? tonImg+ton.toFixed(4) : crystalImg+fmtShiba(crystal))+'</div><div class="rf-stat-lbl">You earned</div></div>'+
-        '</div>'+
+      var income = '<span class="rf2-inc-line">'+crystalImg+fmtShiba(crystal)+'</span>';
+      if (ton > 0) income += '<span class="rf2-inc-line ton">'+tonImg+ton.toFixed(4)+'</span>';
+      return '<div class="rf2-row">'+
+        '<div class="rf2-date"><b>'+esc(dd)+'</b><small>'+esc(yy)+'</small></div>'+
+        '<div class="rf2-user"><div class="rf2-av">'+av+'</div>'+
+          '<div class="rf2-uinfo"><div class="rf2-un">'+esc(main)+'</div>'+(sub?'<div class="rf2-sub">'+esc(sub)+'</div>':'')+'</div></div>'+
+        '<div class="rf2-combo '+comboCls+'">'+(done?'✓ ':'')+streak+'/'+need+'</div>'+
+        '<div class="rf2-inc">'+income+'</div>'+
       '</div>';
     } catch (err) {
       console.error('renderRefs: failed to render one referral entry', err, r);
-      return '<div class="rf-card"><div class="rf-top"><div class="rf-info"><div class="rf-name">'+esc((r && (r.firstName||r.username)) || 'User')+'</div></div></div></div>';
+      return '';
     }
   }).join('');
   if (loadBtn) loadBtn.style.display = visible.length < refs.length ? 'block' : 'none';
@@ -3045,7 +3118,18 @@ function renderLeaderboard(){
       (r.prizeTon ? '<div class="ct-row-prize">+'+r.prizeTon+' '+tonImg+'</div>' : '')+
     '</div>';
   };
-  top3El.innerHTML = list.slice(0,3).map(rowHtml).join('');
+  var pod = function(r, place){
+    if (!r) return '<div class="pd p'+place+' empty"><div class="pd-av">?</div><div class="pd-name">—</div><div class="pd-base"><span>'+place+'</span></div></div>';
+    var crown = place===1 ? '<div class="pd-crown">👑</div>' : '';
+    return '<div class="pd p'+place+(isMe(r)?' me':'')+'">'+crown+
+      '<div class="pd-av">'+avOf(r)+'</div>'+
+      '<div class="pd-name">'+esc2(nameOf(r))+(isMe(r)?'<span class="ct-you">YOU</span>':'')+'</div>'+
+      '<div class="pd-cnt">👥 '+cntOf(r)+'</div>'+
+      (r.prizeTon ? '<div class="pd-prize">+'+r.prizeTon+' '+tonImg+'</div>' : '')+
+      '<div class="pd-base"><span>'+place+'</span></div>'+
+    '</div>';
+  };
+  top3El.innerHTML = '<div class="ct-podium">'+pod(list[1],2)+pod(list[0],1)+pod(list[2],3)+'</div>';
   var rest = list.slice(3);
   listEl.innerHTML = rest.map(function(r,i){ return rowHtml(r,i); }).join('');
   if (listLabel) listLabel.style.display = rest.length ? '' : 'none';
