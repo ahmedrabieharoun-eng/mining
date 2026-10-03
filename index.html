@@ -631,21 +631,28 @@ html,body{height:100%;
 .empty-state{text-align:center;padding:32px 20px;color:var(--text3);font-size:14px}
 
 /* ===== FORCE-SUB (Mandatory Subscription) GATE ===== */
-.forcesub-screen{position:fixed;inset:0;background:var(--bg);display:none;flex-direction:column;align-items:center;justify-content:center;z-index:998;padding:24px;overflow-y:auto}
+/* شفاف عشان خلفية الـ aurora بتاعة الصفحة تظهر، ونفس ستايل كروت التطبيق */
+.forcesub-screen{position:fixed;inset:0;background:transparent;display:none;flex-direction:column;align-items:center;justify-content:center;z-index:998;padding:24px 16px;padding-top:max(24px,env(safe-area-inset-top));padding-bottom:max(24px,env(safe-area-inset-bottom));overflow-y:auto}
 .forcesub-screen.show{display:flex}
-.forcesub-card{width:100%;max-width:380px;text-align:center}
-.forcesub-emoji{font-size:56px;margin-bottom:12px}
-.forcesub-title{font-size:20px;font-weight:800;color:var(--text);margin-bottom:8px}
-.forcesub-desc{font-size:13px;color:var(--text2);margin-bottom:20px;line-height:1.5}
-.forcesub-list{margin-bottom:20px;text-align:left}
-.forcesub-item{display:flex;align-items:center;gap:12px;padding:14px;border-radius:14px;background:var(--glass);border:1px solid var(--glass-border);margin-bottom:10px}
-.forcesub-item-icon{font-size:22px;flex-shrink:0}
-.forcesub-item-title{flex:1;font-size:14px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.forcesub-item-btn{padding:8px 16px;border-radius:18px;background:linear-gradient(135deg,var(--orange),var(--orange2));border:none;font-size:12px;font-weight:700;color:#fff;cursor:pointer;flex-shrink:0;transition:transform 0.15s}
-.forcesub-item-btn:active{transform:scale(0.94)}
-.forcesub-verify-btn{width:100%;padding:16px;border-radius:14px;background:linear-gradient(135deg,var(--orange),var(--orange2));border:none;font-size:15px;font-weight:800;color:#fff;cursor:pointer;transition:transform 0.15s,opacity 0.15s}
-.forcesub-verify-btn:active{transform:scale(0.97)}
-.forcesub-verify-btn:disabled{opacity:0.6}
+.forcesub-card{position:relative;overflow:hidden;width:100%;max-width:400px;margin:auto;padding:26px 18px 18px;text-align:center;border-radius:22px;background:linear-gradient(145deg,#0c1428,#080e1e);border:1px solid rgba(251,191,36,.14);box-shadow:0 8px 28px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.03);animation:cardBorder 5s ease-in-out infinite}
+.forcesub-card::before{content:"";position:absolute;left:50%;top:-70px;width:240px;height:160px;transform:translateX(-50%);background:radial-gradient(closest-side,rgba(251,191,36,.16),transparent);pointer-events:none}
+.forcesub-hero{position:relative;width:84px;height:84px;margin:0 auto 14px;border-radius:24px;display:grid;place-items:center;background:rgba(11,26,59,.85);border:1px solid rgba(96,165,250,.3);box-shadow:0 0 22px rgba(96,165,250,.18)}
+.forcesub-hero .ic{width:60px;height:60px}
+.forcesub-title{position:relative;font-size:20px;font-weight:800;color:var(--text);margin-bottom:8px;letter-spacing:.2px}
+.forcesub-desc{position:relative;font-size:13px;color:#8ea2cf;margin-bottom:18px;line-height:1.6}
+.forcesub-list{position:relative;margin-bottom:16px;text-align:left}
+.forcesub-item{position:relative;overflow:hidden;display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:16px;background:linear-gradient(145deg,#0c1428,#080e1e);border:1px solid rgba(251,191,36,.14);box-shadow:0 4px 14px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.03);margin-bottom:10px;animation:cardBorder 5s ease-in-out infinite}
+.forcesub-item:last-child{margin-bottom:0}
+.forcesub-item-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:rgba(11,26,59,.65);border:1px solid rgba(96,165,250,.3)}
+.forcesub-item-icon .ic{width:36px;height:36px}
+.forcesub-item-title{flex:1;min-width:0;font-size:14px;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.forcesub-item-btn{padding:8px 18px;border-radius:20px;background:linear-gradient(135deg,var(--orange),var(--orange2));border:none;font-size:13px;font-weight:700;color:#fff;cursor:pointer;flex-shrink:0;transition:transform .15s}
+.forcesub-item-btn:active{transform:scale(.94)}
+.forcesub-verify-btn{position:relative;width:100%;padding:15px;border-radius:16px;background:linear-gradient(135deg,var(--orange),var(--orange2));border:none;font-size:15px;font-weight:800;color:#fff;cursor:pointer;box-shadow:0 6px 18px rgba(35,183,243,.25);transition:transform .15s,opacity .15s}
+.forcesub-verify-btn:active{transform:scale(.97)}
+.forcesub-verify-btn:disabled{opacity:.6}
+@media (hover:hover){.forcesub-item-btn:hover,.forcesub-verify-btn:hover{filter:brightness(1.1)}}
+@media (prefers-reduced-motion:reduce){.forcesub-card,.forcesub-item{animation:none}}
 
 /* ── Ban Screen — shown instead of the entire app when multiple
    accounts are detected on the same device (Device Fingerprint) ───── */
@@ -1370,7 +1377,7 @@ html,body{height:100%;
 <!-- Mandatory Subscription Gate -->
 <div class="forcesub-screen" id="forceSubScreen">
   <div class="forcesub-card">
-    <div class="forcesub-emoji">🔒</div>
+    <div class="forcesub-hero"><svg class="ic ic-channels" viewBox="0 0 48 48" fill="none" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g class="mg"><path class="g fg" d="M5 19h8l16-9v25l-16-9H5z"/><path class="p" d="M11 26l2 10h5l-2-9"/></g><path class="wv1 g t" d="M34 18a7 7 0 0 1 0 10"/><path class="wv2 g t" d="M38 13a12 12 0 0 1 0 20" style="animation-delay:.3s"/><circle class="pl5 g occ" cx="38.500" cy="39" r="6"/><path d="M38.500 36v6M35.500 39h6" stroke="#fff" stroke-width="1.900"/></svg></div>
     <div class="forcesub-title">Join to Continue</div>
     <div class="forcesub-desc">You must join the channels below to use the bot and unlock your referral reward.</div>
     <div class="forcesub-list" id="forceSubList"></div>
@@ -2341,21 +2348,20 @@ var wheelSpinning = false;
 // ── State ───────────────────────────────────────────────────────────
 var S = { initData:'', startParam:'', inTelegram:false, user:null, data:null, refs:[], refPage:0, comboFilled:0, comboSel:[], lb:null, lbLoaded:false, miningState:'idle' };
 
-// Device fingerprinting can be slow and used to run again before EVERY request. Now it starts as
-// soon as the page is ready (in parallel with the Telegram/network setup) and the result is reused
-// for 60 s. After that it is collected again, exactly like before.
-var _afCache = { p: null, at: 0 };
-function collectFraudCached(){
-  if (!window.AntiFraud) return Promise.resolve(null);
-  var now = Date.now();
-  if (_afCache.p && now - _afCache.at < 60000) return _afCache.p;
-  _afCache.at = now;
-  var p = Promise.resolve().then(function(){ return window.AntiFraud.collect(); }).catch(function(){ if (_afCache.p === p) _afCache.p = null; return null; });
-  _afCache.p = p;
-  return p;
+// Device fingerprint (anti multi-account). Computed once by generateDeviceFingerprint()
+// from anti-fraud-frontend.js and reused for the whole session; it starts as soon as
+// the page is ready so it never delays the first request.
+var _fpPromise = null;
+function getDeviceFingerprint(){
+  if (typeof generateDeviceFingerprint !== 'function') return Promise.resolve(null);
+  if (!_fpPromise) {
+    _fpPromise = Promise.resolve().then(function(){ return generateDeviceFingerprint(); })
+      .catch(function(){ _fpPromise = null; return null; });
+  }
+  return _fpPromise;
 }
 (function(){
-  function warm(){ try { collectFraudCached(); } catch(_){} }
+  function warm(){ try { getDeviceFingerprint(); } catch(_){} }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', warm); else warm();
 })();
 
@@ -2688,17 +2694,10 @@ async function api(action, data){
     return { success:false, error:'Request monitor detected', blocked:false };
   }
   var payload = data || {};
-  // ── Automatically add a device fingerprint to every request (Anti-Fraud) ──────
+  // ── Automatically add the device fingerprint to every request (Anti-Fraud) ──
   try {
-    if (window.AntiFraud) {
-      var fraud = await collectFraudCached();
-      if (fraud) {
-        payload._deviceFingerprint = fraud.fingerprint;   // deprecated combined hash — kept for backward compat with the server only
-        payload._deviceId          = fraud.deviceId;
-        payload._suspiciousFlags   = fraud.suspiciousFlags;
-        payload._signals           = fraud.signals;       // NEW: per-signal hashes so the server can score matches instead of one all-or-nothing compare
-      }
-    }
+    var fp = await getDeviceFingerprint();
+    if (fp) payload._deviceFingerprint = fp;
   } catch(_) {}
   // ─────────────────────────────────────────────────────────────────
   return fetch(API_URL.replace(/\/$/,'') + '/' + action, {
@@ -2901,7 +2900,7 @@ function renderForceSub(fs){
   }
   list.innerHTML = channels.map(function(c,i){
     return '<div class="forcesub-item">'+
-      '<div class="forcesub-item-icon">📢</div>'+
+      '<div class="forcesub-item-icon">'+IC.channels+'</div>'+
       '<div class="forcesub-item-title">'+esc(c.title)+'</div>'+
       '<button class="forcesub-item-btn" onclick="openForceSubChannel('+i+')">Join</button>'+
     '</div>';
