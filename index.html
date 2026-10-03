@@ -1495,13 +1495,7 @@ html,body{height:100%;
   <circle cx="200" cy="200" r="6" fill="#9be7ff"/>
 </svg></div>
 
-       <div class="mining-countdown-wrap" id="miningCountdownWrap" style="display:none">
-         <div class="mining-countdown-label">Time Remaining</div>
-         <div class="mining-countdown-val" id="miningCountdownVal">24:00:00</div>
-       </div>
-
-       <button class="mine-claim-btn" id="miningStartBtn" onclick="startMiningCycle()"><img src="https://i.ibb.co/chCjf1zw/Chat-GPT-Image-Sep-25-2026-04-18-45-AM-1.png" alt=""><span>START</span></button>
-       <button class="mine-claim-btn ready" id="miningClaimBtn" onclick="claimMining()" style="display:none"><img src="https://i.ibb.co/chCjf1zw/Chat-GPT-Image-Sep-25-2026-04-18-45-AM-1.png" alt=""><span>CLAIM</span></button>
+       <button class="mine-claim-btn ready" id="miningClaimBtn" onclick="claimMining()"><img src="https://i.ibb.co/chCjf1zw/Chat-GPT-Image-Sep-25-2026-04-18-45-AM-1.png" alt=""><span>CLAIM</span></button>
 
       <div class="stats-section" style="display:none">
         <div class="stats-grid">
@@ -1543,7 +1537,7 @@ html,body{height:100%;
       <div class="tasks-header"><div class="page-title">🗓️ Daily Combo</div><div style="font-size:13px;color:var(--text3);margin-top:5px">Solve today's combo to win CRYSTAL rewards</div></div>
       <div class="bonus-card">
         <div class="feature-icon ic-bg"><svg class="ic ic-daily" viewBox="0 0 48 48" fill="none" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g class="cal"><rect class="g fg" x="6" y="9" width="36" height="33" rx="5"/><path class="g" d="M6 19h36"/><path class="g" d="M15 5v8M33 5v8"/><path class="ck g" pathLength="100" d="M16 31l6 6 11-12" style="stroke-width:3.200"/></g><path class="tw sg" d="M41 4Q41.6 6.4 44 7Q41.6 7.6 41 10Q40.4 7.6 38 7Q40.4 6.4 41 4z" style="animation-delay:0.9s"/></svg></div>
-        <div class="feature-copy"><div class="feature-title">Daily Bonus</div><div class="feature-sub" id="dailyBonusSub">Come back every day · +500 CRYSTAL</div></div>
+        <div class="feature-copy"><div class="feature-title">Daily Bonus</div><div class="feature-sub" id="dailyBonusSub">Come back every day · +2 CRYSTAL</div></div>
         <button class="feature-btn" id="dailyBonusBtn" onclick="claimDailyBonus()">Claim</button>
       </div>
       <div class="redeem-card">
@@ -1582,7 +1576,7 @@ html,body{height:100%;
             <span class="rr-icon-badge"><svg class="ic ic-daily" viewBox="0 0 48 48" fill="none" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g class="cal"><rect class="g fg" x="6" y="9" width="36" height="33" rx="5"/><path class="g" d="M6 19h36"/><path class="g" d="M15 5v8M33 5v8"/><path class="ck g" pathLength="100" d="M16 31l6 6 11-12" style="stroke-width:3.200"/></g><path class="tw sg" d="M41 4Q41.6 6.4 44 7Q41.6 7.6 41 10Q40.4 7.6 38 7Q40.4 6.4 41 4z" style="animation-delay:0.9s"/></svg></span>
             <span class="rr-badge" id="rrStreakDaysBadge">2 Days</span>
           </div>
-          <div class="rr-card-title" id="rrComboTitle">Get 25 Crystals</div>
+          <div class="rr-card-title" id="rrComboTitle">Get 8 Crystals</div>
           <div class="rr-card-desc" id="rrComboDesc">When your referral enters the combo for 2 consecutive days.</div>
         </div>
         <div class="rr-card">
@@ -1590,8 +1584,8 @@ html,body{height:100%;
             <span class="rr-icon-badge"><svg class="ic ic-bonus" viewBox="0 0 48 48" fill="none" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect class="grow sg" x="5" y="29" width="8" height="13" rx="2"/><rect class="grow sg" x="15" y="22" width="8" height="20" rx="2" style="animation-delay:.2s"/><rect class="grow sg" x="25" y="14" width="8" height="28" rx="2" style="animation-delay:.4s"/><g class="bt"><rect class="g occ" x="27" y="2" width="20" height="10" rx="3.500"/><text class="sg " x="37" y="7.2" text-anchor="middle" dominant-baseline="central" font-size="7.5" font-weight="900" font-family="Arial,sans-serif">10%</text></g><path class="p" d="M3 44h32" style="opacity:.5"/></svg></span>
             <span class="rr-badge" id="rrDepositPctBadge">10%</span>
           </div>
-          <div class="rr-card-title">Get 10% from deposits</div>
-          <div class="rr-card-desc">Receive 10% of your referral's deposits from TON.</div>
+          <div class="rr-card-title" id="rrPkgTitle">Get 10% from packages</div>
+          <div class="rr-card-desc" id="rrPkgDesc">Receive 10% of every package your referral buys from the Store, as CRYSTAL that boosts your mining speed.</div>
         </div>
       </div>
 
@@ -1638,7 +1632,7 @@ html,body{height:100%;
         </div>
         <div class="store-coin-badge"><img src="https://cdn.simpleicons.org/ton/0098EA" alt="">  <span id="storeCoinBalance">0</span></div>
       </div>
-      <div class="store-rate-line" id="storeRateLine">700 CRYSTAL = 1 TON</div>
+      <div class="store-rate-line" id="storeRateLine">1,100 CRYSTAL = 1 TON</div>
       <div class="store-grid" id="storeGrid"></div>
     </div>
 
@@ -1720,16 +1714,16 @@ html,body{height:100%;
         <div class="limit-card wd" aria-label="Withdrawal requirements">
           <div class="limit-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V8M6 13l6-6 6 6M5 4h14"/></svg></div>
           <div class="limit-lbl" data-i18n="withdraw.min">MIN</div>
-          <div class="limit-val"><img class="limit-ton" src="https://cdn.simpleicons.org/ton/0098EA" alt=""><span id="withdrawMinValue">0.1 TON</span></div>
+          <div class="limit-val"><img class="limit-ton" src="https://cdn.simpleicons.org/ton/0098EA" alt=""><span id="withdrawMinValue">0.02 TON</span></div>
         </div>
         <input class="wallet-input" id="withdrawWallet" placeholder="TON Wallet Address (UQ...)" data-i18n-placeholder="withdraw.walletPh">
         <input class="wallet-input" id="withdrawAmount" type="number" step="0.01" inputmode="decimal" placeholder="TON amount" data-i18n-placeholder="deposit.amountPh">
-        <div class="withdraw-fee-card"><span data-i18n="withdraw.fee">Withdrawal fee:</span> <b>10%</b><div class="withdraw-net"><span data-i18n="withdraw.net">Amount you will receive after the fee</span><strong id="withdrawNetAmount">0.0000 TON</strong></div></div>
+        <div class="withdraw-fee-card"><span data-i18n="withdraw.fee">Withdrawal fee:</span> <b>0%</b><div class="withdraw-net"><span data-i18n="withdraw.net">Amount you will receive after the fee</span><strong id="withdrawNetAmount">0.0000 TON</strong></div></div>
         <button class="wallet-submit" id="withdrawSubmitBtn" onclick="submitWithdrawal()" data-i18n="withdraw.submit">Submit TON Withdrawal</button>
       </div>
     </div>
 
-    <!-- CONVERT: TON → CRYSTAL, fixed rate 1 TON = 700 CRYSTAL (own page, reached from Profile) -->
+    <!-- CONVERT: TON → CRYSTAL, fixed rate 1 TON = 1100 CRYSTAL (own page, reached from Profile) -->
     <div class="page" id="page-convert">
       <div class="wheel-page-header">
         <button class="back-btn" onclick="switchPage('profile')">←</button>
@@ -1755,7 +1749,7 @@ html,body{height:100%;
           </div>
           <div class="convert-balance"><span data-i18n="convert.balance">Balance:</span> <span id="tcCrystalBalance">0 CRYSTAL</span></div>
         </div>
-        <div class="convert-rate" id="tcRateLabel">📊 1 TON = 700 CRYSTAL</div>
+        <div class="convert-rate" id="tcRateLabel">📊 1 TON = 1,100 CRYSTAL</div>
         <button class="wallet-submit" id="tcSubmitBtn" onclick="submitTonToCrystalConvert()" data-i18n="convert.submit">⚡ Exchange Now</button>
       </div>
     </div>
@@ -2287,7 +2281,7 @@ var SHIBA_ICON = '<img src="https://i.ibb.co/chCjf1zw/Chat-GPT-Image-Sep-25-2026
 var TON_ICON = '<img src="https://cdn.simpleicons.org/ton/0098EA" class="ton-icon-inline" alt="TON">';
 function updateCrystalTonValueDisplays(){
   var balance = Number((S.user && S.user.balance) || 0);
-  var rate = Number((S.data && S.data.config && S.data.config.tonConversionRate) || 10000);
+  var rate = Number((S.data && S.data.config && S.data.config.tonConversionRate) || 1000);
   var value = '≈ ' + (balance / rate).toFixed(4) + ' ' + TON_ICON;
   var homeEl = document.getElementById('homeCrystalTonValue');
   if (homeEl) homeEl.innerHTML = value;
@@ -2858,17 +2852,17 @@ function showMockData(){
   S.data = {
     referrals:[], balanceLogs:[], withdrawals:[],
     tasks:[
-      {id:'c1',category:'channels',title:'Join Main Channel',link:'https://t.me/yourchannel',reward:500,status:'active'},
-       {id:'b1',category:'bots',title:'Play & Earn Bot',link:'https://t.me/yourplaybot',reward:500,status:'active'}
+      {id:'c1',category:'channels',title:'Join Main Channel',link:'https://t.me/yourchannel',reward:2,status:'active'},
+       {id:'b1',category:'bots',title:'Play & Earn Bot',link:'https://t.me/yourplaybot',reward:2,status:'active'}
     ],
     completedTasks:[],
     wheel:{ segments:WHEEL_DEFAULT_SEGMENTS, spinsAvailable:1, spinsUsed:0, referralsPerSpin:2 },
-    config:{ referralReward:4000, dailyBonusReward:500, botUsername:BOT_USER, minWithdrawal:50000, withdrawalEnabled:true, tonConversionRate:10000 },
-    daily:{ reward:500, claimed:false },
+    config:{ referralReward:8, dailyBonusReward:2, botUsername:BOT_USER, minWithdrawal:50000, withdrawalEnabled:true, tonConversionRate:1000 },
+    daily:{ reward:2, claimed:false },
     stats:{ adsWatchedToday:0, friendsInvited:0, earnedToday:0 },
     forceSub:{ required:false, passed:true, channels:[] },
-    mining:{ startedAt:null, reward:50, durationMs:86400000 },
-    referralRewards:{ pendingCrystal:0, totalIncomeCrystal:0, partners:0, comboRewardAmount:25, comboStreakDaysRequired:2, depositCommissionPct:10, history:[] }
+    mining:{ continuous:true, pendingTon:0, serverNow:Date.now() },
+    referralRewards:{ pendingCrystal:0, totalIncomeCrystal:0, partners:0, comboRewardAmount:8, comboStreakDaysRequired:2, depositCommissionPct:10, history:[] }
   };
   S.refs = [];
   showApp();
@@ -2960,7 +2954,7 @@ function render(){
   if (homeUsernameEl) homeUsernameEl.textContent = u.username ? '@'+u.username : '';
   // Balance
   document.getElementById('homeTon').textContent = fmtShiba(u.balance);
-   var crystalTonValue = Number(u.balance || 0) / (Number(cfg.tonConversionRate) || 10000);
+   var crystalTonValue = Number(u.balance || 0) / (Number(cfg.tonConversionRate) || 1000);
    var homeCrystalTonValueEl = document.getElementById('homeCrystalTonValue');
    if (homeCrystalTonValueEl) homeCrystalTonValueEl.innerHTML = '≈ ' + crystalTonValue.toFixed(4) + ' ' + TON_ICON;
   // Stats — "Active" = passed mandatory subscription (real, verified referral)
@@ -2997,80 +2991,35 @@ function render(){
 }
 
 function renderMining(){
+  // Continuous mining: no timer, no START. Earnings keep accruing on the CRYSTAL balance
+  // and the user can CLAIM any time. The server sends pendingTon as of serverNow and the
+  // client keeps counting from there (the server stays the source of truth on claim).
   var box = (S.data && S.data.mining) || {};
   var cfg = (S.data && S.data.config) || {};
-  var rate = Number(box.ratePerCrystal ?? cfg.miningRatePerCrystal ?? 0.0001); // TON/day per CRYSTAL
-  var duration = Number(box.durationMs ?? cfg.miningDurationMs ?? 86400000); // one cycle = 24h
+  var rate = Number(box.ratePerCrystal ?? cfg.miningRatePerCrystal ?? 0.00005); // TON/day per CRYSTAL
   var holding = Number((S.user && S.user.balance) || box.holding || 0); // CRYSTAL = mining power
-  var startedAt = box.startedAt ? Number(box.startedAt) : null;
-  // Baseline for the "pending, not-yet-claimed" amount: since the last claim,
-  // or since Start if nothing has been claimed in this cycle yet.
-  var lastClaimedAt = box.lastClaimedAt ? Number(box.lastClaimedAt) : null;
+  var basePending = Number(box.pendingTon || 0);
   var serverNow = Number(box.serverNow || Date.now());
   var localNowAtSync = Date.now();
 
   var holdingEl = document.getElementById('mineHoldingVal');
   var dayEl = document.getElementById('mine24hVal');
   var totalEl = document.getElementById('mineTotalVal');
-  var cdWrap = document.getElementById('miningCountdownWrap');
-  var cdVal = document.getElementById('miningCountdownVal');
-  var startBtn = document.getElementById('miningStartBtn');
   var claimBtn = document.getElementById('miningClaimBtn');
-  if (!holdingEl || !dayEl || !totalEl || !startBtn || !claimBtn) return;
+  if (!holdingEl || !dayEl || !totalEl || !claimBtn) return;
 
   holdingEl.textContent = fmtShiba(holding);
   updateWalletTonBalance();
   dayEl.textContent = (holding * rate) > 0 ? ('+' + (holding * rate).toFixed(6) + ' TON') : '–';
 
-  function fmtCountdown(ms){
-    var s = Math.max(0, Math.floor(ms / 1000));
-    var h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), sec = s % 60;
-    return [h, m, sec].map(function(n){ return String(n).padStart(2,'0'); }).join(':');
-  }
-
   function tick(){
-    if (!startedAt){
-      // Never started (or fully closed out after the last cycle) — idle: only the START button shows
-      S.miningState = 'idle';
-      if (cdWrap) cdWrap.style.display = 'none';
-      startBtn.style.display = 'flex';
-      if (!miningAdBusy) startBtn.disabled = false;
-      claimBtn.style.display = 'none';
-      totalEl.textContent = '+0.00000000 TON';
-      return;
-    }
-    var nowEst = Date.now() - localNowAtSync + serverNow; // estimated current server time
-    var elapsedSinceStart = Math.max(0, nowEst - startedAt);
-    var remainingMs = duration - elapsedSinceStart;
-    // Pending reward accrued since the last claim (or since Start), capped at
-    // the 24h mark — this is what the Claim button will actually pay out now.
-    var accrualEndEst = Math.min(nowEst, startedAt + duration);
-    var lastPoint = Math.max(lastClaimedAt || startedAt, startedAt);
-    var pendingElapsed = Math.max(0, accrualEndEst - lastPoint);
-    var pendingTon = holding * rate * (pendingElapsed / 86400000);
-
-    startBtn.style.display = 'none';
+    var elapsedMs = Math.max(0, Date.now() - localNowAtSync);
+    var pendingTon = basePending + holding * rate * (elapsedMs / 86400000);
     claimBtn.style.display = 'flex';
-    // Claim is always tappable mid-cycle now — it pays out the partial amount
-    // collected so far without resetting the 24h countdown. Don't fight the
-    // in-flight "Claiming..." disabled state set by claimMining() itself.
+    claimBtn.classList.add('ready');
     if (!miningAdBusy) claimBtn.disabled = !(pendingTon > 0);
     totalEl.textContent = '+' + pendingTon.toFixed(8) + ' TON';
-
-    if (remainingMs > 0){
-      S.miningState = 'running';
-      if (cdWrap) cdWrap.style.display = 'block';
-      if (cdVal) cdVal.textContent = fmtCountdown(remainingMs);
-      claimBtn.classList.remove('ready');
-    } else {
-      // Cycle finished: countdown reads 00:00:00. Mining has stopped for good
-      // until Start is pressed again — but any leftover unclaimed reward from
-      // the tail of the cycle stays claimable in the meantime.
-      S.miningState = 'ready';
-      if (cdWrap) cdWrap.style.display = 'block';
-      if (cdVal) cdVal.textContent = '00:00:00';
-      claimBtn.classList.add('ready');
-    }
+    S.miningState = holding > 0 ? 'running' : 'idle';
   }
   tick();
   clearInterval(miningTimerId);
@@ -3089,28 +3038,6 @@ function watchAdThen(onSuccess, onFail){
   });
 }
 
-function startMiningCycle(){
-  var btn = document.getElementById('miningStartBtn');
-  if (!btn || btn.disabled) return;
-  if (miningAdBusy) return;
-  miningAdBusy = true;
-  var span = btn.querySelector('span');
-  btn.disabled = true; if (span) span.textContent = 'Starting...';
-  api('startMining', {}).then(function(res){
-    if (!res.success){ showToast(res.error || 'Could not start mining','error'); return; }
-    if (!S.data.mining) S.data.mining = {};
-    S.data.mining.startedAt = res.data.miningStartedAt;
-    S.data.mining.lastClaimedAt = res.data.miningStartedAt;
-    S.data.mining.serverNow = res.data.miningStartedAt;
-    showToast('⛏️ Mining started — you can claim anytime, or wait the full 24h!', null, true);
-  }).catch(function(){ showToast('Network error','error'); })
-    .then(function(){
-      miningAdBusy = false;
-      if (span) span.textContent = 'START';
-      try { renderMining(); } catch(_){}
-    });
-}
-
 function claimMining(){
   var btn = document.getElementById('miningClaimBtn');
   if (!btn || btn.disabled) return;
@@ -3122,11 +3049,9 @@ function claimMining(){
     if (!res.success){ showToast(res.error || 'Nothing to claim yet','error'); return; }
     S.user.tonBalance = res.data.tonBalance;
     if (!S.data.mining) S.data.mining = {};
-    // If the cycle finished, mining goes idle (needs Start again). Otherwise
-    // it's a partial mid-cycle claim — the 24h countdown keeps running as-is.
-    S.data.mining.startedAt = res.data.miningStartedAt;
-    S.data.mining.lastClaimedAt = res.data.miningLastClaimedAt;
-    S.data.mining.serverNow = res.data.miningLastClaimedAt;
+    // Everything accrued so far was paid out: restart the pending counter from zero.
+    S.data.mining.pendingTon = 0;
+    S.data.mining.serverNow = res.data.miningLastClaimedAt || Date.now();
     if (res.data.dailyEarnedTon != null) S.data.mining.dailyEarnedTon = res.data.dailyEarnedTon;
     updateWalletTonBalance();
     showToast('+' + Number(res.data.tonAdded||0).toFixed(6) + ' TON added to your wallet 🎉', null, true);
@@ -3134,6 +3059,7 @@ function claimMining(){
   }).catch(function(){ showToast('Could not claim reward','error'); })
     .then(function(){
       miningAdBusy = false;
+      if (span) span.textContent = 'CLAIM';
       try { renderMining(); } catch(_){}
     });
 }
@@ -3146,7 +3072,7 @@ function syncDailyBonusUI(){
     dailyBtn.textContent = d.daily && d.daily.claimed ? 'Claimed' : 'Claim';
   }
   var dailySub = document.getElementById('dailyBonusSub');
-  if (dailySub) dailySub.textContent = 'Come back every day · +'+fmtShiba((d.daily && d.daily.reward) || 500)+' CRYSTAL';
+  if (dailySub) dailySub.textContent = 'Come back every day · +'+fmtShiba((d.daily && d.daily.reward) || 2)+' CRYSTAL';
 }
 
 function claimDailyBonus(){
@@ -3235,7 +3161,7 @@ function renderReferralRewards(d){
   var totalIncomeEl = document.getElementById('rrTotalIncome');
   if (totalIncomeEl) totalIncomeEl.textContent = fmtShiba(rr.totalIncomeCrystal || 0);
 
-  var comboAmount = rr.comboRewardAmount != null ? rr.comboRewardAmount : 25;
+  var comboAmount = rr.comboRewardAmount != null ? rr.comboRewardAmount : 8;
   var streakDays = rr.comboStreakDaysRequired != null ? rr.comboStreakDaysRequired : 2;
   var depositPct = rr.depositCommissionPct != null ? rr.depositCommissionPct : 10;
 
@@ -3247,6 +3173,10 @@ function renderReferralRewards(d){
   if (comboDesc) comboDesc.textContent = 'When your referral enters the combo for ' + streakDays + ' consecutive days.';
   var depositBadge = document.getElementById('rrDepositPctBadge');
   if (depositBadge) depositBadge.textContent = depositPct + '%';
+  var pkgTitle = document.getElementById('rrPkgTitle');
+  if (pkgTitle) pkgTitle.textContent = 'Get ' + depositPct + '% from packages';
+  var pkgDesc = document.getElementById('rrPkgDesc');
+  if (pkgDesc) pkgDesc.textContent = 'Receive ' + depositPct + '% of every package your referral buys from the Store, as CRYSTAL that boosts your mining speed.';
 
 }
 
@@ -3503,7 +3433,7 @@ function updateLbTimer(){
 function openWithdrawForm(){
   var cfg = (S.data && S.data.config) || {};
   if (cfg.withdrawalEnabled === false){ showToast('Withdrawals are currently disabled','error'); return; }
-  var minW = Number(cfg.minWithdrawalTon != null ? cfg.minWithdrawalTon : 0.1);
+  var minW = Number(cfg.minWithdrawalTon != null ? cfg.minWithdrawalTon : 0.02);
   document.getElementById('withdrawMinValue').textContent = minW + ' TON';
   document.getElementById('withdrawWallet').value = (S.user && S.user.tonWallet) || '';
   document.getElementById('withdrawAmount').value = '';
@@ -3516,7 +3446,7 @@ function updateWithdrawalNetAmount(){
   var output = document.getElementById('withdrawNetAmount');
   if (!input || !output) return;
   var amount = Number(input.value || 0);
-  var net = Number.isFinite(amount) && amount > 0 ? amount * 0.90 : 0;
+  var net = Number.isFinite(amount) && amount > 0 ? amount : 0;
   output.textContent = net.toFixed(4) + ' TON';
 }
 
@@ -3526,7 +3456,7 @@ function submitWithdrawal(){
   if (!wallet){ showToast('Enter a TON wallet address','error'); return; }
   if (!/^([UE]Q)[A-Za-z0-9_-]{46}$/.test(wallet)){ showToast('Invalid wallet address','error'); return; }
   if (!amount || amount<=0){ showToast('Enter a valid amount','error'); return; }
-  var minW = Number((S.data && S.data.config && S.data.config.minWithdrawalTon != null) ? S.data.config.minWithdrawalTon : 0.1);
+  var minW = Number((S.data && S.data.config && S.data.config.minWithdrawalTon != null) ? S.data.config.minWithdrawalTon : 0.02);
   if (amount < minW){ showToast('Minimum withdrawal is ' + minW + ' TON','error'); return; }
   if (S.user && amount > Number(S.user.tonBalance || 0)){ showToast('Insufficient TON balance','error'); return; }
   var btn = document.getElementById('withdrawSubmitBtn');
@@ -3607,10 +3537,10 @@ async function submitDeposit(){
   }
 }
 
-// ── Convert: TON → CRYSTAL, fixed rate 1 TON = 700 CRYSTAL ─────────────
+// ── Convert: TON → CRYSTAL, fixed rate 1 TON = 1100 CRYSTAL ─────────────
 // Reuses the same store endpoint the Store page's fixed packs use
 // (buyCrystalWithTon), just with a free-form TON amount typed by the user.
-var TON_TO_CRYSTAL_RATE = 700;
+var TON_TO_CRYSTAL_RATE = 1100;
 function openConvertForm(){
   var rate = Number((S.data && S.data.config && S.data.config.crystalPerTon) || TON_TO_CRYSTAL_RATE);
   document.getElementById('tcTonBalance').textContent = Number((S.user&&S.user.tonBalance)||0).toFixed(4)+' TON';
@@ -3701,10 +3631,10 @@ function updateProfileWalletStatus(wallet){
 var STORE_PACKS = [1, 2, 3, 5, 10, 20]; // TON amounts on offer (cost)
 var storeBuyBusy = false;
 function renderStore(){
-  var rate = Number((S.data && S.data.config && S.data.config.crystalPerTon) || 700);
+  var rate = Number((S.data && S.data.config && S.data.config.crystalPerTon) || 1100);
   // Daily mining income per CRYSTAL (same source as renderMining) — used to show each pack's daily boost
   var miningBox = (S.data && S.data.mining) || {}, miningCfg = (S.data && S.data.config) || {};
-  var dailyPerCrystal = Number(miningBox.ratePerCrystal ?? miningCfg.miningRatePerCrystal ?? 0.0001);
+  var dailyPerCrystal = Number(miningBox.ratePerCrystal ?? miningCfg.miningRatePerCrystal ?? 0.00005);
   document.getElementById('storeRateLine').textContent = rate.toLocaleString('en-US') + ' CRYSTAL = 1 TON';
   document.getElementById('storeCoinBalance').textContent = Number((S.user && S.user.tonBalance) || 0).toFixed(4) + ' TON';
   var grid = document.getElementById('storeGrid');
@@ -3788,7 +3718,7 @@ function renderTasks(tab){
     // via stats.adCompanies; if not present, it falls back to a general default value.
     var companies = stats.adCompanies || {};
     var fallbackLimit = getAdNumber(stats.adCompanyDailyLimit, cfg.adCompanyDailyLimit != null ? cfg.adCompanyDailyLimit : 10);
-    var fallbackReward = getAdNumber(cfg.adReward, 200);
+    var fallbackReward = getAdNumber(cfg.adReward, 1);
     var adsgramCfg = companies.adsgram || { reward: fallbackReward, dailyLimit: fallbackLimit };
     adsgramCfg = {
       reward: getAdNumber(adsgramCfg.reward, fallbackReward),
@@ -4272,7 +4202,7 @@ function renderComboState(){
   var desc = document.getElementById('comboDesc');
   var label = document.getElementById('comboAttemptsLabel');
   if (!btn || !desc) return;
-  var reward = combo.reward || 5000;
+  var reward = combo.reward || 5;
   var used = !!combo.solvedToday; // attempt already used today (win OR lose — only 1 try/day)
   if (label) label.textContent = 'ATTEMPTS TODAY · ' + (used ? 1 : 0) + '/1';
   if (used){
