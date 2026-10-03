@@ -656,24 +656,52 @@ html,body{height:100%;
 
 /* ── Ban Screen — shown instead of the entire app when multiple
    accounts are detected on the same device (Device Fingerprint) ───── */
-.ban-screen{position:fixed;inset:0;background:var(--bg);display:none;flex-direction:column;align-items:center;justify-content:center;z-index:9999;padding:24px;text-align:center}
+.ban-screen{position:fixed;inset:0;background:transparent;display:none;flex-direction:column;align-items:center;justify-content:center;z-index:9999;padding:24px 16px;padding-top:max(24px,env(safe-area-inset-top));padding-bottom:max(24px,env(safe-area-inset-bottom));overflow-y:auto;text-align:center}
 .ban-screen.show{display:flex}
-.ban-card{width:100%;max-width:380px}
-.ban-emoji{font-size:60px;margin-bottom:14px}
-.ban-title{font-size:21px;font-weight:800;color:var(--red);margin-bottom:10px}
-.ban-desc{font-size:13.5px;color:var(--text2);line-height:1.8;margin-bottom:16px}
-.ban-reason-box{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);border-radius:14px;padding:14px 16px;margin-bottom:16px;text-align:right;direction:rtl}
-.ban-reason-label{font-size:10.5px;color:var(--red);letter-spacing:.5px;text-transform:uppercase;font-weight:700;margin-bottom:6px}
-.ban-reason-text{font-size:13px;color:var(--text2);line-height:1.7}
-.ban-id-box{font-size:10.5px;color:var(--text3);margin-top:14px;word-break:break-all;direction:ltr}
-.ban-note{font-size:11.5px;color:var(--text3);margin-top:10px;line-height:1.6}
-.ban-linked-accounts{margin-top:16px;text-align:left;direction:ltr}
+.ban-card{position:relative;overflow:hidden;width:100%;max-width:400px;margin:auto;padding:26px 16px 16px;border-radius:22px;background:linear-gradient(145deg,#0c1428,#080e1e);border:1px solid rgba(239,68,68,.24);box-shadow:0 8px 28px rgba(0,0,0,.5),0 0 34px rgba(239,68,68,.08),inset 0 1px 0 rgba(255,255,255,.03)}
+.ban-card::before{content:"";position:absolute;left:50%;top:-70px;width:260px;height:170px;transform:translateX(-50%);background:radial-gradient(closest-side,rgba(239,68,68,.22),transparent);pointer-events:none}
+.ban-card::after{content:"";position:absolute;left:18%;right:18%;top:0;height:2px;background:linear-gradient(90deg,transparent,#ef4444,transparent)}
+.ban-hero{position:relative;width:84px;height:84px;margin:0 auto 14px;border-radius:24px;display:grid;place-items:center;background:rgba(11,26,59,.85);border:1px solid rgba(239,68,68,.4);box-shadow:0 0 26px rgba(239,68,68,.25)}
+.ban-hero .ic{width:60px;height:60px;filter:drop-shadow(0 0 3px rgba(239,68,68,.6))}
+.ban-title{position:relative;font-size:21px;font-weight:800;letter-spacing:.3px;margin-bottom:8px;background:linear-gradient(180deg,#fecaca,#ef4444);-webkit-background-clip:text;background-clip:text;color:transparent}
+.ban-desc{position:relative;font-size:13px;color:#8ea2cf;line-height:1.65;margin-bottom:16px}
+.ban-item{position:relative;overflow:hidden;display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:16px;text-align:left;direction:ltr;background:linear-gradient(145deg,#0c1428,#080e1e);border:1px solid rgba(251,191,36,.14);box-shadow:0 4px 14px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.03);margin-bottom:10px}
+.ban-item::after{content:'';position:absolute;top:0;left:-60%;width:38%;height:100%;background:linear-gradient(100deg,transparent,rgba(239,68,68,.09),transparent);transform:skewX(-20deg);animation:cardGold 6s ease-in-out infinite;pointer-events:none}
+.ban-item.reason{border-color:rgba(239,68,68,.3);align-items:flex-start}
+.ban-item-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:rgba(11,26,59,.65);border:1px solid rgba(96,165,250,.3)}
+.ban-item.reason .ban-item-icon{border-color:rgba(239,68,68,.35)}
+.ban-item-icon .ic{width:36px;height:36px}
+.ban-item-body{flex:1;min-width:0}
+.ban-reason-label{font-size:10.5px;color:#f87171;letter-spacing:.8px;text-transform:uppercase;font-weight:800;margin-bottom:4px}
+.ban-reason-text{font-size:12.5px;color:#c3cde6;line-height:1.6}
+.ban-note-text{font-size:12px;color:#8ea2cf;line-height:1.6}
+.ban-linked-accounts{margin-top:14px;text-align:left;direction:ltr}
 .ban-linked-accounts:empty{display:none}
-.ban-linked-label{font-size:10.5px;color:var(--text3);letter-spacing:.5px;text-transform:uppercase;font-weight:700;margin-bottom:8px}
-.ban-linked-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:12px;background:var(--glass);border:1px solid var(--glass-border);margin-bottom:8px}
-.ban-linked-avatar{width:34px;height:34px;border-radius:50%;object-fit:cover;flex-shrink:0;background:rgba(255,255,255,.08)}
-.ban-linked-name{font-size:13px;font-weight:700;color:var(--text)}
-.ban-linked-username{font-size:11.5px;color:var(--text3)}
+.ban-linked-label{display:flex;align-items:center;gap:8px;font-size:10.5px;color:#7d8fb8;letter-spacing:.8px;text-transform:uppercase;font-weight:800;margin:0 2px 8px}
+.ban-linked-label .ic{width:24px;height:24px}
+.ban-linked-item{margin-bottom:8px}
+.ban-linked-item:last-child{margin-bottom:0}
+.ban-linked-avatar{width:42px;height:42px;border-radius:50%;object-fit:cover;flex-shrink:0;background:linear-gradient(135deg,var(--orange),var(--orange2));border:2px solid rgba(96,165,250,.4);box-shadow:0 0 12px rgba(96,165,250,.2);display:grid;place-items:center;font-size:16px;font-weight:800;color:#fff}
+.ban-linked-name{font-size:14px;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ban-linked-username{font-size:11.5px;color:#7d8fb8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ban-linked-tag{flex-shrink:0;padding:5px 10px;border-radius:999px;font-size:10px;font-weight:800;letter-spacing:.8px;color:#93c5fd;background:rgba(59,130,246,.14);border:1px solid rgba(96,165,250,.35)}
+.ban-id-box{display:inline-block;margin-top:14px;padding:6px 14px;border-radius:999px;font-size:11px;color:#7d8fb8;background:var(--glass);border:1px solid var(--glass-border);word-break:break-all;direction:ltr}
+.ban-id-box:empty{display:none}
+/* red variants + animations of the shared icon system (.ic) */
+.ic .r{stroke:url(#R);stroke-width:2.4}
+.ic .rs{fill:url(#R);stroke:none}
+.ic .fr{fill:rgba(239,68,68,.16)}
+.ic-ban .sl{stroke-dasharray:100;stroke-width:3.4;animation:ic-ban-sl 4s ease-in-out infinite}
+.ic-ban .po{animation:ic-ban-po 2.4s ease-out infinite}
+.ic-ban .rn{animation:ic-bob 2.8s ease-in-out infinite}
+.ic-dev .ph{animation:ic-tilt 3.4s ease-in-out infinite}
+.ic-dev .ln{animation:ic-blink 1.8s ease-in-out infinite}
+.ic-dev .bd{animation:ic-beat 2.2s ease-in-out infinite}
+.ic-lock .sh{animation:ic-bob 2.6s ease-in-out infinite}
+.ic-lock .kh{animation:ic-beat 2.4s ease-in-out infinite}
+@keyframes ic-ban-sl{0%,18%{stroke-dashoffset:100}42%,88%{stroke-dashoffset:0}96%,100%{stroke-dashoffset:100}}
+@keyframes ic-ban-po{0%{transform:scale(.8);opacity:.55}100%{transform:scale(1.15);opacity:0}}
+@media (prefers-reduced-motion:reduce){.ban-item::after,.ic-ban *,.ic-dev *,.ic-lock *{animation:none!important}.ic-ban .sl{stroke-dashoffset:0}}
 
 /* CRYSTAL home refresh */
 .home-header{padding-top:20px}
@@ -1387,15 +1415,42 @@ html,body{height:100%;
 
 <!-- Multi-Account Ban Screen -->
 <div class="ban-screen" id="banScreen">
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="R" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="48"><stop offset="0" stop-color="#fecaca"/><stop offset=".5" stop-color="#f87171"/><stop offset="1" stop-color="#dc2626"/></linearGradient></defs></svg>
   <div class="ban-card">
-    <div class="ban-emoji">🚫</div>
+    <div class="ban-hero">
+      <svg class="ic ic-ban" viewBox="0 0 48 48" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle class="r po" cx="24" cy="24" r="19" style="stroke-width:1.6"/>
+        <g class="rn"><circle class="r fr" cx="24" cy="24" r="16"/><path class="r sl" pathLength="100" d="M13 35L35 13"/></g>
+        <path class="tw rs" d="M42 2.2Q42.56 4.44 44.8 5Q42.56 5.56 42 7.8Q41.44 5.56 39.2 5Q41.44 4.44 42 2.2z" style="animation-delay:.4s"/>
+      </svg>
+    </div>
     <div class="ban-title">Account Banned</div>
     <div class="ban-desc">This account has been permanently blocked from using the bot for violating the usage policy.</div>
-    <div class="ban-reason-box">
-      <div class="ban-reason-label">Reason</div>
-      <div class="ban-reason-text" id="banReasonText">Multiple accounts detected on the same device. Only the first account created on this device is allowed to use the bot.</div>
+
+    <div class="ban-item reason">
+      <div class="ban-item-icon">
+        <svg class="ic ic-dev" viewBox="0 0 48 48" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <g class="ph"><rect class="g fg" x="9" y="4" width="23" height="38" rx="5"/><path class="g t" d="M17 8h7" style="opacity:.6"/><path class="p t ln" d="M15 18h11M15 24h11M15 30h7"/></g>
+          <g class="bd"><circle class="r occ" cx="36" cy="34" r="9"/><path class="r" d="M32.500 30.500l7 7M39.500 30.500l-7 7" style="stroke-width:2.2"/></g>
+        </svg>
+      </div>
+      <div class="ban-item-body">
+        <div class="ban-reason-label">Reason</div>
+        <div class="ban-reason-text" id="banReasonText">Multiple accounts detected on the same device. Only the first account created on this device is allowed to use the bot.</div>
+      </div>
     </div>
-    <div class="ban-note">Changing your network or IP address will not lift this restriction — the block is tied to this specific device.</div>
+
+    <div class="ban-item">
+      <div class="ban-item-icon">
+        <svg class="ic ic-lock" viewBox="0 0 48 48" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path class="p sh" d="M15 21v-6a9 9 0 0 1 18 0v6"/>
+          <rect class="g fg" x="9" y="21" width="30" height="21" rx="5"/>
+          <circle class="sg kh" cx="24" cy="30.500" r="2.800"/><path class="g" d="M24 33v4" style="stroke-width:2.2"/>
+        </svg>
+      </div>
+      <div class="ban-item-body"><div class="ban-note-text">Changing your network or IP address will not lift this restriction — the block is tied to this specific device.</div></div>
+    </div>
+
     <div class="ban-linked-accounts" id="banLinkedAccounts"></div>
     <div class="ban-id-box" id="banIdText"></div>
   </div>
@@ -2809,17 +2864,20 @@ function renderLinkedAccounts(accounts){
   var box = document.getElementById('banLinkedAccounts');
   if (!box) return;
   if (!accounts || !accounts.length){ box.innerHTML = ''; return; }
-  var label = '<div class="ban-linked-label">Other accounts on this device</div>';
+  var icon = (typeof IC !== 'undefined' && IC.partner) ? IC.partner : '';
+  var label = '<div class="ban-linked-label">' + icon + '<span>Other accounts on this device</span></div>';
   var items = accounts.map(function(a){
     var photo = a && a.photoUrl ? escapeHtmlClient(a.photoUrl) : '';
-    var name  = escapeHtmlClient((a && a.name) || 'Unknown');
+    var rawName = (a && a.name) || 'Unknown';
+    var name  = escapeHtmlClient(rawName);
     var uname = a && a.username ? ('@' + escapeHtmlClient(a.username)) : '—';
     var avatar = photo
       ? '<img class="ban-linked-avatar" src="' + photo + '" alt="">'
-      : '<div class="ban-linked-avatar"></div>';
-    return '<div class="ban-linked-item">' + avatar +
-      '<div><div class="ban-linked-name">' + name + '</div>' +
-      '<div class="ban-linked-username">' + uname + '</div></div></div>';
+      : '<div class="ban-linked-avatar">' + escapeHtmlClient(String(rawName).charAt(0).toUpperCase() || '?') + '</div>';
+    return '<div class="ban-item ban-linked-item">' + avatar +
+      '<div class="ban-item-body"><div class="ban-linked-name">' + name + '</div>' +
+      '<div class="ban-linked-username">' + uname + '</div></div>' +
+      '<span class="ban-linked-tag">FIRST</span></div>';
   }).join('');
   box.innerHTML = label + items;
 }
