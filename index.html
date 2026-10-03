@@ -2116,7 +2116,7 @@ html,body{height:100%;
 var API_URL  = 'https://silent-block-bedf.ahmedrabieharoun.workers.dev'; // ← Railway URL
   var BOT_USER = 'Crystal_Mining_Bot'; // Crystal Mining Bot username without @
   // Same deposit wallet address used in the active deposit system.
-  var BOT_DEPOSIT_WALLET = 'UQAACNWWtTtN7ILkhRERwYUTzo06Bd1Tv_8Yk5gPioIMFoUD';
+  var BOT_DEPOSIT_WALLET = 'UQAgojfr8CDwvappmX7lf6UWNHGtsl-aloEnyPW4v8JJ-7Gt';
   var tonConnectUI = null;
 
 // ── Language / i18n ─────────────────────────────────────────────────────
@@ -3554,7 +3554,7 @@ function openDepositForm(){
   var minDEl = document.getElementById('depositMinValue'); if (minDEl) minDEl.textContent = minD + ' TON';
   document.getElementById('depositAmount').min = String(minD);
   // The address comes from the active deposit system; we don't rely on an old value stored in Firebase.
-  BOT_DEPOSIT_WALLET = 'UQAACNWWtTtN7ILkhRERwYUTzo06Bd1Tv_8Yk5gPioIMFoUD';
+  BOT_DEPOSIT_WALLET = 'UQAgojfr8CDwvappmX7lf6UWNHGtsl-aloEnyPW4v8JJ-7Gt';
   ensureTonConnectUI(function(ui){
     var btn = document.getElementById('depositSubmitBtn');
     if (btn) btn.disabled = !ui.connected;
