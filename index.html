@@ -1384,6 +1384,14 @@ html,body{height:100%;
 #page-home .mining-countdown-label{font-size:clamp(9.5px,calc(var(--h)*1.4),11px)}
 #page-home .mining-countdown-val{font-size:clamp(20px,calc(var(--h)*3.6),28px);margin-top:calc(var(--h)*.3)}
 #page-home .mine-claim-btn{width:calc(100% - 32px);margin:0 16px calc(var(--h)*1.2);padding:clamp(10px,calc(var(--h)*1.9),15px);font-size:clamp(13px,calc(var(--h)*1.95),15px);border-radius:calc(var(--h)*2.1)}
+
+/* Partner sub-tabs (Channels / Bots) */
+.psub{display:flex;gap:8px;margin:2px 0 14px}
+.psub-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:7px;padding:11px 8px;border-radius:14px;font-size:13px;font-weight:800;color:var(--text2);background:rgba(9,15,32,.85);border:1px solid rgba(251,191,36,.14);cursor:pointer;transition:all .2s;-webkit-tap-highlight-color:transparent}
+.psub-btn:active{transform:scale(.96)}
+.psub-btn.active{color:#fff;background:linear-gradient(135deg,var(--orange),var(--orange2));border-color:transparent;box-shadow:0 6px 18px rgba(35,183,243,.28)}
+.psub-count{min-width:20px;padding:1px 7px;border-radius:20px;font-size:11px;font-weight:800;background:rgba(255,255,255,.1);line-height:18px;text-align:center}
+.psub-btn.active .psub-count{background:rgba(255,255,255,.25)}
 </style>
 </head>
 <body>
@@ -3759,6 +3767,8 @@ function isBotTask(t){
   return !!m && /bot$/i.test(m[1]);
 }
 
+function setPartnerSub(k){ S.partnerSub = (k === 'bots') ? 'bots' : 'channels'; renderTasks('partner'); }
+
 function renderTasks(tab){
   var labels = { ads:'Advertisements', channels:'User Channels & Bots', partner:'Partner Tasks' };
   document.getElementById('tasksGroupLabel').textContent = labels[tab];
@@ -3805,11 +3815,22 @@ function renderTasks(tab){
   var list = allTasks.filter(function(t){
     return tab === 'partner' ? t.category === 'partner' : (t.category==='channels' || t.category==='bots');
   });
-  if (!list.length){ document.getElementById('tasksContent').innerHTML = '<div class="empty-state">No tasks right now</div>'; return; }
+  // Partner tab is split into two sub-sections: Channels and Bots.
+  var subHtml = '';
+  if (tab === 'partner'){
+    var pBots = list.filter(isBotTask), pChannels = list.filter(function(t){ return !isBotTask(t); });
+    var sub = (S.partnerSub === 'bots') ? 'bots' : 'channels';
+    subHtml = '<div class="psub">'+
+      '<div class="psub-btn'+(sub==='channels'?' active':'')+'" onclick="setPartnerSub(\'channels\')">Channels <span class="psub-count">'+pChannels.length+'</span></div>'+
+      '<div class="psub-btn'+(sub==='bots'?' active':'')+'" onclick="setPartnerSub(\'bots\')">Bots <span class="psub-count">'+pBots.length+'</span></div>'+
+    '</div>';
+    list = sub === 'bots' ? pBots : pChannels;
+  }
+  if (!list.length){ document.getElementById('tasksContent').innerHTML = subHtml + '<div class="empty-state">No tasks right now</div>'; return; }
   list = list.map(function(t, idx){ return { t:t, idx:idx, done: completed.indexOf(t.id) > -1 }; })
     .sort(function(a, b){ return (a.done === b.done) ? (a.idx - b.idx) : (a.done ? 1 : -1); })
     .map(function(x){ return x.t; });
-  document.getElementById('tasksContent').innerHTML = list.map(function(t){
+  document.getElementById('tasksContent').innerHTML = subHtml + list.map(function(t){
     var done = completed.indexOf(t.id) > -1;
     var st = done ? 'done' : (S.taskJoined && S.taskJoined[t.id] ? 'verify' : 'join');
     var btnClass = st==='join'?'join':st==='verify'?'verify':'done';
