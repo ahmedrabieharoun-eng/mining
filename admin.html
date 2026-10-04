@@ -8,6 +8,18 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
+<style>
+#loginGate{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;background:radial-gradient(700px 420px at 100% -5%,rgba(25,227,160,.12),transparent 60%),var(--bg)}
+#loginGate .box{width:100%;max-width:380px;background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:28px 24px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+#loginGate h2{font-size:19px;margin-bottom:6px;color:#fff}
+#loginGate .sub{font-size:12.5px;color:var(--muted);margin-bottom:20px}
+#loginGate .field{margin-bottom:14px;display:flex;flex-direction:column;gap:6px}
+#loginGate .field label{font-size:12.5px;color:var(--muted)}
+#loginGate .err{min-height:18px;font-size:12.5px;color:var(--danger);margin-bottom:10px}
+#loginGate .btn{width:100%;justify-content:center}
+#loginGate .btn[disabled]{opacity:.6;cursor:wait}
+</style>
 <style>
 :root{
 --bg:#07090a;--bg-2:#0b0f11;--panel:#0e1316;--panel-solid:#0e1316;--panel-2:#141b1f;--panel-3:#1a2328;
@@ -173,7 +185,18 @@ input:checked+.slider{background:var(--gold-2)}input:checked+.slider::before{tra
 </head>
 <body>
 
-<div class="app" id="appRoot">
+<div id="loginGate">
+  <div class="box">
+    <h2>تسجيل دخول الأدمن</h2>
+    <div class="sub">Crystal Mining — لوحة التحكم</div>
+    <div class="field"><label>البريد الإلكتروني</label><input type="email" id="loginEmail" autocomplete="username" dir="ltr"></div>
+    <div class="field"><label>كلمة المرور</label><input type="password" id="loginPass" autocomplete="current-password" dir="ltr"></div>
+    <div class="err" id="loginErr"></div>
+    <button class="btn btn-gold" id="loginBtn" type="button">دخول</button>
+  </div>
+</div>
+
+<div class="app" id="appRoot" style="display:none">
   <!-- ============ SIDEBAR ============ -->
   <aside class="sidebar" id="sidebar">
     <div class="brand">
@@ -241,6 +264,7 @@ input:checked+.slider{background:var(--gold-2)}input:checked+.slider::before{tra
         <span class="dot off" id="connDot"></span>
         <span id="connTxt">جارِ الاتصال بقاعدة البيانات...</span>
       </div>
+      <button class="btn" type="button" id="logoutBtn" style="justify-content:center;background:var(--panel-3);border-color:var(--line)">تسجيل الخروج</button>
     </div>
   </aside>
 
@@ -604,22 +628,11 @@ input:checked+.slider{background:var(--gold-2)}input:checked+.slider::before{tra
   </div>
 </div>
 
-<script>
+<script type="text/plain" id="adminMainSrc">
 /* =========================================================
    Crystal Mining — Admin Control Panel
    Direct Firebase Realtime Database binding
    ========================================================= */
-const firebaseConfig = {
-  apiKey: "AIzaSyBivnSmUkmJiOvb4adisSyi95BflFHRuN4",
-  authDomain: "eqrfseaf.firebaseapp.com",
-  databaseURL: "https://eqrfseaf-default-rtdb.firebaseio.com",
-  projectId: "eqrfseaf",
-  storageBucket: "eqrfseaf.firebasestorage.app",
-  messagingSenderId: "138405490271",
-  appId: "1:138405490271:web:9d616329b18151de0035ea",
-  measurementId: "G-9MNKM45Z58"
-};
-firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
 const AVATAR_FALLBACK = 'data:image/svg+xml;utf8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Cdefs%3E%3ClinearGradient id=%22g%22 x1=%220%22 y1=%220%22 x2=%221%22 y2=%221%22%3E%3Cstop offset=%220%22 stop-color=%22%2395f0ff%22/%3E%3Cstop offset=%221%22 stop-color=%22%237a5cff%22/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d=%22M32 4l20 16-20 40L12 20z%22 fill=%22url(%23g)%22/%3E%3Cpath d=%22M12 20h40M32 4l-8 16 8 40 8-40z%22 fill=%22none%22 stroke=%22white%22 stroke-opacity=%22.55%22 stroke-width=%222%22/%3E%3C/svg%3E';
@@ -1702,7 +1715,8 @@ const PARTITION_BATCH_SIZE = 500; // keys deleted per multi-path update
 function dbUrl(path, query){
   const base = firebaseConfig.databaseURL.replace(/\/$/, '');
   const p = path ? '/' + String(path).replace(/^\/+/, '') : '';
-  return base + p + '.json' + (query ? ('?' + query) : '');
+  const q = [query, (typeof ADMIN_TOKEN !== 'undefined' && ADMIN_TOKEN) ? 'auth=' + encodeURIComponent(ADMIN_TOKEN) : ''].filter(Boolean).join('&');
+  return base + p + '.json' + (q ? ('?' + q) : '');
 }
 
 async function shallowGet(path){
@@ -2071,6 +2085,88 @@ document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeModal(); });
 
 /* init */
 switchView('dashboard');
+</script>
+<script>
+/* ---------- Firebase Auth gate (Email + Password) ---------- */
+const firebaseConfig = {
+  apiKey: "AIzaSyBivnSmUkmJiOvb4adisSyi95BflFHRuN4",
+  authDomain: "eqrfseaf.firebaseapp.com",
+  databaseURL: "https://eqrfseaf-default-rtdb.firebaseio.com",
+  projectId: "eqrfseaf",
+  storageBucket: "eqrfseaf.firebasestorage.app",
+  messagingSenderId: "138405490271",
+  appId: "1:138405490271:web:9d616329b18151de0035ea",
+  measurementId: "G-9MNKM45Z58"
+};
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+let ADMIN_TOKEN = '';
+let adminStarted = false;
+
+const $gate = document.getElementById('loginGate');
+const $app = document.getElementById('appRoot');
+const $err = document.getElementById('loginErr');
+const $btn = document.getElementById('loginBtn');
+
+function showLogin(msg){
+  $app.style.display = 'none';
+  $gate.style.display = 'flex';
+  $err.textContent = msg || '';
+  $btn.disabled = false; $btn.textContent = 'دخول';
+}
+function authMsg(code){
+  switch(code){
+    case 'auth/invalid-credential':
+    case 'auth/wrong-password':
+    case 'auth/user-not-found':
+    case 'auth/invalid-email': return 'الإيميل أو كلمة المرور غير صحيحة';
+    case 'auth/too-many-requests': return 'محاولات كتير — استنى شوية وجرّب تاني';
+    case 'auth/network-request-failed': return 'مشكلة في الاتصال بالإنترنت';
+    case 'auth/user-disabled': return 'الحساب ده متوقف';
+    default: return 'تعذّر تسجيل الدخول ('+code+')';
+  }
+}
+
+async function doLogin(){
+  const email = document.getElementById('loginEmail').value.trim();
+  const pass = document.getElementById('loginPass').value;
+  if(!email || !pass){ $err.textContent = 'اكتب الإيميل وكلمة المرور'; return; }
+  $err.textContent = ''; $btn.disabled = true; $btn.textContent = 'جارِ الدخول...';
+  try{
+    await auth.setPersistence(firebase.auth.Auth.Persistence.SESSION);
+    await auth.signInWithEmailAndPassword(email, pass);
+  }catch(e){ showLogin(authMsg(e.code)); }
+}
+$btn.addEventListener('click', doLogin);
+['loginEmail','loginPass'].forEach(id=>document.getElementById(id).addEventListener('keydown',e=>{ if(e.key==='Enter') doLogin(); }));
+document.getElementById('logoutBtn').addEventListener('click', ()=>auth.signOut());
+
+function adminSignOut(){ return auth.signOut(); }
+
+auth.onIdTokenChanged(async user=>{ if(user){ try{ ADMIN_TOKEN = await user.getIdToken(); }catch(_){} } else { ADMIN_TOKEN = ''; } });
+
+auth.onAuthStateChanged(async user=>{
+  if(!user){
+    if(adminStarted){ location.reload(); return; }
+    showLogin(''); return;
+  }
+  try{
+    ADMIN_TOKEN = await user.getIdToken();
+    // تأكيد إن الحساب ده مسموح له فعلًا بقراءة قاعدة البيانات (حسب Rules)
+    await firebase.database().ref('config/botEnabled').once('value');
+  }catch(e){
+    await auth.signOut().catch(()=>{});
+    showLogin('الحساب ده مش مسموح له يدخل لوحة التحكم');
+    return;
+  }
+  if(adminStarted) return;
+  adminStarted = true;
+  $gate.style.display = 'none';
+  $app.style.display = '';
+  const sc = document.createElement('script');
+  sc.text = document.getElementById('adminMainSrc').textContent;
+  document.body.appendChild(sc);
+});
 </script>
 </body>
 </html>
