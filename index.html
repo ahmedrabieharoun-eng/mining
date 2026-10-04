@@ -3767,7 +3767,7 @@ function isBotTask(t){
   return !!m && /bot$/i.test(m[1]);
 }
 
-function setTasksSub(k){ S.tasksSub = (k === 'bots') ? 'bots' : 'channels'; renderTasks('channels'); }
+function setTasksSub(k){ S.tasksSub = (k === 'bots') ? 'bots' : 'channels'; renderTasks('partner'); }
 
 function renderTasks(tab){
   var labels = { ads:'Advertisements', channels:'User Channels & Bots', partner:'Partner Tasks' };
@@ -3815,9 +3815,9 @@ function renderTasks(tab){
   var list = allTasks.filter(function(t){
     return tab === 'partner' ? t.category === 'partner' : (t.category==='channels' || t.category==='bots');
   });
-  // User Tasks tab is split into two sub-sections: Channels and Bots (Partner tab stays a single list).
+  // Partner tab is split into two sub-sections: Channels and Bots (User Tasks tab is a single list).
   var subHtml = '';
-  if (tab === 'channels'){
+  if (tab === 'partner'){
     var uBots = list.filter(isBotTask), uChannels = list.filter(function(t){ return !isBotTask(t); });
     var sub = (S.tasksSub === 'bots') ? 'bots' : 'channels';
     subHtml = '<div class="psub">'+
