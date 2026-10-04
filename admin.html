@@ -383,6 +383,13 @@ input:checked+.slider{background:var(--gold-2)}input:checked+.slider::before{tra
           <div class="pill" data-f="rejected">مرفوضة</div>
           <div class="pill" data-f="all">الكل</div>
         </div>
+        <div class="panel" id="depGatePanel" style="border-color:rgba(25,227,160,.28)">
+          <div class="switch-row" style="background:transparent;border:none;padding:0;gap:16px">
+            <div class="lbl"><b style="font-size:15px">🔒 فرض إيداع قبل السحب</b>
+              <span id="depGateText" style="display:block;margin-top:5px;line-height:1.7">جارِ التحميل...</span></div>
+            <label class="switch"><input type="checkbox" id="cfg_requireDepositForWithdrawal"><span class="slider"></span></label>
+          </div>
+        </div>
         <div class="panel">
           <div class="panel-head"><div><h2>طلبات السحب</h2><div class="hint">التحقق والموافقة أو الرفض يدويًا</div></div></div>
           <div class="table-wrap"><table>
@@ -643,6 +650,7 @@ function fmt(n){
   n = Number(n)||0;
   return n.toLocaleString('en-US', {maximumFractionDigits:0});
 }
+function crystalAmt(n){ return fmt(n)+'<img class="cr-ico" src="'+COIN_ICON+'" alt="CRYSTAL">'; }
 function fmtTon(n){
   n = Number(n)||0;
   return n.toLocaleString('en-US', {minimumFractionDigits:4, maximumFractionDigits:4});
@@ -790,7 +798,7 @@ function renderLatestUsers(){
     <tr>
       <td><div class="u-cell"><img src="${u.photoUrl||AVATAR_FALLBACK}" onerror="this.src='${AVATAR_FALLBACK}'"><div><div class="u-name">${escapeHtml(displayName(u))}</div><div class="u-sub">${u.username?'@'+escapeHtml(u.username):'—'}</div></div></div></td>
       <td class="mono muted">${id}</td>
-      <td class="mono">${fmt(u.balance)}</td>
+      <td class="mono">${crystalAmt(u.balance)}</td>
       <td class="mono">${fmtTon(u.tonBalance)}</td>
       <td class="muted">${fmtDate(u.createdAt)}</td>
       <td>${isOnline(u.lastLogin)?'<span class="badge b-green">أونلاين</span>':'<span class="badge b-gray">غير متصل</span>'}</td>
@@ -833,7 +841,7 @@ function renderUsersTable(){
     <tr>
       <td><div class="u-cell"><img src="${u.photoUrl||AVATAR_FALLBACK}" onerror="this.src='${AVATAR_FALLBACK}'"><div><div class="u-name">${escapeHtml(displayName(u))}</div><div class="u-sub">${u.username?'@'+escapeHtml(u.username):'—'}</div></div></div></td>
       <td class="mono muted">${id}</td>
-      <td class="mono" id="bal_${id}">${fmt(u.balance)}</td>
+      <td class="mono" id="bal_${id}">${crystalAmt(u.balance)}</td>
       <td class="mono" id="ton_${id}">${fmtTon(u.tonBalance)}</td>
       <td class="mono">${fmt(adsToday)}</td>
       <td class="mono">${fmt(u.totalAdsWatched)}</td>
@@ -895,7 +903,7 @@ function openViewUser(id){
   document.getElementById('modalBody').innerHTML = `
     <div class="u-cell" style="margin-bottom:8px"><img src="${u.photoUrl||AVATAR_FALLBACK}" style="width:46px;height:46px" onerror="this.src='${AVATAR_FALLBACK}'"><div><div class="u-name" style="font-size:15px">${escapeHtml(displayName(u))}</div><div class="u-sub">${u.username?'@'+escapeHtml(u.username):'بدون يوزر'}</div></div></div>
     <div class="mini-row"><span>آيدي تيليجرام</span><b>${id}</b></div>
-    <div class="mini-row"><span>رصيد CRYSTAL</span><b>${fmt(u.balance)}</b></div>
+    <div class="mini-row"><span>رصيد CRYSTAL</span><b>${crystalAmt(u.balance)}</b></div>
     <div class="mini-row"><span>رصيد TON</span><b>${fmtTon(u.tonBalance)}</b></div>
     <div class="mini-row"><span>سرعة التعدين (TON/يوم)</span><b>${fmtTon(miningInfo(u).speed)}</b></div>
     <div class="mini-row"><span>كود الإحالة</span><b>${escapeHtml(u.referralCode||'—')}</b></div>
@@ -1301,8 +1309,8 @@ function renderTasks(){
     return `
     <div class="mini-card">
       <h4><span>${escapeHtml(t.title||id)}</span>${t.status==='active'?'<span class="badge b-green">مفعّلة</span>':'<span class="badge b-gray">موقوفة</span>'}</h4>
-      <div class="mini-row"><span>التصنيف</span><b>${escapeHtml(t.category||'—')}</b></div>
-      <div class="mini-row"><span>المكافأة</span><b>${fmt(t.reward)} CRYSTAL</b></div>
+      <div class="mini-row"><span>التصنيف</span><b>${escapeHtml(({channels:'قنوات',bots:'بوتات',partner:'شركاء (Partner)',invite:'دعوة'})[t.category]||t.category||'—')}</b></div>
+      <div class="mini-row"><span>المكافأة</span><b>${crystalAmt(t.reward)}</b></div>
       ${t.requiredReferrals?`<div class="mini-row"><span>إحالات مطلوبة</span><b>${fmt(t.requiredReferrals)}</b></div>`:''}
       ${target?`<div class="mini-row"><span>الهدف (عدد الأعضاء)</span><b>${fmt(target)}</b></div>
       <div class="mini-row"><span>عدد الإكمالات</span><b>${fmt(completions)}</b></div>
@@ -1323,11 +1331,12 @@ function openTaskModal(id){
   document.getElementById('modalTitle').textContent = id ? 'تعديل المهمة' : 'مهمة جديدة';
   document.getElementById('modalBody').innerHTML = `
     <div class="field"><label>عنوان المهمة</label><input type="text" class="sans" id="t_title" value="${escapeHtml(t.title||'')}"></div>
-    <div class="field"><label>الرابط</label><input type="text" class="sans" id="t_link" value="${escapeHtml(t.link||'')}"></div>
+    <div class="field"><label>الرابط</label><input type="text" class="sans" id="t_link" value="${escapeHtml(t.link||'')}"><div id="t_partnerHint" style="display:${t.category==='partner'?'block':'none'};font-size:11.5px;color:var(--muted);line-height:1.7">مهام الشركاء تظهر في قسم Partner بالتطبيق. لو الرابط لبوت (ينتهي بـ bot) يتم التحقق بفترة انتظار، ولو قناة أو جروب يتم التحقق من الاشتراك فعليًا (لازم البوت يكون أدمن فيها).</div></div>
     <div class="field"><label>التصنيف</label>
       <select id="t_category">
         <option value="channels" ${t.category==='channels'?'selected':''}>قنوات</option>
         <option value="bots" ${t.category==='bots'?'selected':''}>بوتات</option>
+        <option value="partner" ${t.category==='partner'?'selected':''}>شركاء (Partner)</option>
         <option value="invite" ${t.category==='invite'?'selected':''}>دعوة (إحالة)</option>
       </select>
     </div>
@@ -1337,6 +1346,7 @@ function openTaskModal(id){
     <div class="switch-row"><div class="lbl"><b>مفعّلة</b><span>إظهار المهمة للمستخدمين الآن</span></div><label class="switch"><input type="checkbox" id="t_status" ${t.status!=='disabled'?'checked':''}><span class="slider"></span></label></div>
   `;
   document.getElementById('t_category').addEventListener('change', e=>{
+    document.getElementById('t_partnerHint').style.display = e.target.value==='partner' ? 'block':'none';
     document.getElementById('t_reqRefWrap').style.display = e.target.value==='invite' ? 'flex':'none';
     document.getElementById('t_targetWrap').style.display = e.target.value==='invite' ? 'none':'flex';
   });
@@ -1469,7 +1479,7 @@ function renderPromoCodes(){
         ${escapeHtml(code)}
         <button class="btn btn-ghost btn-sm" style="padding:3px 8px;margin-right:6px" onclick="copyPromoCode('${code}')" title="نسخ">⧉</button>
       </td>
-      <td>${fmt(c.reward)} CRYSTAL</td>
+      <td>${crystalAmt(c.reward)}</td>
       <td class="mono">${fmt(used)} ${maxUses ? ' / ' + fmt(maxUses) : '(غير محدود)'}</td>
       <td class="muted">${c.expiresAt ? fmtDate(c.expiresAt) : 'بلا تاريخ انتهاء'}</td>
       <td>${statusBadge}</td>
@@ -1572,7 +1582,7 @@ function renderAdCompanies(){
     return `
     <div class="mini-card">
       <h4><span style="text-transform:capitalize">${escapeHtml(name)}</span>${isUnsaved?' <span class="badge" style="font-size:10px;font-weight:700;color:var(--gold,#c9a44a);opacity:.75">غير محفوظة بعد</span>':''}</h4>
-      <div class="mini-row"><span>مكافأة الإعلان</span><b>${fmt(c.reward)} CRYSTAL</b></div>
+      <div class="mini-row"><span>مكافأة الإعلان</span><b>${crystalAmt(c.reward)}</b></div>
       <div class="mini-row"><span>الحد اليومي</span><b>${fmt(c.dailyLimit)}</b></div>
       <div class="row-actions" style="margin-top:10px">
         <button class="btn btn-ghost btn-sm" style="flex:1" onclick='openAdCompanyModal(${JSON.stringify(name)})'>تعديل</button>
@@ -1808,6 +1818,23 @@ db.ref('config').on('value', snap=>{
   renderAdCompanies();
 });
 
+
+/* ---------- فرض إيداع قبل السحب (يُحفظ فورًا في config/requireDepositForWithdrawal) ---------- */
+function applyDepGate(){
+  const on = configCache.requireDepositForWithdrawal === true;
+  const cb = document.getElementById('cfg_requireDepositForWithdrawal'); if(!cb) return;
+  cb.checked = on;
+  document.getElementById('depGateText').innerHTML = on
+    ? '<span class="badge b-orange">مفعّل</span> المستخدم الذي لم يودع من قبل لن يستطيع السحب، وسيُطلب منه إيداع أولًا.'
+    : '<span class="badge b-green">مغلق</span> السحب مجاني — أي مستخدم يسحب بدون شرط إيداع.';
+}
+document.getElementById('cfg_requireDepositForWithdrawal').addEventListener('change', e=>{
+  const next = e.target.checked;
+  db.ref('config').update({requireDepositForWithdrawal: next})
+    .then(()=>toast(next?'تم تفعيل: لازم إيداع قبل السحب 🔒':'تم الإغلاق: السحب مجاني للجميع ✓'))
+    .catch(err=>{ toast('خطأ: '+err.message,true); e.target.checked=!next; });
+});
+
 function fillConfigForm(){
   const c = configCache;
   CFG_NUM_FIELDS.forEach(key=>{
@@ -1818,6 +1845,7 @@ function fillConfigForm(){
   document.getElementById('cfg_botToken').value = c.botToken || '';
   document.getElementById('cfg_mandatorySubEnabled').checked = c.mandatorySubEnabled !== false;
   document.getElementById('cfg_withdrawalEnabled').checked = c.withdrawalEnabled !== false;
+  applyDepGate();
   const adDailyLimitEl = document.getElementById('cfg_adDailyLimit_ads');
   if(adDailyLimitEl && c.adDailyLimit !== undefined) adDailyLimitEl.value = c.adDailyLimit;
 }
@@ -1871,7 +1899,7 @@ function renderMining(){
   const lbl={running:'<span class="badge b-green">● يعدّن (مستمر)</span>',idle:'<span class="badge b-gray">رصيد CRYSTAL = 0</span>'};
   document.getElementById('miningBody').innerHTML = rows.length ? rows.slice(0,300).map(({id,u,m})=>`<tr>
     <td><div class="u-cell"><img src="${u.photoUrl||AVATAR_FALLBACK}" onerror="this.src='${AVATAR_FALLBACK}'"><div><div class="u-name">${escapeHtml(displayName(u))}</div><div class="u-sub">${u.username?'@'+escapeHtml(u.username):'—'}</div></div></div></td>
-    <td class="mono muted">${id}</td><td class="mono">${fmt(m.power)}</td><td class="mono">${fmtTon(m.speed)}</td>
+    <td class="mono muted">${id}</td><td class="mono">${crystalAmt(m.power)}</td><td class="mono">${fmtTon(m.speed)}</td>
     <td>${lbl[m.state]}</td><td class="mono">${fmtTon(m.pending)}</td><td class="mono">${fmtTon(u.tonBalance)}</td></tr>`).join('') : emptyRow(7,'لا توجد نتائج');
 }
 document.getElementById('miningSearch').addEventListener('input', debounce(renderMining,300));
