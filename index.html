@@ -3324,7 +3324,7 @@ function renderWalletHistory(logs){
   var entries = [];
   (logs||[]).forEach(function(l){
     if (l.type === 'withdrawal') return; // It's shown directly from withdrawals/ with its real status instead of staying "Pending" forever
-     var labels = { task_reward:'Task Reward', claim_task:'Invite Reward', combo_claim:'Daily Combo', referral_reward:'Referral Bonus', wheel_spin:'Lucky Wheel', deposit:'Deposit' };
+     var labels = { task_reward:'Task Reward', claim_task:'Invite Reward', combo_claim:'Daily Combo', referral_reward:'Referral Bonus', referral_purchase_commission:'Referral Commission', referral_deposit_commission:'Referral Commission', buy_crystal:'Store Purchase', wheel_spin:'Lucky Wheel', deposit:'Deposit' };
     var label = labels[l.type] || (l.type||'Reward');
      if (l.type === 'deposit' || l.currency === 'TON') {
        entries.push({ ts:l.ts||0, kind:'in', label:label+' +'+Number(l.amount||0).toFixed(4)+' TON', cls:'ok', txt:'Done' });
