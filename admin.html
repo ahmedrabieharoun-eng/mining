@@ -516,7 +516,8 @@ input:checked+.slider{background:var(--gold-2)}input:checked+.slider::before{tra
           <div class="field-grid">
             <div class="field"><label>المكافأة اليومية <span class="tip">dailyBonusReward</span></label><input type="number" id="cfg_dailyBonusReward"></div>
             <div class="field"><label>مكافأة الكومبو <span class="tip">comboReward</span></label><input type="number" id="cfg_comboReward"></div>
-            <div class="field"><label>مكافأة الإحالة <span class="tip">referralReward</span></label><input type="number" id="cfg_referralReward"></div>
+            <div class="field"><label>مكافأة الإحالة (كريستال، مرة واحدة) <span class="tip">comboStreakReward</span></label><input type="number" id="cfg_comboStreakReward"></div>
+            <div class="field"><label>أيام الكومبو المطلوبة للإحالة <span class="tip">comboStreakDaysRequired</span></label><input type="number" id="cfg_comboStreakDaysRequired"></div>
             <div class="field"><label>عمولة إيداع الإحالة % <span class="tip">depositCommissionPct</span></label><input type="number" id="cfg_depositCommissionPct"></div>
           </div>
           <div class="section-title">السحب</div>
@@ -1309,7 +1310,8 @@ function renderTasks(){
     return `
     <div class="mini-card">
       <h4><span>${escapeHtml(t.title||id)}</span>${t.status==='active'?'<span class="badge b-green">مفعّلة</span>':'<span class="badge b-gray">موقوفة</span>'}</h4>
-      <div class="mini-row"><span>التصنيف</span><b>${escapeHtml(({channels:'قنوات',bots:'بوتات',partner:'شركاء (Partner)',invite:'دعوة'})[t.category]||t.category||'—')}</b></div>
+      <div class="mini-row"><span>النوع</span><b>${t.category==='invite'?'دعوة (إحالة)':(taskIsBot(t)?'🤖 بوت':'📢 قناة')}</b></div>
+      <div class="mini-row"><span>مكان الظهور</span><b>${t.category==='partner'?'Partner':(t.category==='invite'?'Tasks':'Tasks')}</b></div>
       <div class="mini-row"><span>المكافأة</span><b>${crystalAmt(t.reward)}</b></div>
       ${t.requiredReferrals?`<div class="mini-row"><span>إحالات مطلوبة</span><b>${fmt(t.requiredReferrals)}</b></div>`:''}
       ${target?`<div class="mini-row"><span>الهدف (عدد الأعضاء)</span><b>${fmt(target)}</b></div>
@@ -1326,47 +1328,78 @@ function renderTasks(){
   if(!entries.length) wrap.innerHTML = `<div class="empty" style="grid-column:1/-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="4"/></svg>لا توجد مهام بعد — أضف أول مهمة</div>` + wrap.innerHTML;
 }
 
+function taskIsBot(t){
+  if(!t) return false;
+  if(t.category==='bots' || t.type==='bot' || t.kind==='bot') return true;
+  return /t\.me\/[A-Za-z0-9_]*bot\/?(\?.*)?$/i.test(String(t.link||''));
+}
 function openTaskModal(id){
   const t = id ? (tasksCache[id]||{}) : {};
+  const isInvite = t.category==='invite';           // مهام الدعوة التلقائية القديمة: تبقى قابلة للتعديل فقط
+  const place = t.category==='partner' ? 'partner' : 'tasks';
+  const kind = taskIsBot(t) ? 'bot' : 'channel';
   document.getElementById('modalTitle').textContent = id ? 'تعديل المهمة' : 'مهمة جديدة';
   document.getElementById('modalBody').innerHTML = `
     <div class="field"><label>عنوان المهمة</label><input type="text" class="sans" id="t_title" value="${escapeHtml(t.title||'')}"></div>
-    <div class="field"><label>الرابط</label><input type="text" class="sans" id="t_link" value="${escapeHtml(t.link||'')}"><div id="t_partnerHint" style="display:${t.category==='partner'?'block':'none'};font-size:11.5px;color:var(--muted);line-height:1.7">مهام الشركاء تظهر في قسم Partner بالتطبيق. لو الرابط لبوت (ينتهي بـ bot) يتم التحقق بفترة انتظار، ولو قناة أو جروب يتم التحقق من الاشتراك فعليًا (لازم البوت يكون أدمن فيها).</div></div>
-    <div class="field"><label>التصنيف</label>
-      <select id="t_category">
-        <option value="channels" ${t.category==='channels'?'selected':''}>قنوات</option>
-        <option value="bots" ${t.category==='bots'?'selected':''}>بوتات</option>
-        <option value="partner" ${t.category==='partner'?'selected':''}>شركاء (Partner)</option>
-        <option value="invite" ${t.category==='invite'?'selected':''}>دعوة (إحالة)</option>
-      </select>
+    <div class="field"><label>الرابط</label><input type="text" class="sans" id="t_link" value="${escapeHtml(t.link||'')}" ${isInvite?'disabled':''}></div>
+    ${isInvite ? '<div class="hint muted" style="font-size:12px">هذه مهمة دعوة (إحالة) تلقائية — يمكنك تعديل مكافأتها وعدد الإحالات المطلوبة فقط.</div>' : `
+    <div class="field-grid" style="grid-template-columns:1fr 1fr">
+      <div class="field"><label>نوع المهمة</label>
+        <select id="t_kind">
+          <option value="channel" ${kind==='channel'?'selected':''}>📢 قناة</option>
+          <option value="bot" ${kind==='bot'?'selected':''}>🤖 بوت</option>
+        </select>
+      </div>
+      <div class="field"><label>مكان الظهور في التطبيق</label>
+        <select id="t_place">
+          <option value="tasks" ${place==='tasks'?'selected':''}>قسم Tasks</option>
+          <option value="partner" ${place==='partner'?'selected':''}>قسم Partner</option>
+        </select>
+      </div>
     </div>
-    <div class="field"><label>المكافأة (CRYSTAL)</label><input type="number" id="t_reward" value="${Number(t.reward)||500}"></div>
-    <div class="field" id="t_reqRefWrap" style="display:${t.category==='invite'?'flex':'none'}"><label>عدد الإحالات المطلوبة</label><input type="number" id="t_reqRef" value="${Number(t.requiredReferrals)||0}"></div>
-    <div class="field" id="t_targetWrap" style="display:${t.category==='invite'?'none':'flex'}"><label>عدد الأعضاء المستهدف (اختياري — تُحذف المهمة تلقائيًا عند الوصول له، اتركه فارغًا لعدم وجود هدف)</label><input type="number" id="t_target" value="${Number(t.membersNeeded)||''}"></div>
+    <div id="t_kindHint" style="font-size:11.5px;color:var(--muted);line-height:1.7"></div>`}
+    <div class="field"><label>المكافأة (CRYSTAL)</label><input type="number" id="t_reward" value="${Number(t.reward)||2}"></div>
+    ${isInvite
+      ? `<div class="field"><label>عدد الإحالات المطلوبة</label><input type="number" id="t_reqRef" value="${Number(t.requiredReferrals)||0}"></div>`
+      : `<div class="field"><label>عدد الأعضاء المستهدف (اختياري — تُحذف المهمة تلقائيًا عند الوصول له، اتركه فارغًا لعدم وجود هدف)</label><input type="number" id="t_target" value="${Number(t.membersNeeded)||''}"></div>`}
     <div class="switch-row"><div class="lbl"><b>مفعّلة</b><span>إظهار المهمة للمستخدمين الآن</span></div><label class="switch"><input type="checkbox" id="t_status" ${t.status!=='disabled'?'checked':''}><span class="slider"></span></label></div>
   `;
-  document.getElementById('t_category').addEventListener('change', e=>{
-    document.getElementById('t_partnerHint').style.display = e.target.value==='partner' ? 'block':'none';
-    document.getElementById('t_reqRefWrap').style.display = e.target.value==='invite' ? 'flex':'none';
-    document.getElementById('t_targetWrap').style.display = e.target.value==='invite' ? 'none':'flex';
-  });
+  if(!isInvite){
+    const upd=()=>{
+      const k=document.getElementById('t_kind').value, pl=document.getElementById('t_place').value;
+      document.getElementById('t_kindHint').textContent =
+        (k==='bot' ? 'بوت: بعد فتح الرابط يُفرض وقت انتظار ثم يضغط المستخدم Verify. ' : 'قناة/جروب: يتم التحقق من الاشتراك فعليًا (لازم البوت يكون أدمن فيها). ') +
+        (pl==='partner' ? 'تظهر في قسم Partner.' : 'تظهر في قسم Tasks تحت تبويب '+(k==='bot'?'Bots':'Channels')+'.');
+    };
+    document.getElementById('t_kind').addEventListener('change',upd);
+    document.getElementById('t_place').addEventListener('change',upd);
+    upd();
+  }
   document.getElementById('modalFoot').innerHTML = `<button class="btn btn-ghost" onclick="closeModal()">إلغاء</button><button class="btn btn-gold" onclick='saveTask(${JSON.stringify(id||null)})'>حفظ</button>`;
   showModal();
 }
 
 function saveTask(id){
+  const old = id ? (tasksCache[id]||{}) : {};
+  const isInvite = old.category==='invite';
   const title = document.getElementById('t_title').value.trim();
-  const link = document.getElementById('t_link').value.trim();
-  const category = document.getElementById('t_category').value;
   const reward = Number(document.getElementById('t_reward').value)||0;
   const status = document.getElementById('t_status').checked ? 'active' : 'disabled';
   if(!title){ toast('يرجى إدخال عنوان المهمة', true); return; }
-  const data = { title, link, category, reward, status };
-  if(category==='invite'){
+  const data = { title, reward, status };
+  if(isInvite){
+    data.category = 'invite';
     data.requiredReferrals = Number(document.getElementById('t_reqRef').value)||0;
   } else {
+    const link = document.getElementById('t_link').value.trim();
+    if(!link){ toast('يرجى إدخال رابط المهمة', true); return; }
+    const kind = document.getElementById('t_kind').value;      // channel | bot
+    const place = document.getElementById('t_place').value;    // tasks | partner
+    data.link = link;
+    data.type = kind; data.kind = kind;
+    data.category = place==='partner' ? 'partner' : (kind==='bot' ? 'bots' : 'channels');
     const targetVal = document.getElementById('t_target').value;
-    if(targetVal){ data.membersNeeded = Number(targetVal)||0; }
+    data.membersNeeded = targetVal ? (Number(targetVal)||null) : null;
   }
   const taskId = id || ('task_' + Date.now().toString(36));
   data.id = taskId;
@@ -1808,7 +1841,7 @@ async function deletePartition(key){
 /* =========================================================
    CONFIG
    ========================================================= */
-const CFG_NUM_FIELDS = ['dailyBonusReward','comboReward','referralReward','depositCommissionPct',
+const CFG_NUM_FIELDS = ['dailyBonusReward','comboReward','comboStreakReward','comboStreakDaysRequired','depositCommissionPct',
   'miningRatePerCrystal','crystalPerTon','tonConversionRate','minWithdrawalTon',
   'pricePer100MembersTon'];
 
