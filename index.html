@@ -1392,24 +1392,6 @@ html,body{height:100%;
 .psub-btn.active{color:#fff;background:linear-gradient(135deg,var(--orange),var(--orange2));border-color:transparent;box-shadow:0 6px 18px rgba(35,183,243,.28)}
 .psub-count{min-width:20px;padding:1px 7px;border-radius:20px;font-size:11px;font-weight:800;background:rgba(255,255,255,.1);line-height:18px;text-align:center}
 .psub-btn.active .psub-count{background:rgba(255,255,255,.25)}
-
-/* ===== Contest page: lightweight mode (static icons, no heavy effects) ===== */
-#page-record *,#page-record *::before,#page-record *::after{animation:none!important}
-#page-record .ct-pool::after{display:none}
-#page-record .ct-pool-trophy,#page-record .pd-crown{filter:none;transform:none}
-#page-record .ct-pool-val{filter:none}
-#page-record .ct-pool-val img{filter:none}
-#page-record .ct-live{box-shadow:none}
-#page-record .ct-pool{box-shadow:0 6px 16px rgba(0,0,0,.35);background:linear-gradient(160deg,#142a5c,#0a1330 72%)}
-#page-record .ct-me,#page-record .ct-row,#page-record .pd-av,#page-record .ctp-big,#page-record .ct-prize.top,#page-record .ct-help{box-shadow:none}
-#page-record .pd.p1 .pd-av{box-shadow:0 0 0 3px rgba(251,191,36,.25)}
-#page-record .pd.p1 .pd-base{box-shadow:none}
-#page-record .ct-timer-val{text-shadow:none}
-#page-record .pd-crown{margin-bottom:-2px}
-#page-record .ct-row{content-visibility:auto;contain-intrinsic-size:auto 68px}
-#page-record .ct-row,#page-record .ctp-big,#page-record .pd{contain:layout paint}
-/* bottom nav: solid background instead of live blur over scrolling content */
-.nav{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;background:rgba(6,9,24,.98)!important}
 </style>
 </head>
 <body>
@@ -1884,7 +1866,9 @@ html,body{height:100%;
         <button class="ct-help" onclick="openModal('contestHelpModal')" aria-label="How the contest works">?</button>
       </div>
       <div class="ct-pool">
+        <div class="ct-pool-glow"></div>
         <div class="ct-pool-trophy">🏆</div>
+        <div class="ct-spark s1">✦</div><div class="ct-spark s2">✦</div><div class="ct-spark s3">✦</div>
         <div class="ct-pool-lbl">Total prize pool</div>
         <div class="ct-pool-val"><img src="https://cdn.simpleicons.org/ton/0098EA" alt=""><span id="ctPool">3</span><em>TON</em></div>
         <div class="ct-timer"><span class="ct-live"></span><span class="ct-timer-lbl">Ends in</span><span class="ct-timer-val" id="lbTimer">--:--:--</span></div>
@@ -2193,7 +2177,7 @@ html,body{height:100%;
 <script>
 // ── Config ──────────────────────────────────────────────────────────
 var API_URL  = 'https://silent-block-bedf.ahmedrabieharoun.workers.dev'; // ← Railway URL
-  var BOT_USER = 'Pmt_Gram_Bot'; // Pmt Gram Bot username without @
+  var BOT_USER = 'Crystal_Mining_Bot'; // Crystal Mining Bot username without @
   // Same deposit wallet address used in the active deposit system.
   var BOT_DEPOSIT_WALLET = 'UQAgojfr8CDwvappmX7lf6UWNHGtsl-aloEnyPW4v8JJ-7Gt';
   var tonConnectUI = null;
@@ -3483,9 +3467,6 @@ function updateLbTimer(){
   var data = S.lb;
   var elT = document.getElementById('lbTimer');
   if (!data || !elT) return;
-  if (document.hidden) return;
-  var pg = document.getElementById('page-record');
-  if (pg && !pg.classList.contains('active')) return;
   // We use S.clockOffsetMs (the difference between server time and
   // device time) so the countdown stays accurate even if the user's
   // clock is wrong.
