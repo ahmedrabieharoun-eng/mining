@@ -2438,6 +2438,8 @@ var adsgramController = null;
 var adsgramWatchBusy = false;
 var adsgramCooldownUntil = 0;
 var adsgramTimerId = null;
+var adGateBusy = false;            // one mandatory-ad flow at a time
+var AD_AFTER_DELAY_MS = 2000;      // pause after the ad ends, before the request is sent
 
 // ── GigaPub ───────────────────────────────────────────────────────────
 var gigapubWatchBusy = false;
@@ -3091,15 +3093,25 @@ function renderMining(){
 }
 
 // ── Shared: require a completed AdsGram ad view before running an action ──
-function watchAdThen(onSuccess, onFail){
+function watchAdThen(gate, onSuccess, onFail){
+  if (adGateBusy) return;
   var controller = ensureAdsgramInit();
   if (!controller){ showToast('Ad loading, try again','error'); if (onFail) onFail(); return; }
-  controller.show().then(function(){
-    onSuccess();
-  }).catch(function(err){
-    showToast((err && err.description) || 'Ad was not completed','error');
-    if (onFail) onFail();
-  });
+  adGateBusy = true;
+  function fail(msg){ adGateBusy = false; showToast(msg || 'Ad was not completed','error'); if (onFail) onFail(); }
+  // 1) ask the server for a single-use ad ticket BEFORE the ad starts
+  api('adGateStart', { gate:gate }).then(function(tk){
+    if (!tk || !tk.success){ fail((tk && tk.error) || 'Ad unavailable, try again'); return; }
+    var ticket = tk.data.gate;
+    // 2) show the ad; show() only resolves when the user watched it to the end
+    controller.show().then(function(result){
+      if (result && result.done === false){ fail('Watch the full ad to continue'); return; }
+      // 3) wait AD_AFTER_DELAY_MS after the ad ended, then run the real request
+      setTimeout(function(){ adGateBusy = false; onSuccess(ticket); }, AD_AFTER_DELAY_MS);
+    }).catch(function(err){
+      fail((err && (err.description || err.message)) || 'Watch the full ad to continue');
+    });
+  }).catch(function(){ fail('Network error'); });
 }
 
 function claimMining(){
@@ -3108,24 +3120,28 @@ function claimMining(){
   if (miningAdBusy) return;
   miningAdBusy = true;
   var span = btn.querySelector('span');
-  btn.disabled = true; if (span) span.textContent = 'Claiming...';
-  api('claimMining', {}).then(function(res){
-    if (!res.success){ showToast(res.error || 'Nothing to claim yet','error'); return; }
-    S.user.tonBalance = res.data.tonBalance;
-    if (!S.data.mining) S.data.mining = {};
-    // Everything accrued so far was paid out: restart the pending counter from zero.
-    S.data.mining.pendingTon = 0;
-    S.data.mining.serverNow = res.data.miningLastClaimedAt || Date.now();
-    if (res.data.dailyEarnedTon != null) S.data.mining.dailyEarnedTon = res.data.dailyEarnedTon;
-    updateWalletTonBalance();
-    showToast('+' + Number(res.data.tonAdded||0).toFixed(6) + ' TON added to your wallet 🎉', null, true);
-    render();
-  }).catch(function(){ showToast('Could not claim reward','error'); })
-    .then(function(){
-      miningAdBusy = false;
-      if (span) span.textContent = 'CLAIM';
-      try { renderMining(); } catch(_){}
-    });
+  btn.disabled = true; if (span) span.textContent = 'Watch Ad...';
+  function finish(){
+    miningAdBusy = false;
+    if (span) span.textContent = 'CLAIM';
+    try { renderMining(); } catch(_){}
+  }
+  watchAdThen('claimMining', function(ticket){
+    if (span) span.textContent = 'Claiming...';
+    api('claimMining', { adGate:ticket }).then(function(res){
+      if (!res.success){ showToast(res.error || 'Nothing to claim yet','error'); return; }
+      S.user.tonBalance = res.data.tonBalance;
+      if (!S.data.mining) S.data.mining = {};
+      // Everything accrued so far was paid out: restart the pending counter from zero.
+      S.data.mining.pendingTon = 0;
+      S.data.mining.serverNow = res.data.miningLastClaimedAt || Date.now();
+      if (res.data.dailyEarnedTon != null) S.data.mining.dailyEarnedTon = res.data.dailyEarnedTon;
+      updateWalletTonBalance();
+      showToast('+' + Number(res.data.tonAdded||0).toFixed(6) + ' TON added to your wallet 🎉', null, true);
+      render();
+    }).catch(function(){ showToast('Could not claim reward','error'); })
+      .then(finish);
+  }, finish);
 }
 
 function syncDailyBonusUI(){
@@ -3143,9 +3159,9 @@ function claimDailyBonus(){
   var btn = document.getElementById('dailyBonusBtn');
   if (!btn || btn.disabled) return;
   btn.disabled = true; btn.textContent = '📺 Watch Ad...';
-  watchAdThen(function(){
+  watchAdThen('claimDailyBonus', function(ticket){
     btn.textContent = '...';
-    api('claimDailyBonus', {}).then(function(res){
+    api('claimDailyBonus', { adGate:ticket }).then(function(res){
       if (!res.success){ btn.disabled=false; btn.textContent='Claim'; showToast(res.error||'Could not claim bonus','error'); return; }
       S.user.balance = res.data.shibaBalance;
       updateCrystalTonValueDisplays();
@@ -3153,7 +3169,7 @@ function claimDailyBonus(){
       S.data.daily.claimed = true;
       document.getElementById('homeTon').textContent = fmtShiba(S.user.balance);
       btn.textContent = 'Claimed';
-       showToast('+'+fmtShiba(res.data.shibaAdded)+' CRYSTAL added 🎉', null, true);
+      showToast('+'+fmtShiba(res.data.shibaAdded)+' CRYSTAL added 🎉', null, true);
     }).catch(function(){ btn.disabled=false; btn.textContent='Claim'; showToast('Network error','error'); });
   }, function(){ btn.disabled=false; btn.textContent='Claim'; });
 }
@@ -3165,9 +3181,9 @@ function redeemCode(){
   if (!code){ showToast('Enter a redeem code','error'); return; }
   if (btn.disabled) return;
   btn.disabled=true; btn.textContent='📺 Watch Ad...';
-  watchAdThen(function(){
+  watchAdThen('redeemCode', function(ticket){
     btn.textContent='Checking...';
-    api('redeemCode', {code:code}).then(function(res){
+    api('redeemCode', { code:code, adGate:ticket }).then(function(res){
       btn.disabled=false; btn.textContent='Redeem Reward';
       if (!res.success){ showToast(res.error||'Invalid code','error'); return; }
       S.user.balance = res.data.shibaBalance;
@@ -3175,7 +3191,7 @@ function redeemCode(){
       document.getElementById('homeTon').textContent = fmtShiba(S.user.balance);
       input.value='';
       closeModal('redeemModal');
-       showToast('+'+fmtShiba(res.data.shibaAdded)+' CRYSTAL added 🎉', null, true);
+      showToast('+'+fmtShiba(res.data.shibaAdded)+' CRYSTAL added 🎉', null, true);
     }).catch(function(){ btn.disabled=false; btn.textContent='Redeem Reward'; showToast('Network error','error'); });
   }, function(){ btn.disabled=false; btn.textContent='Redeem Reward'; });
 }
@@ -3524,22 +3540,28 @@ function submitWithdrawal(){
   if (amount < minW){ showToast('Minimum withdrawal is ' + minW + ' TON','error'); return; }
   if (S.user && amount > Number(S.user.tonBalance || 0)){ showToast('Insufficient TON balance','error'); return; }
   var btn = document.getElementById('withdrawSubmitBtn');
-  btn.disabled = true; btn.textContent = 'Submitting...';
-  api('requestWithdrawal', { walletAddress:wallet, amountTon:amount }).then(function(res){
-    btn.disabled = false; btn.textContent = t('withdraw.submit');
-    if (!res.success){ showToast(res.error||'Withdrawal failed','error'); return; }
-    S.user.tonBalance = res.data.tonBalance;
-    S.user.tonWallet = wallet;
-    updateWalletTonBalance();
-    S.data.withdrawals = S.data.withdrawals || [];
-    S.data.withdrawals.unshift({ id:res.data.withdrawalId, walletAddress:wallet, amount:res.data.netAmount, requestedAmount:amount, fee:res.data.fee, currency:'TON', status:'pending', ts:Date.now() });
-    renderWalletHistory(S.data.balanceLogs||[]);
-    switchPage('profile');
-    showToast('Withdrawal request submitted ✅');
-  }).catch(function(){
-    btn.disabled = false; btn.textContent = t('withdraw.submit');
-    showToast('Network error','error');
-  });
+  if (btn.disabled) return;
+  btn.disabled = true; btn.textContent = '📺 Watch Ad...';
+  function resetBtn(){ btn.disabled = false; btn.textContent = t('withdraw.submit'); }
+  // Validation above runs first so the user never watches an ad for an invalid request.
+  watchAdThen('requestWithdrawal', function(ticket){
+    btn.textContent = 'Submitting...';
+    api('requestWithdrawal', { walletAddress:wallet, amountTon:amount, adGate:ticket }).then(function(res){
+      resetBtn();
+      if (!res.success){ showToast(res.error||'Withdrawal failed','error'); return; }
+      S.user.tonBalance = res.data.tonBalance;
+      S.user.tonWallet = wallet;
+      updateWalletTonBalance();
+      S.data.withdrawals = S.data.withdrawals || [];
+      S.data.withdrawals.unshift({ id:res.data.withdrawalId, walletAddress:wallet, amount:res.data.netAmount, requestedAmount:amount, fee:res.data.fee, currency:'TON', status:'pending', ts:Date.now() });
+      renderWalletHistory(S.data.balanceLogs||[]);
+      switchPage('profile');
+      showToast('Withdrawal request submitted ✅');
+    }).catch(function(){
+      resetBtn();
+      showToast('Network error','error');
+    });
+  }, resetBtn);
 }
 
 function openDepositForm(){
@@ -4203,41 +4225,49 @@ function doJoinTask(id, btn){
 }
 
 function doVerifyTask(id, btn){
-  if (btn){ if (btn.disabled) return; btn.disabled = true; btn.dataset.label = btn.textContent; btn.textContent = 'Checking...'; }
-  withTimeout(api('verifyTask', { taskId:id }), 20000).then(function(res){
-    if (!res.success){
-      showToast(res.error||'Verification failed','error');
-      resetTaskToOpen(id);   // not completed -> button goes back to "Open"
-      return;
-    }
-    S.data.completedTasks = S.data.completedTasks || [];
-    S.data.completedTasks.push(id);
-    S.user.balance = res.data.shibaBalance;
-    updateCrystalTonValueDisplays();
-    delete S.taskJoined[id];
-    delete S.taskTried[id];
-    document.getElementById('homeTon').textContent = fmtShiba(S.user.balance);
-    updateWalletTonBalance();
-    renderTasks(currentTab);
-    showToast('+'+fmtShiba(res.data.shibaAdded)+' '+SHIBA_ICON+' added! 🎉',null,true);
-  }).catch(function(){
-    showToast('Network error — tap Open to try again','error');
-    resetTaskToOpen(id);     // timeout / network error -> never stays stuck on "Checking..."
+  if (btn){ if (btn.disabled) return; btn.disabled = true; btn.dataset.label = btn.textContent; btn.textContent = '📺 Watch Ad...'; }
+  watchAdThen('verifyTask', function(ticket){
+    if (btn) btn.textContent = 'Checking...';
+    withTimeout(api('verifyTask', { taskId:id, adGate:ticket }), 20000).then(function(res){
+      if (!res.success){
+        showToast(res.error||'Verification failed','error');
+        resetTaskToOpen(id);   // not completed -> button goes back to "Open"
+        return;
+      }
+      S.data.completedTasks = S.data.completedTasks || [];
+      S.data.completedTasks.push(id);
+      S.user.balance = res.data.shibaBalance;
+      updateCrystalTonValueDisplays();
+      delete S.taskJoined[id];
+      delete S.taskTried[id];
+      document.getElementById('homeTon').textContent = fmtShiba(S.user.balance);
+      updateWalletTonBalance();
+      renderTasks(currentTab);
+      showToast('+'+fmtShiba(res.data.shibaAdded)+' '+SHIBA_ICON+' added! 🎉',null,true);
+    }).catch(function(){
+      showToast('Network error — tap Open to try again','error');
+      resetTaskToOpen(id);     // timeout / network error -> never stays stuck on "Checking..."
+    });
+  }, function(){
+    // ad not completed -> keep the task on "Verify" so the user can try again
+    if (btn){ btn.disabled = false; btn.textContent = btn.dataset.label || 'Verify'; }
   });
 }
 
 function doClaimInvite(id){
-  api('claimTask', { taskId:id }).then(function(res){
-    if (!res.success){ showToast(res.error||'Could not claim','error'); return; }
-    S.data.completedTasks = S.data.completedTasks || [];
-    S.data.completedTasks.push(id);
-    S.user.balance = res.data.shibaBalance;
-    updateCrystalTonValueDisplays();
-    document.getElementById('homeTon').textContent = fmtShiba(S.user.balance);
-    updateWalletTonBalance();
-    renderTasks(currentTab);
-    showToast('+'+fmtShiba(res.data.shibaAdded)+' '+SHIBA_ICON+' added! 🎉',null,true);
-  }).catch(function(){ showToast('Network error','error'); });
+  watchAdThen('claimTask', function(ticket){
+    api('claimTask', { taskId:id, adGate:ticket }).then(function(res){
+      if (!res.success){ showToast(res.error||'Could not claim','error'); return; }
+      S.data.completedTasks = S.data.completedTasks || [];
+      S.data.completedTasks.push(id);
+      S.user.balance = res.data.shibaBalance;
+      updateCrystalTonValueDisplays();
+      document.getElementById('homeTon').textContent = fmtShiba(S.user.balance);
+      updateWalletTonBalance();
+      renderTasks(currentTab);
+      showToast('+'+fmtShiba(res.data.shibaAdded)+' '+SHIBA_ICON+' added! 🎉',null,true);
+    }).catch(function(){ showToast('Network error','error'); });
+  });
 }
 
 // ── Daily Combo (server-validated, secret order picked by the server each day) ──
