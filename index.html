@@ -4343,8 +4343,11 @@ function checkCombo(){
   if (S.data && S.data.combo && S.data.combo.solvedToday){ showToast('You already used today\'s attempt!'); return; }
   if (S.comboFilled < COMBO_ITEMS.length){ showToast('Select all '+COMBO_ITEMS.length+' items first!','error'); return; }
   var btn = document.getElementById('comboCheckBtn');
-  btn.disabled = true; btn.innerHTML = '<span>Checking...</span>';
-  api('checkCombo', { selection:S.comboSel }).then(function(res){
+  btn.disabled = true; btn.innerHTML = '<span>📺 Watch Ad...</span>';
+  var comboSelection = S.comboSel.slice();
+  watchAdThen('checkCombo', function(ticket){
+  btn.innerHTML = '<span>Checking...</span>';
+  api('checkCombo', { selection:comboSelection, adGate:ticket }).then(function(res){
     if (!res.success){
       showToast(res.error||'Failed.','error');
       resetCombo();
@@ -4369,6 +4372,7 @@ function checkCombo(){
     showToast('Network error','error');
     renderComboState();
   });
+  }, function(){ renderComboState(); });
 }
 
 function resetCombo(){
