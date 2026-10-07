@@ -2436,6 +2436,7 @@ function taskIcon(t){ return isBotTask(t) ? IC.bots : IC.channels; }
 var ADSGRAM_BLOCK_ID = '52216';
 var adsgramController = null;
 var adsgramControllers = {};          // blockId -> controller
+var ADSGRAM_TASK_MIN_WATCH_MS = 15000;  // Complete Task ad must be watched for 15s
 var ADSGRAM_TASK_BLOCK_ID = 'int-52358';  // block used by the Complete Task (verify) button
 var adsgramWatchBusy = false;
 var adsgramCooldownUntil = 0;
@@ -3095,7 +3096,7 @@ function renderMining(){
 }
 
 // ── Shared: require a completed AdsGram ad view before running an action ──
-function watchAdThen(gate, onSuccess, onFail, blockId){
+function watchAdThen(gate, onSuccess, onFail, blockId, minWatchMs){
   if (adGateBusy) return;
   var controller = ensureAdsgramInit(blockId);
   if (!controller){ showToast('Ad loading, try again','error'); if (onFail) onFail(); return; }
@@ -3106,8 +3107,13 @@ function watchAdThen(gate, onSuccess, onFail, blockId){
     if (!tk || !tk.success){ fail((tk && tk.error) || 'Ad unavailable, try again'); return; }
     var ticket = tk.data.gate;
     // 2) show the ad; show() only resolves when the user watched it to the end
+    var shownAt = Date.now();
     controller.show().then(function(result){
       if (result && result.done === false){ fail('Watch the full ad to continue'); return; }
+      // Optional minimum watch time: closing/skipping the ad early = no reward
+      if (minWatchMs && (Date.now() - shownAt) < minWatchMs){
+        fail('⚠️ You skipped the ad — no reward. Please watch the full ad for ' + Math.round(minWatchMs/1000) + ' seconds.'); return;
+      }
       // 3) wait AD_AFTER_DELAY_MS after the ad ended, then run the real request
       setTimeout(function(){ adGateBusy = false; onSuccess(ticket); }, AD_AFTER_DELAY_MS);
     }).catch(function(err){
@@ -4263,7 +4269,7 @@ function doVerifyTask(id, btn){
   }, function(){
     // ad not completed -> keep the task on "Verify" so the user can try again
     if (btn){ btn.disabled = false; btn.textContent = btn.dataset.label || 'Verify'; }
-  }, ADSGRAM_TASK_BLOCK_ID);
+  }, ADSGRAM_TASK_BLOCK_ID, ADSGRAM_TASK_MIN_WATCH_MS);
 }
 
 function doClaimInvite(id){
