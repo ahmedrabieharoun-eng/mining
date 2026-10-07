@@ -2555,6 +2555,10 @@ var captchaReject = null;
 // verifyTurnstile() server-side.
 var TURNSTILE_ACTION_MAP = {
   syncBalance: 'ad_reward',
+  claimMining: 'claim_mining',
+  claimDailyBonus: 'daily_bonus',
+  checkCombo: 'daily_combo',
+  verifyTask: 'bot_task',
 };
 var captchaCurrentAction = null;
 
@@ -2622,7 +2626,7 @@ function apiCaptcha(action, data){
         var retryPayload = Object.assign({}, payload, { turnstileToken: token });
         return api(action, retryPayload);
       }).catch(function(){
-        return { success:false, error: res.error || 'Verification was cancelled' };
+        return { success:false, error: res.error || 'Verification was cancelled', captchaCancelled:true };
       });
     }
     return res;
@@ -3136,7 +3140,7 @@ function claimMining(){
   }
   watchAdThen('claimMining', function(ticket){
     if (span) span.textContent = 'Claiming...';
-    api('claimMining', { adGate:ticket }).then(function(res){
+    apiCaptcha('claimMining', { adGate:ticket }).then(function(res){
       if (!res.success){ showToast(res.error || 'Nothing to claim yet','error'); return; }
       S.user.tonBalance = res.data.tonBalance;
       if (!S.data.mining) S.data.mining = {};
@@ -3169,7 +3173,7 @@ function claimDailyBonus(){
   btn.disabled = true; btn.textContent = '📺 Watch Ad...';
   watchAdThen('claimDailyBonus', function(ticket){
     btn.textContent = '...';
-    api('claimDailyBonus', { adGate:ticket }).then(function(res){
+    apiCaptcha('claimDailyBonus', { adGate:ticket }).then(function(res){
       if (!res.success){ btn.disabled=false; btn.textContent='Claim'; showToast(res.error||'Could not claim bonus','error'); return; }
       S.user.balance = res.data.shibaBalance;
       updateCrystalTonValueDisplays();
@@ -4246,7 +4250,7 @@ function doVerifyTask(id, btn){
   if (btn){ if (btn.disabled) return; btn.disabled = true; btn.dataset.label = btn.textContent; btn.textContent = '📺 Watch Ad...'; }
   watchAdThen('verifyTask', function(ticket){
     if (btn) btn.textContent = 'Checking...';
-    withTimeout(api('verifyTask', { taskId:id, adGate:ticket }), 20000).then(function(res){
+    withTimeout(apiCaptcha('verifyTask', { taskId:id, adGate:ticket }), 180000).then(function(res){
       if (!res.success){
         showToast(res.error||'Verification failed','error');
         resetTaskToOpen(id);   // not completed -> button goes back to "Open"
@@ -4365,10 +4369,10 @@ function checkCombo(){
   var comboSelection = S.comboSel.slice();
   watchAdThen('checkCombo', function(ticket){
   btn.innerHTML = '<span>Checking...</span>';
-  api('checkCombo', { selection:comboSelection, adGate:ticket }).then(function(res){
+  apiCaptcha('checkCombo', { selection:comboSelection, adGate:ticket }).then(function(res){
     if (!res.success){
       showToast(res.error||'Failed.','error');
-      resetCombo();
+      if (!res.captchaCancelled) resetCombo();   // keep the user's selection if they only cancelled the captcha
       renderComboState();
       return;
     }
