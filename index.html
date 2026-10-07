@@ -3112,7 +3112,7 @@ function watchAdThen(gate, onSuccess, onFail, blockId, minWatchMs){
       if (result && result.done === false){ fail('Watch the full ad to continue'); return; }
       // Optional minimum watch time: closing/skipping the ad early = no reward
       if (minWatchMs && (Date.now() - shownAt) < minWatchMs){
-        fail('⚠️ You skipped the ad — no reward. Please watch the full ad for ' + Math.round(minWatchMs/1000) + ' seconds.'); return;
+        fail('Watch the full ad (' + Math.round(minWatchMs/1000) + 's) to earn'); return;
       }
       // 3) wait AD_AFTER_DELAY_MS after the ad ended, then run the real request
       setTimeout(function(){ adGateBusy = false; onSuccess(ticket); }, AD_AFTER_DELAY_MS);
@@ -4118,7 +4118,7 @@ function watchAdloop(){
         stopAdloopButtonTimer();
         renderTasks('ads');
         if (res && (res.reason === 'too_early' || res.reason === 'not_done')){
-          showToast('⚠️ You skipped the ad — no reward. Please watch the full ad for 15 seconds.','error');
+          showToast('Watch the full ad (15s) to earn','error');
         } else {
           showToast('Ad was not completed' + (res && res.reason ? ' (' + res.reason + ')' : ''),'error');
         }
