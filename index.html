@@ -2435,6 +2435,8 @@ var WALLET_ICONS = {"on": "<svg class=\"ic ic-wallet-on\" viewBox=\"0 0 48 48\" 
 function taskIcon(t){ return isBotTask(t) ? IC.bots : IC.channels; }
 var ADSGRAM_BLOCK_ID = '52216';
 var adsgramController = null;
+var adsgramControllers = {};          // blockId -> controller
+var ADSGRAM_TASK_BLOCK_ID = '52358';  // block used by the Complete Task (verify) button
 var adsgramWatchBusy = false;
 var adsgramCooldownUntil = 0;
 var adsgramTimerId = null;
@@ -3093,9 +3095,9 @@ function renderMining(){
 }
 
 // ── Shared: require a completed AdsGram ad view before running an action ──
-function watchAdThen(gate, onSuccess, onFail){
+function watchAdThen(gate, onSuccess, onFail, blockId){
   if (adGateBusy) return;
-  var controller = ensureAdsgramInit();
+  var controller = ensureAdsgramInit(blockId);
   if (!controller){ showToast('Ad loading, try again','error'); if (onFail) onFail(); return; }
   adGateBusy = true;
   function fail(msg){ adGateBusy = false; showToast(msg || 'Ad was not completed','error'); if (onFail) onFail(); }
@@ -3887,11 +3889,14 @@ function renderTasks(tab){
 }
 
 // ── AdsGram (rewarded format) ────────────────────────────────────────
-function ensureAdsgramInit(){
-  if (adsgramController) return adsgramController;
+function ensureAdsgramInit(blockId){
+  blockId = String(blockId || ADSGRAM_BLOCK_ID);
+  if (adsgramControllers[blockId]) return adsgramControllers[blockId];
   if (!window.Adsgram || typeof window.Adsgram.init !== 'function') return null;
-  adsgramController = window.Adsgram.init({ blockId: ADSGRAM_BLOCK_ID });
-  return adsgramController;
+  var c = window.Adsgram.init({ blockId: blockId });
+  adsgramControllers[blockId] = c;
+  if (blockId === String(ADSGRAM_BLOCK_ID)) adsgramController = c;
+  return c;
 }
 
 function watchAdsgram(){
@@ -4055,6 +4060,7 @@ function stopGigapubButtonTimer(){
 
 // ── Adloop helper: wraps Adloop's promise API into a callback ────────
 var ADLOOP_SLOT_ID = "351541";
+var ADLOOP_MIN_WATCH_MS = 15000;   // the user must stay on the ad at least 15s or no reward
 function showAdloopAd(cb){
   var done = false;
   function finish(status, reason){
@@ -4064,9 +4070,11 @@ function showAdloopAd(cb){
   }
   try {
     var ad = window.Adloop.init({ slotId: ADLOOP_SLOT_ID });
+    var startedAt = Date.now();
     ad.show().then(function(r){
       // SDK resolves with { done: true } once the ad was actually watched/closed
       if (r && r.done === false) finish('skipped', 'not_done');
+      else if (Date.now() - startedAt < ADLOOP_MIN_WATCH_MS) finish('skipped', 'too_early'); // skipped before 15s
       else finish('completed');
     }).catch(function(e){
       finish('skipped', (e && (e.description || e.message)) || String(e));
@@ -4103,7 +4111,11 @@ function watchAdloop(){
         adloopWatchBusy = false;
         stopAdloopButtonTimer();
         renderTasks('ads');
-        showToast('Ad was not completed' + (res && res.reason ? ' (' + res.reason + ')' : ''),'error');
+        if (res && (res.reason === 'too_early' || res.reason === 'not_done')){
+          showToast('⚠️ You skipped the ad — no reward. Please watch the full ad for 15 seconds.','error');
+        } else {
+          showToast('Ad was not completed' + (res && res.reason ? ' (' + res.reason + ')' : ''),'error');
+        }
         return;
       }
       pulseChain.finish().then(function(chk){
@@ -4251,7 +4263,7 @@ function doVerifyTask(id, btn){
   }, function(){
     // ad not completed -> keep the task on "Verify" so the user can try again
     if (btn){ btn.disabled = false; btn.textContent = btn.dataset.label || 'Verify'; }
-  });
+  }, ADSGRAM_TASK_BLOCK_ID);
 }
 
 function doClaimInvite(id){
