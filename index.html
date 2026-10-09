@@ -1414,6 +1414,7 @@ html,body{height:100%;
 .wg-pack-main{font-size:22px;font-weight:900;color:#fff;font-variant-numeric:tabular-nums}.wg-pack-main small{font-size:11px;color:var(--text2);font-weight:700}
 .wg-pack-price{padding:5px 11px;border-radius:999px;background:linear-gradient(135deg,#f7ad16,#ffdf65);color:#2a1b00;font-weight:900;font-size:13px}
 .wg-pack-daily{margin-top:8px;font-size:11.5px;color:#5eead4}.wg-pack-daily b{font-variant-numeric:tabular-nums}
+.wg-or{font-size:12px;font-weight:800;color:#fbbf24;margin-bottom:8px;line-height:1.6}
 .wg-keep{font-size:11.5px;color:var(--text2);margin-bottom:6px;line-height:1.6}
 .wg-note{min-height:0;font-size:11.5px;color:#ff9d9d;margin-bottom:8px;font-weight:700}
 .wg-note:empty{display:none}
@@ -1422,7 +1423,9 @@ html,body{height:100%;
 .wg-later{width:100%;margin-top:6px;padding:10px;border:0;background:none;color:var(--text3);font-size:12.5px;font-weight:700;cursor:pointer}
 .store-pack-card.required{border-color:rgba(251,191,36,.85)!important;box-shadow:0 0 0 1px rgba(251,191,36,.6),0 0 26px rgba(251,191,36,.3)!important}
 .store-req-badge{position:absolute!important;top:0;left:0;right:0;z-index:2;padding:4px 6px;font-size:10px;font-weight:900;letter-spacing:.4px;color:#2a1b00;background:linear-gradient(135deg,#f7ad16,#ffdf65)}
-.store-pack-card.required{padding-top:30px}
+.store-pack-card.required,.store-pack-card.unlocks{padding-top:30px}
+.store-pack-card.unlocks{border-color:rgba(251,191,36,.4)!important}
+.store-req-badge.soft{background:rgba(251,191,36,.16);color:#fbbf24}
 @media (prefers-reduced-motion:reduce){.wg-card,.wg-shield{animation:none}}
 </style>
 </head>
@@ -2228,6 +2231,7 @@ html,body{height:100%;
       </div>
       <div class="wg-pack-daily"><span data-i18n="gate.daily">Mining income</span>: <b id="wgDaily">+0 TON</b> / <span data-i18n="gate.day">day</span></div>
     </div>
+    <div class="wg-or" data-i18n="gate.orHigher">Buy this package or any higher package to unlock withdrawals.</div>
     <div class="wg-keep" data-i18n="gate.keep">Your crystals stay in your account and keep mining for you every day.</div>
     <div class="wg-note" id="wgNote"></div>
     <button class="wg-btn" id="wgActionBtn">Go to Store</button>
@@ -2265,7 +2269,7 @@ var LANG = {
     'withdraw.pageTitle':'Withdraw TON','withdraw.formTitle':'Withdraw TON',
     'withdraw.min':'MIN','withdraw.walletPh':'TON Wallet Address (UQ...)',
     'withdraw.fee':'Withdrawal fee:','withdraw.net':'Amount you will receive after the fee',
-    'withdraw.submit':'Submit TON Withdrawal','gate.title':'Account Verification Required','gate.text':"To confirm that your account is real and active, withdrawals require purchasing a package from the Store. This prevents multiple accounts and abuse of the system, protects the project's funds, and keeps the bot running for everyone.",'gate.required':'REQUIRED PACKAGE','gate.daily':'Mining income','gate.day':'day','gate.keep':'Your crystals stay in your account and keep mining for you every day.','gate.cta':'Go to Store','gate.ctaDeposit':'Deposit TON','gate.later':'Not now','gate.badge':'Required to withdraw','gate.needTon':'Your TON balance is {bal}. Deposit TON first to buy this package.',
+    'withdraw.submit':'Submit TON Withdrawal','gate.title':'Account Verification Required','gate.text':"To confirm that your account is real and active, withdrawals require purchasing a package from the Store. This prevents multiple accounts and abuse of the system, protects the project's funds, and keeps the bot running for everyone.",'gate.required':'MINIMUM PACKAGE','gate.daily':'Mining income','gate.day':'day','gate.keep':'Your crystals stay in your account and keep mining for you every day.','gate.cta':'Go to Store','gate.ctaDeposit':'Deposit TON','gate.later':'Not now','gate.badge':'Minimum to withdraw','gate.badgeHigher':'Also unlocks withdrawal','gate.orHigher':'Buy this package or any higher package to unlock withdrawals.','gate.needTon':'Your TON balance is {bal}. Deposit TON first to buy this package.',
     'convert.pageTitle':'Convert','convert.formTitle':'Convert TON to CRYSTAL',
     'convert.balance':'Balance:','convert.submit':'⚡ Exchange Now',
     'language.pageTitle':'Language'
@@ -2286,7 +2290,7 @@ var LANG = {
     'withdraw.pageTitle':'سحب TON','withdraw.formTitle':'سحب TON',
     'withdraw.min':'الحد الأدنى','withdraw.walletPh':'عنوان محفظة TON (UQ...)',
     'withdraw.fee':'رسوم السحب:','withdraw.net':'المبلغ الذي ستستلمه بعد خصم الرسوم',
-    'withdraw.submit':'إرسال طلب سحب TON','gate.title':'مطلوب التحقق من نشاط الحساب','gate.text':"للتأكد من أن حسابك حقيقي ونشط، يتطلب السحب شراء باقة من المتجر. هذا الإجراء يمنع الحسابات المتعددة والتحايل على النظام وسرقة أموال المشروع، ويحافظ على استمرار البوت للجميع.",'gate.required':'الباقة المطلوبة','gate.daily':'دخل التعدين','gate.day':'يوم','gate.keep':'الكريستال يبقى في حسابك ويواصل التعدين لك كل يوم.','gate.cta':'اذهب إلى المتجر','gate.ctaDeposit':'إيداع TON','gate.later':'ليس الآن','gate.badge':'مطلوبة للسحب','gate.needTon':'رصيد TON لديك {bal}. قم بإيداع TON أولاً لشراء هذه الباقة.',
+    'withdraw.submit':'إرسال طلب سحب TON','gate.title':'مطلوب التحقق من نشاط الحساب','gate.text':"للتأكد من أن حسابك حقيقي ونشط، يتطلب السحب شراء باقة من المتجر. هذا الإجراء يمنع الحسابات المتعددة والتحايل على النظام وسرقة أموال المشروع، ويحافظ على استمرار البوت للجميع.",'gate.required':'الحد الأدنى للباقة','gate.daily':'دخل التعدين','gate.day':'يوم','gate.keep':'الكريستال يبقى في حسابك ويواصل التعدين لك كل يوم.','gate.cta':'اذهب إلى المتجر','gate.ctaDeposit':'إيداع TON','gate.later':'ليس الآن','gate.badge':'الحد الأدنى للسحب','gate.badgeHigher':'تفتح السحب أيضًا','gate.orHigher':'اشترِ هذه الباقة أو أي باقة أعلى منها لفتح السحب.','gate.needTon':'رصيد TON لديك {bal}. قم بإيداع TON أولاً لشراء هذه الباقة.',
     'convert.pageTitle':'تحويل','convert.formTitle':'تحويل TON إلى CRYSTAL',
     'convert.balance':'الرصيد:','convert.submit':'⚡ تنفيذ التحويل',
     'language.pageTitle':'اللغة'
@@ -2307,7 +2311,7 @@ var LANG = {
     'withdraw.pageTitle':'Retrait TON','withdraw.formTitle':'Retrait TON',
     'withdraw.min':'MIN','withdraw.walletPh':'Adresse du portefeuille TON (UQ...)',
     'withdraw.fee':'Frais de retrait :','withdraw.net':'Montant que vous recevrez après déduction des frais',
-    'withdraw.submit':'Envoyer la demande de retrait','gate.title':'Vérification du compte requise','gate.text':"Pour confirmer que votre compte est réel et actif, le retrait nécessite l'achat d'un pack dans la Boutique. Cela empêche les comptes multiples et les abus, protège les fonds du projet et assure la continuité du bot pour tous.",'gate.required':'PACK REQUIS','gate.daily':'Revenu de minage','gate.day':'jour','gate.keep':'Vos cristaux restent sur votre compte et continuent de miner pour vous chaque jour.','gate.cta':'Aller à la boutique','gate.ctaDeposit':'Déposer des TON','gate.later':'Pas maintenant','gate.badge':'Requis pour retirer','gate.needTon':'Votre solde TON est de {bal}. Déposez d\'abord des TON pour acheter ce pack.',
+    'withdraw.submit':'Envoyer la demande de retrait','gate.title':'Vérification du compte requise','gate.text':"Pour confirmer que votre compte est réel et actif, le retrait nécessite l'achat d'un pack dans la Boutique. Cela empêche les comptes multiples et les abus, protège les fonds du projet et assure la continuité du bot pour tous.",'gate.required':'PACK MINIMUM','gate.daily':'Revenu de minage','gate.day':'jour','gate.keep':'Vos cristaux restent sur votre compte et continuent de miner pour vous chaque jour.','gate.cta':'Aller à la boutique','gate.ctaDeposit':'Déposer des TON','gate.later':'Pas maintenant','gate.badge':'Minimum pour retirer','gate.badgeHigher':'Débloque aussi le retrait','gate.orHigher':"Achetez ce pack ou n'importe quel pack supérieur pour débloquer les retraits.",'gate.needTon':'Votre solde TON est de {bal}. Déposez d\'abord des TON pour acheter ce pack.',
     'convert.pageTitle':'Convertir','convert.formTitle':'Convertir TON en CRYSTAL',
     'convert.balance':'Solde :','convert.submit':'⚡ Échanger maintenant',
     'language.pageTitle':'Langue'
@@ -3867,8 +3871,10 @@ function renderStore(){
   grid.innerHTML = getStorePacks().map(function(tonCost){
     var crystalGet = Math.round(tonCost * rate);
     var isReq = lockedGate && Number(gate.packageTon) === Number(tonCost);
-    return '<div class="store-pack-card' + (isReq ? ' required' : '') + '">' +
+    var isHigher = lockedGate && Number(tonCost) > Number(gate.packageTon);
+    return '<div class="store-pack-card' + (isReq ? ' required' : (isHigher ? ' unlocks' : '')) + '">' +
       (isReq ? '<div class="store-req-badge">🔓 ' + t('gate.badge') + '</div>' : '') +
+      (isHigher ? '<div class="store-req-badge soft">✔ ' + t('gate.badgeHigher') + '</div>' : '') +
       '<img src="https://i.ibb.co/chCjf1zw/Chat-GPT-Image-Sep-25-2026-04-18-45-AM-1.png" alt="">' +
       '<div class="store-pack-cost">' + crystalGet.toLocaleString('en-US') + '</div>' +
       '<div class="store-pack-cost-lbl">CRYSTAL</div>' +
