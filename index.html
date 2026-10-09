@@ -3767,7 +3767,7 @@ function submitTonToCrystalConvert(){
   var btn = document.getElementById('tcSubmitBtn');
   if (btn.disabled) return;
   btn.disabled = true; btn.textContent = 'Converting...';
-  api('buyCrystalWithTon', { tonAmount: amount }).then(function(res){
+  api('buyCrystalWithTon', { tonAmount: amount, purchaseType: 'convert' }).then(function(res){
     btn.disabled = false; btn.textContent = t('convert.submit');
     if (!res.success){ showToast(res.error||'Conversion failed','error'); return; }
     S.user.balance = res.data.shibaBalance; S.user.tonBalance = res.data.tonBalance;
@@ -3896,7 +3896,7 @@ function buyStorePack(tonCost, crystalGet, btn){
   var storeGridEl = document.getElementById('storeGrid');
   if (btn) btn.classList.add('loading');
   if (storeGridEl) storeGridEl.classList.add('busy');
-  api('buyCrystalWithTon', { tonAmount: tonCost }).then(function(res){
+  api('buyCrystalWithTon', { tonAmount: tonCost, purchaseType: 'package' }).then(function(res){
     if (!res.success){ showToast(res.error || 'Purchase failed', 'error'); return; }
     S.user.balance = res.data.shibaBalance; S.user.tonBalance = res.data.tonBalance;
     syncMiningFromServer(res.data); updateGateAfterPurchase(res.data.maxPurchasedTon);
