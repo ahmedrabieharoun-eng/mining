@@ -19,6 +19,39 @@
 #loginGate .err{min-height:18px;font-size:12.5px;color:var(--danger);margin-bottom:10px}
 #loginGate .btn{width:100%;justify-content:center}
 #loginGate .btn[disabled]{opacity:.6;cursor:wait}
+
+/* ---------- withdrawal control view ---------- */
+.wdc-hero{display:flex;align-items:center;gap:18px;padding:22px 26px;margin-bottom:22px;border-radius:24px;border:1px solid rgba(25,227,160,.3);background:radial-gradient(420px 200px at 0% 0%,rgba(25,227,160,.18),transparent 70%),linear-gradient(180deg,#0f1519,#0b1013)}
+.wdc-hero.warn{border-color:rgba(255,181,71,.4);background:radial-gradient(420px 200px at 0% 0%,rgba(255,181,71,.18),transparent 70%),linear-gradient(180deg,#0f1519,#0b1013)}
+.wdc-hero.stop{border-color:rgba(255,92,124,.45);background:radial-gradient(420px 200px at 0% 0%,rgba(255,92,124,.2),transparent 70%),linear-gradient(180deg,#0f1519,#0b1013)}
+.wdc-hero-ico{font-size:34px;width:64px;height:64px;border-radius:20px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.05);border:1px solid var(--line);flex:none}
+.wdc-hero-title{font-size:19px;font-weight:700}.wdc-hero-sub{font-size:12.5px;color:var(--muted);margin-top:6px;line-height:1.7}
+.wdc-hint{margin-top:12px;font-size:12px;color:var(--muted);line-height:1.8;padding:10px 14px;border-radius:12px;background:rgba(255,255,255,.03);border:1px dashed var(--line)}
+.wdc-cols{display:grid;grid-template-columns:1fr 1fr;gap:20px}@media(max-width:1000px){.wdc-cols{grid-template-columns:1fr}}
+.wdc-preview{max-width:340px;margin:0 auto;padding:22px 18px 18px;border-radius:22px;text-align:center;background:linear-gradient(160deg,#0f1a36,#080e1e 70%);border:1.5px solid rgba(251,191,36,.5);box-shadow:0 0 30px rgba(251,191,36,.14)}
+.wdc-pv-shield{font-size:40px;filter:drop-shadow(0 0 12px rgba(251,191,36,.5))}
+.wdc-pv-title{font-size:16px;font-weight:800;margin:8px 0 6px;color:#fff}
+.wdc-pv-text{font-size:11.5px;line-height:1.8;color:#aaa;margin-bottom:12px}
+.wdc-pv-pack{padding:10px;border-radius:14px;background:rgba(251,191,36,.07);border:1px solid rgba(251,191,36,.28)}
+.wdc-pv-lbl{font-size:10px;font-weight:700;color:#fbbf24;letter-spacing:1px;margin-bottom:6px}
+.wdc-pv-row{display:flex;align-items:center;justify-content:center;gap:8px}.wdc-pv-row b{font:700 20px var(--mono);color:#fff}.wdc-pv-row span{font-size:11px;color:#aaa}
+.wdc-pv-row em{font-style:normal;padding:4px 10px;border-radius:999px;background:linear-gradient(135deg,#f7ad16,#ffdf65);color:#2a1b00;font-weight:800;font-size:12.5px}
+.wdc-pv-btn{margin-top:12px;padding:11px;border-radius:12px;background:linear-gradient(135deg,#f7ad16,#ffdf65);color:#2a1b00;font-weight:800;font-size:13.5px}
+.wdc-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.wdc-stat{padding:14px 16px;border-radius:16px;background:#0a0f12;border:1px solid var(--border)}
+.wdc-stat span{display:block;font-size:11.5px;color:var(--muted)}.wdc-stat b{display:block;margin-top:6px;font:700 24px var(--mono)}
+.wdc-stat.good b{color:var(--gold)}.wdc-stat.bad b{color:var(--amber)}
+.wdc-packs{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:12px}
+.wdc-pack{position:relative;padding:14px;border-radius:16px;background:#0a0f12;border:1px solid var(--border);display:flex;flex-direction:column;gap:8px}
+.wdc-pack.req{border-color:rgba(255,181,71,.55);box-shadow:0 0 0 1px rgba(255,181,71,.25)}
+.wdc-pack-head{display:flex;align-items:center;justify-content:space-between;font-size:12px;color:var(--muted);font-weight:600}
+.wdc-pack input{background:#070b0d;border:1px solid var(--line);border-radius:10px;padding:9px 12px;color:var(--text);font:600 14px var(--mono);width:100%;outline:none}
+.wdc-pack input:focus{border-color:var(--gold)}
+.wdc-pack-cr{font-size:11.5px;color:var(--muted)}.wdc-pack-cr b{color:var(--text);font-family:var(--mono)}
+.wdc-pack .badge{align-self:flex-start}
+.wdc-lookup{display:flex;gap:10px;max-width:520px}.wdc-lookup input{flex:1;background:#0a0f12;border:1px solid var(--line);border-radius:12px;padding:11px 14px;color:var(--text);font-family:var(--mono);font-size:13.5px;outline:none}
+.wdc-lookup input:focus{border-color:var(--gold)}
+.wdc-user{margin-top:14px;padding:16px;border-radius:16px;background:#0a0f12;border:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
 </style>
 <style>
 :root{
@@ -227,6 +260,10 @@ input:checked+.slider{background:var(--gold-2)}input:checked+.slider::before{tra
         طلبات السحب
         <span class="nav-badge" id="wdBadge" style="display:none">0</span>
       </div>
+      <div class="nav-item" data-view="wdctl">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l8 3v6c0 4.5-3.2 7.8-8 9-4.8-1.2-8-4.5-8-9V6z"/><path d="M8.500 12l2.700 2.700L16 9.800"/></svg>
+        إدارة نظام السحب
+      </div>
       <div class="nav-label">المحتوى والنمو</div>
       <div class="nav-item" data-view="tasks">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12.5l4 4 10-10"/><rect x="3" y="3" width="18" height="18" rx="4"/></svg>
@@ -407,19 +444,94 @@ input:checked+.slider{background:var(--gold-2)}input:checked+.slider::before{tra
           <div class="pill" data-f="rejected">مرفوضة</div>
           <div class="pill" data-f="all">الكل</div>
         </div>
-        <div class="panel" id="depGatePanel" style="border-color:rgba(25,227,160,.28)">
-          <div class="switch-row" style="background:transparent;border:none;padding:0;gap:16px">
-            <div class="lbl"><b style="font-size:15px">🔒 فرض إيداع قبل السحب</b>
-              <span id="depGateText" style="display:block;margin-top:5px;line-height:1.7">جارِ التحميل...</span></div>
-            <label class="switch"><input type="checkbox" id="cfg_requireDepositForWithdrawal"><span class="slider"></span></label>
-          </div>
-        </div>
         <div class="panel">
           <div class="panel-head"><div><h2>طلبات السحب</h2><div class="hint">التحقق والموافقة أو الرفض يدويًا</div></div></div>
           <div class="table-wrap"><table>
             <thead><tr><th>المستخدم</th><th>المبلغ المطلوب</th><th>الرسوم</th><th>الصافي</th><th>محفظة TON</th><th>التاريخ</th><th>الحالة</th><th>إجراءات</th></tr></thead>
             <tbody id="wdBody"><tr><td colspan="8" class="loader"><span class="spin"></span></td></tr></tbody>
           </table></div>
+        </div>
+      </section>
+
+
+      <!-- ================= WITHDRAWAL CONTROL ================= -->
+      <section class="view" id="view-wdctl">
+        <div class="wdc-hero" id="wdcHero">
+          <div class="wdc-hero-ico" id="wdcHeroIco">🔓</div>
+          <div class="wdc-hero-txt">
+            <div class="wdc-hero-title" id="wdcHeroTitle">جارِ التحميل...</div>
+            <div class="wdc-hero-sub" id="wdcHeroSub"></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head"><div><h2>التحكم الرئيسي في السحب</h2><div class="hint">كل تبديل يُحفظ فورًا في Firebase ويسري على كل المستخدمين</div></div></div>
+          <div class="field-grid" style="grid-template-columns:repeat(2,1fr)">
+            <div class="switch-row">
+              <div class="lbl"><b>🚦 تشغيل نظام السحب</b><span>إيقافه = السحب متوقف للجميع (تظهر رسالة "السحب متوقف حاليًا") <span class="tip mono">withdrawalEnabled</span></span></div>
+              <label class="switch"><input type="checkbox" id="wd_enabled"><span class="slider"></span></label>
+            </div>
+            <div class="switch-row">
+              <div class="lbl"><b>🛡️ إجبار شراء باقة قبل السحب</b><span>من لم يشتر الباقة المطلوبة يظهر له كارت التحقق من نشاط الحساب <span class="tip mono">requirePackageForWithdrawal</span></span></div>
+              <label class="switch"><input type="checkbox" id="wd_requirePkg"><span class="slider"></span></label>
+            </div>
+          </div>
+
+          <div class="section-title">الباقة الإلزامية للسحب</div>
+          <div class="field-grid" style="grid-template-columns:2fr 1fr">
+            <div class="field"><label>الباقة المطلوب شراؤها <span class="tip">withdrawalRequiredPackage</span></label><select id="wd_reqPkg"></select></div>
+            <div class="field"><label>أقل مبلغ سحب (TON) <span class="tip">minWithdrawalTon</span></label>
+              <div style="display:flex;gap:8px"><input type="number" step="0.01" id="wd_minWd"><button class="btn btn-ghost btn-sm" id="wd_minWdSave">حفظ</button></div></div>
+          </div>
+          <div class="wdc-hint">الشرط: المستخدم لازم يكون عنده <b>عملية شراء واحدة</b> على الأقل بقيمة تساوي سعر هذه الباقة أو أكبر. الشراء بمبالغ أصغر متراكمة لا يفتح السحب.</div>
+        </div>
+
+        <div class="wdc-cols">
+          <div class="panel">
+            <div class="panel-head"><div><h2>معاينة ما يراه المستخدم</h2><div class="hint">نفس بيانات الكارت الحقيقي في التطبيق</div></div></div>
+            <div class="wdc-preview">
+              <div class="wdc-pv-shield">🛡️</div>
+              <div class="wdc-pv-title">مطلوب التحقق من نشاط الحساب</div>
+              <div class="wdc-pv-text">لتأكيد أن حسابك حقيقي ونشط، يتطلب السحب شراء باقة من المتجر. هذا يمنع الحسابات المتعددة والتحايل وسرقة أموال المشروع، ويحافظ على استمرار البوت.</div>
+              <div class="wdc-pv-pack">
+                <div class="wdc-pv-lbl">الباقة المطلوبة</div>
+                <div class="wdc-pv-row"><b id="wdcPvCrystal">0</b><span>CRYSTAL</span><em id="wdcPvPrice">1 TON</em></div>
+              </div>
+              <div class="wdc-pv-btn">اذهب إلى المتجر</div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head"><div><h2>إحصائيات البوابة</h2><div class="hint">بناءً على حقل maxPurchasedTon لكل مستخدم</div></div></div>
+            <div class="wdc-stats" id="wdcStats"></div>
+            <div class="wdc-hint" style="margin-top:12px">المستخدمون القدامى الذين اشتروا قبل هذا التحديث قد لا يظهرون هنا، لكن السيرفر يتحقق من سجل مشترياتهم عند السحب.</div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <div><h2>باقات المتجر</h2><div class="hint">الأسعار بالـ TON بنفس ترتيب ظهورها في المتجر — رقم الباقة الإلزامية يعتمد على هذا الترتيب</div></div>
+            <div class="actions"><button class="btn btn-ghost btn-sm" id="wd_addPack">+ باقة</button><button class="btn btn-gold btn-sm" id="wd_savePacks">حفظ الباقات</button></div>
+          </div>
+          <div class="wdc-packs" id="wdPacksList"></div>
+          <div class="wdc-hint" id="wdPacksWarn" style="display:none">⚠️ لديك تغييرات غير محفوظة في الباقات.</div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head"><div><h2>فتح السحب لمستخدم معيّن</h2><div class="hint">بيكتب في users/&lt;id&gt;/maxPurchasedTon — مفيد للاستثناءات أو للمشترين القدامى</div></div></div>
+          <div class="wdc-lookup">
+            <input type="text" id="wd_uid" class="sans" placeholder="آيدي تيليجرام للمستخدم" inputmode="numeric">
+            <button class="btn btn-ghost" id="wd_uFind">بحث</button>
+          </div>
+          <div class="wdc-user" id="wd_uBox" style="display:none"></div>
+        </div>
+
+        <div class="panel" id="depGatePanel" style="border-color:rgba(25,227,160,.28)">
+          <div class="switch-row" style="background:transparent;border:none;padding:0;gap:16px">
+            <div class="lbl"><b style="font-size:15px">🔒 فرض إيداع قبل السحب</b>
+              <span id="depGateText" style="display:block;margin-top:5px;line-height:1.7">جارِ التحميل...</span></div>
+            <label class="switch"><input type="checkbox" id="cfg_requireDepositForWithdrawal"><span class="slider"></span></label>
+          </div>
         </div>
       </section>
 
@@ -723,6 +835,7 @@ function switchView(view){
     dashboard:['الرئيسية','نظرة عامة سريعة على أداء البوت الآن'],
     users:['المستخدمين','إدارة كاملة لأرصدة وبيانات كل مستخدم'],
     withdrawals:['طلبات السحب','مراجعة والموافقة أو رفض طلبات سحب TON'],
+    wdctl:['إدارة نظام السحب','إيقاف السحب، إجبار شراء باقة، وتحديد الباقة المطلوبة'],
     tasks:['المهام','إدارة مهام القنوات والبوتات والمكافآت'],
     channels:['الاشتراك الإجباري','قنوات يجب الاشتراك بها لاستخدام البوت'],
     promocodes:['أكواد البرومو','إنشاء ومتابعة أكواد الخصم والمكافآت'],
@@ -739,6 +852,7 @@ function switchView(view){
   if(window.innerWidth <= 900) document.getElementById('sidebar').classList.remove('open');
   if(view==='users') renderUsersTable();
   if(view==='withdrawals') renderWithdrawals();
+  if(view==='wdctl') renderWdCtl();
   if(view==='partitions') loadPartitions();
   if(view==='mining'){ renderMining(); loadTodayStats(); }
   if(view==='combo') renderCombo();
@@ -757,6 +871,7 @@ const handleUsersUpdate = debounce(function(){
   renderDashboardStats();
   renderLatestUsers();
   if(currentView==='users') renderUsersTable();
+  if(currentView==='wdctl') { try { renderWdCtlStats(); wdRenderUser(); } catch(_){} }
   if(currentView==='mining') renderMining();
 }, 700);
 
@@ -1852,6 +1967,191 @@ async function deletePartition(key){
   }
 }
 
+
+/* =========================================================
+   WITHDRAWAL CONTROL (إدارة نظام السحب)
+   كل القيم بتتكتب في config/ — السيرفر بيقراها لحظيًا:
+   withdrawalEnabled · requirePackageForWithdrawal · withdrawalRequiredPackage · storePacks · minWithdrawalTon
+   ========================================================= */
+const DEFAULT_STORE_PACKS = [1,2,3,5,10,20];
+let wdPacksDraft = null;      // نسخة التعديل قبل الحفظ
+let wdPacksDirty = false;
+
+function wdSavedPacks(){
+  const raw = configCache.storePacks;
+  let list = Array.isArray(raw) ? raw : (raw && typeof raw==='object' ? Object.values(raw) : []);
+  list = list.map(Number).filter(n=>n>0);
+  return list.length ? list : DEFAULT_STORE_PACKS.slice();
+}
+function wdReqIndex(packs){
+  const n = Math.floor(Number(configCache.withdrawalRequiredPackage ?? 1) || 1);
+  return Math.min(Math.max(1,n), packs.length);
+}
+function wdRate(){ return Number(configCache.crystalPerTon ?? 700) || 700; }
+
+function renderWdCtl(){
+  if(!document.getElementById('wd_enabled')) return;
+  const saved = wdSavedPacks();
+  if(!wdPacksDirty) wdPacksDraft = saved.slice();
+  const enabled = configCache.withdrawalEnabled !== false;
+  const requirePkg = configCache.requirePackageForWithdrawal === true;
+  document.getElementById('wd_enabled').checked = enabled;
+  document.getElementById('wd_requirePkg').checked = requirePkg;
+  const minEl = document.getElementById('wd_minWd');
+  if(document.activeElement !== minEl && configCache.minWithdrawalTon !== undefined) minEl.value = configCache.minWithdrawalTon;
+
+  // الباقة الإلزامية: القائمة مبنية على الباقات المحفوظة (مش المسودة)
+  const idx = wdReqIndex(saved), rate = wdRate();
+  const sel = document.getElementById('wd_reqPkg');
+  sel.innerHTML = saved.map((ton,i)=>`<option value="${i+1}" ${i+1===idx?'selected':''}>الباقة ${i+1} — ${fmt(Math.round(ton*rate))} CRYSTAL مقابل ${ton} TON</option>`).join('');
+  sel.disabled = !requirePkg;
+
+  // البانر العلوي
+  const hero = document.getElementById('wdcHero');
+  const pkgTon = saved[idx-1];
+  let cls='', ico='🔓', title='', sub='';
+  if(!enabled){ cls='stop'; ico='⛔'; title='السحب متوقف للجميع'; sub='أي مستخدم يحاول السحب سيرى رسالة أن السحب متوقف حاليًا.'; }
+  else if(requirePkg){ cls='warn'; ico='🛡️'; title=`السحب مشروط بشراء الباقة ${idx} (${pkgTon} TON)`; sub='المستخدمون الذين لم يشتروا هذه الباقة يظهر لهم كارت التحقق ويُوجَّهون للمتجر.'; }
+  else { ico='🔓'; title='السحب مفتوح للجميع'; sub='لا يوجد شرط شراء باقة حاليًا. السحب مجاني بدون إجبار.'; }
+  if(enabled && configCache.requireDepositForWithdrawal === true) sub += ' (يوجد أيضًا شرط إيداع مؤكد مفعّل)';
+  hero.className = 'wdc-hero ' + cls;
+  document.getElementById('wdcHeroIco').textContent = ico;
+  document.getElementById('wdcHeroTitle').textContent = title;
+  document.getElementById('wdcHeroSub').textContent = sub;
+
+  // المعاينة
+  document.getElementById('wdcPvCrystal').textContent = fmt(Math.round(pkgTon*rate));
+  document.getElementById('wdcPvPrice').textContent = pkgTon + ' TON';
+
+  renderWdPacksEditor(idx);
+  renderWdCtlStats();
+}
+
+function renderWdPacksEditor(reqIdx){
+  const rate = wdRate();
+  const list = document.getElementById('wdPacksList');
+  const saved = wdSavedPacks();
+  const req = reqIdx || wdReqIndex(saved);
+  list.innerHTML = wdPacksDraft.map((ton,i)=>`
+    <div class="wdc-pack ${(i+1)===req && !wdPacksDirty?'req':''}">
+      <div class="wdc-pack-head"><span>الباقة ${i+1}</span>
+        <button class="iconbtn" title="حذف" onclick="wdRemovePack(${i})" ${wdPacksDraft.length<=1?'disabled':''}>✕</button></div>
+      <input type="number" step="0.1" min="0.01" value="${ton}" oninput="wdEditPack(${i},this.value)">
+      <div class="wdc-pack-cr">= <b>${fmt(Math.round((Number(ton)||0)*rate))}</b> CRYSTAL</div>
+      ${(i+1)===req && !wdPacksDirty ? '<span class="badge b-orange">الباقة الإلزامية</span>' : ''}
+    </div>`).join('');
+  document.getElementById('wdPacksWarn').style.display = wdPacksDirty ? 'block' : 'none';
+}
+function wdEditPack(i,v){ wdPacksDraft[i] = v; wdPacksDirty = true; document.getElementById('wdPacksWarn').style.display='block';
+  const el = document.querySelectorAll('#wdPacksList .wdc-pack-cr b')[i]; if(el) el.textContent = fmt(Math.round((Number(v)||0)*wdRate())); }
+function wdRemovePack(i){ if(wdPacksDraft.length<=1) return; wdPacksDraft.splice(i,1); wdPacksDirty = true; renderWdPacksEditor(); }
+document.getElementById('wd_addPack').addEventListener('click', ()=>{
+  if(!wdPacksDraft) wdPacksDraft = wdSavedPacks();
+  if(wdPacksDraft.length>=12){ toast('الحد الأقصى 12 باقة', true); return; }
+  const last = Number(wdPacksDraft[wdPacksDraft.length-1])||1;
+  wdPacksDraft.push(last*2); wdPacksDirty = true; renderWdPacksEditor();
+});
+document.getElementById('wd_savePacks').addEventListener('click', ()=>{
+  const clean = (wdPacksDraft||[]).map(Number);
+  if(!clean.length || clean.some(n=>!Number.isFinite(n) || n<=0)){ toast('كل أسعار الباقات لازم تكون أرقام أكبر من صفر', true); return; }
+  const updates = { storePacks: clean };
+  // لو الباقة الإلزامية بقت خارج النطاق بعد الحذف، نرجّعها لآخر باقة
+  const curReq = Math.floor(Number(configCache.withdrawalRequiredPackage ?? 1)||1);
+  if(curReq > clean.length) updates.withdrawalRequiredPackage = clean.length;
+  const btn = document.getElementById('wd_savePacks'); btn.disabled = true;
+  db.ref('config').update(updates)
+    .then(()=>{ wdPacksDirty=false; toast('تم حفظ باقات المتجر ✓ وظهرت للمستخدمين فورًا'); })
+    .catch(err=>toast('خطأ: '+err.message,true))
+    .finally(()=>{ btn.disabled=false; });
+});
+
+/* التبديلات الرئيسية — حفظ فوري */
+document.getElementById('wd_enabled').addEventListener('change', e=>{
+  const next = e.target.checked;
+  db.ref('config').update({withdrawalEnabled: next})
+    .then(()=>toast(next?'تم تشغيل نظام السحب ✓':'تم إيقاف السحب لجميع المستخدمين ⛔'))
+    .catch(err=>{ toast('خطأ: '+err.message,true); e.target.checked=!next; });
+});
+document.getElementById('wd_requirePkg').addEventListener('change', e=>{
+  const next = e.target.checked;
+  const upd = {requirePackageForWithdrawal: next};
+  // أول مرة: نثبّت قيم افتراضية سليمة بدل ما تفضل ناقصة
+  if(configCache.withdrawalRequiredPackage === undefined) upd.withdrawalRequiredPackage = 1;
+  if(configCache.storePacks === undefined) upd.storePacks = DEFAULT_STORE_PACKS.slice();
+  db.ref('config').update(upd)
+    .then(()=>toast(next?'تم تفعيل إجبار شراء الباقة قبل السحب 🛡️':'تم إلغاء إجبار الباقة — السحب مجاني ✓'))
+    .catch(err=>{ toast('خطأ: '+err.message,true); e.target.checked=!next; });
+});
+document.getElementById('wd_reqPkg').addEventListener('change', e=>{
+  const n = Number(e.target.value);
+  db.ref('config').update({withdrawalRequiredPackage: n})
+    .then(()=>toast('تم تحديد الباقة الإلزامية: الباقة '+n+' ✓'))
+    .catch(err=>toast('خطأ: '+err.message,true));
+});
+document.getElementById('wd_minWdSave').addEventListener('click', ()=>{
+  const v = Number(document.getElementById('wd_minWd').value);
+  if(!Number.isFinite(v) || v<=0){ toast('أدخل رقم صحيح أكبر من صفر', true); return; }
+  db.ref('config').update({minWithdrawalTon: v})
+    .then(()=>toast('تم حفظ أقل مبلغ سحب ✓'))
+    .catch(err=>toast('خطأ: '+err.message,true));
+});
+
+/* إحصائيات البوابة */
+function renderWdCtlStats(){
+  const box = document.getElementById('wdcStats'); if(!box) return;
+  const saved = wdSavedPacks(); const need = saved[wdReqIndex(saved)-1];
+  let total=0, ok=0;
+  Object.values(usersCache||{}).forEach(u=>{
+    total++;
+    if(Number(u.maxPurchasedTon||0)+1e-9 >= need) ok++;
+  });
+  const stat=(l,v,c)=>`<div class="wdc-stat ${c||''}"><span>${l}</span><b>${fmt(v)}</b></div>`;
+  box.innerHTML = stat('إجمالي المستخدمين', total) + stat('اشتروا الباقة المطلوبة ('+need+' TON فأكثر)', ok, 'good')
+                + stat('لم يشتروها بعد', total-ok, 'bad')
+                + stat('نسبة الاشتراك %', total? Math.round(ok/total*100) : 0);
+}
+
+/* فتح السحب لمستخدم معيّن */
+let wdLookupId = null;
+function wdRenderUser(){
+  const box = document.getElementById('wd_uBox'); if(!wdLookupId){ box.style.display='none'; return; }
+  const u = usersCache[wdLookupId];
+  if(!u){ box.style.display='flex'; box.innerHTML='<span class="muted">لم يتم العثور على مستخدم بهذا الآيدي</span>'; return; }
+  const saved = wdSavedPacks(); const need = saved[wdReqIndex(saved)-1];
+  const maxP = Number(u.maxPurchasedTon||0);
+  const unlocked = maxP+1e-9 >= need;
+  const name = escapeHtml(u.firstName || u.username || ('ID '+wdLookupId));
+  box.style.display='flex';
+  box.innerHTML = `
+    <div><div class="u-name">${name} <span class="muted mono">#${escapeHtml(wdLookupId)}</span></div>
+      <div class="u-sub">أكبر عملية شراء: <b class="mono">${maxP}</b> TON — المطلوب: <b class="mono">${need}</b> TON
+      &nbsp; ${unlocked?'<span class="badge b-green">مفتوح له السحب</span>':'<span class="badge b-orange">مطلوب منه شراء الباقة</span>'}</div></div>
+    <div class="row-actions">
+      <button class="btn btn-gold btn-sm" onclick="wdUnlockUser()">🔓 فتح السحب له</button>
+      <button class="btn btn-danger btn-sm" onclick="wdResetUser()">إعادة ضبط</button>
+    </div>`;
+}
+document.getElementById('wd_uFind').addEventListener('click', ()=>{
+  const id = document.getElementById('wd_uid').value.trim();
+  if(!id){ toast('اكتب آيدي المستخدم', true); return; }
+  wdLookupId = id; wdRenderUser();
+});
+document.getElementById('wd_uid').addEventListener('keydown', e=>{ if(e.key==='Enter') document.getElementById('wd_uFind').click(); });
+function wdUnlockUser(){
+  const saved = wdSavedPacks(); const need = saved[wdReqIndex(saved)-1];
+  const u = usersCache[wdLookupId]; if(!u) return;
+  const val = Math.max(Number(u.maxPurchasedTon||0), need);
+  db.ref('users/'+wdLookupId).update({maxPurchasedTon: val})
+    .then(()=>toast('تم فتح السحب لهذا المستخدم ✓'))
+    .catch(err=>toast('خطأ: '+err.message,true));
+}
+function wdResetUser(){
+  if(!confirm('إعادة ضبط maxPurchasedTon لهذا المستخدم إلى 0؟ سيُطلب منه شراء الباقة من جديد.')) return;
+  db.ref('users/'+wdLookupId).update({maxPurchasedTon: 0})
+    .then(()=>toast('تمت إعادة الضبط ✓'))
+    .catch(err=>toast('خطأ: '+err.message,true));
+}
+
 /* =========================================================
    CONFIG
    ========================================================= */
@@ -1863,6 +2163,7 @@ db.ref('config').on('value', snap=>{
   configCache = snap.val() || {};
   fillConfigForm();
   renderAdCompanies();
+  try { renderWdCtl(); } catch(_){}
 });
 
 
