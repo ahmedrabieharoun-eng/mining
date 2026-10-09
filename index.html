@@ -1392,6 +1392,38 @@ html,body{height:100%;
 .psub-btn.active{color:#fff;background:linear-gradient(135deg,var(--orange),var(--orange2));border-color:transparent;box-shadow:0 6px 18px rgba(35,183,243,.28)}
 .psub-count{min-width:20px;padding:1px 7px;border-radius:20px;font-size:11px;font-weight:800;background:rgba(255,255,255,.1);line-height:18px;text-align:center}
 .psub-btn.active .psub-count{background:rgba(255,255,255,.25)}
+
+/* ── Withdraw gate card + required pack highlight ── */
+.wg-overlay{position:fixed;inset:0;z-index:1200;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(2,6,16,.78);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.wg-overlay.show{display:flex;animation:wgFade .25s ease-out}
+@keyframes wgFade{from{opacity:0}to{opacity:1}}
+@keyframes wgPop{from{opacity:0;transform:translateY(18px) scale(.94)}to{opacity:1;transform:none}}
+@keyframes wgBorder{0%,100%{border-color:rgba(251,191,36,.35);box-shadow:0 0 28px rgba(251,191,36,.12),0 18px 50px rgba(0,0,0,.6)}50%{border-color:rgba(251,191,36,.75);box-shadow:0 0 42px rgba(251,191,36,.28),0 18px 50px rgba(0,0,0,.6)}}
+@keyframes wgFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.wg-card{position:relative;overflow:hidden;width:100%;max-width:360px;max-height:92vh;overflow-y:auto;padding:26px 20px 18px;border-radius:24px;text-align:center;background:linear-gradient(160deg,#0f1a36,#080e1e 70%);border:1.5px solid rgba(251,191,36,.5);animation:wgPop .35s cubic-bezier(.2,.9,.3,1.1),wgBorder 4s ease-in-out infinite .35s}
+.wg-glow{position:absolute;top:-70px;left:50%;width:240px;height:240px;margin-left:-120px;border-radius:50%;background:radial-gradient(circle,rgba(251,191,36,.28),transparent 68%);pointer-events:none}
+.wg-card>*{position:relative}
+.wg-shield{width:72px;height:72px;margin:0 auto 10px;filter:drop-shadow(0 0 14px rgba(251,191,36,.55));animation:wgFloat 3.2s ease-in-out infinite}
+.wg-shield svg{width:100%;height:100%}
+.wg-title{font-size:20px;font-weight:900;color:#fff;letter-spacing:.2px;margin-bottom:8px}
+.wg-text{font-size:12.5px;line-height:1.75;color:var(--text2);margin-bottom:14px}
+.wg-pack{padding:12px 12px 10px;border-radius:16px;background:rgba(251,191,36,.07);border:1px solid rgba(251,191,36,.28);margin-bottom:10px}
+.wg-pack-lbl{font-size:10px;font-weight:800;letter-spacing:1.2px;color:#fbbf24;margin-bottom:8px}
+.wg-pack-row{display:flex;align-items:center;justify-content:center;gap:10px}
+.wg-pack-row img{width:38px;height:38px;object-fit:contain;filter:drop-shadow(0 0 10px rgba(45,140,255,.6))}
+.wg-pack-main{font-size:22px;font-weight:900;color:#fff;font-variant-numeric:tabular-nums}.wg-pack-main small{font-size:11px;color:var(--text2);font-weight:700}
+.wg-pack-price{padding:5px 11px;border-radius:999px;background:linear-gradient(135deg,#f7ad16,#ffdf65);color:#2a1b00;font-weight:900;font-size:13px}
+.wg-pack-daily{margin-top:8px;font-size:11.5px;color:#5eead4}.wg-pack-daily b{font-variant-numeric:tabular-nums}
+.wg-keep{font-size:11.5px;color:var(--text2);margin-bottom:6px;line-height:1.6}
+.wg-note{min-height:0;font-size:11.5px;color:#ff9d9d;margin-bottom:8px;font-weight:700}
+.wg-note:empty{display:none}
+.wg-btn{width:100%;margin-top:6px;padding:14px;border:0;border-radius:14px;background:linear-gradient(135deg,#f7ad16,#ffdf65);color:#2a1b00;font-size:15px;font-weight:900;cursor:pointer;box-shadow:0 6px 20px rgba(251,191,36,.35)}
+.wg-btn:active{transform:scale(.97)}
+.wg-later{width:100%;margin-top:6px;padding:10px;border:0;background:none;color:var(--text3);font-size:12.5px;font-weight:700;cursor:pointer}
+.store-pack-card.required{border-color:rgba(251,191,36,.85)!important;box-shadow:0 0 0 1px rgba(251,191,36,.6),0 0 26px rgba(251,191,36,.3)!important}
+.store-req-badge{position:absolute!important;top:0;left:0;right:0;z-index:2;padding:4px 6px;font-size:10px;font-weight:900;letter-spacing:.4px;color:#2a1b00;background:linear-gradient(135deg,#f7ad16,#ffdf65)}
+.store-pack-card.required{padding-top:30px}
+@media (prefers-reduced-motion:reduce){.wg-card,.wg-shield{animation:none}}
 </style>
 </head>
 <body>
@@ -2174,6 +2206,36 @@ html,body{height:100%;
 
 <div class="toast" id="toast"></div>
 
+<!-- WITHDRAW GATE: shown when the admin forces a package purchase before withdrawing -->
+<div class="wg-overlay" id="withdrawGate" onclick="if(event.target===this)closeWithdrawGate()">
+  <div class="wg-card" role="dialog" aria-modal="true">
+    <div class="wg-glow"></div>
+    <div class="wg-shield">
+      <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs><linearGradient id="wgG" x1="0" y1="0" x2="64" y2="64"><stop offset="0" stop-color="#fef3c7"/><stop offset=".5" stop-color="#fbbf24"/><stop offset="1" stop-color="#d97706"/></linearGradient></defs>
+        <path d="M32 5 54 13v17c0 14-9.5 24.5-22 29C19.500 54.500 10 44 10 30V13z" fill="rgba(251,191,36,.12)" stroke="url(#wgG)" stroke-width="3" stroke-linejoin="round"/>
+        <path d="m22 32 7 7 14-15" stroke="url(#wgG)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div class="wg-title" data-i18n="gate.title">Account Verification Required</div>
+    <div class="wg-text" data-i18n="gate.text">To confirm that your account is real and active, withdrawals require purchasing a package from the Store. This prevents multiple accounts and abuse of the system, protects the project's funds, and keeps the bot running for everyone.</div>
+    <div class="wg-pack">
+      <div class="wg-pack-lbl" data-i18n="gate.required">REQUIRED PACKAGE</div>
+      <div class="wg-pack-row">
+        <img src="https://i.ibb.co/chCjf1zw/Chat-GPT-Image-Sep-25-2026-04-18-45-AM-1.png" alt="">
+        <div class="wg-pack-main"><span id="wgCrystal">0</span> <small>CRYSTAL</small></div>
+        <div class="wg-pack-price" id="wgPrice">1 TON</div>
+      </div>
+      <div class="wg-pack-daily"><span data-i18n="gate.daily">Mining income</span>: <b id="wgDaily">+0 TON</b> / <span data-i18n="gate.day">day</span></div>
+    </div>
+    <div class="wg-keep" data-i18n="gate.keep">Your crystals stay in your account and keep mining for you every day.</div>
+    <div class="wg-note" id="wgNote"></div>
+    <button class="wg-btn" id="wgActionBtn">Go to Store</button>
+    <button class="wg-later" onclick="closeWithdrawGate()" data-i18n="gate.later">Not now</button>
+  </div>
+</div>
+
+
 <script>
 // ── Config ──────────────────────────────────────────────────────────
 var API_URL  = 'https://hbvkjhkj-production.up.railway.app'; // ← Railway URL
@@ -2203,7 +2265,7 @@ var LANG = {
     'withdraw.pageTitle':'Withdraw TON','withdraw.formTitle':'Withdraw TON',
     'withdraw.min':'MIN','withdraw.walletPh':'TON Wallet Address (UQ...)',
     'withdraw.fee':'Withdrawal fee:','withdraw.net':'Amount you will receive after the fee',
-    'withdraw.submit':'Submit TON Withdrawal',
+    'withdraw.submit':'Submit TON Withdrawal','gate.title':'Account Verification Required','gate.text':"To confirm that your account is real and active, withdrawals require purchasing a package from the Store. This prevents multiple accounts and abuse of the system, protects the project's funds, and keeps the bot running for everyone.",'gate.required':'REQUIRED PACKAGE','gate.daily':'Mining income','gate.day':'day','gate.keep':'Your crystals stay in your account and keep mining for you every day.','gate.cta':'Go to Store','gate.ctaDeposit':'Deposit TON','gate.later':'Not now','gate.badge':'Required to withdraw','gate.needTon':'Your TON balance is {bal}. Deposit TON first to buy this package.',
     'convert.pageTitle':'Convert','convert.formTitle':'Convert TON to CRYSTAL',
     'convert.balance':'Balance:','convert.submit':'⚡ Exchange Now',
     'language.pageTitle':'Language'
@@ -2224,7 +2286,7 @@ var LANG = {
     'withdraw.pageTitle':'سحب TON','withdraw.formTitle':'سحب TON',
     'withdraw.min':'الحد الأدنى','withdraw.walletPh':'عنوان محفظة TON (UQ...)',
     'withdraw.fee':'رسوم السحب:','withdraw.net':'المبلغ الذي ستستلمه بعد خصم الرسوم',
-    'withdraw.submit':'إرسال طلب سحب TON',
+    'withdraw.submit':'إرسال طلب سحب TON','gate.title':'مطلوب التحقق من نشاط الحساب','gate.text':"للتأكد من أن حسابك حقيقي ونشط، يتطلب السحب شراء باقة من المتجر. هذا الإجراء يمنع الحسابات المتعددة والتحايل على النظام وسرقة أموال المشروع، ويحافظ على استمرار البوت للجميع.",'gate.required':'الباقة المطلوبة','gate.daily':'دخل التعدين','gate.day':'يوم','gate.keep':'الكريستال يبقى في حسابك ويواصل التعدين لك كل يوم.','gate.cta':'اذهب إلى المتجر','gate.ctaDeposit':'إيداع TON','gate.later':'ليس الآن','gate.badge':'مطلوبة للسحب','gate.needTon':'رصيد TON لديك {bal}. قم بإيداع TON أولاً لشراء هذه الباقة.',
     'convert.pageTitle':'تحويل','convert.formTitle':'تحويل TON إلى CRYSTAL',
     'convert.balance':'الرصيد:','convert.submit':'⚡ تنفيذ التحويل',
     'language.pageTitle':'اللغة'
@@ -2245,7 +2307,7 @@ var LANG = {
     'withdraw.pageTitle':'Retrait TON','withdraw.formTitle':'Retrait TON',
     'withdraw.min':'MIN','withdraw.walletPh':'Adresse du portefeuille TON (UQ...)',
     'withdraw.fee':'Frais de retrait :','withdraw.net':'Montant que vous recevrez après déduction des frais',
-    'withdraw.submit':'Envoyer la demande de retrait',
+    'withdraw.submit':'Envoyer la demande de retrait','gate.title':'Vérification du compte requise','gate.text':"Pour confirmer que votre compte est réel et actif, le retrait nécessite l'achat d'un pack dans la Boutique. Cela empêche les comptes multiples et les abus, protège les fonds du projet et assure la continuité du bot pour tous.",'gate.required':'PACK REQUIS','gate.daily':'Revenu de minage','gate.day':'jour','gate.keep':'Vos cristaux restent sur votre compte et continuent de miner pour vous chaque jour.','gate.cta':'Aller à la boutique','gate.ctaDeposit':'Déposer des TON','gate.later':'Pas maintenant','gate.badge':'Requis pour retirer','gate.needTon':'Votre solde TON est de {bal}. Déposez d\'abord des TON pour acheter ce pack.',
     'convert.pageTitle':'Convertir','convert.formTitle':'Convertir TON en CRYSTAL',
     'convert.balance':'Solde :','convert.submit':'⚡ Échanger maintenant',
     'language.pageTitle':'Langue'
@@ -2814,6 +2876,7 @@ function loadState(attempt){
       return;
     }
     S.data = res.data;
+    if (S.data.mining) S.data.mining._syncAt = Date.now();
     S.user = res.data.user;
     S.refs = res.data.referrals || [];
     showApp();
@@ -3072,8 +3135,10 @@ function renderMining(){
   var rate = Number(box.ratePerCrystal ?? cfg.miningRatePerCrystal ?? 0.00005); // TON/day per CRYSTAL
   var holding = Number((S.user && S.user.balance) || box.holding || 0); // CRYSTAL = mining power
   var basePending = Number(box.pendingTon || 0);
-  var serverNow = Number(box.serverNow || Date.now());
-  var localNowAtSync = Date.now();
+  // Anchor = the local time when basePending was last synced with the server. It must NOT
+  // be reset on every render() (e.g. after finishing a task), otherwise the counter restarts.
+  if (!box._syncAt) box._syncAt = Date.now();
+  var localNowAtSync = Number(box._syncAt);
 
   var holdingEl = document.getElementById('mineHoldingVal');
   var dayEl = document.getElementById('mine24hVal');
@@ -3146,6 +3211,7 @@ function claimMining(){
       if (!S.data.mining) S.data.mining = {};
       // Everything accrued so far was paid out: restart the pending counter from zero.
       S.data.mining.pendingTon = 0;
+      S.data.mining._syncAt = Date.now();
       S.data.mining.serverNow = res.data.miningLastClaimedAt || Date.now();
       if (res.data.dailyEarnedTon != null) S.data.mining.dailyEarnedTon = res.data.dailyEarnedTon;
       updateWalletTonBalance();
@@ -3283,6 +3349,7 @@ function collectReferralEarnings(){
   api('collectReferralEarnings', {}).then(function(res){
     if (!res.success){ showToast(res.error || 'Could not collect', 'error'); return; }
     S.user.balance = res.data.balance;
+    syncMiningFromServer(res.data);
     if (S.data && S.data.referralRewards) S.data.referralRewards.pendingCrystal = 0;
     showToast('+' + fmtShiba(res.data.collected) + ' CRYSTAL added to your balance 🎉', null, true);
     render();
@@ -3525,6 +3592,7 @@ function updateLbTimer(){
 function openWithdrawForm(){
   var cfg = (S.data && S.data.config) || {};
   if (cfg.withdrawalEnabled === false){ showToast('Withdrawals are currently disabled','error'); return; }
+  if (withdrawGateLocked()){ showWithdrawGate(getWithdrawGate()); }
   var minW = Number(cfg.minWithdrawalTon != null ? cfg.minWithdrawalTon : 0.02);
   document.getElementById('withdrawMinValue').textContent = minW + ' TON';
   document.getElementById('withdrawWallet').value = (S.user && S.user.tonWallet) || '';
@@ -3543,6 +3611,7 @@ function updateWithdrawalNetAmount(){
 }
 
 function submitWithdrawal(){
+  if (withdrawGateLocked()){ showWithdrawGate(getWithdrawGate()); return; }
   var wallet = document.getElementById('withdrawWallet').value.trim();
   var amount = parseFloat(document.getElementById('withdrawAmount').value);
   if (!wallet){ showToast('Enter a TON wallet address','error'); return; }
@@ -3560,7 +3629,10 @@ function submitWithdrawal(){
     btn.textContent = 'Submitting...';
     api('requestWithdrawal', { walletAddress:wallet, amountTon:amount, adGate:ticket }).then(function(res){
       resetBtn();
-      if (!res.success){ showToast(res.error||'Withdrawal failed','error'); return; }
+      if (!res.success){
+        if (res.code === 'PACKAGE_REQUIRED' && res.gate){ S.data.withdrawalGate = res.gate; showWithdrawGate(res.gate); return; }
+        showToast(res.error||'Withdrawal failed','error'); return;
+      }
       S.user.tonBalance = res.data.tonBalance;
       S.user.tonWallet = wallet;
       updateWalletTonBalance();
@@ -3574,6 +3646,33 @@ function submitWithdrawal(){
       showToast('Network error','error');
     });
   }, resetBtn);
+}
+
+// ── Premium "package required" card shown when withdrawals are gated ──
+function showWithdrawGate(g){
+  if (!g) return;
+  var cfg = (S.data && S.data.config) || {};
+  var rate = Number(cfg.crystalPerTon || 1100);
+  var perCrystal = Number(((S.data && S.data.mining) || {}).ratePerCrystal ?? cfg.miningRatePerCrystal ?? 0.0001);
+  var crystal = Number(g.crystalAmount) || Math.round(g.packageTon * rate);
+  var tonBal = Number((S.user && S.user.tonBalance) || 0);
+  var need = Number(g.packageTon) || 0;
+  var enough = tonBal + 1e-9 >= need;
+  document.getElementById('wgCrystal').textContent = fmtShiba(crystal);
+  document.getElementById('wgPrice').textContent = need + ' TON';
+  document.getElementById('wgDaily').textContent = '+' + parseFloat((crystal * perCrystal).toFixed(6)) + ' TON';
+  document.getElementById('wgNote').textContent = enough ? '' : t('gate.needTon').replace('{bal}', tonBal.toFixed(4));
+  var btn = document.getElementById('wgActionBtn');
+  btn.textContent = enough ? t('gate.cta') : t('gate.ctaDeposit');
+  btn.onclick = function(){
+    closeWithdrawGate();
+    switchPage(enough ? 'store' : 'deposit');
+  };
+  document.getElementById('withdrawGate').classList.add('show');
+}
+function closeWithdrawGate(){
+  var el = document.getElementById('withdrawGate');
+  if (el) el.classList.remove('show');
 }
 
 function openDepositForm(){
@@ -3668,6 +3767,7 @@ function submitTonToCrystalConvert(){
     btn.disabled = false; btn.textContent = t('convert.submit');
     if (!res.success){ showToast(res.error||'Conversion failed','error'); return; }
     S.user.balance = res.data.shibaBalance; S.user.tonBalance = res.data.tonBalance;
+    syncMiningFromServer(res.data); updateGateAfterPurchase(res.data.maxPurchasedTon);
     updateCrystalTonValueDisplays(); updateWalletTonBalance();
     document.getElementById('homeTon').textContent = fmtShiba(S.user.balance);
     try { renderMining(); } catch(_){}
@@ -3726,7 +3826,33 @@ function updateProfileWalletStatus(wallet){
 }
 
 // ── Store / Market ───────────────────────────────────────────────────
-var STORE_PACKS = [1, 2, 3, 5, 10, 20]; // TON amounts on offer (cost)
+var STORE_PACKS = [1, 2, 3, 5, 10, 20]; // fallback TON amounts (the real list comes from config.storePacks)
+// After any server call that changes the CRYSTAL balance, the server returns the mining stock
+// it settled (miningPendingTon). Keep it on screen instead of losing it.
+function syncMiningFromServer(d){
+  if (!d || d.miningPendingTon == null) return;
+  if (!S.data) S.data = {};
+  if (!S.data.mining) S.data.mining = {};
+  S.data.mining.pendingTon = Number(d.miningPendingTon) || 0;
+  S.data.mining._syncAt = Date.now();
+}
+function getStorePacks(){
+  var cfg = (S.data && S.data.config) || {};
+  var list = (cfg.storePacks && cfg.storePacks.length) ? cfg.storePacks.map(Number).filter(function(n){ return n > 0; }) : [];
+  return list.length ? list : STORE_PACKS;
+}
+// Withdrawal gate (admin: config/requirePackageForWithdrawal + config/withdrawalRequiredPackage)
+function getWithdrawGate(){ return (S.data && S.data.withdrawalGate) || null; }
+function withdrawGateLocked(){
+  var g = getWithdrawGate();
+  return !!(g && g.required && !g.unlocked);
+}
+function updateGateAfterPurchase(maxPurchasedTon){
+  var g = getWithdrawGate();
+  if (!g || maxPurchasedTon == null) return;
+  g.maxPurchasedTon = Number(maxPurchasedTon) || 0;
+  if (g.maxPurchasedTon + 1e-9 >= Number(g.packageTon)) g.unlocked = true;
+}
 var storeBuyBusy = false;
 function renderStore(){
   var rate = Number((S.data && S.data.config && S.data.config.crystalPerTon) || 1100);
@@ -3736,9 +3862,13 @@ function renderStore(){
   document.getElementById('storeRateLine').textContent = rate.toLocaleString('en-US') + ' CRYSTAL = 1 TON';
   document.getElementById('storeCoinBalance').textContent = Number((S.user && S.user.tonBalance) || 0).toFixed(4) + ' TON';
   var grid = document.getElementById('storeGrid');
-  grid.innerHTML = STORE_PACKS.map(function(tonCost){
+  var gate = getWithdrawGate();
+  var lockedGate = withdrawGateLocked();
+  grid.innerHTML = getStorePacks().map(function(tonCost){
     var crystalGet = Math.round(tonCost * rate);
-    return '<div class="store-pack-card">' +
+    var isReq = lockedGate && Number(gate.packageTon) === Number(tonCost);
+    return '<div class="store-pack-card' + (isReq ? ' required' : '') + '">' +
+      (isReq ? '<div class="store-req-badge">🔓 ' + t('gate.badge') + '</div>' : '') +
       '<img src="https://i.ibb.co/chCjf1zw/Chat-GPT-Image-Sep-25-2026-04-18-45-AM-1.png" alt="">' +
       '<div class="store-pack-cost">' + crystalGet.toLocaleString('en-US') + '</div>' +
       '<div class="store-pack-cost-lbl">CRYSTAL</div>' +
@@ -3746,6 +3876,10 @@ function renderStore(){
       '<button class="store-pack-btn" onclick="buyStorePack(' + tonCost + ',' + crystalGet + ',this)">' + tonCost + ' TON</button>' +
       '</div>';
   }).join('');
+  if (lockedGate){
+    var reqEl = grid.querySelector('.store-pack-card.required');
+    if (reqEl) setTimeout(function(){ try { reqEl.scrollIntoView({ behavior:'smooth', block:'center' }); } catch(_){} }, 120);
+  }
 }
 function buyStorePack(tonCost, crystalGet, btn){
   if (storeBuyBusy) return;
@@ -3759,6 +3893,7 @@ function buyStorePack(tonCost, crystalGet, btn){
   api('buyCrystalWithTon', { tonAmount: tonCost }).then(function(res){
     if (!res.success){ showToast(res.error || 'Purchase failed', 'error'); return; }
     S.user.balance = res.data.shibaBalance; S.user.tonBalance = res.data.tonBalance;
+    syncMiningFromServer(res.data); updateGateAfterPurchase(res.data.maxPurchasedTon);
     updateCrystalTonValueDisplays(); updateWalletTonBalance();
     document.getElementById('homeTon').textContent = fmtShiba(S.user.balance);
     showToast('+' + fmtShiba(res.data.crystalAdded) + ' CRYSTAL added to your mining power 🎉', null, true);
