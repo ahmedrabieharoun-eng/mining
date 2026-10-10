@@ -1428,6 +1428,16 @@ html,body{height:100%;
 .store-req-badge.soft{background:rgba(251,191,36,.16);color:#fbbf24}
 @media (max-height:620px){.wg-keep{display:none}.wg-pack-row img{width:30px;height:30px}.wg-pack-main{font-size:18px}}
 @media (prefers-reduced-motion:reduce){.wg-card,.wg-shield{animation:none}}
+
+/* ── TON buckets (withdraw page + store) ── */
+.bal-split{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 8px}
+.bal-cell{padding:11px 12px;border-radius:14px;background:rgba(4,9,22,.7);border:1px solid rgba(96,165,250,.22)}
+.bal-cell.main{border-color:rgba(98,230,154,.45);background:rgba(98,230,154,.07)}
+.bal-cell span{display:block;font-size:10.5px;font-weight:700;color:#8ea2cf;line-height:1.3}
+.bal-cell b{display:block;margin-top:5px;font-size:15px;font-weight:900;color:#fff;font-variant-numeric:tabular-nums}
+.bal-cell.main b{color:#62e69a}
+.bal-note{margin:0 0 12px;font-size:11.5px;line-height:1.7;color:var(--text2)}
+.store-bal-note{margin:-6px 16px 12px;font-size:11.5px;line-height:1.6;color:#fbbf24}
 </style>
 </head>
 <body>
@@ -1739,6 +1749,7 @@ html,body{height:100%;
         <div class="store-coin-badge"><img src="https://cdn.simpleicons.org/ton/0098EA" alt="">  <span id="storeCoinBalance">0</span></div>
       </div>
       <div class="store-rate-line" id="storeRateLine">1,100 CRYSTAL = 1 TON</div>
+      <div class="store-bal-note" id="storeBalNote"></div>
       <div class="store-grid" id="storeGrid"></div>
     </div>
 
@@ -1822,6 +1833,11 @@ html,body{height:100%;
           <div class="limit-lbl" data-i18n="withdraw.min">MIN</div>
           <div class="limit-val"><img class="limit-ton" src="https://cdn.simpleicons.org/ton/0098EA" alt=""><span id="withdrawMinValue">0.02 TON</span></div>
         </div>
+ <div class="bal-split">
+          <div class="bal-cell main"><span data-i18n="wd.withdrawable">Withdrawable (mining)</span><b id="wdBalMining">0 TON</b></div>
+          <div class="bal-cell"><span data-i18n="wd.depositOnly">Deposit balance (store only)</span><b id="wdBalDeposit">0 TON</b></div>
+        </div>
+        <div class="bal-note" data-i18n="wd.note">Only TON earned from mining can be withdrawn. Your deposit balance can be used to buy packages in the Store.</div>
         <input class="wallet-input" id="withdrawWallet" placeholder="TON Wallet Address (UQ...)" data-i18n-placeholder="withdraw.walletPh">
         <input class="wallet-input" id="withdrawAmount" type="number" step="0.01" inputmode="decimal" placeholder="TON amount" data-i18n-placeholder="deposit.amountPh">
         <button class="wallet-submit" id="withdrawSubmitBtn" onclick="submitWithdrawal()" data-i18n="withdraw.submit">Submit TON Withdrawal</button>
@@ -2270,7 +2286,7 @@ var LANG = {
     'withdraw.pageTitle':'Withdraw TON','withdraw.formTitle':'Withdraw TON',
     'withdraw.min':'MIN','withdraw.walletPh':'TON Wallet Address (UQ...)',
     'withdraw.fee':'Withdrawal fee:','withdraw.net':'Amount you will receive after the fee',
-    'withdraw.submit':'Submit TON Withdrawal','gate.title':'Account Verification Required','gate.text':"To confirm that your account is real and active, withdrawals require purchasing a package from the Store. This prevents multiple accounts and abuse of the system, protects the project's funds, and keeps the bot running for everyone.",'gate.required':'MINIMUM PACKAGE','gate.daily':'Mining income','gate.day':'day','gate.keep':'Your crystals stay in your account and keep mining for you every day.','gate.cta':'Go to Store','gate.ctaDeposit':'Deposit TON','gate.later':'Not now','gate.badge':'Minimum to withdraw','gate.badgeHigher':'Also unlocks withdrawal','gate.orHigher':'Buy this package or any higher package to unlock withdrawals.','gate.needTon':'Your TON balance is {bal}. Deposit TON first to buy this package.',
+    'withdraw.submit':'Submit TON Withdrawal','wd.withdrawable':'Withdrawable (mining)','wd.depositOnly':'Deposit balance (store only)','wd.note':'Only TON earned from mining can be withdrawn. Your deposit balance can be used to buy packages in the Store.','wd.onlyMining':'Only mining TON can be withdrawn. Withdrawable: {m} TON.','store.depositBal':'Deposit balance','store.note':'Store purchases use your deposit balance only. TON earned from mining ({m} TON) is for withdrawal.','store.needDeposit':'Not enough deposit balance. Deposit TON to buy this package.','gate.title':'Account Verification Required','gate.text':"To confirm that your account is real and active, withdrawals require purchasing a package from the Store. This prevents multiple accounts and abuse of the system, protects the project's funds, and keeps the bot running for everyone.",'gate.required':'MINIMUM PACKAGE','gate.daily':'Mining income','gate.day':'day','gate.keep':'Your crystals stay in your account and keep mining for you every day.','gate.cta':'Go to Store','gate.ctaDeposit':'Deposit TON','gate.later':'Not now','gate.badge':'Minimum to withdraw','gate.badgeHigher':'Also unlocks withdrawal','gate.orHigher':'Buy this package or any higher package to unlock withdrawals.','gate.needTon':'Your TON balance is {bal}. Deposit TON first to buy this package.',
     'convert.pageTitle':'Convert','convert.formTitle':'Convert TON to CRYSTAL',
     'convert.balance':'Balance:','convert.submit':'⚡ Exchange Now',
     'language.pageTitle':'Language'
@@ -2291,7 +2307,7 @@ var LANG = {
     'withdraw.pageTitle':'سحب TON','withdraw.formTitle':'سحب TON',
     'withdraw.min':'الحد الأدنى','withdraw.walletPh':'عنوان محفظة TON (UQ...)',
     'withdraw.fee':'رسوم السحب:','withdraw.net':'المبلغ الذي ستستلمه بعد خصم الرسوم',
-    'withdraw.submit':'إرسال طلب سحب TON','gate.title':'مطلوب التحقق من نشاط الحساب','gate.text':"للتأكد من أن حسابك حقيقي ونشط، يتطلب السحب شراء باقة من المتجر. هذا الإجراء يمنع الحسابات المتعددة والتحايل على النظام وسرقة أموال المشروع، ويحافظ على استمرار البوت للجميع.",'gate.required':'الحد الأدنى للباقة','gate.daily':'دخل التعدين','gate.day':'يوم','gate.keep':'الكريستال يبقى في حسابك ويواصل التعدين لك كل يوم.','gate.cta':'اذهب إلى المتجر','gate.ctaDeposit':'إيداع TON','gate.later':'ليس الآن','gate.badge':'الحد الأدنى للسحب','gate.badgeHigher':'تفتح السحب أيضًا','gate.orHigher':'اشترِ هذه الباقة أو أي باقة أعلى منها لفتح السحب.','gate.needTon':'رصيد TON لديك {bal}. قم بإيداع TON أولاً لشراء هذه الباقة.',
+    'withdraw.submit':'إرسال طلب سحب TON','wd.withdrawable':'قابل للسحب (من التعدين)','wd.depositOnly':'رصيد الإيداع (للمتجر فقط)','wd.note':'يمكن سحب TON المكتسب من التعدين فقط. أما رصيد الإيداع فيُستخدم لشراء الباقات من المتجر.','wd.onlyMining':'يمكنك سحب TON المكتسب من التعدين فقط. المتاح للسحب: {m} TON.','store.depositBal':'رصيد الإيداع','store.note':'الشراء من المتجر يتم من رصيد الإيداع فقط. TON المكتسب من التعدين ({m} TON) مخصص للسحب.','store.needDeposit':'رصيد الإيداع غير كافٍ. قم بإيداع TON لشراء هذه الباقة.','gate.title':'مطلوب التحقق من نشاط الحساب','gate.text':"للتأكد من أن حسابك حقيقي ونشط، يتطلب السحب شراء باقة من المتجر. هذا الإجراء يمنع الحسابات المتعددة والتحايل على النظام وسرقة أموال المشروع، ويحافظ على استمرار البوت للجميع.",'gate.required':'الحد الأدنى للباقة','gate.daily':'دخل التعدين','gate.day':'يوم','gate.keep':'الكريستال يبقى في حسابك ويواصل التعدين لك كل يوم.','gate.cta':'اذهب إلى المتجر','gate.ctaDeposit':'إيداع TON','gate.later':'ليس الآن','gate.badge':'الحد الأدنى للسحب','gate.badgeHigher':'تفتح السحب أيضًا','gate.orHigher':'اشترِ هذه الباقة أو أي باقة أعلى منها لفتح السحب.','gate.needTon':'رصيد TON لديك {bal}. قم بإيداع TON أولاً لشراء هذه الباقة.',
     'convert.pageTitle':'تحويل','convert.formTitle':'تحويل TON إلى CRYSTAL',
     'convert.balance':'الرصيد:','convert.submit':'⚡ تنفيذ التحويل',
     'language.pageTitle':'اللغة'
@@ -2312,7 +2328,7 @@ var LANG = {
     'withdraw.pageTitle':'Retrait TON','withdraw.formTitle':'Retrait TON',
     'withdraw.min':'MIN','withdraw.walletPh':'Adresse du portefeuille TON (UQ...)',
     'withdraw.fee':'Frais de retrait :','withdraw.net':'Montant que vous recevrez après déduction des frais',
-    'withdraw.submit':'Envoyer la demande de retrait','gate.title':'Vérification du compte requise','gate.text':"Pour confirmer que votre compte est réel et actif, le retrait nécessite l'achat d'un pack dans la Boutique. Cela empêche les comptes multiples et les abus, protège les fonds du projet et assure la continuité du bot pour tous.",'gate.required':'PACK MINIMUM','gate.daily':'Revenu de minage','gate.day':'jour','gate.keep':'Vos cristaux restent sur votre compte et continuent de miner pour vous chaque jour.','gate.cta':'Aller à la boutique','gate.ctaDeposit':'Déposer des TON','gate.later':'Pas maintenant','gate.badge':'Minimum pour retirer','gate.badgeHigher':'Débloque aussi le retrait','gate.orHigher':"Achetez ce pack ou n'importe quel pack supérieur pour débloquer les retraits.",'gate.needTon':'Votre solde TON est de {bal}. Déposez d\'abord des TON pour acheter ce pack.',
+    'withdraw.submit':'Envoyer la demande de retrait','wd.withdrawable':'Retirable (minage)','wd.depositOnly':'Solde de dépôt (boutique uniquement)','wd.note':'Seuls les TON gagnés par le minage peuvent être retirés. Votre solde de dépôt sert à acheter des packs dans la Boutique.','wd.onlyMining':'Seuls les TON du minage sont retirables. Disponible : {m} TON.','store.depositBal':'Solde de dépôt','store.note':'Les achats utilisent uniquement votre solde de dépôt. Les TON du minage ({m} TON) servent au retrait.','store.needDeposit':'Solde de dépôt insuffisant. Déposez des TON pour acheter ce pack.','gate.title':'Vérification du compte requise','gate.text':"Pour confirmer que votre compte est réel et actif, le retrait nécessite l'achat d'un pack dans la Boutique. Cela empêche les comptes multiples et les abus, protège les fonds du projet et assure la continuité du bot pour tous.",'gate.required':'PACK MINIMUM','gate.daily':'Revenu de minage','gate.day':'jour','gate.keep':'Vos cristaux restent sur votre compte et continuent de miner pour vous chaque jour.','gate.cta':'Aller à la boutique','gate.ctaDeposit':'Déposer des TON','gate.later':'Pas maintenant','gate.badge':'Minimum pour retirer','gate.badgeHigher':'Débloque aussi le retrait','gate.orHigher':"Achetez ce pack ou n'importe quel pack supérieur pour débloquer les retraits.",'gate.needTon':'Votre solde TON est de {bal}. Déposez d\'abord des TON pour acheter ce pack.',
     'convert.pageTitle':'Convertir','convert.formTitle':'Convertir TON en CRYSTAL',
     'convert.balance':'Solde :','convert.submit':'⚡ Échanger maintenant',
     'language.pageTitle':'Langue'
@@ -3212,7 +3228,7 @@ function claimMining(){
     if (span) span.textContent = 'Claiming...';
     apiCaptcha('claimMining', { adGate:ticket }).then(function(res){
       if (!res.success){ showToast(res.error || 'Nothing to claim yet','error'); return; }
-      S.user.tonBalance = res.data.tonBalance;
+      syncTonFromServer(res.data);
       if (!S.data.mining) S.data.mining = {};
       // Everything accrued so far was paid out: restart the pending counter from zero.
       S.data.mining.pendingTon = 0;
@@ -3598,6 +3614,7 @@ function openWithdrawForm(){
   var cfg = (S.data && S.data.config) || {};
   if (cfg.withdrawalEnabled === false){ showToast('Withdrawals are currently disabled','error'); return; }
   if (withdrawGateLocked()){ showWithdrawGate(getWithdrawGate()); }
+  renderWithdrawBalances();
   var minW = Number(cfg.minWithdrawalTon != null ? cfg.minWithdrawalTon : 0.02);
   document.getElementById('withdrawMinValue').textContent = minW + ' TON';
   document.getElementById('withdrawWallet').value = (S.user && S.user.tonWallet) || '';
@@ -3606,6 +3623,12 @@ function openWithdrawForm(){
   document.getElementById('withdrawAmount').oninput = updateWithdrawalNetAmount;
 }
 
+function renderWithdrawBalances(){
+  var b = tonBuckets();
+  var a = document.getElementById('wdBalMining'), d = document.getElementById('wdBalDeposit');
+  if (a) a.textContent = b.mining.toFixed(4) + ' TON';
+  if (d) d.textContent = b.deposit.toFixed(4) + ' TON';
+}
 function updateWithdrawalNetAmount(){
   var input = document.getElementById('withdrawAmount');
   var output = document.getElementById('withdrawNetAmount');
@@ -3624,7 +3647,9 @@ function submitWithdrawal(){
   if (!amount || amount<=0){ showToast('Enter a valid amount','error'); return; }
   var minW = Number((S.data && S.data.config && S.data.config.minWithdrawalTon != null) ? S.data.config.minWithdrawalTon : 0.02);
   if (amount < minW){ showToast('Minimum withdrawal is ' + minW + ' TON','error'); return; }
-  if (S.user && amount > Number(S.user.tonBalance || 0)){ showToast('Insufficient TON balance','error'); return; }
+  var wb = tonBuckets();
+  if (amount > wb.total){ showToast('Insufficient TON balance','error'); return; }
+  if (amount > wb.mining + 1e-9){ showToast(t('wd.onlyMining').replace('{m}', wb.mining.toFixed(4)),'error'); return; }
   var btn = document.getElementById('withdrawSubmitBtn');
   if (btn.disabled) return;
   btn.disabled = true; btn.textContent = '📺 Watch Ad...';
@@ -3636,9 +3661,10 @@ function submitWithdrawal(){
       resetBtn();
       if (!res.success){
         if (res.code === 'PACKAGE_REQUIRED' && res.gate){ S.data.withdrawalGate = res.gate; showWithdrawGate(res.gate); return; }
+        if (res.code === 'MINING_BALANCE_ONLY'){ syncTonFromServer({ miningTonBalance: res.miningTonBalance }); renderWithdrawBalances(); }
         showToast(res.error||'Withdrawal failed','error'); return;
       }
-      S.user.tonBalance = res.data.tonBalance;
+      syncTonFromServer(res.data);
       S.user.tonWallet = wallet;
       updateWalletTonBalance();
       S.data.withdrawals = S.data.withdrawals || [];
@@ -3660,7 +3686,7 @@ function showWithdrawGate(g){
   var rate = Number(cfg.crystalPerTon || 1100);
   var perCrystal = Number(((S.data && S.data.mining) || {}).ratePerCrystal ?? cfg.miningRatePerCrystal ?? 0.0001);
   var crystal = Number(g.crystalAmount) || Math.round(g.packageTon * rate);
-  var tonBal = Number((S.user && S.user.tonBalance) || 0);
+  var tonBal = tonBuckets().deposit;
   var need = Number(g.packageTon) || 0;
   var enough = tonBal + 1e-9 >= need;
   document.getElementById('wgCrystal').textContent = fmtShiba(crystal);
@@ -3745,7 +3771,7 @@ async function submitDeposit(){
 var TON_TO_CRYSTAL_RATE = 1100;
 function openConvertForm(){
   var rate = Number((S.data && S.data.config && S.data.config.crystalPerTon) || TON_TO_CRYSTAL_RATE);
-  document.getElementById('tcTonBalance').textContent = Number((S.user&&S.user.tonBalance)||0).toFixed(4)+' TON';
+  document.getElementById('tcTonBalance').textContent = tonBuckets().deposit.toFixed(4)+' TON';
   document.getElementById('tcCrystalBalance').textContent = fmtShiba((S.user&&S.user.balance)||0)+' CRYSTAL';
   document.getElementById('tcRateLabel').textContent = '📊 1 TON = ' + rate.toLocaleString('en-US') + ' CRYSTAL';
   document.getElementById('tcAmount').value = '';
@@ -3756,7 +3782,7 @@ function openConvertForm(){
 }
 function setMaxTonConvertAmount(){
   var rate = Number((S.data && S.data.config && S.data.config.crystalPerTon) || TON_TO_CRYSTAL_RATE);
-  var max = Number((S.user&&S.user.tonBalance)||0);
+  var max = tonBuckets().deposit;
   var input = document.getElementById('tcAmount');
   input.value = max > 0 ? max : '';
   document.getElementById('tcCrystalOutput').textContent = fmtShiba(max*rate);
@@ -3764,14 +3790,14 @@ function setMaxTonConvertAmount(){
 function submitTonToCrystalConvert(){
   var amount = Number(document.getElementById('tcAmount').value);
   if (!Number.isFinite(amount) || amount <= 0){ showToast('Enter a valid TON amount','error'); return; }
-  if (S.user && amount > Number(S.user.tonBalance || 0)){ showToast('Insufficient TON balance','error'); return; }
+  if (amount > tonBuckets().deposit + 1e-9){ showToast(t('store.needDeposit'),'error'); return; }
   var btn = document.getElementById('tcSubmitBtn');
   if (btn.disabled) return;
   btn.disabled = true; btn.textContent = 'Converting...';
   api('buyCrystalWithTon', { tonAmount: amount, purchaseType: 'convert' }).then(function(res){
     btn.disabled = false; btn.textContent = t('convert.submit');
     if (!res.success){ showToast(res.error||'Conversion failed','error'); return; }
-    S.user.balance = res.data.shibaBalance; S.user.tonBalance = res.data.tonBalance;
+    S.user.balance = res.data.shibaBalance; syncTonFromServer(res.data);
     syncMiningFromServer(res.data); updateGateAfterPurchase(res.data.maxPurchasedTon);
     updateCrystalTonValueDisplays(); updateWalletTonBalance();
     document.getElementById('homeTon').textContent = fmtShiba(S.user.balance);
@@ -3841,6 +3867,19 @@ function syncMiningFromServer(d){
   S.data.mining.pendingTon = Number(d.miningPendingTon) || 0;
   S.data.mining._syncAt = Date.now();
 }
+// TON is split in two buckets: total = deposit(+other sources) + mining.
+// mining  -> the only part that can be withdrawn.
+// deposit -> the only part that can buy store packages.
+function tonBuckets(){
+  var total = Math.max(0, Number((S.user && S.user.tonBalance) || 0));
+  var mining = Math.min(total, Math.max(0, Number((S.user && S.user.miningTonBalance) || 0)));
+  return { total: total, mining: mining, deposit: Math.max(0, total - mining) };
+}
+function syncTonFromServer(d){
+  if (!d || !S.user) return;
+  if (typeof d.tonBalance === 'number') S.user.tonBalance = d.tonBalance;
+  if (typeof d.miningTonBalance === 'number') S.user.miningTonBalance = d.miningTonBalance;
+}
 function getStorePacks(){
   var cfg = (S.data && S.data.config) || {};
   var list = (cfg.storePacks && cfg.storePacks.length) ? cfg.storePacks.map(Number).filter(function(n){ return n > 0; }) : [];
@@ -3865,7 +3904,10 @@ function renderStore(){
   var miningBox = (S.data && S.data.mining) || {}, miningCfg = (S.data && S.data.config) || {};
   var dailyPerCrystal = Number(miningBox.ratePerCrystal ?? miningCfg.miningRatePerCrystal ?? 0.00005);
   document.getElementById('storeRateLine').textContent = rate.toLocaleString('en-US') + ' CRYSTAL = 1 TON';
-  document.getElementById('storeCoinBalance').textContent = Number((S.user && S.user.tonBalance) || 0).toFixed(4) + ' TON';
+  var sb = tonBuckets();
+  document.getElementById('storeCoinBalance').textContent = sb.deposit.toFixed(4) + ' TON';
+  var sn = document.getElementById('storeBalNote');
+  if (sn) sn.textContent = t('store.note').replace('{m}', sb.mining.toFixed(4));
   var grid = document.getElementById('storeGrid');
   var gate = getWithdrawGate();
   var lockedGate = withdrawGateLocked();
@@ -3890,8 +3932,8 @@ function renderStore(){
 }
 function buyStorePack(tonCost, crystalGet, btn){
   if (storeBuyBusy) return;
-  var tonBalance = Number((S.user && S.user.tonBalance) || 0);
-  if (tonCost > tonBalance){ showToast('Not enough TON for this package', 'error'); return; }
+  var tonBalance = tonBuckets().deposit;
+  if (tonCost > tonBalance + 1e-9){ showToast(t('store.needDeposit'), 'error'); return; }
   storeBuyBusy = true;
   // Instant feedback: spinner on the pressed button, other packs dimmed until the server answers
   var storeGridEl = document.getElementById('storeGrid');
@@ -3899,7 +3941,7 @@ function buyStorePack(tonCost, crystalGet, btn){
   if (storeGridEl) storeGridEl.classList.add('busy');
   api('buyCrystalWithTon', { tonAmount: tonCost, purchaseType: 'package' }).then(function(res){
     if (!res.success){ showToast(res.error || 'Purchase failed', 'error'); return; }
-    S.user.balance = res.data.shibaBalance; S.user.tonBalance = res.data.tonBalance;
+    S.user.balance = res.data.shibaBalance; syncTonFromServer(res.data);
     syncMiningFromServer(res.data); updateGateAfterPurchase(res.data.maxPurchasedTon);
     updateCrystalTonValueDisplays(); updateWalletTonBalance();
     document.getElementById('homeTon').textContent = fmtShiba(S.user.balance);
