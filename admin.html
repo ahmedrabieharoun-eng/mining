@@ -992,7 +992,9 @@ function openEditUser(id){
   document.getElementById('modalTitle').textContent = 'تعديل رصيد: ' + displayName(u);
   document.getElementById('modalBody').innerHTML = `
     <div class="field"><label>رصيد CRYSTAL (قوة التعدين)</label><input type="number" id="m_balance" value="${Number(u.balance||0)}"></div>
-    <div class="field"><label>رصيد TON</label><input type="number" step="0.0001" id="m_tonBalance" value="${Number(u.tonBalance||0)}"></div>
+    <div class="field"><label>إجمالي رصيد TON (إيداع + تعدين)</label><input type="number" step="0.0001" id="m_tonBalance" value="${Number(u.tonBalance||0)}"></div>
+    <div class="field"><label>منه: المكتسب من التعدين (القابل للسحب) <span class="tip">miningTonBalance</span></label><input type="number" step="0.0001" id="m_miningTon" value="${Number(u.miningTonBalance||0)}"></div>
+    <div class="wdc-hint" style="margin-top:0">الباقي (الإجمالي − التعدين) = رصيد الإيداع، ويُستخدم للشراء من المتجر فقط.</div>
     <div class="field"><label>محفظة TON المرتبطة</label><input type="text" class="sans" id="m_tonWallet" value="${escapeHtml(u.tonWallet||u.wallet||'')}"></div>
     <div class="switch-row" style="margin-top:4px">
       <div class="lbl"><b>حظر الحساب</b><span>منع الحساب فورًا من استخدام البوت ومكافآت الإحالة</span></div>
@@ -1011,8 +1013,9 @@ function saveUserEdit(id){
   const tonBalance = Number(document.getElementById('m_tonBalance').value)||0;
   const tonWallet = document.getElementById('m_tonWallet').value.trim();
   const blockedNow = document.getElementById('m_blocked').checked;
+  const miningTonBalance = Math.min(Math.max(0, Number(document.getElementById('m_miningTon').value)||0), tonBalance);
 
-  const updates = { balance, tonBalance, tonWallet };
+  const updates = { balance, tonBalance, miningTonBalance, tonWallet };
   db.ref('users/'+id).update(updates)
     .then(()=>{
       const wasBlocked = !!blockedCache[id];
@@ -1244,7 +1247,7 @@ function executeResetSingleUser(){
   if(!confirm(`⚠️ هل أنت متأكد من تصفير رصيد المستخدم ${id} نهائيًا؟ لا يمكن التراجع!`)) return;
   const updates = {};
   if(resetCRYSTAL) updates.balance = 0;
-  if(resetTON) updates.tonBalance = 0;
+  if(resetTON){ updates.tonBalance = 0; updates.miningTonBalance = 0; }
   db.ref('users/'+id).update(updates)
     .then(()=>{
       toast('✓ تم تصفير رصيد المستخدم ' + id);
@@ -1270,7 +1273,7 @@ function executeResetBalances(){
     if(!confirm(`⚠️ هل أنت متأكد من تصفير رصيد المستخدم ${userId} نهائيًا؟ لا يمكن التراجع!`)) return;
     const updates = {};
     if(resetCRYSTAL) updates.balance = 0;
-    if(resetTON) updates.tonBalance = 0;
+    if(resetTON){ updates.tonBalance = 0; updates.miningTonBalance = 0; }
     db.ref('users/'+userId).update(updates)
       .then(()=>{ toast('✓ تم تصفير رصيد المستخدم ' + userId); closeModal(); })
       .catch(err=>toast('خطأ: '+err.message, true));
@@ -1416,7 +1419,10 @@ function rejectWithdrawal(uid, wid, requestedAmount){
   if(refund){
     const u = usersCache[uid] || {};
     const newBal = Number(u.tonBalance||0) + Number(requestedAmount||0);
-    db.ref('users/'+uid).update({tonBalance:newBal}).then(doReject).catch(err=>toast('خطأ: '+err.message,true));
+    // السحب كان من رصيد التعدين، فالاسترجاع يرجع لنفس الرصيد (القابل للسحب)
+    const refundUpd = {tonBalance:newBal};
+    if(u.miningTonBalance !== undefined && u.miningTonBalance !== null) refundUpd.miningTonBalance = Number(u.miningTonBalance||0) + Number(requestedAmount||0);
+    db.ref('users/'+uid).update(refundUpd).then(doReject).catch(err=>toast('خطأ: '+err.message,true));
   } else {
     doReject();
   }
