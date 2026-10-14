@@ -2214,14 +2214,13 @@ html,body{height:100%;
   </div>
 </div>
 
-<!-- Security Captcha Modal (Cloudflare Turnstile) -->
-<div class="modal-overlay" id="captchaModal" onclick="if(event.target.id==='captchaModal')cancelCaptcha()">
+<!-- Security Captcha Modal (Cloudflare Turnstile) — shown ONCE when the bot is opened; mandatory, cannot be dismissed -->
+<div class="modal-overlay" id="captchaModal" style="z-index:1100">
   <div class="modal">
     <div class="modal-handle"></div>
     <div class="modal-title">🔒 Security Check</div>
-    <div class="modal-desc">Please complete the quick verification below to continue and receive your reward.</div>
+    <div class="modal-desc">Please complete this quick one-time verification to continue using the bot.</div>
     <div id="captchaWidgetBox" style="display:flex;justify-content:center;min-height:65px;margin:16px 0;"></div>
-    <button class="modal-close" onclick="cancelCaptcha()">Cancel</button>
   </div>
 </div>
 
@@ -2624,33 +2623,20 @@ function startHeartbeat(){
 
 // ── API ──────────────────────────────────────────────────────────────
 // The new worker.js routes requests via the path: POST /getState, POST /verifyTask ...
-// ── Cloudflare Turnstile (Captcha) ─────────────────────────────────────
-// The server decides when a captcha is required (every 3 ads) and replies
-// with {success:false, requiresCaptcha:true}. When that
-// happens we show this modal, solve the challenge, then silently retry the
-// same API call with the resulting token attached.
+// ── Cloudflare Turnstile (Captcha) — ONE-TIME session captcha ───────────
+// The captcha is shown once when the bot is opened. Until it is solved the
+// server rejects every request with {requiresCaptcha:true, captchaSession:true};
+// api() catches that, shows the (non-dismissible) modal, calls /verifyCaptcha,
+// then transparently retries the original request. After that there is no
+// captcha anywhere else (ads, mining, daily bonus, combo, tasks...).
 var TURNSTILE_SITE_KEY = '0x4AAAAAACOf6mYyukJx5XVy';
 var captchaWidgetId = null;
 var captchaResolve = null;
-var captchaReject = null;
+var _captchaSessionPromise = null;
 
-// Maps our internal API action names to the Turnstile "action" value sent
-// to Cloudflare siteverify, so the server can check data.action — see
-// verifyTurnstile() server-side.
-var TURNSTILE_ACTION_MAP = {
-  syncBalance: 'ad_reward',
-  claimMining: 'claim_mining',
-  claimDailyBonus: 'daily_bonus',
-  checkCombo: 'daily_combo',
-  verifyTask: 'bot_task',
-};
-var captchaCurrentAction = null;
-
-function openCaptchaModal(apiAction){
-  captchaCurrentAction = TURNSTILE_ACTION_MAP[apiAction] || 'verify';
-  return new Promise(function(resolve, reject){
+function openCaptchaModal(){
+  return new Promise(function(resolve){
     captchaResolve = resolve;
-    captchaReject = reject;
     openModal('captchaModal');
     renderCaptchaWidget();
   });
@@ -2672,15 +2658,15 @@ function renderCaptchaWidget(){
   captchaWidgetId = turnstile.render(box, {
     sitekey: TURNSTILE_SITE_KEY,
     theme: 'dark',
-    action: captchaCurrentAction || 'verify',
+    action: 'session_verify',
     callback: function(token){
       var resolve = captchaResolve;
-      captchaResolve = null; captchaReject = null;
+      captchaResolve = null;
       closeModal('captchaModal');
       if (resolve) resolve(token);
     },
     'error-callback': function(){
-      showToast('Verification failed','error');
+      showToast('Verification failed, please try again','error');
     },
     'expired-callback': function(){
       if (captchaWidgetId !== null) turnstile.reset(captchaWidgetId);
@@ -2688,33 +2674,33 @@ function renderCaptchaWidget(){
   });
 }
 
-function cancelCaptcha(){
-  closeModal('captchaModal');
-  if (captchaWidgetId !== null && typeof turnstile !== 'undefined'){
-    try { turnstile.remove(captchaWidgetId); } catch(_){}
-  }
-  captchaWidgetId = null;
-  var reject = captchaReject;
-  captchaResolve = null; captchaReject = null;
-  if (reject) reject(new Error('captcha_cancelled'));
+// Solves the captcha and registers the session on the server. Mandatory: it
+// keeps asking until the server accepts the token. Concurrent callers share
+// the same promise so only one modal is ever shown.
+function ensureCaptchaSession(){
+  if (_captchaSessionPromise) return _captchaSessionPromise;
+  _captchaSessionPromise = new Promise(function(resolve){
+    (function attempt(){
+      openCaptchaModal().then(function(token){
+        return _apiRaw('verifyCaptcha', { turnstileToken: token });
+      }).then(function(res){
+        if (res && res.success){ resolve(true); return; }
+        if (res && res.blocked){ resolve(false); return; }
+        showToast((res && res.error && !res.requiresCaptcha) ? res.error : 'Verification failed, please try again','error');
+        attempt();
+      }).catch(function(){
+        showToast('Connection problem, please try again','error');
+        setTimeout(attempt, 1500);
+      });
+    })();
+  }).then(function(v){ _captchaSessionPromise = null; return v; });
+  return _captchaSessionPromise;
 }
 
-// Wraps api() so any endpoint that may require a Turnstile captcha (ad
-// rewards every 3 ads) transparently prompts the user
-// and retries once solved, without every caller needing its own logic.
+// Kept as a thin alias so older call sites keep working: there is no
+// per-action captcha anymore, the one-time session captcha is handled in api().
 function apiCaptcha(action, data){
-  var payload = data || {};
-  return api(action, payload).then(function(res){
-    if (res && res.requiresCaptcha){
-      return openCaptchaModal(action).then(function(token){
-        var retryPayload = Object.assign({}, payload, { turnstileToken: token });
-        return api(action, retryPayload);
-      }).catch(function(){
-        return { success:false, error: res.error || 'Verification was cancelled', captchaCancelled:true };
-      });
-    }
-    return res;
-  });
+  return api(action, data);
 }
 
 // Runs alongside the ad while it's on screen: pings the server every ~2s
@@ -2843,7 +2829,7 @@ function _reqMonitorProbe(){
 setInterval(_reqMonitorProbe, 1000);
 _reqMonitorProbe();
 
-async function api(action, data){
+async function _apiRaw(action, data){
   if (_reqMonitorOpen){
     // No network call is made at all while a monitor is detected.
     return { success:false, error:'Request monitor detected', blocked:false };
@@ -2866,6 +2852,19 @@ async function api(action, data){
     if (res && res.blocked) showBannedScreen(res);
     return res;
   });
+}
+
+// Public API wrapper: if the server says the one-time session captcha has not
+// been solved yet (first request after opening the bot, or after a server
+// restart), solve it and retry the same request once.
+async function api(action, data){
+  var res = await _apiRaw(action, data);
+  if (res && res.captchaSession && action !== 'verifyCaptcha'){
+    var okSession = await ensureCaptchaSession();
+    if (!okSession) return res;
+    res = await _apiRaw(action, data);
+  }
+  return res;
 }
 
 // ── Load state ───────────────────────────────────────────────────────
