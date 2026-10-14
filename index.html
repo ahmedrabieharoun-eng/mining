@@ -9,6 +9,7 @@
 <!-- Critical for boot: Telegram SDK + device fingerprint (must be ready before the first API call) -->
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <script src="anti-fraud-frontend.js"></script>
+<script src="i18n.js"></script>
 <!-- Non-critical SDKs (wallet + ad networks): `async` so a slow/blocked CDN can no longer freeze the loading page.
      Every one of them is only used on a click, behind a "is it loaded yet?" check. -->
 <script src="https://unpkg.com/@tonconnect/ui@2.0.9/dist/tonconnect-ui.min.js" async></script>
@@ -1885,17 +1886,32 @@ html,body{height:100%;
       <div class="lang-list">
         <div class="lang-item" id="langItem-ar" onclick="setLanguage('ar')">
           <div class="lang-flag">🇪🇬</div>
-          <div class="lang-name"><div class="lang-name-main">العربية</div><div class="lang-name-sub">Arabic</div></div>
+          <div class="lang-name"><div class="lang-name-main" data-no-tr>العربية</div><div class="lang-name-sub">Arabic</div></div>
           <div class="lang-check">✓</div>
         </div>
         <div class="lang-item" id="langItem-en" onclick="setLanguage('en')">
           <div class="lang-flag">🇬🇧</div>
-          <div class="lang-name"><div class="lang-name-main">English</div><div class="lang-name-sub">English</div></div>
+          <div class="lang-name"><div class="lang-name-main" data-no-tr>English</div><div class="lang-name-sub">English</div></div>
           <div class="lang-check">✓</div>
         </div>
         <div class="lang-item" id="langItem-fr" onclick="setLanguage('fr')">
           <div class="lang-flag">🇫🇷</div>
-          <div class="lang-name"><div class="lang-name-main">Français</div><div class="lang-name-sub">French</div></div>
+          <div class="lang-name"><div class="lang-name-main" data-no-tr>Français</div><div class="lang-name-sub">French</div></div>
+          <div class="lang-check">✓</div>
+        </div>
+        <div class="lang-item" id="langItem-ru" onclick="setLanguage('ru')">
+          <div class="lang-flag">🇷🇺</div>
+          <div class="lang-name"><div class="lang-name-main" data-no-tr>Русский</div><div class="lang-name-sub">Russian</div></div>
+          <div class="lang-check">✓</div>
+        </div>
+        <div class="lang-item" id="langItem-fa" onclick="setLanguage('fa')">
+          <div class="lang-flag">🇮🇷</div>
+          <div class="lang-name"><div class="lang-name-main" data-no-tr>فارسی</div><div class="lang-name-sub">Persian</div></div>
+          <div class="lang-check">✓</div>
+        </div>
+        <div class="lang-item" id="langItem-hi" onclick="setLanguage('hi')">
+          <div class="lang-flag">🇮🇳</div>
+          <div class="lang-name"><div class="lang-name-main" data-no-tr>हिन्दी</div><div class="lang-name-sub">Hindi</div></div>
           <div class="lang-check">✓</div>
         </div>
       </div>
@@ -1944,7 +1960,7 @@ html,body{height:100%;
 
       <div class="wheel-info-banner">
         <div class="wheel-info-emoji">🎯</div>
-        <div class="wheel-info-text">Earn <b>1 free spin</b> for every <b id="wheelRefsPerSpin">2</b> active referrals. Spin to win up to <b>10,000 <img class="shiba-icon-inline" src="https://i.ibb.co/chCjf1zw/Chat-GPT-Image-Sep-25-2026-04-18-45-AM-1.png" alt="CRYSTAL"></b>!</div>
+        <div class="wheel-info-text" data-tr-html="wheel">Earn <b>1 free spin</b> for every <b id="wheelRefsPerSpin">2</b> active referrals. Spin to win up to <b>10,000 <img class="shiba-icon-inline" src="https://i.ibb.co/chCjf1zw/Chat-GPT-Image-Sep-25-2026-04-18-45-AM-1.png" alt="CRYSTAL"></b>!</div>
       </div>
 
       <div class="wheel-stage">
@@ -2123,11 +2139,11 @@ html,body{height:100%;
   <div class="ct-sheet">
     <h3>How the contest works</h3>
     <div class="ct-sheet-sub">Everything you need to know</div>
-    <div class="ct-step"><div class="ct-step-n">1</div><div class="ct-step-t"><b>Invite friends</b> with your personal link from the Referrals page. Each round lasts <b>7 days</b>.</div></div>
-    <div class="ct-step"><div class="ct-step-n">2</div><div class="ct-step-t">Only <b>active</b> referrals who joined <b>during the current round</b> count. Pending, flagged or older invites are not counted.</div></div>
-    <div class="ct-step"><div class="ct-step-n">3</div><div class="ct-step-t">Ranking is by number of active referrals. On a tie, whoever reached the count <b>first</b> ranks higher.</div></div>
-    <div class="ct-step"><div class="ct-step-n">4</div><div class="ct-step-t">The <b>top 10</b> win TON prizes. The prize pool is <b id="ctHelpPool">3</b> TON in total, with the biggest prize for #1.</div></div>
-    <div class="ct-step"><div class="ct-step-n">5</div><div class="ct-step-t">When the timer ends, prizes are <b>added to your TON balance automatically</b> and you get a Telegram message. A new round starts right away.</div></div>
+    <div class="ct-step"><div class="ct-step-n">1</div><div class="ct-step-t" data-tr-html="contest1"><b>Invite friends</b> with your personal link from the Referrals page. Each round lasts <b>7 days</b>.</div></div>
+    <div class="ct-step"><div class="ct-step-n">2</div><div class="ct-step-t" data-tr-html="contest2">Only <b>active</b> referrals who joined <b>during the current round</b> count. Pending, flagged or older invites are not counted.</div></div>
+    <div class="ct-step"><div class="ct-step-n">3</div><div class="ct-step-t" data-tr-html="contest3">Ranking is by number of active referrals. On a tie, whoever reached the count <b>first</b> ranks higher.</div></div>
+    <div class="ct-step"><div class="ct-step-n">4</div><div class="ct-step-t" data-tr-html="contest4">The <b>top 10</b> win TON prizes. The prize pool is <b id="ctHelpPool">3</b> TON in total, with the biggest prize for #1.</div></div>
+    <div class="ct-step"><div class="ct-step-n">5</div><div class="ct-step-t" data-tr-html="contest5">When the timer ends, prizes are <b>added to your TON balance automatically</b> and you get a Telegram message. A new round starts right away.</div></div>
     <button class="ct-close" onclick="closeModal('contestHelpModal')">Got it</button>
   </div>
 </div>
@@ -2332,19 +2348,21 @@ var LANG = {
     'convert.pageTitle':'Convertir','convert.formTitle':'Convertir TON en CRYSTAL',
     'convert.balance':'Solde :','convert.submit':'⚡ Échanger maintenant',
     'language.pageTitle':'Langue'
-  }
+  },
+  ru: {}, fa: {}, hi: {}
 };
 var currentLang = (function(){
   try { return localStorage.getItem('appLang') || 'en'; } catch(_){ return 'en'; }
 })();
 function t(key){
   var dict = LANG[currentLang] || LANG.en;
+  if (currentLang !== 'en' && !(LANG[currentLang] && LANG[currentLang][key]) && LANG.en[key] !== undefined && window.I18N) return I18N.tr(LANG.en[key], currentLang);
   return (dict && dict[key]) || (LANG.en[key]) || key;
 }
 function applyLanguage(lang){
   currentLang = LANG[lang] ? lang : 'en';
   document.documentElement.setAttribute('lang', currentLang);
-  document.documentElement.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
+  document.documentElement.setAttribute('dir', (currentLang === 'ar' || currentLang === 'fa') ? 'rtl' : 'ltr');
   document.querySelectorAll('[data-i18n]').forEach(function(el){
     el.textContent = t(el.getAttribute('data-i18n'));
   });
@@ -2355,11 +2373,27 @@ function applyLanguage(lang){
     el.classList.toggle('active', el.id === 'langItem-' + currentLang);
   });
 }
+var _applyLanguageBase = applyLanguage;
+applyLanguage = function(lang){
+  _applyLanguageBase(lang);
+  if (window.I18N) I18N.setLang(currentLang, LANG);
+};
+function rerenderAfterLang(){
+  if (!S || !S.user || !S.data) return;
+  try { render(); } catch(_){}
+  try { renderStore(); } catch(_){}
+  try { if (S.lb) renderLeaderboard(); } catch(_){}
+  try { var fs = S.data.forceSub; if (fs && fs.required && !fs.passed) renderForceSub(fs); } catch(_){}
+  try { renderWithdrawBalances(); } catch(_){}
+  if (window.I18N) I18N.apply();
+}
+function I18N_block(k, p){ return window.I18N ? I18N.block(k, p) : ''; }
 function setLanguage(lang){
   currentLang = LANG[lang] ? lang : 'en';
   try { localStorage.setItem('appLang', currentLang); } catch(_){}
   applyLanguage(currentLang);
   showToast('✅');
+  try { rerenderAfterLang(); } catch(_){}
 }
 function renderLanguagePage(){
   document.querySelectorAll('.lang-item').forEach(function(el){
@@ -3495,7 +3529,7 @@ function renderLeaderboard(){
   var poolEl = document.getElementById('ctPool');
   var pool = data.totalPrizePoolTon != null ? data.totalPrizePoolTon : prizes.reduce(function(a,b){return a+b;},0);
   if (poolEl) poolEl.textContent = pool;
-  var hp = document.getElementById('ctHelpPool'); if (hp) hp.textContent = pool;
+  if (window.I18N) I18N.setParams({pool: pool}); var hp = document.getElementById('ctHelpPool'); if (hp) hp.textContent = pool;
 
   var u = S.user || {};
   var myName = u.firstName || (u.username ? '@'+u.username : '') || 'You';
@@ -4492,7 +4526,7 @@ function renderCombo(){
         '</div>'+
       '</div>'+
       '<div class="combo-info-card">'+
-        '<div class="combo-info-title" id="comboDesc">Select <b>'+COMBO_ITEMS.length+' items</b> to complete today\'s combo</div>'+
+        '<div class="combo-info-title" id="comboDesc">'+I18N_block('comboSelect',{n:COMBO_ITEMS.length})+'</div>'+
         '<div class="combo-info-sub">Only one attempt per day</div>'+
       '</div>'+
       '<div class="combo-items-row" id="comboItemsRow">'+
@@ -4525,7 +4559,7 @@ function renderComboState(){
   } else {
     btn.disabled = false;
     btn.innerHTML = '<span>✨</span><span>Check Combo — '+fmtShiba(reward)+' '+SHIBA_ICON+'</span>';
-    desc.innerHTML = 'Select <b>'+COMBO_ITEMS.length+' items</b> in the right order to complete today\'s combo';
+    desc.innerHTML = I18N_block('comboOrder',{n:COMBO_ITEMS.length});
   }
 }
 
@@ -4597,7 +4631,7 @@ function renderWheelInfo(){
   var spins = w.spinsAvailable || 0;
 
   document.getElementById('wheelSpinsLeft').textContent = spins;
-  document.getElementById('wheelRefsPerSpin').textContent = w.referralsPerSpin || 2;
+  if (window.I18N) I18N.setParams({refs: w.referralsPerSpin || 2}); var _wr = document.getElementById('wheelRefsPerSpin'); if (_wr) _wr.textContent = w.referralsPerSpin || 2;
 
    var badge = document.getElementById('homeWheelBadge');
    if (badge) {
@@ -4698,7 +4732,7 @@ function spinWheel(){
 function shareInvite(){
   if (!S.user) return;
   var link = buildRefLink(S.user.referralCode);
-   var text  = 'Join me on Crystal Mining Bot and earn real CRYSTAL!';
+   var text  = (window.I18N ? I18N.tr('Join me on Crystal Mining Bot and earn real CRYSTAL!', currentLang) : 'Join me on Crystal Mining Bot and earn real CRYSTAL!');
   var url   = 'https://t.me/share/url?url='+encodeURIComponent(link)+'&text='+encodeURIComponent(text);
   if (window.Telegram && Telegram.WebApp && Telegram.WebApp.openTelegramLink){
     try { Telegram.WebApp.openTelegramLink(url); return; } catch(_){}
