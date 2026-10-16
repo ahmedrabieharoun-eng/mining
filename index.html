@@ -346,6 +346,13 @@ html,body{height:100%;
 .ct-step-t{font-size:12.5px;line-height:1.6;color:#d5def5}
 .ct-step-t b{color:#fbbf24}
 .ct-close{width:100%;margin-top:8px;padding:14px;border-radius:14px;border:none;background:linear-gradient(135deg,#fde68a,#fbbf24 45%,#f59e0b);color:#1a1200;font-size:15px;font-weight:900;cursor:pointer}
+/* ── Contest tabs (Referrals / Ads) ── */
+.ct-tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:12px 16px 2px;padding:5px;border-radius:16px;background:rgba(4,9,22,.7);border:1px solid rgba(96,165,250,.2)}
+.ct-tab{padding:11px 6px;border-radius:12px;border:none;background:transparent;color:#8ea2cf;font-size:13px;font-weight:800;cursor:pointer;transition:all .2s}
+.ct-tab.active{background:linear-gradient(135deg,#fde68a,#fbbf24 45%,#f59e0b);color:#1a1200;box-shadow:0 4px 14px rgba(251,191,36,.25)}
+.ct-pane{display:none}
+.ct-pane.active{display:block}
+.ct-cr-ico{width:15px;height:15px;object-fit:contain;vertical-align:-3px}
 /* ── My Referrals list ── */
 .rf-list-wrap{margin:0 16px 24px}
 .rf-list-head{display:flex;align-items:center;justify-content:space-between;margin:4px 2px 12px;font-size:16px;font-weight:800;color:var(--text)}
@@ -1931,9 +1938,14 @@ html,body{height:100%;
     <!-- WEEKLY CONTEST -->
     <div class="page" id="page-record">
       <div class="ct-head">
-        <div><div class="ct-title">🏆 Weekly Contest</div><div class="ct-sub">Invite friends · climb the ranks · win TON</div></div>
-        <button class="ct-help" onclick="openModal('contestHelpModal')" aria-label="How the contest works">?</button>
+        <div><div class="ct-title">🏆 Weekly Contest</div><div class="ct-sub" id="ctSub">Invite friends · climb the ranks · win TON</div></div>
+        <button class="ct-help" onclick="openContestHelp()" aria-label="How the contest works">?</button>
       </div>
+      <div class="ct-tabs">
+        <button class="ct-tab active" id="ctTabRef" onclick="switchContestTab('ref')">👥 Referrals Contest</button>
+        <button class="ct-tab" id="ctTabAds" onclick="switchContestTab('ads')">📢 Ads Contest</button>
+      </div>
+      <div class="ct-pane active" id="ctPaneRef">
       <div class="ct-pool">
         <div class="ct-pool-glow"></div>
         <div class="ct-pool-trophy">🏆</div>
@@ -1949,6 +1961,24 @@ html,body{height:100%;
       <div class="ct-top3" id="ctTop3"><div class="empty-state">Loading…</div></div>
       <div class="ct-sec" id="ctListLabel" style="display:none">Rank 4+</div>
       <div class="ct-list" id="ctList"></div>
+      </div>
+      <div class="ct-pane" id="ctPaneAds">
+      <div class="ct-pool">
+        <div class="ct-pool-glow"></div>
+        <div class="ct-pool-trophy">🏆</div>
+        <div class="ct-spark s1">✦</div><div class="ct-spark s2">✦</div><div class="ct-spark s3">✦</div>
+        <div class="ct-pool-lbl">Total prize pool</div>
+        <div class="ct-pool-val"><img src="https://i.ibb.co/chCjf1zw/Chat-GPT-Image-Sep-25-2026-04-18-45-AM-1.png" alt="CRYSTAL"><span id="adPool">3,000</span><em>CRYSTAL</em></div>
+        <div class="ct-timer"><span class="ct-live"></span><span class="ct-timer-lbl">Ends in</span><span class="ct-timer-val" id="adTimer">--:--:--</span></div>
+      </div>
+      <div id="adMe"></div>
+      <div class="ct-sec">Prizes</div>
+      <div class="ct-prizes" id="adPrizes"></div>
+      <div class="ct-sec" id="adTopLabel">Leaderboard</div>
+      <div class="ct-top3" id="adTop3"><div class="empty-state">Loading…</div></div>
+      <div class="ct-sec" id="adListLabel" style="display:none">Rank 4+</div>
+      <div class="ct-list" id="adList"></div>
+      </div>
     </div>
 
     <!-- LUCKY WHEEL -->
@@ -2145,6 +2175,18 @@ html,body{height:100%;
     <div class="ct-step"><div class="ct-step-n">4</div><div class="ct-step-t" data-tr-html="contest4">The <b>top 10</b> win TON prizes. The prize pool is <b id="ctHelpPool">3</b> TON in total, with the biggest prize for #1.</div></div>
     <div class="ct-step"><div class="ct-step-n">5</div><div class="ct-step-t" data-tr-html="contest5">When the timer ends, prizes are <b>added to your TON balance automatically</b> and you get a Telegram message. A new round starts right away.</div></div>
     <button class="ct-close" onclick="closeModal('contestHelpModal')">Got it</button>
+  </div>
+</div>
+<div class="modal-overlay ct-modal" id="adsContestHelpModal" onclick="closeModalOutside(event,'adsContestHelpModal')">
+  <div class="ct-sheet">
+    <h3>How the Ads Contest works</h3>
+    <div class="ct-sheet-sub">Watch ads · climb the ranks · win CRYSTAL</div>
+    <div class="ct-step"><div class="ct-step-n">1</div><div class="ct-step-t"><b>Watch ads</b> from the Home page. Each round lasts <b>7 days</b>.</div></div>
+    <div class="ct-step"><div class="ct-step-n">2</div><div class="ct-step-t">Only ads you <b>watched completely and got rewarded for</b> during the current round count.</div></div>
+    <div class="ct-step"><div class="ct-step-n">3</div><div class="ct-step-t">Ranking is by number of ads watched. On a tie, whoever reached the count <b>first</b> ranks higher.</div></div>
+    <div class="ct-step"><div class="ct-step-n">4</div><div class="ct-step-t">The <b>top 10</b> win CRYSTAL prizes. The prize pool is <b id="adHelpPool">3,000</b> CRYSTAL in total, with the biggest prize for #1.</div></div>
+    <div class="ct-step"><div class="ct-step-n">5</div><div class="ct-step-t">When the timer ends, prizes are <b>added to your CRYSTAL balance automatically</b> and you get a Telegram message. A new round starts right away.</div></div>
+    <button class="ct-close" onclick="closeModal('adsContestHelpModal')">Got it</button>
   </div>
 </div>
 
@@ -2383,6 +2425,7 @@ function rerenderAfterLang(){
   try { render(); } catch(_){}
   try { renderStore(); } catch(_){}
   try { if (S.lb) renderLeaderboard(); } catch(_){}
+  try { if (S.adLb) renderAdsLeaderboard(); } catch(_){}
   try { var fs = S.data.forceSub; if (fs && fs.required && !fs.passed) renderForceSub(fs); } catch(_){}
   try { renderWithdrawBalances(); } catch(_){}
   if (window.I18N) I18N.apply();
@@ -2525,7 +2568,7 @@ var wheelRotation = 0;
 var wheelSpinning = false;
 
 // ── State ───────────────────────────────────────────────────────────
-var S = { initData:'', startParam:'', inTelegram:false, user:null, data:null, refs:[], refPage:0, comboFilled:0, comboSel:[], lb:null, lbLoaded:false, miningState:'idle' };
+var S = { initData:'', startParam:'', inTelegram:false, user:null, data:null, refs:[], refPage:0, comboFilled:0, comboSel:[], lb:null, lbLoaded:false, adLb:null, adLbLoaded:false, ctTab:'ref', miningState:'idle' };
 
 // Device fingerprint (anti multi-account). Computed once by generateDeviceFingerprint()
 // from anti-fraud-frontend.js and reused for the whole session; it starts as soon as
@@ -3501,6 +3544,7 @@ var LB_MEDALS = ['🥇','🥈','🥉'];
 var lbTimerInterval = null;
 
 function loadRecordPage(){
+  if (S.ctTab === 'ads') return loadAdsContest();
   var el = document.getElementById('ctTop3');
   if (!el) return;
   if (!S.lbLoaded) el.innerHTML = '<div class="empty-state">Loading…</div>';
@@ -3638,6 +3682,155 @@ function updateLbTimer(){
   var s = totalSec % 60;
   var pad = function(n){ return String(n).padStart(2,'0'); };
   elT.textContent = (d > 0 ? d + 'd ' : '') + pad(h) + ':' + pad(m) + ':' + pad(s);
+}
+
+
+// ── Contest tabs + Weekly Ads Contest ─────────────────────────────────
+function switchContestTab(tab){
+  S.ctTab = (tab === 'ads') ? 'ads' : 'ref';
+  var isAds = S.ctTab === 'ads';
+  document.getElementById('ctTabRef').classList.toggle('active', !isAds);
+  document.getElementById('ctTabAds').classList.toggle('active', isAds);
+  document.getElementById('ctPaneRef').classList.toggle('active', !isAds);
+  document.getElementById('ctPaneAds').classList.toggle('active', isAds);
+  var sub = document.getElementById('ctSub');
+  if (sub) sub.textContent = isAds ? 'Watch ads · climb the ranks · win CRYSTAL' : 'Invite friends · climb the ranks · win TON';
+  loadRecordPage();
+}
+function openContestHelp(){ openModal(S.ctTab === 'ads' ? 'adsContestHelpModal' : 'contestHelpModal'); }
+
+var adTimerInterval = null;
+var CR_IMG = '<img class="ct-cr-ico" src="https://i.ibb.co/chCjf1zw/Chat-GPT-Image-Sep-25-2026-04-18-45-AM-1.png" alt="CRYSTAL">';
+function fmtCr(n){ return Number(n || 0).toLocaleString('en-US'); }
+
+function loadAdsContest(){
+  var el = document.getElementById('adTop3');
+  if (!el) return;
+  if (!S.adLbLoaded) el.innerHTML = '<div class="empty-state">Loading…</div>';
+  api('getAdsLeaderboard', {}).then(function(res){
+    if (!res || !res.success){
+      if (!S.adLbLoaded) el.innerHTML = '<div class="empty-state">Unable to load the leaderboard right now</div>';
+      return;
+    }
+    S.adLb = res.data;
+    S.adLbLoaded = true;
+    renderAdsLeaderboard();
+    startAdsTimer();
+  }).catch(function(){
+    if (!S.adLbLoaded) el.innerHTML = '<div class="empty-state">Unable to load the leaderboard right now</div>';
+  });
+}
+
+function renderAdsLeaderboard(){
+  var data = S.adLb;
+  if (!data) return;
+  var list = data.leaderboard || [];
+  var prizes = data.prizesCrystal || [];
+  var esc2 = esc;
+
+  var pool = data.totalPrizePoolCrystal != null ? data.totalPrizePoolCrystal : prizes.reduce(function(a,b){return a+b;},0);
+  var poolEl = document.getElementById('adPool'); if (poolEl) poolEl.textContent = fmtCr(pool);
+  var hp = document.getElementById('adHelpPool'); if (hp) hp.textContent = fmtCr(pool);
+
+  var u = S.user || {};
+  var myName = u.firstName || (u.username ? '@'+u.username : '') || 'You';
+  var myAv = u.photoUrl ? '<img src="'+esc2(u.photoUrl)+'" alt="">' : esc2(myName.charAt(0).toUpperCase());
+  var myCount = data.myAdsThisWeek || 0;
+  var gapHint = '';
+  (function(){
+    var rk = Number(data.myRank || 0);
+    if (rk > 1){
+      var above = list.filter(function(r){ return r.rank === rk-1; })[0];
+      if (above){
+        var gap = Math.max(1, (above.adsThisWeek || 0) - myCount + 1);
+        gapHint = '<div class="ct-gap">⚡ '+gap+' more to reach #'+(rk-1)+'</div>';
+      }
+    } else if (rk === 1){
+      gapHint = '<div class="ct-gap lead">👑 You\'re leading!</div>';
+    }
+  })();
+  var meEl = document.getElementById('adMe');
+  if (meEl) meEl.innerHTML = '<div class="ct-me"><div class="ct-av">'+myAv+'</div>'+
+    '<div class="ct-me-info"><div class="ct-me-name">'+esc2(myName)+'</div><div class="ct-me-sub">'+myCount+' ad'+(myCount===1?'':'s')+' watched this round</div>'+gapHint+'</div>'+
+    '<div class="ct-me-rank"><b>'+(data.myRank ? '#'+data.myRank : '—')+'</b><span>YOUR RANK</span></div></div>';
+
+  var pz = document.getElementById('adPrizes');
+  if (pz) pz.innerHTML =
+    '<div class="ctp-top">'+prizes.slice(0,3).map(function(p,i){
+      return '<div class="ctp-big g'+(i+1)+'"><div class="ctp-medal">'+LB_MEDALS[i]+'</div><div class="ctp-amt">'+fmtCr(p)+' '+CR_IMG+'</div><div class="ctp-lbl">'+['1st','2nd','3rd'][i]+' place</div></div>';
+    }).join('')+'</div>'+
+    (prizes.length>3 ? '<div class="ctp-rest">'+prizes.slice(3).map(function(p,i){
+      return '<div class="ctp-chip"><span>#'+(i+4)+'</span><b>'+fmtCr(p)+'</b></div>';
+    }).join('')+'</div>' : '');
+
+  var top3El = document.getElementById('adTop3');
+  var listEl = document.getElementById('adList');
+  var listLabel = document.getElementById('adListLabel');
+  if (!top3El || !listEl) return;
+  if (!list.length){
+    top3El.innerHTML = '<div class="empty-state">No ads watched yet this round — watch an ad to claim #1! 🚀</div>';
+    listEl.innerHTML = ''; if (listLabel) listLabel.style.display = 'none';
+    return;
+  }
+  var isMe = function(r){ return S.user && String(r.telegramId) === String(S.user.telegramId); };
+  var nameOf = function(r){ return r.firstName || (r.username ? '@'+r.username : '') || 'User'; };
+  var avOf = function(r){ var n = nameOf(r); return r.photoUrl ? '<img src="'+esc2(r.photoUrl)+'" alt="">' : esc2(n.charAt(0).toUpperCase()); };
+  var cntOf = function(r){ return r.adsThisWeek || 0; };
+  var maxCnt = Math.max(1, cntOf(list[0]));
+  var rowHtml = function(r, i){
+    var cls = r.rank<=3 ? ' r'+r.rank : '';
+    var pct = Math.max(4, Math.round(cntOf(r) / maxCnt * 100));
+    return '<div class="ct-row'+cls+(isMe(r)?' me':'')+'" style="animation-delay:'+Math.min(i*0.04,0.4)+'s">'+
+      '<div class="ct-pos">'+(LB_MEDALS[r.rank-1]||('#'+r.rank))+'</div>'+
+      '<div class="ct-av">'+avOf(r)+'</div>'+
+      '<div class="ct-row-info"><div class="ct-row-name">'+esc2(nameOf(r))+(isMe(r)?'<span class="ct-you">YOU</span>':'')+'</div>'+
+        '<div class="ct-row-cnt">📢 '+cntOf(r)+' ad'+(cntOf(r)===1?'':'s')+'</div>'+
+        '<div class="ct-bar"><i style="width:'+pct+'%"></i></div></div>'+
+      (r.prizeCrystal ? '<div class="ct-row-prize">+'+fmtCr(r.prizeCrystal)+' '+CR_IMG+'</div>' : '<div class="ct-row-prize none">—</div>')+
+    '</div>';
+  };
+  var pod = function(r, place){
+    if (!r) return '<div class="pd p'+place+' empty"><div class="pd-av">?</div><div class="pd-name">—</div><div class="pd-base"><span>'+place+'</span></div></div>';
+    var crown = place===1 ? '<div class="pd-crown">👑</div>' : '';
+    return '<div class="pd p'+place+(isMe(r)?' me':'')+'">'+crown+
+      '<div class="pd-av">'+avOf(r)+'</div>'+
+      '<div class="pd-name">'+esc2(nameOf(r))+(isMe(r)?'<span class="ct-you">YOU</span>':'')+'</div>'+
+      '<div class="pd-cnt">📢 '+cntOf(r)+'</div>'+
+      (r.prizeCrystal ? '<div class="pd-prize">+'+fmtCr(r.prizeCrystal)+' '+CR_IMG+'</div>' : '')+
+      '<div class="pd-base"><span>'+place+'</span></div>'+
+    '</div>';
+  };
+  top3El.innerHTML = '<div class="ct-podium">'+pod(list[1],2)+pod(list[0],1)+pod(list[2],3)+'</div>';
+  var rest = list.slice(3);
+  listEl.innerHTML = rest.map(function(r,i){ return rowHtml(r,i); }).join('');
+  if (listLabel) listLabel.style.display = rest.length ? '' : 'none';
+}
+
+function startAdsTimer(){
+  if (adTimerInterval) clearInterval(adTimerInterval);
+  updateAdsTimer();
+  adTimerInterval = setInterval(updateAdsTimer, 1000);
+}
+
+function updateAdsTimer(){
+  var data = S.adLb;
+  var elT = document.getElementById('adTimer');
+  if (!data || !elT) return;
+  var now = Date.now() + (S.clockOffsetMs || 0);
+  var remain = Math.max(0, (data.weekEndTs || 0) - now);
+  if (remain <= 0){
+    elT.textContent = 'Distributing prizes…';
+    clearInterval(adTimerInterval);
+    setTimeout(function(){ if (S.ctTab === 'ads') loadAdsContest(); }, 5000);
+    return;
+  }
+  var totalSec = Math.floor(remain / 1000);
+  var d = Math.floor(totalSec / 86400);
+  var hh = Math.floor((totalSec % 86400) / 3600);
+  var m = Math.floor((totalSec % 3600) / 60);
+  var s = totalSec % 60;
+  var pad = function(n){ return String(n).padStart(2,'0'); };
+  elT.textContent = (d > 0 ? d + 'd ' : '') + pad(hh) + ':' + pad(m) + ':' + pad(s);
 }
 
 // ── TON Wallet ───────────────────────────────────────────────────────────
