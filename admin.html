@@ -520,7 +520,7 @@ input:checked+.slider{background:var(--gold-2)}input:checked+.slider::before{tra
         </div>
 
         <div class="panel">
-          <div class="panel-head"><div><h2>فتح السحب لمستخدم معيّن</h2><div class="hint">بيكتب في users/&lt;id&gt;/withdrawalUnlocked (true = مفتوح، false = مقفول يدويًا، غير موجود = تلقائي حسب الشراء)</div></div></div>
+          <div class="panel-head"><div><h2>فتح السحب لمستخدم معيّن</h2><div class="hint">بيكتب في users/&lt;id&gt;/withdrawalUnlocked (true = مفتوح، false = مقفول لحد ما يشتري الباقة تاني، غير موجود = تلقائي حسب الشراء)</div></div></div>
           <div class="wdc-lookup">
             <input type="text" id="wd_uid" class="sans" placeholder="آيدي تيليجرام للمستخدم" inputmode="numeric">
             <button class="btn btn-ghost" id="wd_uFind">بحث</button>
@@ -1002,7 +1002,7 @@ function openEditUser(id){
       <select id="m_wdState" style="width:100%;background:var(--panel-2);border:1px solid var(--border);color:var(--text);border-radius:10px;padding:10px 12px">
         <option value="auto" ${u.withdrawalUnlocked===undefined||u.withdrawalUnlocked===null?'selected':''}>تلقائي (حسب شراء الباقة)</option>
         <option value="open" ${u.withdrawalUnlocked===true?'selected':''}>🔓 مفتوح له السحب</option>
-        <option value="locked" ${u.withdrawalUnlocked===false?'selected':''}>🔒 مقفول يدويًا</option>
+        <option value="locked" ${u.withdrawalUnlocked===false?'selected':''}>🔒 مقفول (لازم يشتري الباقة تاني)</option>
       </select></div>
     <div class="switch-row" style="margin-top:4px">
       <div class="lbl"><b>حظر الحساب</b><span>منع الحساب فورًا من استخدام البوت ومكافآت الإحالة</span></div>
@@ -1023,11 +1023,13 @@ function saveUserEdit(id){
   const blockedNow = document.getElementById('m_blocked').checked;
   const miningTonBalance = Math.min(Math.max(0, Number(document.getElementById('m_miningTon').value)||0), tonBalance);
 
+  const u0 = usersCache[id] || {};
   const updates = { balance, tonBalance, miningTonBalance, tonWallet };
   const wdSel = document.getElementById('m_wdState');
   if(wdSel){
     const st = wdSel.value;
     updates.withdrawalUnlocked = st==='open' ? true : (st==='locked' ? false : null);
+    if(st==='locked' && u0.withdrawalUnlocked !== false){ updates.maxPurchasedTon = 0; updates.maxPurchasedAt = null; }
   }
   db.ref('users/'+id).update(updates)
     .then(()=>{
@@ -2169,7 +2171,7 @@ function wdGateStatus(u){
   const meetsCurrent = maxP+1e-9 >= need;
   const flag = u.withdrawalUnlocked;
   if(flag === false)
-    return {open:false, kind:'locked', label:'🔒 مقفول يدويًا', reason:'تم قفل السحب لهذا المستخدم من الأدمن (withdrawalUnlocked = false)'};
+    return {open:false, kind:'locked', label:'🔒 مقفول — لازم يشتري الباقة تاني', reason:'قفل من الأدمن: يتفتح له السحب تلقائيًا أول ما يشتري باقة '+need+' TON فأكثر من جديد'};
   if(configCache.withdrawalEnabled === false)
     return {open:false, kind:'off', label:'السحب مغلق للجميع', reason:'السحب معطّل بالكامل من الإعدادات العامة'};
   if(flag === true){
@@ -2194,7 +2196,7 @@ function wdGateStatus(u){
 function wdBadge(u){
   const g = wdGateStatus(u);
   const cls = g.kind==='locked'||g.kind==='off' ? 'b-red' : (g.open ? 'b-green' : 'b-orange');
-  const txt = g.open ? 'مفتوح' : (g.kind==='locked' ? 'مقفول يدويًا' : (g.kind==='off' ? 'مغلق عام' : 'مقفول'));
+  const txt = g.open ? 'مفتوح' : (g.kind==='locked' ? 'مقفول — لازم يشتري' : (g.kind==='off' ? 'مغلق عام' : 'مقفول'));
   return `<span class="badge ${cls}" title="${escapeHtml(g.reason)}">${txt}</span>`;
 }
 
@@ -2239,8 +2241,8 @@ function wdUnlockUser(){
 }
 function wdLockUser(){
   const u = usersCache[wdLookupId]; if(!u) return;
-  if(!confirm('قفل السحب لهذا المستخدم؟ لن يستطيع السحب (حتى لو اشترى الباقة) إلى أن تفتحه أنت يدويًا.')) return;
-  db.ref('users/'+wdLookupId).update({withdrawalUnlocked: false})
+  if(!confirm('قفل السحب لهذا المستخدم؟ هيتطلب منه يشتري باقة السحب من جديد، وأول ما يشتريها يتفتح له السحب تلقائيًا.')) return;
+  db.ref('users/'+wdLookupId).update({withdrawalUnlocked: false, maxPurchasedTon: 0, maxPurchasedAt: null})
     .then(()=>toast('تم قفل السحب لهذا المستخدم 🔒'))
     .catch(err=>toast('خطأ: '+err.message,true));
 }
