@@ -4116,13 +4116,13 @@ function getStorePacks(){
 function getWithdrawGate(){ return (S.data && S.data.withdrawalGate) || null; }
 function withdrawGateLocked(){
   var g = getWithdrawGate();
-  return !!(g && g.required && !g.unlocked);
+  return !!(g && (g.locked || (g.required && !g.unlocked)));
 }
 function updateGateAfterPurchase(maxPurchasedTon){
   var g = getWithdrawGate();
   if (!g || maxPurchasedTon == null) return;
   g.maxPurchasedTon = Number(maxPurchasedTon) || 0;
-  if (g.maxPurchasedTon + 1e-9 >= Number(g.packageTon)) g.unlocked = true;
+  if (g.maxPurchasedTon + 1e-9 >= Number(g.packageTon)){ g.unlocked = true; g.locked = false; }
 }
 var storeBuyBusy = false;
 function renderStore(){
