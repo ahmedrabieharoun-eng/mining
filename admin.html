@@ -412,8 +412,8 @@ input:checked+.slider{background:var(--gold-2)}input:checked+.slider::before{tra
             <div class="pill active" onclick="switchView('users')" style="cursor:pointer">عرض الكل ←</div>
           </div>
           <div class="table-wrap"><table>
-            <thead><tr><th>المستخدم</th><th>آيدي تيليجرام</th><th>رصيد CRYSTAL</th><th>رصيد TON</th><th>تاريخ الانضمام</th><th>الحالة</th></tr></thead>
-            <tbody id="latestUsersBody"><tr><td colspan="6" class="loader"><span class="spin"></span></td></tr></tbody>
+            <thead><tr><th>المستخدم</th><th>آيدي تيليجرام</th><th>رصيد CRYSTAL</th><th>رصيد TON</th><th>تاريخ الانضمام</th><th>الحالة</th><th>السحب</th></tr></thead>
+            <tbody id="latestUsersBody"><tr><td colspan="7" class="loader"><span class="spin"></span></td></tr></tbody>
           </table></div>
         </div>
       </section>
@@ -431,8 +431,8 @@ input:checked+.slider{background:var(--gold-2)}input:checked+.slider::before{tra
             </div>
           </div>
           <div class="table-wrap"><table>
-            <thead><tr><th>المستخدم</th><th>آيدي تيليجرام</th><th>رصيد CRYSTAL</th><th>رصيد TON</th><th>إعلانات اليوم</th><th>إجمالي الإعلانات</th><th>آخر ظهور</th><th>الحالة</th><th>إجراءات</th></tr></thead>
-            <tbody id="usersBody"><tr><td colspan="9" class="loader"><span class="spin"></span></td></tr></tbody>
+            <thead><tr><th>المستخدم</th><th>آيدي تيليجرام</th><th>رصيد CRYSTAL</th><th>رصيد TON</th><th>إعلانات اليوم</th><th>إجمالي الإعلانات</th><th>آخر ظهور</th><th>الحالة</th><th>السحب</th><th>إجراءات</th></tr></thead>
+            <tbody id="usersBody"><tr><td colspan="10" class="loader"><span class="spin"></span></td></tr></tbody>
           </table></div>
         </div>
       </section>
@@ -520,7 +520,7 @@ input:checked+.slider{background:var(--gold-2)}input:checked+.slider::before{tra
         </div>
 
         <div class="panel">
-          <div class="panel-head"><div><h2>فتح السحب لمستخدم معيّن</h2><div class="hint">بيكتب في users/&lt;id&gt;/maxPurchasedTon — مفيد للاستثناءات أو للمشترين القدامى</div></div></div>
+          <div class="panel-head"><div><h2>فتح السحب لمستخدم معيّن</h2><div class="hint">بيكتب في users/&lt;id&gt;/withdrawalUnlocked (true = مفتوح، false = مقفول يدويًا، غير موجود = تلقائي حسب الشراء)</div></div></div>
           <div class="wdc-lookup">
             <input type="text" id="wd_uid" class="sans" placeholder="آيدي تيليجرام للمستخدم" inputmode="numeric">
             <button class="btn btn-ghost" id="wd_uFind">بحث</button>
@@ -688,7 +688,7 @@ input:checked+.slider{background:var(--gold-2)}input:checked+.slider::before{tra
           <div class="panel-head"><div><h2>سرعة التعدين لكل مستخدم</h2><div class="hint">السرعة = رصيد CRYSTAL × معدل TON/يوم</div></div>
             <input class="sans" id="miningSearch" placeholder="بحث بالاسم أو الآيدي..." style="background:var(--panel-2);border:1px solid var(--border);color:var(--text);border-radius:10px;padding:8px 12px"></div>
           <div class="table-wrap"><table>
-            <thead><tr><th>المستخدم</th><th>الآيدي</th><th>CRYSTAL</th><th>السرعة (TON/يوم)</th><th>الحالة</th><th>معلّق للاستلام</th><th>رصيد TON</th></tr></thead>
+            <thead><tr><th>المستخدم</th><th>الآيدي</th><th>CRYSTAL</th><th>السرعة (TON/يوم)</th><th>الحالة</th><th>معلّق للاستلام</th><th>رصيد TON</th><th>مفتوح له السحب؟</th></tr></thead>
             <tbody id="miningBody"></tbody>
           </table></div>
         </div>
@@ -924,7 +924,7 @@ function renderDashboardStats(){
 function renderLatestUsers(){
   const list = Object.entries(usersCache).sort((a,b)=> (b[1].createdAt||0)-(a[1].createdAt||0)).slice(0,8);
   const body = document.getElementById('latestUsersBody');
-  if(!list.length){ body.innerHTML = emptyRow(6,'لا يوجد مستخدمون بعد'); return; }
+  if(!list.length){ body.innerHTML = emptyRow(7,'لا يوجد مستخدمون بعد'); return; }
   body.innerHTML = list.map(([id,u])=>`
     <tr>
       <td><div class="u-cell"><img src="${u.photoUrl||AVATAR_FALLBACK}" onerror="this.src='${AVATAR_FALLBACK}'"><div><div class="u-name">${escapeHtml(displayName(u))}</div><div class="u-sub">${u.username?'@'+escapeHtml(u.username):'—'}</div></div></div></td>
@@ -933,6 +933,7 @@ function renderLatestUsers(){
       <td class="mono">${fmtTon(u.tonBalance)}</td>
       <td class="muted">${fmtDate(u.createdAt)}</td>
       <td>${isOnline(u.lastLogin)?'<span class="badge b-green">أونلاين</span>':'<span class="badge b-gray">غير متصل</span>'}</td>
+      <td>${wdBadge(u)}</td>
     </tr>`).join('');
 }
 
@@ -959,7 +960,7 @@ function renderUsersTable(){
   }
   list.sort((a,b)=> (b[1].lastLogin||0)-(a[1].lastLogin||0));
   const body = document.getElementById('usersBody');
-  if(!list.length){ body.innerHTML = emptyRow(9,'لا توجد نتائج مطابقة'); return; }
+  if(!list.length){ body.innerHTML = emptyRow(10,'لا توجد نتائج مطابقة'); return; }
 
   const today = todayKeyCairo();
   body.innerHTML = list.slice(0,300).map(([id,u])=>{
@@ -978,6 +979,7 @@ function renderUsersTable(){
       <td class="mono">${fmt(u.totalAdsWatched)}</td>
       <td class="muted">${timeAgo(u.lastLogin)}</td>
       <td>${blocked?'<span class="badge b-red">محظور</span>':(isOnline(u.lastLogin)?'<span class="badge b-green">أونلاين</span>':'<span class="badge b-gray">غير متصل</span>')}</td>
+      <td>${wdBadge(u)}</td>
       <td><div class="row-actions">
         <div class="iconbtn" title="تعديل الرصيد" onclick="openEditUser('${id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20h4l10-10-4-4L4 16v4z"/><path d="M13.5 6.5l4 4"/></svg></div>
         <div class="iconbtn" title="عرض التفاصيل" onclick="openViewUser('${id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></div>
@@ -996,6 +998,12 @@ function openEditUser(id){
     <div class="field"><label>منه: المكتسب من التعدين (القابل للسحب) <span class="tip">miningTonBalance</span></label><input type="number" step="0.0001" id="m_miningTon" value="${Number(u.miningTonBalance||0)}"></div>
     <div class="wdc-hint" style="margin-top:0">الباقي (الإجمالي − التعدين) = رصيد الإيداع، ويُستخدم للشراء من المتجر فقط.</div>
     <div class="field"><label>محفظة TON المرتبطة</label><input type="text" class="sans" id="m_tonWallet" value="${escapeHtml(u.tonWallet||u.wallet||'')}"></div>
+    <div class="field"><label>حالة السحب لهذا المستخدم <span class="tip">withdrawalUnlocked</span></label>
+      <select id="m_wdState" style="width:100%;background:var(--panel-2);border:1px solid var(--border);color:var(--text);border-radius:10px;padding:10px 12px">
+        <option value="auto" ${u.withdrawalUnlocked===undefined||u.withdrawalUnlocked===null?'selected':''}>تلقائي (حسب شراء الباقة)</option>
+        <option value="open" ${u.withdrawalUnlocked===true?'selected':''}>🔓 مفتوح له السحب</option>
+        <option value="locked" ${u.withdrawalUnlocked===false?'selected':''}>🔒 مقفول يدويًا</option>
+      </select></div>
     <div class="switch-row" style="margin-top:4px">
       <div class="lbl"><b>حظر الحساب</b><span>منع الحساب فورًا من استخدام البوت ومكافآت الإحالة</span></div>
       <label class="switch"><input type="checkbox" id="m_blocked" ${blockedCache[id]?'checked':''}><span class="slider"></span></label>
@@ -1016,6 +1024,11 @@ function saveUserEdit(id){
   const miningTonBalance = Math.min(Math.max(0, Number(document.getElementById('m_miningTon').value)||0), tonBalance);
 
   const updates = { balance, tonBalance, miningTonBalance, tonWallet };
+  const wdSel = document.getElementById('m_wdState');
+  if(wdSel){
+    const st = wdSel.value;
+    updates.withdrawalUnlocked = st==='open' ? true : (st==='locked' ? false : null);
+  }
   db.ref('users/'+id).update(updates)
     .then(()=>{
       const wasBlocked = !!blockedCache[id];
@@ -1040,6 +1053,8 @@ function openViewUser(id){
     <div class="mini-row"><span>رصيد CRYSTAL</span><b>${crystalAmt(u.balance)}</b></div>
     <div class="mini-row"><span>رصيد TON</span><b>${fmtTon(u.tonBalance)}</b></div>
     <div class="mini-row"><span>سرعة التعدين (TON/يوم)</span><b>${fmtTon(miningInfo(u).speed)}</b></div>
+    <div class="mini-row"><span>مفتوح له السحب؟</span><b>${wdBadge(u)} <span class="muted" style="font-size:11px">${escapeHtml(wdGateStatus(u).reason)}</span></b></div>
+    <div class="mini-row"><span>الباقة المشتراة</span><b>${escapeHtml(wdPackBought(u).text)}</b></div>
     <div class="mini-row"><span>كود الإحالة</span><b>${escapeHtml(u.referralCode||'—')}</b></div>
     <div class="mini-row"><span>تمت إحالته بواسطة</span><b>${escapeHtml(u.referredBy||'—')}</b></div>
     <div class="mini-row"><span>إعلانات اليوم</span><b>${fmt(adsToday)}</b></div>
@@ -1390,7 +1405,7 @@ function renderWithdrawals(){
         <button class="btn btn-danger btn-sm" onclick="rejectWithdrawal('${w.uid}','${w.wid}', ${w.requestedAmount||w.amount||0})">رفض</button>
       </div>` : `<div class="row-actions">${viewUserBtn}${q ? '<span class="muted" title="تم الدفع تلقائيًا عبر نظام الدفع الآلي">آليًا ✓</span>' : '<span class="muted">—</span>'}</div>`;
     return `<tr>
-      <td><div class="u-cell"><img src="${u.photoUrl||AVATAR_FALLBACK}" onerror="this.src='${AVATAR_FALLBACK}'"><div><div class="u-name">${escapeHtml(displayName(u))}</div><div class="u-sub mono">${w.uid}</div></div></div></td>
+      <td><div class="u-cell"><img src="${u.photoUrl||AVATAR_FALLBACK}" onerror="this.src='${AVATAR_FALLBACK}'"><div><div class="u-name">${escapeHtml(displayName(u))}</div><div class="u-sub mono">${w.uid} ${wdBadge(u)}</div></div></div></td>
       <td class="mono">${fmtTon(w.requestedAmount)}</td>
       <td class="mono muted">${fmtTon(w.fee)}</td>
       <td class="mono">${fmtTon(w.netAmount||w.amount)}</td>
@@ -2108,15 +2123,79 @@ document.getElementById('wd_minWdSave').addEventListener('click', ()=>{
 function renderWdCtlStats(){
   const box = document.getElementById('wdcStats'); if(!box) return;
   const saved = wdSavedPacks(); const need = saved[wdReqIndex(saved)-1];
-  let total=0, ok=0;
+  let total=0, ok=0, openN=0, lockedN=0;
   Object.values(usersCache||{}).forEach(u=>{
     total++;
     if(Number(u.maxPurchasedTon||0)+1e-9 >= need) ok++;
+    const g = wdGateStatus(u);
+    if(g.open) openN++;
+    if(g.kind==='locked') lockedN++;
   });
   const stat=(l,v,c)=>`<div class="wdc-stat ${c||''}"><span>${l}</span><b>${fmt(v)}</b></div>`;
   box.innerHTML = stat('إجمالي المستخدمين', total) + stat('اشتروا الحد الأدنى ('+need+' TON فأكثر)', ok, 'good')
                 + stat('لم يشتروها بعد', total-ok, 'bad')
+                + stat('مفتوح لهم السحب فعليًا', openN, 'good')
+                + stat('مقفول لهم يدويًا', lockedN, 'bad')
                 + stat('نسبة الاشتراك %', total? Math.round(ok/total*100) : 0);
+}
+
+/* ===== حالة السحب الفعلية لكل مستخدم (نفس منطق السيرفر getWithdrawalGate) ===== */
+let gateHistoryCache = [];
+db.ref('meta/withdrawalGateHistory').on('value', snap=>{
+  const raw = snap.val();
+  gateHistoryCache = raw ? Object.values(raw).filter(e=>e && Number(e.oldTon)>0 && Number(e.ts)>0)
+    .map(e=>({oldTon:Number(e.oldTon), newTon:Number(e.newTon||0), ts:Number(e.ts)})) : [];
+  try { handleUsersUpdate(); } catch(_){}
+});
+
+/* الباقة اللي اشتراها المستخدم = أكبر باقة سعرها <= أكبر عملية شراء له */
+function wdPackBought(u){
+  const maxP = Number(u.maxPurchasedTon||0);
+  if(!(maxP>0)) return {text:'لم يشترِ', idx:0, ton:0};
+  const packs = wdSavedPacks();
+  let idx = 0;
+  packs.forEach((p,i)=>{ if(maxP+1e-9 >= p) idx = i+1; });
+  if(!idx) return {text:'أقل من أصغر باقة ('+maxP+' TON)', idx:0, ton:maxP};
+  return {text:'الباقة '+idx+' ('+packs[idx-1]+' TON)'+(maxP>packs[idx-1]+1e-9?' — أكبر شراء '+maxP+' TON':''), idx, ton:packs[idx-1]};
+}
+
+/* بترجع: {open:boolean, kind, label, reason} */
+function wdGateStatus(u){
+  u = u || {};
+  const saved = wdSavedPacks(); const need = saved[wdReqIndex(saved)-1];
+  const required = configCache.requirePackageForWithdrawal === true;
+  const maxP = Number(u.maxPurchasedTon||0);
+  const purchasedAt = Number(u.maxPurchasedAt||0);
+  const meetsCurrent = maxP+1e-9 >= need;
+  const flag = u.withdrawalUnlocked;
+  if(flag === false)
+    return {open:false, kind:'locked', label:'🔒 مقفول يدويًا', reason:'تم قفل السحب لهذا المستخدم من الأدمن (withdrawalUnlocked = false)'};
+  if(configCache.withdrawalEnabled === false)
+    return {open:false, kind:'off', label:'السحب مغلق للجميع', reason:'السحب معطّل بالكامل من الإعدادات العامة'};
+  if(flag === true){
+    const p = wdPackBought(u);
+    return {open:true, kind:'flag', label:'مفتوح له السحب',
+      reason: maxP>0 ? 'علامة withdrawalUnlocked = true — اشترى: '+p.text : 'علامة withdrawalUnlocked = true — مفتوح يدويًا أو لم يُسجَّل له شراء'};
+  }
+  if(!required)
+    return {open:true, kind:'free', label:'مفتوح (الإجبار مُلغى)', reason:'إجبار شراء الباقة مقفول — السحب مجاني للجميع'};
+  if(meetsCurrent){
+    const p = wdPackBought(u);
+    return {open:true, kind:'bought', label:'مفتوح له السحب', reason:'اشترى '+p.text};
+  }
+  const gf = gateHistoryCache.some(e=> maxP+1e-9 >= e.oldTon && (!purchasedAt || purchasedAt < e.ts));
+  if(gf){
+    const p = wdPackBought(u);
+    return {open:true, kind:'grand', label:'مفتوح له السحب', reason:'اشترى '+p.text+' قبل رفع سعر الباقة'};
+  }
+  return {open:false, kind:'closed', label:'مطلوب منه شراء الباقة', reason:'أكبر شراء '+maxP+' TON — المطلوب '+need+' TON'};
+}
+/* بادج صغير يُستخدم في كل الجداول */
+function wdBadge(u){
+  const g = wdGateStatus(u);
+  const cls = g.kind==='locked'||g.kind==='off' ? 'b-red' : (g.open ? 'b-green' : 'b-orange');
+  const txt = g.open ? 'مفتوح' : (g.kind==='locked' ? 'مقفول يدويًا' : (g.kind==='off' ? 'مغلق عام' : 'مقفول'));
+  return `<span class="badge ${cls}" title="${escapeHtml(g.reason)}">${txt}</span>`;
 }
 
 /* فتح السحب لمستخدم معيّن */
@@ -2127,16 +2206,23 @@ function wdRenderUser(){
   if(!u){ box.style.display='flex'; box.innerHTML='<span class="muted">لم يتم العثور على مستخدم بهذا الآيدي</span>'; return; }
   const saved = wdSavedPacks(); const need = saved[wdReqIndex(saved)-1];
   const maxP = Number(u.maxPurchasedTon||0);
-  const unlocked = maxP+1e-9 >= need;
+  const g = wdGateStatus(u);
+  const p = wdPackBought(u);
   const name = escapeHtml(u.firstName || u.username || ('ID '+wdLookupId));
+  const cls = g.kind==='locked'||g.kind==='off' ? 'b-red' : (g.open ? 'b-green' : 'b-orange');
+  const flagTxt = u.withdrawalUnlocked===true ? 'true' : (u.withdrawalUnlocked===false ? 'false' : 'غير موجود (تلقائي)');
   box.style.display='flex';
   box.innerHTML = `
     <div><div class="u-name">${name} <span class="muted mono">#${escapeHtml(wdLookupId)}</span></div>
-      <div class="u-sub">أكبر عملية شراء: <b class="mono">${maxP}</b> TON — المطلوب: <b class="mono">${need}</b> TON
-      &nbsp; ${unlocked?'<span class="badge b-green">مفتوح له السحب</span>':'<span class="badge b-orange">مطلوب منه شراء الباقة</span>'}</div></div>
+      <div class="u-sub">الحالة: <span class="badge ${cls}">${g.label}</span></div>
+      <div class="u-sub" style="margin-top:6px">السبب: ${escapeHtml(g.reason)}</div>
+      <div class="u-sub" style="margin-top:6px">الباقة المشتراة: <b>${escapeHtml(p.text)}</b> — أكبر عملية شراء: <b class="mono">${maxP}</b> TON — المطلوب: <b class="mono">${need}</b> TON${u.maxPurchasedAt?' — تاريخ الشراء: '+fmtDate(u.maxPurchasedAt):''}</div>
+      <div class="u-sub" style="margin-top:6px">علامة <span class="mono">withdrawalUnlocked</span>: <b class="mono">${flagTxt}</b></div></div>
     <div class="row-actions">
       <button class="btn btn-gold btn-sm" onclick="wdUnlockUser()">🔓 فتح السحب له</button>
-      <button class="btn btn-danger btn-sm" onclick="wdResetUser()">إعادة ضبط</button>
+      <button class="btn btn-danger btn-sm" onclick="wdLockUser()">🔒 قفل السحب له</button>
+      <button class="btn btn-ghost btn-sm" onclick="wdAutoUser()">↺ تلقائي</button>
+      <button class="btn btn-danger btn-sm" onclick="wdResetUser()">إعادة ضبط الشراء</button>
     </div>`;
 }
 document.getElementById('wd_uFind').addEventListener('click', ()=>{
@@ -2146,16 +2232,28 @@ document.getElementById('wd_uFind').addEventListener('click', ()=>{
 });
 document.getElementById('wd_uid').addEventListener('keydown', e=>{ if(e.key==='Enter') document.getElementById('wd_uFind').click(); });
 function wdUnlockUser(){
-  const saved = wdSavedPacks(); const need = saved[wdReqIndex(saved)-1];
   const u = usersCache[wdLookupId]; if(!u) return;
-  const val = Math.max(Number(u.maxPurchasedTon||0), need);
-  db.ref('users/'+wdLookupId).update({maxPurchasedTon: val})
+  db.ref('users/'+wdLookupId).update({withdrawalUnlocked: true})
     .then(()=>toast('تم فتح السحب لهذا المستخدم ✓'))
     .catch(err=>toast('خطأ: '+err.message,true));
 }
+function wdLockUser(){
+  const u = usersCache[wdLookupId]; if(!u) return;
+  if(!confirm('قفل السحب لهذا المستخدم؟ لن يستطيع السحب (حتى لو اشترى الباقة) إلى أن تفتحه أنت يدويًا.')) return;
+  db.ref('users/'+wdLookupId).update({withdrawalUnlocked: false})
+    .then(()=>toast('تم قفل السحب لهذا المستخدم 🔒'))
+    .catch(err=>toast('خطأ: '+err.message,true));
+}
+function wdAutoUser(){
+  const u = usersCache[wdLookupId]; if(!u) return;
+  if(!confirm('إرجاع المستخدم للوضع التلقائي (يتحدد حسب شرائه للباقة)؟')) return;
+  db.ref('users/'+wdLookupId+'/withdrawalUnlocked').remove()
+    .then(()=>toast('تم الإرجاع للوضع التلقائي ✓'))
+    .catch(err=>toast('خطأ: '+err.message,true));
+}
 function wdResetUser(){
-  if(!confirm('إعادة ضبط maxPurchasedTon لهذا المستخدم إلى 0؟ سيُطلب منه شراء الباقة من جديد.')) return;
-  db.ref('users/'+wdLookupId).update({maxPurchasedTon: 0})
+  if(!confirm('إعادة ضبط شراء الباقة لهذا المستخدم (maxPurchasedTon = 0 وحذف علامة الفتح)؟ سيُطلب منه شراء الباقة من جديد.')) return;
+  db.ref('users/'+wdLookupId).update({maxPurchasedTon: 0, withdrawalUnlocked: null})
     .then(()=>toast('تمت إعادة الضبط ✓'))
     .catch(err=>toast('خطأ: '+err.message,true));
 }
@@ -2172,6 +2270,7 @@ db.ref('config').on('value', snap=>{
   fillConfigForm();
   renderAdCompanies();
   try { renderWdCtl(); } catch(_){}
+  try { handleUsersUpdate(); } catch(_){}
 });
 
 
@@ -2256,7 +2355,7 @@ function renderMining(){
   document.getElementById('miningBody').innerHTML = rows.length ? rows.slice(0,300).map(({id,u,m})=>`<tr>
     <td><div class="u-cell"><img src="${u.photoUrl||AVATAR_FALLBACK}" onerror="this.src='${AVATAR_FALLBACK}'"><div><div class="u-name">${escapeHtml(displayName(u))}</div><div class="u-sub">${u.username?'@'+escapeHtml(u.username):'—'}</div></div></div></td>
     <td class="mono muted">${id}</td><td class="mono">${crystalAmt(m.power)}</td><td class="mono">${fmtTon(m.speed)}</td>
-    <td>${lbl[m.state]}</td><td class="mono">${fmtTon(m.pending)}</td><td class="mono">${fmtTon(u.tonBalance)}</td></tr>`).join('') : emptyRow(7,'لا توجد نتائج');
+    <td>${lbl[m.state]}</td><td class="mono">${fmtTon(m.pending)}</td><td class="mono">${fmtTon(u.tonBalance)}</td><td>${wdBadge(u)}</td></tr>`).join('') : emptyRow(8,'لا توجد نتائج');
 }
 document.getElementById('miningSearch').addEventListener('input', debounce(renderMining,300));
 
